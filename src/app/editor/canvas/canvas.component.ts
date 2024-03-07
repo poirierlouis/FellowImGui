@@ -1,13 +1,13 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'fig-imgui-canvas',
+  selector: 'fig-canvas',
   standalone: true,
   imports: [],
-  templateUrl: './imgui-canvas.component.html',
-  styleUrl: './imgui-canvas.component.css'
+  templateUrl: './canvas.component.html',
+  styleUrl: './canvas.component.css'
 })
-export class ImGuiCanvasComponent implements OnInit, OnDestroy {
+export class CanvasComponent implements OnInit, OnDestroy {
   @Input()
   instructions: string = 'ImGui.Text("Hello world!")';
 

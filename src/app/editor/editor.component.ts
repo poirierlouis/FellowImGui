@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ImGuiCanvasComponent} from "../components/imgui-canvas/imgui-canvas.component";
+import {CanvasComponent} from "./canvas/canvas.component";
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from "@angular/material/sidenav";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
@@ -18,7 +18,7 @@ import {TreeComponent} from "./tree/tree.component";
     MatDrawerContent,
     MatDrawerContainer,
     TreeComponent,
-    ImGuiCanvasComponent,
+    CanvasComponent,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
