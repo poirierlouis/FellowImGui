@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  height: inherit;
+}
+
+mat-drawer-container {
+  height: inherit;
+}
+
+mat-drawer {
+  width: 16%;
+}
