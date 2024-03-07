@@ -47,6 +47,8 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isRendering = false;
+    ImGui_Impl.Shutdown();
+    ImGui.DestroyContext();
   }
 
   private resize(): void {
@@ -82,12 +84,10 @@ export class CanvasComponent implements OnInit, OnDestroy {
     gl && gl.clear(gl.COLOR_BUFFER_BIT);
     //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
     ImGui_Impl.RenderDrawData(ImGui.GetDrawData());
-    window.requestAnimationFrame(this.isRendering ? this.render.bind(this) : this.dispose.bind(this));
-  }
-
-  private dispose(): void {
-    ImGui_Impl.Shutdown();
-    ImGui.DestroyContext();
+    if (!this.isRendering) {
+      return;
+    }
+    window.requestAnimationFrame(this.render.bind(this));
   }
 
 }
