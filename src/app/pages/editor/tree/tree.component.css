@@ -1,4 +1,5 @@
 mat-tree {
+  user-select: none;
   overflow-y: auto;
   height: calc(65% - 1px);
 
