@@ -9,10 +9,10 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <fig-canvas></fig-canvas>
+    <fig-canvas [root]="root"></fig-canvas>
   </mat-drawer-content>
 
   <mat-drawer mode="side" position="end" opened>
-    <fig-tree></fig-tree>
+    <fig-tree [root]="root"></fig-tree>
   </mat-drawer>
 </mat-drawer-container>

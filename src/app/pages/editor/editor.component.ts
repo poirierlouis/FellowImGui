@@ -5,6 +5,7 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
 import {TreeComponent} from "./tree/tree.component";
+import {FIGContainer} from "../../models/container";
 
 @Component({
   selector: 'fig-editor',
@@ -24,4 +25,7 @@ import {TreeComponent} from "./tree/tree.component";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent {
+
+  root: FIGContainer[] = [];
+
 }
