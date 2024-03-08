@@ -14,6 +14,8 @@
   @include mat.tree-theme($theme);
   @include mat.button-theme($theme);
   @include mat.icon-theme($theme);
+  @include mat.form-field-theme($theme);
+  @include mat.input-theme($theme);
 }
 
 @mixin mat-component-colors($theme) {
@@ -25,6 +27,8 @@
   @include mat.tree-color($theme);
   @include mat.button-color($theme);
   @include mat.icon-color($theme);
+  @include mat.form-field-color($theme);
+  @include mat.input-color($theme);
 }
 
 @mixin fig-component-themes($theme) {
