@@ -1,10 +1,11 @@
-import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FIGWindowWidget} from "../../../../models/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'fig-window-settings',
@@ -18,7 +19,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   templateUrl: './window-settings.component.html',
   styleUrl: './window-settings.component.css'
 })
-export class WindowSettingsComponent {
+export class WindowSettingsComponent implements OnDestroy {
 
   @Output()
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
@@ -31,6 +32,8 @@ export class WindowSettingsComponent {
     height: new FormControl<number>(32, {validators: [Validators.min(32)]})
   });
 
+  private updateS?: Subscription;
+
   constructor(private readonly dr: DestroyRef) {
     this.form.get('title')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onTitleChanged.bind(this));
     this.form.get('width')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onWidthChanged.bind(this));
@@ -40,6 +43,16 @@ export class WindowSettingsComponent {
   @Input('widget')
   set _widget(value: FIGWidget) {
     this.widget = value as FIGWindowWidget;
+    this.updateS?.unsubscribe();
+    this.updateS = this.widget.update$.subscribe(this.onUpdated.bind(this));
+    this.load();
+  }
+
+  public ngOnDestroy(): void {
+    this.updateS?.unsubscribe();
+  }
+
+  private load(): void {
     this.form.get('title')!.setValue(this.widget.title, {emitEvent: false});
     this.form.get('width')!.setValue(this.widget.size.width, {emitEvent: false});
     this.form.get('height')!.setValue(this.widget.size.height, {emitEvent: false});
@@ -64,6 +77,10 @@ export class WindowSettingsComponent {
     }
     this.widget.size.height = value;
     this.update.emit();
+  }
+
+  private onUpdated(): void {
+    this.load();
   }
 
 }

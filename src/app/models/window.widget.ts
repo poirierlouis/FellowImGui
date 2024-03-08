@@ -22,6 +22,20 @@ export class FIGWindowWidget extends FIGContainer {
     for (const child of this.children) {
       child.draw();
     }
+    const size = ImGui.GetWindowSize();
+    let update = false;
+
+    if (this.size.width !== size.x) {
+      this.size.width = size.x;
+      update = true;
+    }
+    if (this.size.height !== size.y) {
+      this.size.height = size.y;
+      update = true;
+    }
     ImGui.End();
+    if (update) {
+      this.updateSubject.next();
+    }
   }
 }
