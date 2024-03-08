@@ -5,7 +5,8 @@
 @use './mat/form-field' as *;
 
 // App components
-@use './app/tree' as fig;
+@use './app/tree' as *;
+@use './app/widget-settings' as *;
 
 @mixin mat-component-themes($theme) {
   //@include mat.all-component-themes($theme);
@@ -40,9 +41,11 @@
 }
 
 @mixin fig-component-themes($theme) {
-  @include fig.tree-theme($theme);
+  @include tree-theme($theme);
+  @include widget-settings-theme($theme);
 }
 
 @mixin fig-component-colors($theme) {
-  @include fig.tree-color($theme);
+  @include tree-color($theme);
+  @include widget-settings-color($theme);
 }

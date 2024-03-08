@@ -5,11 +5,13 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widget";
 import {FIGTextWidget} from "../../../../models/text.widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'fig-text-settings',
   standalone: true,
   imports: [
+    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,

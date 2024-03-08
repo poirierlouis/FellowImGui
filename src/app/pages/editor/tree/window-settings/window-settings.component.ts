@@ -6,11 +6,13 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {FIGWidget} from "../../../../models/widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Subscription} from "rxjs";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'fig-window-settings',
   standalone: true,
   imports: [
+    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,

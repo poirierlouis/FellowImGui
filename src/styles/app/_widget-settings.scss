@@ -1,0 +1,31 @@
+@mixin widget-settings-theme($theme) {
+  fig-widget-settings {
+    .settings {
+      display: block;
+      height: 100%;
+
+      & .header {
+        display: flex;
+        align-items: center;
+        margin: 12px 12px 0;
+
+        & mat-icon {
+          margin-right: 12px;
+        }
+      }
+
+      & form {
+        padding: 24px 12px 58px;
+
+        & .row {
+          display: flex;
+          gap: 12px;
+        }
+      }
+    }
+  }
+}
+
+@mixin widget-settings-color($theme) {
+
+}

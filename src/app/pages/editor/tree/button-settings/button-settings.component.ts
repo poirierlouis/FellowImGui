@@ -5,11 +5,13 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widget";
 import {FIGButtonWidget} from "../../../../models/button.widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'fig-button-settings',
   standalone: true,
   imports: [
+    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,
