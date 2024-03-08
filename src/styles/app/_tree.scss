@@ -3,10 +3,13 @@
 
 @mixin tree-theme($theme) {
   $primary: mat.get-theme-color($theme, primary, 700);
+  $divider: mat.get-theme-color($theme, foreground, divider);
   $hover: grey;
 
   fig-tree {
     mat-tree {
+      background-color: transparent;
+
       & .mat-tree-node {
         &:hover {
           background-color: $hover;
@@ -18,7 +21,7 @@
       }
 
       & div[role=group] > .mat-tree-node {
-        border-left: 1px solid $hover;
+        border-left: 1px solid $divider;
 
         &:hover {
           border-left-color: transparent;
@@ -34,9 +37,12 @@
 
 @mixin tree-color($theme) {
   $primary: mat.get-theme-color($theme, primary, 700);
+  $divider: mat.get-theme-color($theme, foreground, divider);
 
   fig-tree {
     mat-tree {
+      background-color: transparent;
+
       & .mat-tree-node {
         &.selected {
           background-color: $primary;
@@ -44,6 +50,8 @@
       }
 
       & div[role=group] > .mat-tree-node {
+        border-left-color: $divider;
+
         &.selected {
           border-left-color: $primary;
         }

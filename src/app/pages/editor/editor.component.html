@@ -1,28 +1,20 @@
-<mat-drawer-container>
-  <mat-drawer mode="side" opened>
-    <mat-list>
-      <mat-list-item>
-        <mat-icon matListItemIcon svgIcon="window"></mat-icon>
-        Window
-      </mat-list-item>
+<mat-list>
+  <mat-list-item>
+    <mat-icon matListItemIcon svgIcon="window"></mat-icon>
+    Window
+  </mat-list-item>
 
-      <mat-list-item>
-        <mat-icon matListItemIcon svgIcon="text"></mat-icon>
-        Text
-      </mat-list-item>
+  <mat-list-item>
+    <mat-icon matListItemIcon svgIcon="text"></mat-icon>
+    Text
+  </mat-list-item>
 
-      <mat-list-item>
-        <mat-icon matListItemIcon svgIcon="button"></mat-icon>
-        Button
-      </mat-list-item>
-    </mat-list>
-  </mat-drawer>
+  <mat-list-item>
+    <mat-icon matListItemIcon svgIcon="button"></mat-icon>
+    Button
+  </mat-list-item>
+</mat-list>
 
-  <mat-drawer-content>
-    <fig-canvas [root]="root"></fig-canvas>
-  </mat-drawer-content>
+<fig-canvas [root]="root"></fig-canvas>
 
-  <mat-drawer mode="side" position="end" opened>
-    <fig-tree [root]="root"></fig-tree>
-  </mat-drawer>
-</mat-drawer-container>
+<fig-tree [root]="root"></fig-tree>

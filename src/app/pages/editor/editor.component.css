@@ -1,17 +1,16 @@
 :host {
-  display: block;
+  display: flex;
   height: inherit;
 }
 
-mat-drawer-container {
-  display: block;
-  height: inherit;
+mat-list {
+  width: 320px;
 }
 
-mat-drawer {
-  width: 16%;
+fig-canvas {
+  width: calc(100% - 640px);
 }
 
-mat-drawer-content {
-  overflow: hidden;
+fig-tree {
+  width: 320px;
 }

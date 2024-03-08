@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
-import {MatDrawer, MatDrawerContainer, MatDrawerContent} from "@angular/material/sidenav";
 import {MatList, MatListItem, MatListItemIcon} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {TreeComponent} from "./tree/tree.component";
@@ -17,9 +16,6 @@ import {FIGButtonWidget} from "../../models/button.widget";
     MatList,
     MatListItem,
     MatListItemIcon,
-    MatDrawer,
-    MatDrawerContent,
-    MatDrawerContainer,
     TreeComponent,
     CanvasComponent,
   ],

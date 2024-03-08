@@ -6,7 +6,7 @@
 
   mat-list-item {
     &:hover {
-      cursor: pointer!important;
+      cursor: pointer;
 
       background-color: $hover;
     }
@@ -14,5 +14,9 @@
 }
 
 @mixin list-color($theme) {
-
+  mat-list-item {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
