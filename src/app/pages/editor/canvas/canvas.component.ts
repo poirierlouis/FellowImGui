@@ -9,6 +9,7 @@ import {FIGContainer} from "../../../models/container";
   styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements OnInit, OnDestroy {
+
   @ViewChild('imgui')
   canvas!: ElementRef;
 
@@ -65,7 +66,6 @@ export class CanvasComponent implements OnInit, OnDestroy {
   private render(delta: number): void {
     ImGui_Impl.NewFrame(delta);
     ImGui.NewFrame();
-
     try {
       for (const container of this.root) {
         container.draw();
