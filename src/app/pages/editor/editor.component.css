@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  height: inherit;
+  height: calc(100% - 64px);
 }
 
 mat-list {
