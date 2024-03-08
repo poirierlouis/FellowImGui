@@ -1,6 +1,6 @@
 mat-tree {
   overflow-y: auto;
-  height: 65%;
+  height: calc(65% - 1px);
 
   & .invisible {
     display: none;

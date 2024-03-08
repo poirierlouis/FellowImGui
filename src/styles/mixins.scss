@@ -17,6 +17,7 @@
   @include mat.icon-theme($theme);
   @include mat.form-field-theme($theme);
   @include mat.input-theme($theme);
+  @include mat.divider-theme($theme);
 
   @include list-theme($theme);
 }
@@ -32,6 +33,7 @@
   @include mat.icon-color($theme);
   @include mat.form-field-color($theme);
   @include mat.input-color($theme);
+  @include mat.divider-color($theme);
 
   @include list-color($theme);
 }
