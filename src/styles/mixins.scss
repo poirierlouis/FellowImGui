@@ -3,7 +3,7 @@
 // Material components
 
 // App components
-//
+@use './app/tree' as fig;
 
 @mixin mat-component-themes($theme) {
   //@include mat.all-component-themes($theme);
@@ -32,9 +32,9 @@
 }
 
 @mixin fig-component-themes($theme) {
-
+  @include fig.tree-theme($theme);
 }
 
 @mixin fig-component-colors($theme) {
-
+  @include fig.tree-color($theme);
 }

@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
 import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatIconButton} from "@angular/material/button";
 import {
   MatNestedTreeNode,
   MatTree,
@@ -15,6 +14,7 @@ import {NestedTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/container";
 import {FIGWidget} from "../../../models/widget";
 import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
+import {MatListItem, MatListItemTitle} from "@angular/material/list";
 
 @Component({
   selector: 'fig-tree',
@@ -22,8 +22,8 @@ import {WidgetSettingsComponent} from "./widget-settings/widget-settings.compone
   imports: [
     MatIcon,
     MatDrawer,
-    MatButton,
-    MatIconButton,
+    MatListItem,
+    MatListItemTitle,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,

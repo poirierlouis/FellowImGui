@@ -1,0 +1,56 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin tree-theme($theme) {
+  $primary: mat.get-theme-color($theme, primary, 700);
+  $hover: grey;
+
+  fig-tree {
+    mat-tree {
+      overflow-y: auto;
+      height: 68%;
+
+      & .invisible {
+        display: none;
+      }
+
+      & div[role=group] > .mat-tree-node {
+        padding-left: 28px;
+
+        & .mdc-list-item {
+          border-left: 1px solid $hover;
+
+          &:hover {
+            border-left-color: transparent;
+          }
+
+          &.selected {
+            border-left-color: $primary;
+          }
+        }
+      }
+
+      & .mdc-list-item {
+        align-items: center;
+
+        &:hover {
+          cursor: pointer;
+
+          background-color: $hover;
+        }
+
+        &.selected {
+          background-color: $primary;
+        }
+
+        & mat-icon {
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}
+
+@mixin tree-color($theme) {
+
+}

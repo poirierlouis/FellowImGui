@@ -3,16 +3,3 @@
   flex-flow: column;
   height: inherit;
 }
-
-mat-tree {
-  overflow-y: auto;
-  height: 68%;
-}
-
-.widget-tree-invisible {
-  display: none;
-}
-
-.widget-tree div[role=group] > .mat-tree-node {
-  padding-left: 24px;
-}
