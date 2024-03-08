@@ -20,6 +20,7 @@ import {MatDivider} from "@angular/material/divider";
   standalone: true,
   imports: [
     MatIcon,
+    MatDivider,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,
@@ -27,7 +28,6 @@ import {MatDivider} from "@angular/material/divider";
     MatTreeNodeToggle,
     MatNestedTreeNode,
     WidgetSettingsComponent,
-    MatDivider
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.css'
@@ -62,4 +62,5 @@ export class TreeComponent {
   protected selectWidget(widget: FIGWidget): void {
     this.selectedWidget = widget;
   }
+
 }
