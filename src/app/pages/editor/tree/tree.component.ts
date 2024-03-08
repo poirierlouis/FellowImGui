@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
 import {MatIcon} from "@angular/material/icon";
-import {MatIconButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {
   MatNestedTreeNode,
   MatTree,
@@ -12,55 +12,55 @@ import {
   MatTreeNodeToggle
 } from "@angular/material/tree";
 import {NestedTreeControl} from "@angular/cdk/tree";
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Window',
-    children: [{name: 'Text'},],
-  },
-  {
-    name: 'Window',
-    children: [
-      {
-        name: 'Button',
-      },
-      {
-        name: 'Column',
-        children: [{name: 'Text'}, {name: 'Text'}],
-      },
-    ],
-  },
-];
+import {FIGContainer} from "../../../models/container";
+import {FIGWidget} from "../../../models/widget";
 
 @Component({
   selector: 'fig-tree',
   standalone: true,
   imports: [
-    MatDrawer,
     MatIcon,
+    MatDrawer,
+    MatButton,
     MatIconButton,
-    MatNestedTreeNode,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,
     MatTreeNodeOutlet,
-    MatTreeNodeToggle
+    MatTreeNodeToggle,
+    MatNestedTreeNode,
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.css'
 })
 export class TreeComponent {
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
+  @Input()
+  root: FIGContainer[] = [];
 
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  treeControl = new NestedTreeControl<FIGWidget>(node => {
+    if (node instanceof FIGContainer) {
+      return node.children;
+    }
+    return undefined;
+  });
+  dataSource = new MatTreeNestedDataSource<FIGWidget>();
+
+  selectedWidget?: FIGWidget;
+
+  @Input('root')
+  set _root(value: FIGContainer[] | undefined) {
+    this.root = value ?? [];
+    this.dataSource.data = this.root;
   }
 
-  hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
+  protected hasChild(_: number, node: FIGWidget) {
+    if (node instanceof FIGContainer) {
+      return !!node.children && node.children.length > 0;
+    }
+    return false;
+  }
+
+  protected selectWidget(widget: FIGWidget): void {
+    this.selectedWidget = widget;
+  }
 }

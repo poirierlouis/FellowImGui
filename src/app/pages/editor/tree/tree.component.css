@@ -1,18 +1,17 @@
-.example-tree-invisible {
+:host {
+  display: flex;
+  flex-flow: column;
+  height: inherit;
+}
+
+mat-tree {
+  flex: 1;
+}
+
+.widget-tree-invisible {
   display: none;
 }
 
-.example-tree ul,
-.example-tree li {
-  margin-top: 0;
-  margin-bottom: 0;
-  list-style-type: none;
-}
-
-.example-tree .mat-nested-tree-node div[role=group] {
-  padding-left: 24px;
-}
-
-.example-tree div[role=group] > .mat-tree-node {
+.widget-tree div[role=group] > .mat-tree-node {
   padding-left: 24px;
 }
