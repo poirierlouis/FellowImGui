@@ -2,6 +2,7 @@
 
 // Material components
 @use './mat/list' as *;
+@use './mat/form-field' as *;
 
 // App components
 @use './app/tree' as fig;
@@ -19,6 +20,7 @@
   @include mat.divider-theme($theme);
 
   @include list-theme($theme);
+  @include form-field-theme($theme);
 }
 
 @mixin mat-component-colors($theme) {
@@ -34,6 +36,7 @@
   @include mat.divider-color($theme);
 
   @include list-color($theme);
+  @include form-field-color($theme);
 }
 
 @mixin fig-component-themes($theme) {

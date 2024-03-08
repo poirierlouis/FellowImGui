@@ -1,0 +1,9 @@
+@mixin form-field-theme($theme) {
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+@mixin form-field-color($theme) {
+
+}
