@@ -12,7 +12,7 @@ export class FIGButtonWidget extends FIGWidget {
     return this.text;
   }
 
-  public override render(): void {
+  public override draw(): void {
     ImGui.Button(this.text);
   }
 }

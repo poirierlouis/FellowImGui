@@ -1,4 +1,5 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FIGContainer} from "../../../models/container";
 
 @Component({
   selector: 'fig-canvas',
@@ -8,15 +9,18 @@ import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild
   styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements OnInit, OnDestroy {
-  @Input()
-  instructions: string = 'ImGui.Text("Hello world!")';
-
   @ViewChild('imgui')
   canvas!: ElementRef;
 
   private isRendering: boolean = true;
+  private root: FIGContainer[] = [];
 
   constructor(private readonly el: ElementRef) {
+  }
+
+  @Input('root')
+  set _root(value: FIGContainer[] | undefined) {
+    this.root = value ?? [];
   }
 
   private get $host(): HTMLElement {
@@ -62,18 +66,16 @@ export class CanvasComponent implements OnInit, OnDestroy {
     ImGui_Impl.NewFrame(delta);
     ImGui.NewFrame();
 
-    ImGui.SetNextWindowPos(new ImGui.ImVec2(48, 48), ImGui.Cond.FirstUseEver);
-    ImGui.SetNextWindowSize(new ImGui.ImVec2(480, 360), ImGui.Cond.FirstUseEver);
-    ImGui.Begin('Fellow · ImGui');
     try {
-      eval(this.instructions);
+      for (const container of this.root) {
+        container.draw();
+      }
     } catch (e) {
       ImGui.TextColored(new ImGui.ImVec4(1.0, 0.0, 0.0, 1.0), "error: ");
       ImGui.SameLine();
       // @ts-ignore
       ImGui.Text(e.message);
     }
-    ImGui.End();
     ImGui.EndFrame();
     ImGui.Render();
     const gl = ImGui_Impl.gl;

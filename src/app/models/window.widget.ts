@@ -13,10 +13,10 @@ export class FIGWindowWidget extends FIGContainer {
     return this.title;
   }
 
-  public override render(): void {
+  public override draw(): void {
     ImGui.Begin(this.title);
     for (const child of this.children) {
-      child.render();
+      child.draw();
     }
     ImGui.End();
   }

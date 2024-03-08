@@ -17,5 +17,5 @@ export abstract class FIGWidget {
 
   public abstract get name(): string;
 
-  public abstract render(): void;
+  public abstract draw(): void;
 }
