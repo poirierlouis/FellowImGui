@@ -2,7 +2,7 @@ import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core'
 import {FIGWindowWidget} from "../../../../models/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
@@ -27,20 +27,42 @@ export class WindowSettingsComponent {
 
   form: FormGroup = new FormGroup<any>({
     title: new FormControl<string>(''),
+    width: new FormControl<number>(32, {validators: [Validators.min(32)]}),
+    height: new FormControl<number>(32, {validators: [Validators.min(32)]})
   });
 
   constructor(private readonly dr: DestroyRef) {
     this.form.get('title')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onTitleChanged.bind(this));
+    this.form.get('width')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onWidthChanged.bind(this));
+    this.form.get('height')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onHeightChanged.bind(this));
   }
 
   @Input('widget')
   set _widget(value: FIGWidget) {
     this.widget = value as FIGWindowWidget;
     this.form.get('title')!.setValue(this.widget.title, {emitEvent: false});
+    this.form.get('width')!.setValue(this.widget.size.width, {emitEvent: false});
+    this.form.get('height')!.setValue(this.widget.size.height, {emitEvent: false});
   }
 
   private onTitleChanged(value: string): void {
     this.widget.title = value;
+    this.update.emit();
+  }
+
+  private onWidthChanged(value: number): void {
+    if (!this.form.get('width')!.valid) {
+      return;
+    }
+    this.widget.size.width = value;
+    this.update.emit();
+  }
+
+  private onHeightChanged(value: number): void {
+    if (!this.form.get('height')!.valid) {
+      return;
+    }
+    this.widget.size.height = value;
     this.update.emit();
   }
 
