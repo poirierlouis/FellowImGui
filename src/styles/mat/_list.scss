@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin list-theme($theme) {
+  $hover: grey;
+
+  mat-list-item {
+    &:hover {
+      cursor: pointer!important;
+
+      background-color: $hover;
+    }
+  }
+}
+
+@mixin list-color($theme) {
+
+}

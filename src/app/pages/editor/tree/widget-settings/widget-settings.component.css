@@ -1,7 +1,10 @@
 :host {
   overflow-y: auto;
-  height: 32%;
-  padding: 24px 12px;
+  display: block;
+  height: 35%;
+}
 
-  border-top: 1px solid grey;
+.settings {
+  display: block;
+  height: 100%;
 }

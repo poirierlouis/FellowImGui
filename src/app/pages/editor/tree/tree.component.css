@@ -1,5 +1,24 @@
-:host {
-  display: flex;
-  flex-flow: column;
-  height: inherit;
+mat-tree {
+  overflow-y: auto;
+  height: 65%;
+
+  & .invisible {
+    display: none;
+  }
+
+  & .mat-tree-node {
+    padding-left: 12px;
+
+    &:hover {
+      cursor: pointer!important;
+    }
+
+    & mat-icon {
+      margin-right: 12px;
+    }
+  }
+
+  & div[role=group] > .mat-tree-node {
+    margin-left: 23px;
+  }
 }

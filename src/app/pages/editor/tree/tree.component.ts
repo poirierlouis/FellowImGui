@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {MatDrawer} from "@angular/material/sidenav";
 import {MatIcon} from "@angular/material/icon";
 import {
   MatNestedTreeNode,
@@ -14,16 +13,12 @@ import {NestedTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/container";
 import {FIGWidget} from "../../../models/widget";
 import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
-import {MatListItem, MatListItemTitle} from "@angular/material/list";
 
 @Component({
   selector: 'fig-tree',
   standalone: true,
   imports: [
     MatIcon,
-    MatDrawer,
-    MatListItem,
-    MatListItemTitle,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,

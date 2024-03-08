@@ -1,13 +1,4 @@
 :host {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-}
-
-main {
-  height: 100%;
-}
-
-router-outlet {
   display: block;
+  height: 100%;
 }

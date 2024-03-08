@@ -4,9 +4,14 @@
 }
 
 mat-drawer-container {
+  display: block;
   height: inherit;
 }
 
 mat-drawer {
   width: 16%;
+}
+
+mat-drawer-content {
+  overflow: hidden;
 }

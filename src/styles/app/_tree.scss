@@ -7,44 +7,25 @@
 
   fig-tree {
     mat-tree {
-      overflow-y: auto;
-      height: 68%;
-
-      & .invisible {
-        display: none;
-      }
-
-      & div[role=group] > .mat-tree-node {
-        padding-left: 28px;
-
-        & .mdc-list-item {
-          border-left: 1px solid $hover;
-
-          &:hover {
-            border-left-color: transparent;
-          }
-
-          &.selected {
-            border-left-color: $primary;
-          }
-        }
-      }
-
-      & .mdc-list-item {
-        align-items: center;
-
+      & .mat-tree-node {
         &:hover {
-          cursor: pointer;
-
           background-color: $hover;
         }
 
         &.selected {
           background-color: $primary;
         }
+      }
 
-        & mat-icon {
-          margin-right: 12px;
+      & div[role=group] > .mat-tree-node {
+        border-left: 1px solid $hover;
+
+        &:hover {
+          border-left-color: transparent;
+        }
+
+        &.selected {
+          border-left-color: $primary;
         }
       }
     }
@@ -52,5 +33,21 @@
 }
 
 @mixin tree-color($theme) {
+  $primary: mat.get-theme-color($theme, primary, 700);
 
+  fig-tree {
+    mat-tree {
+      & .mat-tree-node {
+        &.selected {
+          background-color: $primary;
+        }
+      }
+
+      & div[role=group] > .mat-tree-node {
+        &.selected {
+          border-left-color: $primary;
+        }
+      }
+    }
+  }
 }

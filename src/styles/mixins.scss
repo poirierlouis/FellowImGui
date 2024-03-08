@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 
 // Material components
+@use './mat/list' as *;
 
 // App components
 @use './app/tree' as fig;
@@ -16,6 +17,8 @@
   @include mat.icon-theme($theme);
   @include mat.form-field-theme($theme);
   @include mat.input-theme($theme);
+
+  @include list-theme($theme);
 }
 
 @mixin mat-component-colors($theme) {
@@ -29,6 +32,8 @@
   @include mat.icon-color($theme);
   @include mat.form-field-color($theme);
   @include mat.input-color($theme);
+
+  @include list-color($theme);
 }
 
 @mixin fig-component-themes($theme) {
