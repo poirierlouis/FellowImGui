@@ -1,0 +1,6 @@
+:host {
+  flex: 1;
+  padding: 24px 12px;
+
+  border-top: 1px solid gray;
+}

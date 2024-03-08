@@ -14,6 +14,7 @@ import {
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/container";
 import {FIGWidget} from "../../../models/widget";
+import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
 
 @Component({
   selector: 'fig-tree',
@@ -29,6 +30,7 @@ import {FIGWidget} from "../../../models/widget";
     MatTreeNodeOutlet,
     MatTreeNodeToggle,
     MatNestedTreeNode,
+    WidgetSettingsComponent
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.css'

@@ -1,0 +1,17 @@
+@switch (widget?.type) {
+  @case (FIGWidgetType.window) {
+    <fig-window-settings class="settings"
+                         [widget]="widget!"
+                         (update)="onWidgetUpdated($event)"></fig-window-settings>
+  }
+  @case (FIGWidgetType.text) {
+    <fig-text-settings class="settings"
+                       [widget]="widget!"
+                       (update)="onWidgetUpdated($event)"></fig-text-settings>
+  }
+  @case (FIGWidgetType.button) {
+    <fig-button-settings class="settings"
+                         [widget]="widget!"
+                         (update)="onWidgetUpdated($event)"></fig-button-settings>
+  }
+}
