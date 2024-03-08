@@ -17,7 +17,7 @@ export class FIGWindowWidget extends FIGContainer {
   }
 
   public override draw(): void {
-    ImGui.SetNextWindowSize({x: this.size.width, y: this.size.height});
+    ImGui.SetNextWindowSize(new ImGui.Vec2(this.size.width, this.size.height));
     ImGui.Begin(this.title);
     for (const child of this.children) {
       child.draw();
