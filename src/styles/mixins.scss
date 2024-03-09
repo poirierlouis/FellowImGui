@@ -7,6 +7,7 @@
 // App components
 @use './app/tree' as *;
 @use './app/widget-settings' as *;
+@use './app/dismissible' as *;
 
 @mixin mat-component-themes($theme) {
   //@include mat.all-component-themes($theme);
@@ -43,9 +44,11 @@
 @mixin fig-component-themes($theme) {
   @include tree-theme($theme);
   @include widget-settings-theme($theme);
+  @include dismissible-theme($theme);
 }
 
 @mixin fig-component-colors($theme) {
   @include tree-color($theme);
   @include widget-settings-color($theme);
+  @include dismissible-color($theme);
 }

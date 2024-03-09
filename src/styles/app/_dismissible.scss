@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin dismissible-theme($theme) {
+  $warn: mat.get-theme-color($theme, warn, 500);
+
+  .dismissible-container {
+    overflow: hidden;
+    position: absolute;
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 0 12px;
+
+    background-color: $warn;
+  }
+}
+
+@mixin dismissible-color($theme) {
+  $warn: mat.get-theme-color($theme, warn, 500);
+
+  .dismissible-container {
+    background-color: $warn;
+  }
+}
