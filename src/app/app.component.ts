@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatToolbar} from "@angular/material/toolbar";
-import {HttpClientModule} from "@angular/common/http";
 import {IconService} from "./services/icon.service";
 
 @Component({
   selector: 'fig-app',
   standalone: true,
-  imports: [RouterOutlet, MatToolbar, HttpClientModule],
+  imports: [RouterOutlet, MatToolbar],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
