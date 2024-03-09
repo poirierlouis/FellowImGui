@@ -22,4 +22,8 @@ export abstract class FIGWidget {
   public abstract get name(): string;
 
   public abstract draw(): void;
+
+  public trackBy(): any {
+    return this.uuid;
+  }
 }

@@ -36,9 +36,9 @@ export class TreeComponent {
   @Input()
   root: FIGContainer[] = [];
 
-  treeControl = new NestedTreeControl<FIGWidget>(node => {
-    if (node instanceof FIGContainer) {
-      return node.children;
+  treeControl = new NestedTreeControl<FIGWidget>((widget) => {
+    if (widget instanceof FIGContainer) {
+      return widget.children;
     }
     return undefined;
   });
@@ -52,11 +52,15 @@ export class TreeComponent {
     this.dataSource.data = this.root;
   }
 
-  protected hasChild(_: number, node: FIGWidget) {
-    if (node instanceof FIGContainer) {
-      return !!node.children && node.children.length > 0;
+  protected hasChild(_: number, widget: FIGWidget) {
+    if (widget instanceof FIGContainer) {
+      return widget.children.length > 0;
     }
     return false;
+  }
+
+  protected trackBy(_: number, widget: FIGWidget): any {
+    return widget.trackBy();
   }
 
   protected selectWidget(widget: FIGWidget): void {

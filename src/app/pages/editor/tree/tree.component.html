@@ -1,5 +1,6 @@
 <mat-tree [dataSource]="dataSource"
-          [treeControl]="treeControl">
+          [treeControl]="treeControl"
+          [trackBy]="trackBy">
   <mat-tree-node *matTreeNodeDef="let widget"
                  matTreeNodeToggle
                  [class.selected]="selectedWidget === widget"
