@@ -5,8 +5,9 @@
   $warn: mat.get-theme-color($theme, warn, 500);
 
   .dismissible-container {
+    z-index: -1;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     display: flex;
     align-items: center;
 

@@ -134,9 +134,12 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
     this.isActive = true;
     this.deltaX = event.deltaX;
     this.createBackground();
+    const height: string = window.getComputedStyle(this.$el).height;
+
     this.renderer.insertBefore(this.$parent, this.$background, this.$el);
-    this.renderer.setStyle(this.$el, 'z-index', '2');
+    this.renderer.setStyle(this.$el, 'z-index', '1');
     this.renderer.setStyle(this.$el, 'position', 'relative');
+    this.renderer.setStyle(this.$el, 'margin-top', `-${height}`);
   }
 
   @HostListener('panmove', ['$event'])
@@ -241,6 +244,9 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
     this.backgroundView!.destroy();
     this.backgroundView = undefined;
     this.renderer.removeStyle(this.$el, 'transform');
+    this.renderer.removeStyle(this.$el, 'margin-top');
+    this.renderer.removeStyle(this.$el, 'position');
+    this.renderer.removeStyle(this.$el, 'z-index');
   }
 
   private createBackground(): void {
