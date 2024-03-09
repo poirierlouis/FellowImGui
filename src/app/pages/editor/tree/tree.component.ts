@@ -14,6 +14,7 @@ import {FIGContainer} from "../../../models/container";
 import {FIGWidget} from "../../../models/widget";
 import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
 import {MatDivider} from "@angular/material/divider";
+import {DismissibleDirective} from "../../../directives/dismissible.directive";
 
 @Component({
   selector: 'fig-tree',
@@ -27,6 +28,7 @@ import {MatDivider} from "@angular/material/divider";
     MatTreeNodeOutlet,
     MatTreeNodeToggle,
     MatNestedTreeNode,
+    DismissibleDirective,
     WidgetSettingsComponent,
   ],
   templateUrl: './tree.component.html',
@@ -65,6 +67,21 @@ export class TreeComponent {
 
   protected selectWidget(widget: FIGWidget): void {
     this.selectedWidget = widget;
+  }
+
+  protected removeWidget(widget: FIGWidget): void {
+    for (let i = 0; i < this.root.length; i++) {
+      const container: FIGContainer = this.root[i];
+
+      if (container.uuid === widget.uuid) {
+        this.root.splice(i, 1);
+        this.dataSource.data = this.root;
+        return;
+      } else if (container.remove(widget)) {
+        this.dataSource.data = this.root;
+        return;
+      }
+    }
   }
 
 }

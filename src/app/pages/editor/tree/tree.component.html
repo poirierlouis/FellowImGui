@@ -1,9 +1,18 @@
 <mat-tree [dataSource]="dataSource"
           [treeControl]="treeControl"
           [trackBy]="trackBy">
+  <ng-template #dismissibleBackground>
+    <div>
+      <mat-icon>delete</mat-icon>
+    </div>
+  </ng-template>
+
   <mat-tree-node *matTreeNodeDef="let widget"
-                 matTreeNodeToggle
                  [class.selected]="selectedWidget === widget"
+                 matTreeNodeToggle
+                 figDismissible
+                 [figDismissibleBackground]="dismissibleBackground"
+                 (figDismissed)="removeWidget(widget)"
                  (click)="selectWidget(widget)">
     <mat-icon [svgIcon]="widget.icon"></mat-icon>
 
@@ -12,9 +21,12 @@
 
   <mat-nested-tree-node *matTreeNodeDef="let widget; when: hasChild">
     <div class="mat-tree-node"
-         matTreeNodeToggle
          [class.selected]="selectedWidget === widget"
-         (click)="selectWidget(widget)">
+         matTreeNodeToggle
+         figDismissible
+         [figDismissibleBackground]="dismissibleBackground"
+         (click)="selectWidget(widget)"
+         (figDismissed)="removeWidget(widget)">
       <mat-icon [svgIcon]="widget.icon"></mat-icon>
 
       {{ widget.name }}
