@@ -13,7 +13,7 @@
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"
                  (figDismissed)="removeWidget(widget)"
-                 (click)="selectWidget(widget)">
+                 (figDismissibleClick)="selectWidget(widget)">
     <mat-icon [svgIcon]="widget.icon"></mat-icon>
 
     {{ widget.name }}
@@ -25,7 +25,7 @@
          matTreeNodeToggle
          figDismissible
          [figDismissibleBackground]="dismissibleBackground"
-         (click)="selectWidget(widget)"
+         (figDismissibleClick)="selectWidget(widget)"
          (figDismissed)="removeWidget(widget)">
       <mat-icon [svgIcon]="widget.icon"></mat-icon>
 

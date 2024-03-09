@@ -73,7 +73,7 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
   @Output('figDismissed')
   dismissed: EventEmitter<DismissibleRef | undefined> = new EventEmitter();
 
-  @Output()
+  @Output('figDismissibleClick')
   delegateClick: EventEmitter<MouseEvent> = new EventEmitter();
 
   private backgroundView?: EmbeddedViewRef<any>;
