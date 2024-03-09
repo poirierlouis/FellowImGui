@@ -1,9 +1,9 @@
 import {Component, DestroyRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
-import {FIGWindowWidget} from "../../../../models/window.widget";
+import {FIGWindowWidget} from "../../../../models/widgets/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widget";
+import {FIGWidget} from "../../../../models/widgets/widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Subscription} from "rxjs";
 import {MatIcon} from "@angular/material/icon";

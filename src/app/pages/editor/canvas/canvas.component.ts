@@ -1,5 +1,5 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FIGContainer} from "../../../models/container";
+import {FIGContainer} from "../../../models/widgets/container";
 
 @Component({
   selector: 'fig-canvas',

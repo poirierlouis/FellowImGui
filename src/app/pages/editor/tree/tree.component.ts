@@ -10,8 +10,8 @@ import {
   MatTreeNodeToggle
 } from "@angular/material/tree";
 import {NestedTreeControl} from "@angular/cdk/tree";
-import {FIGContainer} from "../../../models/container";
-import {FIGWidget} from "../../../models/widget";
+import {FIGContainer} from "../../../models/widgets/container";
+import {FIGWidget} from "../../../models/widgets/widget";
 import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
 import {MatDivider} from "@angular/material/divider";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";

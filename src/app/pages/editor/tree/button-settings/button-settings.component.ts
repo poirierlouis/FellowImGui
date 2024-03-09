@@ -2,8 +2,8 @@ import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core'
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widget";
-import {FIGButtonWidget} from "../../../../models/button.widget";
+import {FIGWidget} from "../../../../models/widgets/widget";
+import {FIGButtonWidget} from "../../../../models/widgets/button.widget";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MatIcon} from "@angular/material/icon";
 

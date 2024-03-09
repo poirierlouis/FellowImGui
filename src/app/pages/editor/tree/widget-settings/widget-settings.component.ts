@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ButtonSettingsComponent} from "../button-settings/button-settings.component";
 import {TextSettingsComponent} from "../text-settings/text-settings.component";
 import {WindowSettingsComponent} from "../window-settings/window-settings.component";
-import {FIGWidget, FIGWidgetType} from '../../../../models/widget';
+import {FIGWidget, FIGWidgetType} from '../../../../models/widgets/widget';
 
 @Component({
   selector: 'fig-widget-settings',

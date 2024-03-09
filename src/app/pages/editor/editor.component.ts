@@ -3,10 +3,10 @@ import {CanvasComponent} from "./canvas/canvas.component";
 import {MatList, MatListItem, MatListItemIcon} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {TreeComponent} from "./tree/tree.component";
-import {FIGContainer} from "../../models/container";
-import {FIGWindowWidget} from "../../models/window.widget";
-import {FIGTextWidget} from "../../models/text.widget";
-import {FIGButtonWidget} from "../../models/button.widget";
+import {FIGContainer} from "../../models/widgets/container";
+import {FIGWindowWidget} from "../../models/widgets/window.widget";
+import {FIGTextWidget} from "../../models/widgets/text.widget";
+import {FIGButtonWidget} from "../../models/widgets/button.widget";
 
 @Component({
   selector: 'fig-editor',

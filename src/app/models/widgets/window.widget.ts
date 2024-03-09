@@ -1,6 +1,6 @@
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
-import {Size} from "./math";
+import {Size} from "../math";
 
 export class FIGWindowWidget extends FIGContainer {
   title: string;
