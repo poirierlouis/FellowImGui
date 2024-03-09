@@ -70,6 +70,9 @@ export class TreeComponent {
   }
 
   protected removeWidget(widget: FIGWidget): void {
+    if (this.selectedWidget?.uuid === widget.uuid) {
+      this.selectedWidget = undefined;
+    }
     for (let i = 0; i < this.root.length; i++) {
       const container: FIGContainer = this.root[i];
 
