@@ -12,7 +12,7 @@ export abstract class FIGWidget {
 
   public readonly uuid: string;
   public readonly type: FIGWidgetType;
-  public readonly canBeChild: boolean;
+  public readonly needParent: boolean;
   public readonly icon: string;
 
   public parent?: FIGContainer;
@@ -21,11 +21,11 @@ export abstract class FIGWidget {
   public readonly update$: Observable<void> = this.updateSubject.asObservable();
 
   protected constructor(type: FIGWidgetType,
-                        canBeChild: boolean,
+                        needParent: boolean,
                         icon: string) {
     this.uuid = uuidv4();
     this.type = type;
-    this.canBeChild = canBeChild;
+    this.needParent = needParent;
     this.icon = icon;
   }
 
