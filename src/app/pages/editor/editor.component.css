@@ -3,14 +3,14 @@
   height: calc(100% - 64px);
 }
 
-mat-list {
-  width: 320px;
+fig-tree {
+  width: 360px;
 }
 
 fig-canvas {
-  width: calc(100% - 640px);
+  width: calc(100% - 2 * 360px);
 }
 
-fig-tree {
-  width: 320px;
+fig-properties {
+  width: 360px;
 }

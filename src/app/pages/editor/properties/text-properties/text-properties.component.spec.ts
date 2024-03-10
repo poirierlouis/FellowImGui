@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WindowSettingsComponent } from './window-settings.component';
+import { TextPropertiesComponent } from './text-properties.component';
 
-describe('WindowSettingsComponent', () => {
-  let component: WindowSettingsComponent;
-  let fixture: ComponentFixture<WindowSettingsComponent>;
+describe('TextSettingsComponent', () => {
+  let component: TextPropertiesComponent;
+  let fixture: ComponentFixture<TextPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WindowSettingsComponent]
+      imports: [TextPropertiesComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(WindowSettingsComponent);
+
+    fixture = TestBed.createComponent(TextPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

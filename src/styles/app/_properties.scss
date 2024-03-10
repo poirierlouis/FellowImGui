@@ -1,6 +1,6 @@
-@mixin widget-settings-theme($theme) {
-  fig-widget-settings {
-    .settings {
+@mixin properties-theme($theme) {
+  fig-properties {
+    .properties {
       & .header {
         display: flex;
         align-items: center;
@@ -23,6 +23,6 @@
   }
 }
 
-@mixin widget-settings-color($theme) {
+@mixin properties-color($theme) {
 
 }

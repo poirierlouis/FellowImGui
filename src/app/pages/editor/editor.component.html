@@ -1,20 +1,7 @@
-<mat-list>
-  <mat-list-item>
-    <mat-icon matListItemIcon svgIcon="window"></mat-icon>
-    Window
-  </mat-list-item>
-
-  <mat-list-item>
-    <mat-icon matListItemIcon svgIcon="text"></mat-icon>
-    Text
-  </mat-list-item>
-
-  <mat-list-item>
-    <mat-icon matListItemIcon svgIcon="button"></mat-icon>
-    Button
-  </mat-list-item>
-</mat-list>
+<fig-tree [document]="document"
+          (selectWidget)="selectWidget($event)"></fig-tree>
 
 <fig-canvas [document]="document"></fig-canvas>
 
-<fig-tree [document]="document"></fig-tree>
+<fig-properties [widget]="selectedWidget"
+                (update)="updateWidget($event)"></fig-properties>

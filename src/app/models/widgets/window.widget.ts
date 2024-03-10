@@ -5,6 +5,7 @@ import {Size} from "../math";
 export class FIGWindowWidget extends FIGContainer {
   title: string;
   size: Size;
+  isFocused: boolean = false;
 
   constructor(title: string = 'Window', size: Size = {width: 320, height: 240}) {
     super(FIGWidgetType.window, false, 'window');
@@ -17,6 +18,9 @@ export class FIGWindowWidget extends FIGContainer {
   }
 
   public override draw(): void {
+    if (this.isFocused) {
+      ImGui.SetNextWindowFocus();
+    }
     ImGui.SetNextWindowSize(new ImGui.Vec2(this.size.width, this.size.height));
     ImGui.Begin(this.title);
     for (const child of this.children) {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {
   MatNestedTreeNode,
@@ -14,8 +14,6 @@ import {
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/widgets/container";
 import {FIGWidget} from "../../../models/widgets/widget";
-import {WidgetSettingsComponent} from "./widget-settings/widget-settings.component";
-import {MatDivider} from "@angular/material/divider";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {FIGDocument} from "../../../models/document";
@@ -38,7 +36,6 @@ interface FlatNode {
     CdkDropList,
     CdkDragHandle,
     MatIcon,
-    MatDivider,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,
@@ -47,7 +44,6 @@ interface FlatNode {
     MatNestedTreeNode,
     MatTreeNodePadding,
     DismissibleDirective,
-    WidgetSettingsComponent,
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.css'
@@ -56,6 +52,9 @@ export class TreeComponent {
 
   @Input()
   document!: FIGDocument;
+
+  @Output('selectWidget')
+  onSelectWidget: EventEmitter<FIGWidget | undefined> = new EventEmitter<FIGWidget | undefined>();
 
   treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
@@ -86,6 +85,11 @@ export class TreeComponent {
     this.dataSource.data = this.document.root;
   }
 
+  public update(): void {
+    this.dataSource.data = [...this.document.root];
+    this.updateTree();
+  }
+
   protected hasChild(_: number, node: FlatNode) {
     return node.expandable;
   }
@@ -104,6 +108,7 @@ export class TreeComponent {
       }
     }
     this.selectedWidget = node.widget;
+    this.onSelectWidget.emit(node.widget);
   }
 
   protected moveWidget(event: CdkDragDrop<FIGWidget>): void {
@@ -115,18 +120,17 @@ export class TreeComponent {
       return;
     }
     if (this.document.moveWidget(dragWidget, dropWidget)) {
-      this.dataSource.data = [...this.document.root];
-      this.updateTree();
+      this.update();
     }
   }
 
   protected removeWidget(widget: FIGWidget): void {
     if (this.selectedWidget?.uuid === widget.uuid) {
       this.selectedWidget = undefined;
+      this.onSelectWidget.emit(undefined);
     }
     if (this.document.removeWidget(widget)) {
-      this.dataSource.data = [...this.document.root];
-      this.updateTree();
+      this.update();
     }
   }
 

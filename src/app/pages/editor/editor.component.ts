@@ -1,30 +1,32 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
-import {MatList, MatListItem, MatListItemIcon} from "@angular/material/list";
-import {MatIcon} from "@angular/material/icon";
 import {TreeComponent} from "./tree/tree.component";
 import {FIGWindowWidget} from "../../models/widgets/window.widget";
 import {FIGTextWidget} from "../../models/widgets/text.widget";
 import {FIGButtonWidget} from "../../models/widgets/button.widget";
 import {FIGDocument} from "../../models/document";
+import {PropertiesComponent} from "./properties/properties.component";
+import {FIGWidget} from "../../models/widgets/widget";
 
 @Component({
   selector: 'fig-editor',
   standalone: true,
   imports: [
-    MatIcon,
-    MatList,
-    MatListItem,
-    MatListItemIcon,
     TreeComponent,
     CanvasComponent,
+    PropertiesComponent,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
 export class EditorComponent {
 
+  @ViewChild(TreeComponent)
+  tree!: TreeComponent;
+
   document: FIGDocument;
+
+  selectedWidget?: FIGWidget;
 
   constructor() {
     this.document = new FIGDocument();
@@ -41,6 +43,14 @@ export class EditorComponent {
     this.document.root[2].children.push(new FIGTextWidget('Mundo'));
     this.document.root[2].children.push(new FIGButtonWidget('Hazme clic'));
     this.document.link();
+  }
+
+  protected selectWidget(widget?: FIGWidget): void {
+    this.selectedWidget = widget;
+  }
+
+  protected updateWidget(widget: FIGWidget): void {
+    this.tree.update();
   }
 
 }

@@ -1,15 +1,14 @@
-import {Component, DestroyRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
 import {FIGWindowWidget} from "../../../../models/widgets/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {Subscription} from "rxjs";
 import {MatIcon} from "@angular/material/icon";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-  selector: 'fig-window-settings',
+  selector: 'fig-window-properties',
   standalone: true,
   imports: [
     MatIcon,
@@ -18,50 +17,57 @@ import {MatIcon} from "@angular/material/icon";
     MatFormField,
     ReactiveFormsModule
   ],
-  templateUrl: './window-settings.component.html',
-  styleUrl: './window-settings.component.css'
+  templateUrl: './window-properties.component.html',
+  styleUrl: './window-properties.component.css'
 })
-export class WindowSettingsComponent implements OnDestroy {
+export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWindowWidget> {
 
   @Output()
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
-  widget!: FIGWindowWidget;
-
-  form: FormGroup = new FormGroup<any>({
+  override form: FormGroup = new FormGroup<any>({
     title: new FormControl<string>(''),
     width: new FormControl<number>(32, {validators: [Validators.min(32)]}),
     height: new FormControl<number>(32, {validators: [Validators.min(32)]})
   });
 
-  private updateS?: Subscription;
-
-  constructor(private readonly dr: DestroyRef) {
-    this.form.get('title')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onTitleChanged.bind(this));
-    this.form.get('width')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onWidthChanged.bind(this));
-    this.form.get('height')!.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onHeightChanged.bind(this));
+  constructor(dr: DestroyRef) {
+    super(dr);
+    this.listenProperty('title').subscribe(this.onTitleChanged.bind(this));
+    this.listenProperty('width').subscribe(this.onWidthChanged.bind(this));
+    this.listenProperty('height').subscribe(this.onHeightChanged.bind(this));
   }
 
   @Input('widget')
   set _widget(value: FIGWidget) {
+    this.dispose();
     this.widget = value as FIGWindowWidget;
-    this.updateS?.unsubscribe();
-    this.updateS = this.widget.update$.subscribe(this.onUpdated.bind(this));
     this.load();
   }
 
-  public ngOnDestroy(): void {
-    this.updateS?.unsubscribe();
+  protected override load(): void {
+    this.widget!.isFocused = true;
+    super.load();
   }
 
-  private load(): void {
+  protected override updateForm(): void {
+    if (!this.widget) {
+      return;
+    }
     this.form.get('title')!.setValue(this.widget.title, {emitEvent: false});
     this.form.get('width')!.setValue(this.widget.size.width, {emitEvent: false});
     this.form.get('height')!.setValue(this.widget.size.height, {emitEvent: false});
   }
 
+  protected override dispose(): void {
+    if (this.widget) {
+      this.widget.isFocused = false;
+    }
+    super.dispose();
+  }
+
   private onTitleChanged(value: string): void {
-    this.widget.title = value;
+    this.widget!.title = value;
     this.update.emit();
   }
 
@@ -69,7 +75,7 @@ export class WindowSettingsComponent implements OnDestroy {
     if (!this.form.get('width')!.valid) {
       return;
     }
-    this.widget.size.width = value;
+    this.widget!.size.width = value;
     this.update.emit();
   }
 
@@ -77,12 +83,8 @@ export class WindowSettingsComponent implements OnDestroy {
     if (!this.form.get('height')!.valid) {
       return;
     }
-    this.widget.size.height = value;
+    this.widget!.size.height = value;
     this.update.emit();
-  }
-
-  private onUpdated(): void {
-    this.load();
   }
 
 }

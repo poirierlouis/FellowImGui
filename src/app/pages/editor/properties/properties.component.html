@@ -1,0 +1,17 @@
+@switch (widget?.type) {
+  @case (FIGWidgetType.window) {
+    <fig-window-properties class="properties"
+                           [widget]="widget!"
+                           (update)="update.emit($event)"></fig-window-properties>
+  }
+  @case (FIGWidgetType.text) {
+    <fig-text-properties class="properties"
+                         [widget]="widget!"
+                         (update)="update.emit($event)"></fig-text-properties>
+  }
+  @case (FIGWidgetType.button) {
+    <fig-button-properties class="properties"
+                           [widget]="widget!"
+                           (update)="update.emit($event)"></fig-button-properties>
+  }
+}

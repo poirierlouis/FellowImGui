@@ -2,7 +2,7 @@ mat-tree {
   user-select: none;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(65% - 1px);
+  height: 100%;
 
   & .invisible {
     display: none;
