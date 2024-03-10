@@ -9,7 +9,18 @@ mat-tree {
   }
 
   & .mat-tree-node {
+    justify-content: space-between;
     padding-left: 12px;
+
+    & .content {
+      display: flex;
+      align-items: center;
+      margin-left: 12px;
+    }
+
+    & .draggable {
+      cursor: move;
+    }
 
     &:hover {
       cursor: pointer!important;
@@ -18,9 +29,5 @@ mat-tree {
     & mat-icon {
       margin-right: 12px;
     }
-  }
-
-  & div[role=group] > .mat-tree-node {
-    margin-left: 23px;
   }
 }

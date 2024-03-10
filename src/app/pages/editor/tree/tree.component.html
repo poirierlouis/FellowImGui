@@ -1,42 +1,57 @@
-<mat-tree [dataSource]="dataSource"
+<mat-tree cdkDropList
+          [dataSource]="dataSource"
           [treeControl]="treeControl"
-          [trackBy]="trackBy">
+          [trackBy]="trackBy"
+          (cdkDropListDropped)="moveWidget($event)">
   <ng-template #dismissibleBackground>
     <div>
       <mat-icon>delete</mat-icon>
     </div>
   </ng-template>
 
-  <mat-tree-node *matTreeNodeDef="let widget"
-                 [class.selected]="selectedWidget === widget"
-                 matTreeNodeToggle
+  <!-- Child widget -->
+  <mat-tree-node *matTreeNodeDef="let node"
+                 [class.selected]="selectedWidget === node.widget"
+                 matTreeNodePadding
+                 cdkDrag
+                 cdkDragLockAxis="y"
+                 cdkDragPreviewContainer="parent"
+                 cdkDragPreviewClass="fig-tree-preview"
+                 [cdkDragData]="node.widget"
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"
-                 (figDismissed)="removeWidget(widget)"
-                 (figDismissibleClick)="selectWidget(widget)">
-    <mat-icon [svgIcon]="widget.icon"></mat-icon>
+                 (figDismissibleClick)="selectWidget(node)"
+                 (figDismissed)="removeWidget(node.widget)">
+    <div class="content">
+      <mat-icon [svgIcon]="node.icon"></mat-icon>
 
-    {{ widget.name }}
+      {{ node.name }}
+    </div>
+
+    <mat-icon class="draggable" cdkDragHandle>drag_handle</mat-icon>
   </mat-tree-node>
 
-  <mat-nested-tree-node *matTreeNodeDef="let widget; when: hasChild">
-    <div class="mat-tree-node"
-         [class.selected]="selectedWidget === widget"
-         matTreeNodeToggle
-         figDismissible
-         [figDismissibleBackground]="dismissibleBackground"
-         (figDismissibleClick)="selectWidget(widget)"
-         (figDismissed)="removeWidget(widget)">
-      <mat-icon [svgIcon]="widget.icon"></mat-icon>
+  <!-- Container widget -->
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild"
+                 [class.selected]="selectedWidget === node.widget"
+                 matTreeNodePadding
+                 cdkDrag
+                 cdkDragLockAxis="y"
+                 cdkDragPreviewContainer="parent"
+                 cdkDragPreviewClass="fig-tree-preview"
+                 [cdkDragData]="node.widget"
+                 figDismissible
+                 [figDismissibleBackground]="dismissibleBackground"
+                 (figDismissibleClick)="selectWidget(node)"
+                 (figDismissed)="removeWidget(node.widget)">
+    <div class="content">
+      <mat-icon [svgIcon]="node.icon"></mat-icon>
 
-      {{ widget.name }}
+      {{ node.name }}
     </div>
 
-    <div [class.invisible]="!treeControl.isExpanded(widget)"
-         role="group">
-      <ng-container matTreeNodeOutlet></ng-container>
-    </div>
-  </mat-nested-tree-node>
+    <mat-icon class="draggable" cdkDragHandle>drag_handle</mat-icon>
+  </mat-tree-node>
 </mat-tree>
 
 <mat-divider></mat-divider>

@@ -4,7 +4,7 @@ export class FIGTextWidget extends FIGWidget {
   text: string;
 
   constructor(text: string = 'Welcome') {
-    super(FIGWidgetType.text, 'text');
+    super(FIGWidgetType.text, true, 'text');
     this.text = text;
   }
 

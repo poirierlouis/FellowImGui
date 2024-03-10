@@ -1,5 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import {BehaviorSubject, Observable} from "rxjs";
+import {FIGContainer} from "./container";
 
 export enum FIGWidgetType {
   window,
@@ -10,13 +11,22 @@ export enum FIGWidgetType {
 export abstract class FIGWidget {
 
   public readonly uuid: string;
+  public readonly type: FIGWidgetType;
+  public readonly canBeChild: boolean;
+  public readonly icon: string;
+
+  public parent?: FIGContainer;
 
   protected readonly updateSubject: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public readonly update$: Observable<void> = this.updateSubject.asObservable();
 
-  protected constructor(public readonly type: FIGWidgetType,
-                        public readonly icon: string) {
+  protected constructor(type: FIGWidgetType,
+                        canBeChild: boolean,
+                        icon: string) {
     this.uuid = uuidv4();
+    this.type = type;
+    this.canBeChild = canBeChild;
+    this.icon = icon;
   }
 
   public abstract get name(): string;
@@ -25,5 +35,13 @@ export abstract class FIGWidget {
 
   public trackBy(): any {
     return this.uuid;
+  }
+
+  public link(parent?: FIGContainer): void {
+    this.parent = parent;
+  }
+
+  public flatMap(): FIGWidget[] {
+    return [this];
   }
 }

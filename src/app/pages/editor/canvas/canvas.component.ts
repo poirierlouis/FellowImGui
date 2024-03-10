@@ -1,5 +1,5 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FIGContainer} from "../../../models/widgets/container";
+import {FIGDocument} from "../../../models/document";
 
 @Component({
   selector: 'fig-canvas',
@@ -14,14 +14,14 @@ export class CanvasComponent implements OnInit, OnDestroy {
   canvas!: ElementRef;
 
   private isRendering: boolean = true;
-  private root: FIGContainer[] = [];
+  private document!: FIGDocument;
 
   constructor(private readonly el: ElementRef) {
   }
 
-  @Input('root')
-  set _root(value: FIGContainer[] | undefined) {
-    this.root = value ?? [];
+  @Input('document')
+  set _document(value: FIGDocument) {
+    this.document = value;
   }
 
   private get $host(): HTMLElement {
@@ -67,7 +67,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
     ImGui_Impl.NewFrame(delta);
     ImGui.NewFrame();
     try {
-      for (const container of this.root) {
+      for (const container of this.document.root) {
         container.draw();
       }
     } catch (e) {

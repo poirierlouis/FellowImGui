@@ -11,7 +11,8 @@
       background-color: transparent;
 
       & .mat-tree-node {
-        &:hover {
+        &:hover,
+        &.dragged {
           background-color: $hover;
         }
 
@@ -19,19 +20,11 @@
           background-color: $primary;
         }
       }
-
-      & div[role=group] > .mat-tree-node {
-        border-left: 1px solid $divider;
-
-        &:hover {
-          border-left-color: transparent;
-        }
-
-        &.selected {
-          border-left-color: $primary;
-        }
-      }
     }
+  }
+
+  .fig-tree-preview {
+    background-color: white;
   }
 }
 
@@ -42,20 +35,10 @@
   fig-tree {
     mat-tree {
       background-color: transparent;
-
-      & .mat-tree-node {
-        &.selected {
-          background-color: $primary;
-        }
-      }
-
-      & div[role=group] > .mat-tree-node {
-        border-left-color: $divider;
-
-        &.selected {
-          border-left-color: $primary;
-        }
-      }
     }
+  }
+
+  .fig-tree-preview {
+    background-color: #303030;
   }
 }

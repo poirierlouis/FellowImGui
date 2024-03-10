@@ -4,7 +4,7 @@ export class FIGButtonWidget extends FIGWidget {
   text: string;
 
   constructor(text: string = 'Button') {
-    super(FIGWidgetType.button, 'button');
+    super(FIGWidgetType.button, true, 'button');
     this.text = text;
   }
 
