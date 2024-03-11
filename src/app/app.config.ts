@@ -6,6 +6,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {provideHttpClient} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from "@angular/platform-browser";
+import {NgxColorsModule} from "ngx-colors";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
 
     importProvidersFrom([
-      HammerModule
+      HammerModule,
+      NgxColorsModule
     ]),
 
     {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
