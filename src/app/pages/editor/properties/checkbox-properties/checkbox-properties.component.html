@@ -1,0 +1,18 @@
+<div class="header">
+  <mat-icon svgIcon="checkbox"></mat-icon>
+  Checkbox
+</div>
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Text</mat-label>
+    <input matInput
+           type="text"
+           formControlName="text" />
+  </mat-form-field>
+
+  <div class="mat-form-field">
+    <mat-label>Is checked</mat-label>
+    <mat-slide-toggle formControlName="isChecked"></mat-slide-toggle>
+  </div>
+</form>

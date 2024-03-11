@@ -14,4 +14,9 @@
                            [widget]="widget!"
                            (update)="update.emit($event)"></fig-button-properties>
   }
+  @case (FIGWidgetType.checkbox) {
+    <fig-checkbox-properties class="properties"
+                             [widget]="widget!"
+                             (update)="update.emit($event)"></fig-checkbox-properties>
+  }
 }

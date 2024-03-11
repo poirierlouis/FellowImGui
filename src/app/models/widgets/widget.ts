@@ -6,6 +6,7 @@ export enum FIGWidgetType {
   window,
   text,
   button,
+  checkbox,
   separator
 }
 
