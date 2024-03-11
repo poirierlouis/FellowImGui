@@ -19,4 +19,8 @@
                              [widget]="widget!"
                              (update)="update.emit($event)"></fig-checkbox-properties>
   }
+  @case (FIGWidgetType.separator) {
+    <fig-separator-properties class="properties"
+                             [widget]="widget!"></fig-separator-properties>
+  }
 }

@@ -14,5 +14,6 @@ export class FIGButtonWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.Button(this.text);
+    super.draw();
   }
 }

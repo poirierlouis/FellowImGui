@@ -5,7 +5,6 @@ import {Size} from "../math";
 export class FIGWindowWidget extends FIGContainer {
   title: string;
   size: Size;
-  isFocused: boolean = false;
 
   constructor(title: string = 'Window', size: Size = {width: 320, height: 240}) {
     super(FIGWidgetType.window, false, 'window');

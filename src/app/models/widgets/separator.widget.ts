@@ -4,6 +4,7 @@ export class FIGSeparatorWidget extends FIGWidget {
 
   constructor() {
     super(FIGWidgetType.separator, true, 'separator');
+    this._focusOffset.x = -4;
   }
 
   public get name(): string {
@@ -12,5 +13,6 @@ export class FIGSeparatorWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.Separator();
+    super.draw();
   }
 }

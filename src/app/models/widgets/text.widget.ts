@@ -27,5 +27,6 @@ export class FIGTextWidget extends FIGWidget {
     } else {
       ImGui.Text(this.text);
     }
+    super.draw();
   }
 }

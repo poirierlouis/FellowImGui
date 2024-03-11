@@ -45,11 +45,6 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     this.load();
   }
 
-  protected override load(): void {
-    this.widget!.isFocused = true;
-    super.load();
-  }
-
   protected override updateForm(): void {
     if (!this.widget) {
       return;
@@ -57,13 +52,6 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     this.form.get('title')!.setValue(this.widget.title, {emitEvent: false});
     this.form.get('width')!.setValue(this.widget.size.width, {emitEvent: false});
     this.form.get('height')!.setValue(this.widget.size.height, {emitEvent: false});
-  }
-
-  protected override dispose(): void {
-    if (this.widget) {
-      this.widget.isFocused = false;
-    }
-    super.dispose();
   }
 
   private onTitleChanged(value: string): void {

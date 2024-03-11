@@ -18,6 +18,7 @@ export class FIGCheckboxWidget extends FIGWidget {
     const prevIsChecked: boolean = this.isChecked;
 
     ImGui.Checkbox(this.text, (_ = this.isChecked) => this.isChecked = _);
+    super.draw();
     if (prevIsChecked !== this.isChecked) {
       this.updateSubject.next();
     }

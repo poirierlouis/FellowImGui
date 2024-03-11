@@ -4,6 +4,7 @@ import {TextPropertiesComponent} from "./text-properties/text-properties.compone
 import {WindowPropertiesComponent} from "./window-properties/window-properties.component";
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {CheckboxPropertiesComponent} from "./checkbox-properties/checkbox-properties.component";
+import {SeparatorPropertiesComponent} from "./separator-properties/separator-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -12,7 +13,8 @@ import {CheckboxPropertiesComponent} from "./checkbox-properties/checkbox-proper
     TextPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
-    CheckboxPropertiesComponent
+    CheckboxPropertiesComponent,
+    SeparatorPropertiesComponent
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'
