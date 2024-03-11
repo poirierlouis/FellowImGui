@@ -2,6 +2,13 @@
   mat-form-field {
     width: 100%;
   }
+
+  .mat-form-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+  }
 }
 
 @mixin form-field-color($theme) {

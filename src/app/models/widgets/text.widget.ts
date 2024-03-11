@@ -1,7 +1,11 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
+import {Color} from "../math";
 
 export class FIGTextWidget extends FIGWidget {
   text: string;
+  color?: Color;
+  isDisabled: boolean = false;
+  hasBullet: boolean = false;
 
   constructor(text: string = 'Text') {
     super(FIGWidgetType.text, true, 'text');
@@ -13,6 +17,15 @@ export class FIGTextWidget extends FIGWidget {
   }
 
   public override draw(): void {
-    ImGui.Text(this.text);
+    if (this.hasBullet) {
+      ImGui.Bullet();
+    }
+    if (this.isDisabled) {
+      ImGui.TextDisabled(this.text);
+    } else if (this.color) {
+      ImGui.TextColored(new ImGui.Vec4(this.color.r, this.color.g, this.color.b, this.color.a), this.text);
+    } else {
+      ImGui.Text(this.text);
+    }
   }
 }
