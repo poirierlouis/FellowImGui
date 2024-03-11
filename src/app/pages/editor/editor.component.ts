@@ -17,6 +17,8 @@ import {
   CdkDropList
 } from "@angular/cdk/drag-drop";
 import {NgTemplateOutlet} from "@angular/common";
+import {FIGSeparatorWidget} from "../../models/widgets/separator.widget";
+import {MatTooltip} from "@angular/material/tooltip";
 
 interface WidgetBuilder {
   readonly icon: string;
@@ -29,19 +31,26 @@ interface WidgetBuilder {
   standalone: true,
   imports: [
     MatIcon,
+    MatTooltip,
     CdkDrag,
     CdkDropList,
     CdkDragPreview,
+    CdkDragPlaceholder,
+    NgTemplateOutlet,
     TreeComponent,
     CanvasComponent,
     PropertiesComponent,
-    CdkDragPlaceholder,
-    NgTemplateOutlet,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
 export class EditorComponent {
+
+  @ViewChild(TreeComponent)
+  tree!: TreeComponent;
+
+  document: FIGDocument;
+  selectedWidget?: FIGWidget;
 
   protected readonly widgetBuilders: WidgetBuilder[] = [
     {icon: 'window', title: 'Window', type: 'window'},
@@ -49,13 +58,6 @@ export class EditorComponent {
     {icon: 'button', title: 'Button', type: 'button'},
     {icon: 'separator', title: 'Separator', type: 'separator'},
   ];
-
-  @ViewChild(TreeComponent)
-  tree!: TreeComponent;
-
-  document: FIGDocument;
-
-  selectedWidget?: FIGWidget;
 
   constructor() {
     this.document = new FIGDocument();

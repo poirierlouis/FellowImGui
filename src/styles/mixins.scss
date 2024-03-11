@@ -22,6 +22,7 @@
   @include mat.input-theme($theme);
   @include mat.divider-theme($theme);
   @include mat.slide-toggle-theme($theme);
+  @include mat.tooltip-theme($theme);
 
   @include list-theme($theme);
   @include form-field-theme($theme);
@@ -39,6 +40,7 @@
   @include mat.input-color($theme);
   @include mat.divider-color($theme);
   @include mat.slide-toggle-color($theme);
+  @include mat.tooltip-color($theme);
 
   @include list-color($theme);
   @include form-field-color($theme);

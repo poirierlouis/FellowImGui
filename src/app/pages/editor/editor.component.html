@@ -19,6 +19,7 @@
 
   @for (builder of widgetBuilders; track builder.type) {
     <mat-icon [svgIcon]="builder.icon"
+              [matTooltip]="builder.title"
               cdkDrag
               [cdkDragData]="builder.type">
       <ng-container *cdkDragPlaceholder>

@@ -13,6 +13,8 @@
   border-bottom: 1px solid var(--mat-divider-color);
 
   & mat-icon {
+    cursor: grab;
+
     margin: 0 12px;
 
     transform: none!important;
