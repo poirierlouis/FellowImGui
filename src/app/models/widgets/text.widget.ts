@@ -3,7 +3,7 @@ import {FIGWidget, FIGWidgetType} from "./widget";
 export class FIGTextWidget extends FIGWidget {
   text: string;
 
-  constructor(text: string = 'Welcome') {
+  constructor(text: string = 'Text') {
     super(FIGWidgetType.text, true, 'text');
     this.text = text;
   }

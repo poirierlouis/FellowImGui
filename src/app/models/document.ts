@@ -9,6 +9,53 @@ export class FIGDocument {
     this.root.forEach((container) => container.link());
   }
 
+  public createWidget(dragWidget: FIGWidget, dropWidget?: FIGWidget): boolean {
+    let dropParent: FIGContainer | undefined = dropWidget?.parent;
+
+    if (!dragWidget.needParent && dropParent) {
+      return false;
+    }
+    if (dragWidget.needParent && dropParent === undefined && !(dropWidget instanceof FIGContainer)) {
+      dropParent = this.root[this.root.length - 1];
+      dropParent.children.push(dragWidget);
+      dragWidget.parent = dropParent;
+      return true;
+    }
+    if (dragWidget instanceof FIGContainer && dropParent === undefined) {
+      const dropIndex: number = this.root.findIndex((container) => container.uuid === dropWidget?.uuid);
+
+      if (dropIndex === -1) {
+        this.root.push(dragWidget as FIGContainer);
+      } else {
+        this.insert(dragWidget as FIGContainer, dropIndex);
+      }
+      return true;
+    }
+    if (!dropWidget) {
+      console.log(`<create-widget drop-error />`);
+      return false;
+    }
+    if (dropParent === undefined && dropWidget instanceof FIGContainer) {
+      dropParent = dropWidget;
+    }
+    const dropParentIndex: number = this.findIndex(dropParent!);
+
+    if (dropWidget instanceof FIGContainer) {
+      if (dropParentIndex - 1 < 0) {
+        return false;
+      }
+      dropParent = this.root[dropParentIndex - 1];
+      dropParent.children.push(dragWidget);
+      dragWidget.parent = dropParent;
+      return true;
+    }
+    let dropIndex: number = dropParent!.findIndex(dropWidget);
+
+    dropParent!.insert(dragWidget, dropIndex);
+    dragWidget.parent = dropParent;
+    return true;
+  }
+
   public moveWidget(dragWidget: FIGWidget, dropWidget: FIGWidget): boolean {
     if (dragWidget.uuid === dropWidget.uuid) {
       return false;

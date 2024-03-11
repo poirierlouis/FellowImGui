@@ -18,6 +18,7 @@ import {DismissibleDirective} from "../../../directives/dismissible.directive";
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
+import {WidgetFactory} from "../../../models/widgets/widget.factory";
 
 interface FlatNode {
   expandable: boolean;
@@ -121,8 +122,16 @@ export class TreeComponent {
 
   protected createWidget(event: CdkDragDrop<string>): void {
     const type: FIGWidgetType = FIGWidgetType[event.item.data as keyof typeof FIGWidgetType];
+    const dragWidget: FIGWidget | undefined = WidgetFactory.createWidget(type);
+    const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
 
-    console.log(`<create-widget type="${type}" />`);
+    if (!dragWidget) {
+      console.log('drag/drop widgets not found.');
+      return;
+    }
+    if (this.document.createWidget(dragWidget, dropWidget)) {
+      this.update();
+    }
   }
 
   protected moveWidget(event: CdkDragDrop<FIGWidget>): void {
@@ -130,7 +139,7 @@ export class TreeComponent {
     const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
 
     if (!dragWidget || !dropWidget) {
-      console.warn('drag/drop widgets not found.');
+      console.log('drag/drop widgets not found.');
       return;
     }
     if (this.document.moveWidget(dragWidget, dropWidget)) {
