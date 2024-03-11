@@ -1,7 +1,43 @@
-<fig-tree [document]="document"
-          (selectWidget)="selectWidget($event)"></fig-tree>
+<div id="fig-tree-factory"
+     class="widget-bar"
+     cdkDropList
+     (cdkDropListEntered)="onDropEntered($event)"
+     (cdkDropListExited)="onDropExited($event)"
+     cdkDropListConnectedTo="fig-tree-drop">
+  <!-- Widget's preview/placeholder -->
+  <ng-template #preview let-widget>
+    <div class="fig-widget-preview">
+      <div class="content">
+        <mat-icon [svgIcon]="widget.icon"></mat-icon>
 
-<fig-canvas [document]="document"></fig-canvas>
+        {{ widget.title }}
+      </div>
 
-<fig-properties [widget]="selectedWidget"
-                (update)="updateWidget($event)"></fig-properties>
+      <mat-icon>drag_handle</mat-icon>
+    </div>
+  </ng-template>
+
+  @for (builder of widgetBuilders; track builder.type) {
+    <mat-icon [svgIcon]="builder.icon"
+              cdkDrag
+              [cdkDragData]="builder.type">
+      <ng-container *cdkDragPlaceholder>
+        <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
+      </ng-container>
+
+      <ng-container *cdkDragPreview>
+        <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
+      </ng-container>
+    </mat-icon>
+  }
+</div>
+
+<div class="panels">
+  <fig-tree [document]="document"
+            (selectWidget)="selectWidget($event)"></fig-tree>
+
+  <fig-canvas [document]="document"></fig-canvas>
+
+  <fig-properties [widget]="selectedWidget"
+                  (update)="updateWidget($event)"></fig-properties>
+</div>

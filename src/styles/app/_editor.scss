@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin editor-theme($theme) {
+  $bg: mat.get-theme-color($theme, background, background);
+
+  .fig-widget-preview {
+    background-color: $bg;
+  }
+}
+
+@mixin editor-color($theme) {
+  $bg: mat.get-theme-color($theme, background, background);
+
+  .fig-widget-preview {
+    background-color: $bg;
+  }
+}

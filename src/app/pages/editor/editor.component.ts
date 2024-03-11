@@ -7,19 +7,47 @@ import {FIGButtonWidget} from "../../models/widgets/button.widget";
 import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget} from "../../models/widgets/widget";
+import {MatIcon} from "@angular/material/icon";
+import {
+  CdkDrag,
+  CdkDragEnter,
+  CdkDragExit,
+  CdkDragPlaceholder,
+  CdkDragPreview,
+  CdkDropList
+} from "@angular/cdk/drag-drop";
+import {NgTemplateOutlet} from "@angular/common";
+
+interface WidgetBuilder {
+  readonly icon: string;
+  readonly title: string;
+  readonly type: string;
+}
 
 @Component({
   selector: 'fig-editor',
   standalone: true,
   imports: [
+    MatIcon,
+    CdkDrag,
+    CdkDropList,
+    CdkDragPreview,
     TreeComponent,
     CanvasComponent,
     PropertiesComponent,
+    CdkDragPlaceholder,
+    NgTemplateOutlet,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
 export class EditorComponent {
+
+  protected readonly widgetBuilders: WidgetBuilder[] = [
+    {icon: 'window', title: 'Window', type: 'window'},
+    {icon: 'text', title: 'Text', type: 'text'},
+    {icon: 'button', title: 'Button', type: 'button'},
+  ];
 
   @ViewChild(TreeComponent)
   tree!: TreeComponent;
@@ -43,6 +71,22 @@ export class EditorComponent {
     this.document.root[2].children.push(new FIGTextWidget('Mundo'));
     this.document.root[2].children.push(new FIGButtonWidget('Hazme clic'));
     this.document.link();
+  }
+
+  protected onDropEntered(event: CdkDragEnter): void {
+    const $placeholder: HTMLElement = event.item.getPlaceholderElement();
+
+    if (event.container.id === 'fig-tree-factory') {
+      $placeholder.style.display = 'none';
+    }
+  }
+
+  protected onDropExited(event: CdkDragExit): void {
+    const $placeholder: HTMLElement = event.item.getPlaceholderElement();
+
+    if (event.container.id === 'fig-tree-factory') {
+      $placeholder.style.display = '';
+    }
   }
 
   protected selectWidget(widget?: FIGWidget): void {

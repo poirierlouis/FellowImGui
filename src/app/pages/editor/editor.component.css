@@ -1,16 +1,60 @@
 :host {
   display: flex;
+  flex-flow: column;
   height: calc(100% - 64px);
 }
 
-fig-tree {
-  width: 360px;
+.widget-bar {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+
+  border-bottom: 1px solid var(--mat-divider-color);
+
+  & mat-icon {
+    margin: 0 12px;
+
+    transform: none!important;
+  }
 }
 
-fig-canvas {
-  width: calc(100% - 2 * 360px);
+.fig-widget-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 360px;
+  height: 48px;
+
+  &:hover {
+    cursor: pointer!important;
+  }
+
+  & .content {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+  }
+
+  & mat-icon {
+    margin-right: 12px;
+  }
 }
 
-fig-properties {
-  width: 360px;
+.panels {
+  display: flex;
+  flex: 1;
+  height: calc(100% - 64px);
+
+  & fig-tree {
+    width: 360px;
+  }
+
+  & fig-canvas {
+    width: calc(100% - 2 * 360px);
+  }
+
+  & fig-properties {
+    width: 360px;
+  }
 }

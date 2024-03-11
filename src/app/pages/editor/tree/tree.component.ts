@@ -13,7 +13,7 @@ import {
 } from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/widgets/container";
-import {FIGWidget} from "../../../models/widgets/widget";
+import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {FIGDocument} from "../../../models/document";
@@ -109,6 +109,20 @@ export class TreeComponent {
     }
     this.selectedWidget = node.widget;
     this.onSelectWidget.emit(node.widget);
+  }
+
+  protected dropWidget(event: CdkDragDrop<any>): void {
+    if (event.container !== event.previousContainer) {
+      this.createWidget(event);
+    } else {
+      this.moveWidget(event);
+    }
+  }
+
+  protected createWidget(event: CdkDragDrop<string>): void {
+    const type: FIGWidgetType = FIGWidgetType[event.item.data as keyof typeof FIGWidgetType];
+
+    console.log(`<create-widget type="${type}" />`);
   }
 
   protected moveWidget(event: CdkDragDrop<FIGWidget>): void {

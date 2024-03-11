@@ -8,6 +8,7 @@
 @use './app/tree' as *;
 @use './app/properties' as *;
 @use './app/dismissible' as *;
+@use './app/editor' as *;
 
 @mixin mat-component-themes($theme) {
   //@include mat.all-component-themes($theme);
@@ -45,10 +46,12 @@
   @include tree-theme($theme);
   @include properties-theme($theme);
   @include dismissible-theme($theme);
+  @include editor-theme($theme);
 }
 
 @mixin fig-component-colors($theme) {
   @include tree-color($theme);
   @include properties-color($theme);
   @include dismissible-color($theme);
+  @include editor-color($theme);
 }

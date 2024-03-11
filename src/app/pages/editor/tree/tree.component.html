@@ -1,8 +1,9 @@
-<mat-tree cdkDropList
+<mat-tree id="fig-tree-drop"
+          cdkDropList
           [dataSource]="dataSource"
           [treeControl]="treeControl"
           [trackBy]="trackBy"
-          (cdkDropListDropped)="moveWidget($event)">
+          (cdkDropListDropped)="dropWidget($event)">
   <ng-template #dismissibleBackground>
     <div>
       <mat-icon>delete</mat-icon>
@@ -16,7 +17,7 @@
                  cdkDrag
                  cdkDragLockAxis="y"
                  cdkDragPreviewContainer="parent"
-                 cdkDragPreviewClass="fig-tree-preview"
+                 cdkDragPreviewClass="fig-widget-preview"
                  [cdkDragData]="node.widget"
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"
@@ -38,7 +39,7 @@
                  cdkDrag
                  cdkDragLockAxis="y"
                  cdkDragPreviewContainer="parent"
-                 cdkDragPreviewClass="fig-tree-preview"
+                 cdkDragPreviewClass="fig-widget-preview"
                  [cdkDragData]="node.widget"
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"
