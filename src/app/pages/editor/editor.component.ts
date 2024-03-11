@@ -47,6 +47,7 @@ export class EditorComponent {
     {icon: 'window', title: 'Window', type: 'window'},
     {icon: 'text', title: 'Text', type: 'text'},
     {icon: 'button', title: 'Button', type: 'button'},
+    {icon: 'separator', title: 'Separator', type: 'separator'},
   ];
 
   @ViewChild(TreeComponent)
@@ -62,12 +63,15 @@ export class EditorComponent {
     this.document.root.push(new FIGWindowWidget('Bienvenue · ImGui'));
     this.document.root.push(new FIGWindowWidget('Paramount · ImGui'));
     this.document.root[0].children.push(new FIGTextWidget('Hello'));
+    this.document.root[0].children.push(new FIGSeparatorWidget());
     this.document.root[0].children.push(new FIGTextWidget('World'));
     this.document.root[0].children.push(new FIGButtonWidget('Click me'));
     this.document.root[1].children.push(new FIGTextWidget('Bonjour'));
+    this.document.root[1].children.push(new FIGSeparatorWidget());
     this.document.root[1].children.push(new FIGTextWidget('Monde'));
     this.document.root[1].children.push(new FIGButtonWidget('Clique moi'));
     this.document.root[2].children.push(new FIGTextWidget('Hola'));
+    this.document.root[2].children.push(new FIGSeparatorWidget());
     this.document.root[2].children.push(new FIGTextWidget('Mundo'));
     this.document.root[2].children.push(new FIGButtonWidget('Hazme clic'));
     this.document.link();

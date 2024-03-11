@@ -5,7 +5,8 @@ import {FIGContainer} from "./container";
 export enum FIGWidgetType {
   window,
   text,
-  button
+  button,
+  separator
 }
 
 export abstract class FIGWidget {

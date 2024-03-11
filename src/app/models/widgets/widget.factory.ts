@@ -2,6 +2,7 @@ import {FIGWidget, FIGWidgetType} from "./widget";
 import {FIGWindowWidget} from "./window.widget";
 import {FIGTextWidget} from "./text.widget";
 import {FIGButtonWidget} from "./button.widget";
+import {FIGSeparatorWidget} from "./separator.widget";
 
 interface WidgetBuilder {
   readonly type: FIGWidgetType;
@@ -16,6 +17,7 @@ export class WidgetFactory {
     {type: FIGWidgetType.window, build: (id: number) => new FIGWindowWidget(`Window ${id}`)},
     {type: FIGWidgetType.text, build: (id: number) => new FIGTextWidget(`Text ${id}`)},
     {type: FIGWidgetType.button, build: (id: number) => new FIGButtonWidget(`Button ${id}`)},
+    {type: FIGWidgetType.separator, build: (id: number) => new FIGSeparatorWidget()},
   ];
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
