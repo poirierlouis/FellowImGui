@@ -48,11 +48,11 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
     if (!this.widget) {
       return;
     }
-    this.form.get('groupId')!.setValue(this.widget.groupId, {emitEvent: false});
-    this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
-    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
-    this.form.get('index')!.setValue(this.widget.index, {emitEvent: false});
-    this.form.get('isSelected')!.setValue(this.widget.value == this.widget.index, {emitEvent: false});
+    this.setProperty('groupId', this.widget.groupId);
+    this.setProperty('text', this.widget.text);
+    this.setProperty('tooltip', this.widget.tooltip ?? null);
+    this.setProperty('index', this.widget.index);
+    this.setProperty('isSelected', this.widget.value == this.widget.index);
   }
 
   private onGroupIDChanged(value: string): void {

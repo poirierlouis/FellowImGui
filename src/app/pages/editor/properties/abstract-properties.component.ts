@@ -36,6 +36,10 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
     );
   }
 
+  protected setProperty(property: string, value: any): void {
+    this.form.get(property)!.setValue(value, {emitEvent: false});
+  }
+
   protected load(): void {
     if (!this.widget) {
       return;

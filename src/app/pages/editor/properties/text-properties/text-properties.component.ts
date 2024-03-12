@@ -66,13 +66,13 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     if (!this.widget) {
       return;
     }
-    this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
-    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
+    this.setProperty('text', this.widget.text);
+    this.setProperty('tooltip', this.widget.tooltip ?? null);
     if (this.widget.color) {
-      this.form.get('color')!.setValue(stringifyRGBA(this.widget.color), {emitEvent: false});
+      this.setProperty('color', stringifyRGBA(this.widget.color));
     }
-    this.form.get('isDisabled')!.setValue(this.widget.isDisabled, {emitEvent: false});
-    this.form.get('hasBullet')!.setValue(this.widget.hasBullet, {emitEvent: false});
+    this.setProperty('isDisabled', this.widget.isDisabled);
+    this.setProperty('hasBullet', this.widget.hasBullet);
   }
 
   private onTextChanged(value: string): void {

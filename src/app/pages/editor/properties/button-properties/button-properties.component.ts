@@ -40,8 +40,8 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     if (!this.widget) {
       return;
     }
-    this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
-    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
+    this.setProperty('text', this.widget.text);
+    this.setProperty('tooltip', this.widget.tooltip ?? null);
   }
 
   private onTextChanged(value: string): void {

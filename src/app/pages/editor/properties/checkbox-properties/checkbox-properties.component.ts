@@ -44,9 +44,9 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
     if (!this.widget) {
       return;
     }
-    this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
-    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
-    this.form.get('isChecked')!.setValue(this.widget.isChecked, {emitEvent: false});
+    this.setProperty('text', this.widget.text);
+    this.setProperty('tooltip', this.widget.tooltip ?? null);
+    this.setProperty('isChecked', this.widget.isChecked);
   }
 
   private onTextChanged(value: string): void {

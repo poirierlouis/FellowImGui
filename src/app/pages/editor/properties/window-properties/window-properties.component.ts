@@ -42,9 +42,9 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     if (!this.widget) {
       return;
     }
-    this.form.get('title')!.setValue(this.widget.title, {emitEvent: false});
-    this.form.get('width')!.setValue(this.widget.size.width, {emitEvent: false});
-    this.form.get('height')!.setValue(this.widget.size.height, {emitEvent: false});
+    this.setProperty('title', this.widget.title);
+    this.setProperty('width', this.widget.size.width);
+    this.setProperty('height', this.widget.size.height);
   }
 
   private onTitleChanged(value: string): void {
