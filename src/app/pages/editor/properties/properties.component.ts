@@ -5,12 +5,14 @@ import {WindowPropertiesComponent} from "./window-properties/window-properties.c
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {CheckboxPropertiesComponent} from "./checkbox-properties/checkbox-properties.component";
 import {SeparatorPropertiesComponent} from "./separator-properties/separator-properties.component";
+import {RadioPropertiesComponent} from "./radio-properties/radio-properties.component";
 
 @Component({
   selector: 'fig-properties',
   standalone: true,
   imports: [
     TextPropertiesComponent,
+    RadioPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     CheckboxPropertiesComponent,

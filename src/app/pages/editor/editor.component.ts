@@ -20,6 +20,7 @@ import {NgTemplateOutlet} from "@angular/common";
 import {FIGSeparatorWidget} from "../../models/widgets/separator.widget";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
+import {FIGRadioWidget} from "../../models/widgets/radio.widget";
 
 interface WidgetBuilder {
   readonly icon: string;
@@ -58,6 +59,7 @@ export class EditorComponent {
     {icon: 'text', title: 'Text', type: 'text'},
     {icon: 'button', title: 'Button', type: 'button'},
     {icon: 'checkbox', title: 'Checkbox', type: 'checkbox'},
+    {icon: 'radio', title: 'Radio', type: 'radio'},
     {icon: 'separator', title: 'Separator', type: 'separator'},
   ];
 
@@ -71,6 +73,9 @@ export class EditorComponent {
     this.document.root[0].children.push(new FIGTextWidget('World'));
     this.document.root[0].children.push(new FIGCheckboxWidget('Toggle me'));
     this.document.root[0].children.push(new FIGButtonWidget('Click me'));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio A', 0));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', 1));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', 2));
     this.document.root[1].children.push(new FIGTextWidget('Bonjour'));
     this.document.root[1].children.push(new FIGSeparatorWidget());
     this.document.root[1].children.push(new FIGTextWidget('Monde'));
