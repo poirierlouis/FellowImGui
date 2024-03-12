@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {FIGWindowWidget} from "../../../../models/widgets/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -36,13 +36,6 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     this.listenProperty('title').subscribe(this.onTitleChanged.bind(this));
     this.listenProperty('width').subscribe(this.onWidthChanged.bind(this));
     this.listenProperty('height').subscribe(this.onHeightChanged.bind(this));
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGWindowWidget;
-    this.load();
   }
 
   protected override updateForm(): void {

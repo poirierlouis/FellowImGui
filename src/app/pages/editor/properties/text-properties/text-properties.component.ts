@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -47,13 +47,6 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     this.listenProperty('color').subscribe(this.onColorChanged.bind(this));
     this.listenProperty('isDisabled').subscribe(this.onIsDisabledChanged.bind(this));
     this.listenProperty('hasBullet').subscribe(this.onHasBulletChanged.bind(this));
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGTextWidget;
-    this.load();
   }
 
   protected onColorPickerOpened(): void {

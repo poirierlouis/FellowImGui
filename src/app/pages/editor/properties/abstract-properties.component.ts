@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnDestroy} from "@angular/core";
+import {Component, DestroyRef, Input, OnDestroy} from "@angular/core";
 import {FIGWidget} from "../../../models/widgets/widget";
 import {debounceTime, Observable, Subscription} from "rxjs";
 import {FormGroup} from "@angular/forms";
@@ -16,6 +16,13 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
   private updateS?: Subscription;
 
   protected constructor(protected readonly dr: DestroyRef) {
+  }
+
+  @Input('widget')
+  set _widget(value: FIGWidget) {
+    this.dispose();
+    this.widget = value as T;
+    this.load();
   }
 
   public ngOnDestroy(): void {

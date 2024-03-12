@@ -1,7 +1,6 @@
-import {Component, DestroyRef, Input} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGSeparatorWidget} from "../../../../models/widgets/separator.widget";
 
 @Component({
@@ -17,13 +16,6 @@ export class SeparatorPropertiesComponent extends AbstractPropertiesComponent<FI
 
   constructor(dr: DestroyRef) {
     super(dr);
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGSeparatorWidget;
-    this.load();
   }
 
   protected updateForm(): void {

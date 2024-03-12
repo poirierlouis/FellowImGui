@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
@@ -40,13 +40,6 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
     this.listenProperty('groupId').subscribe(this.onGroupIDChanged.bind(this));
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
     this.listenProperty('index').subscribe(this.onIndexChanged.bind(this));
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGRadioWidget;
-    this.load();
   }
 
   protected override updateForm(): void {

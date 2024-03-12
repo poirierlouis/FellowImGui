@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -36,13 +36,6 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
     this.listenProperty('isChecked').subscribe(this.onIsCheckedChanged.bind(this));
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGCheckboxWidget;
-    this.load();
   }
 
   protected override updateForm(): void {

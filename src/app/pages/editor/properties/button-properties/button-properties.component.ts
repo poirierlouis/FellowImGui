@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -32,13 +32,6 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
-  }
-
-  @Input('widget')
-  set _widget(value: FIGWidget) {
-    this.dispose();
-    this.widget = value as FIGButtonWidget;
-    this.load();
   }
 
   protected override updateForm() {
