@@ -30,6 +30,9 @@ export class FIGWindowWidget extends FIGContainer {
   }
 
   private listenSize(): void {
+    if (ImGui.IsWindowCollapsed()) {
+      return;
+    }
     const size = ImGui.GetWindowSize();
 
     if (this.size.width === size.x && this.size.height === size.y) {
