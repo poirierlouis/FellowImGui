@@ -8,6 +8,7 @@ export enum FIGWidgetType {
   text,
   button,
   checkbox,
+  radio,
   separator
 }
 
@@ -50,6 +51,10 @@ export abstract class FIGWidget {
       max.y += this._focusOffset.y;
       drawList.AddRect(min, max, ImGui.COL32(255, 255, 0, 255));
     }
+  }
+
+  public dispose(): void {
+
   }
 
   public trackBy(): any {

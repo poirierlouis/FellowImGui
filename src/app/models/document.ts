@@ -125,8 +125,10 @@ export class FIGDocument {
 
       if (container.uuid === widget.uuid) {
         this.root.splice(i, 1);
+        widget.dispose();
         return true;
       } else if (container.remove(widget)) {
+        widget.dispose();
         return true;
       }
     }
