@@ -1,6 +1,6 @@
 import {Component, DestroyRef, Input, OnDestroy} from "@angular/core";
 import {FIGWidget} from "../../../models/widgets/widget";
-import {debounceTime, Observable, Subscription} from "rxjs";
+import {debounceTime, map, Observable, Subscription} from "rxjs";
 import {FormGroup} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
@@ -29,9 +29,9 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
     this.dispose();
   }
 
-  protected listenProperty(property: string): Observable<any> {
+  protected listenProperty(property: string, debounce?: number): Observable<any> {
     return this.form.get(property)!.valueChanges.pipe(
-      debounceTime(300),
+      (debounce) ? debounceTime(debounce) : map((_) => _),
       takeUntilDestroyed(this.dr)
     );
   }

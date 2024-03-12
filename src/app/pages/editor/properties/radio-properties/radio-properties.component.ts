@@ -38,10 +38,10 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('groupId').subscribe(this.onGroupIDChanged.bind(this));
+    this.listenProperty('groupId', 300).subscribe(this.onGroupIDChanged.bind(this));
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
-    this.listenProperty('index').subscribe(this.onIndexChanged.bind(this));
+    this.listenProperty('index', 200).subscribe(this.onIndexChanged.bind(this));
   }
 
   protected override updateForm(): void {
