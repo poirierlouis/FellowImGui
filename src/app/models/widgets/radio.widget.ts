@@ -35,7 +35,6 @@ export class FIGRadioAccessor {
       return false;
     }
     this.subjects.splice(index, 1);
-    console.log('forget-subject:', this.groupId);
     return this.subjects.length === 0;
   }
 }
