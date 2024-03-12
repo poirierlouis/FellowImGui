@@ -30,11 +30,13 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
   override form: FormGroup = new FormGroup<any>({
     text: new FormControl<string>(''),
     isChecked: new FormControl<boolean>(false),
+    tooltip: new FormControl<string | null>(null),
   });
 
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('isChecked').subscribe(this.onIsCheckedChanged.bind(this));
   }
 
@@ -43,11 +45,20 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
       return;
     }
     this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
+    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
     this.form.get('isChecked')!.setValue(this.widget.isChecked, {emitEvent: false});
   }
 
   private onTextChanged(value: string): void {
     this.widget!.text = value;
+    this.update.emit();
+  }
+
+  private onTooltipChanged(value: string | null): void {
+    if (value && value.trim().length === 0) {
+      value = null;
+    }
+    this.widget!.tooltip = value ?? undefined;
     this.update.emit();
   }
 

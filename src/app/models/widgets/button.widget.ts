@@ -1,11 +1,13 @@
-import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGWidgetType} from "./widget";
+import {FIGWithTooltip} from "./with-tooltip.widget";
 
-export class FIGButtonWidget extends FIGWidget {
+export class FIGButtonWidget extends FIGWithTooltip {
   text: string;
 
-  constructor(text: string = 'Button') {
+  constructor(text: string = 'Button', tooltip?: string) {
     super(FIGWidgetType.button, true, 'button');
     this.text = text;
+    this.tooltip = tooltip;
   }
 
   public get name(): string {

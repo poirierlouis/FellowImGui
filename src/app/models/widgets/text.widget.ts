@@ -1,15 +1,17 @@
-import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGWidgetType} from "./widget";
 import {Color} from "../math";
+import {FIGWithTooltip} from "./with-tooltip.widget";
 
-export class FIGTextWidget extends FIGWidget {
+export class FIGTextWidget extends FIGWithTooltip {
   text: string;
   color?: Color;
   isDisabled: boolean = false;
   hasBullet: boolean = false;
 
-  constructor(text: string = 'Text') {
+  constructor(text: string = 'Text', tooltip?: string) {
     super(FIGWidgetType.text, true, 'text');
     this.text = text;
+    this.tooltip = tooltip;
   }
 
   public get name(): string {

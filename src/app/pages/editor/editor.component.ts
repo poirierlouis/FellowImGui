@@ -73,9 +73,9 @@ export class EditorComponent {
     this.document.root[0].children.push(new FIGTextWidget('World'));
     this.document.root[0].children.push(new FIGCheckboxWidget('Toggle me'));
     this.document.root[0].children.push(new FIGButtonWidget('Click me'));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio A', 0));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', 1));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', 2));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio A', undefined, 0));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', undefined, 1));
+    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', undefined, 2));
     this.document.root[1].children.push(new FIGTextWidget('Bonjour'));
     this.document.root[1].children.push(new FIGSeparatorWidget());
     this.document.root[1].children.push(new FIGTextWidget('Monde'));

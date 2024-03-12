@@ -1,13 +1,15 @@
-import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGWidgetType} from "./widget";
+import {FIGWithTooltip} from "./with-tooltip.widget";
 
-export class FIGCheckboxWidget extends FIGWidget {
+export class FIGCheckboxWidget extends FIGWithTooltip {
   text: string;
 
   isChecked: boolean = false;
 
-  constructor(text: string = 'Checkbox') {
+  constructor(text: string = 'Checkbox', tooltip?: string) {
     super(FIGWidgetType.checkbox, true, 'checkbox');
     this.text = text;
+    this.tooltip = tooltip;
   }
 
   public get name(): string {

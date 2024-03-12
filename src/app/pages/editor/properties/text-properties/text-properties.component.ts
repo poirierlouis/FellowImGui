@@ -36,6 +36,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
 
   override form: FormGroup = new FormGroup<any>({
     text: new FormControl<string>(''),
+    tooltip: new FormControl<string | null>(null),
     color: new FormControl<string>(''),
     isDisabled: new FormControl<boolean>(false),
     hasBullet: new FormControl<boolean>(false),
@@ -44,6 +45,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('color').subscribe(this.onColorChanged.bind(this));
     this.listenProperty('isDisabled').subscribe(this.onIsDisabledChanged.bind(this));
     this.listenProperty('hasBullet').subscribe(this.onHasBulletChanged.bind(this));
@@ -65,6 +67,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
       return;
     }
     this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
+    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
     if (this.widget.color) {
       this.form.get('color')!.setValue(stringifyRGBA(this.widget.color), {emitEvent: false});
     }
@@ -74,6 +77,14 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
 
   private onTextChanged(value: string): void {
     this.widget!.text = value;
+    this.update.emit();
+  }
+
+  private onTooltipChanged(value: string | null): void {
+    if (value && value.trim().length === 0) {
+      value = null;
+    }
+    this.widget!.tooltip = value ?? undefined;
     this.update.emit();
   }
 

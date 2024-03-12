@@ -27,11 +27,13 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
 
   override form: FormGroup = new FormGroup<any>({
     text: new FormControl<string>(''),
+    tooltip: new FormControl<string | null>(null),
   });
 
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
   }
 
   protected override updateForm() {
@@ -39,10 +41,19 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
       return;
     }
     this.form.get('text')!.setValue(this.widget.text, {emitEvent: false});
+    this.form.get('tooltip')!.setValue(this.widget.tooltip ?? null, {emitEvent: false});
   }
 
   private onTextChanged(value: string): void {
     this.widget!.text = value;
+    this.update.emit();
+  }
+
+  private onTooltipChanged(value: string | null): void {
+    if (value && value.trim().length === 0) {
+      value = null;
+    }
+    this.widget!.tooltip = value ?? undefined;
     this.update.emit();
   }
 

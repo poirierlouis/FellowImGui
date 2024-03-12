@@ -1,5 +1,6 @@
-import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGWidgetType} from "./widget";
 import {BehaviorSubject} from "rxjs";
+import {FIGWithTooltip} from "./with-tooltip.widget";
 
 export class FIGRadioAccessor {
   readonly groupId: string;
@@ -39,7 +40,7 @@ export class FIGRadioAccessor {
   }
 }
 
-export class FIGRadioWidget extends FIGWidget {
+export class FIGRadioWidget extends FIGWithTooltip {
   private static readonly _accessors: FIGRadioAccessor[] = [];
 
   groupId: string;
@@ -48,10 +49,11 @@ export class FIGRadioWidget extends FIGWidget {
 
   private _access?: FIGRadioAccessor;
 
-  constructor(groupId: string = 'Radio', text: string = 'Radio', index: number = 0) {
+  constructor(groupId: string = 'Radio', text: string = 'Radio', tooltip?: string, index: number = 0) {
     super(FIGWidgetType.radio, true, 'radio');
     this.groupId = groupId;
     this.text = text;
+    this.tooltip = tooltip;
     this.index = index;
   }
 
