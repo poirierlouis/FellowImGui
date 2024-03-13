@@ -18,7 +18,7 @@ import {DismissibleDirective} from "../../../directives/dismissible.directive";
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
-import {WidgetFactory} from "../../../models/widgets/widget.factory";
+import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 
 interface FlatNode {
   expandable: boolean;
@@ -122,7 +122,7 @@ export class TreeComponent {
 
   protected createWidget(event: CdkDragDrop<FIGWidgetType>): void {
     const type: FIGWidgetType = event.item.data;
-    const dragWidget: FIGWidget | undefined = WidgetFactory.createWidget(type);
+    const dragWidget: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
     const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
 
     if (!dragWidget) {

@@ -7,15 +7,15 @@ import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
 import {FIGLabelWidget} from "./label.widget";
 
-export interface WidgetBuilder {
+export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
   readonly title: string;
   readonly build: (id: number) => FIGWidget;
 }
 
-export class WidgetFactory {
+export class FIGWidgetFactory {
 
-  public static readonly builders: WidgetBuilder[] = [
+  public static readonly builders: FIGWidgetBuilder[] = [
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget(`Window ${id}`)},
     {type: FIGWidgetType.text, title: 'Text', build: (id: number) => new FIGTextWidget(`Text ${id}`)},
     {type: FIGWidgetType.button, title: 'Button', build: (id: number) => new FIGButtonWidget(`Button ${id}`)},
@@ -28,17 +28,17 @@ export class WidgetFactory {
     },
     {type: FIGWidgetType.separator, title: 'Separator', build: (id: number) => new FIGSeparatorWidget()},
   ];
-  public static readonly icons: string[] = WidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);
+  public static readonly icons: string[] = FIGWidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);
 
   private static id: number = 0;
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
-    const builder: WidgetBuilder | undefined = this.builders.find((item) => item.type === type);
+    const builder: FIGWidgetBuilder | undefined = this.builders.find((item) => item.type === type);
 
     if (!builder) {
       return undefined;
     }
-    return builder.build(++WidgetFactory.id);
+    return builder.build(++FIGWidgetFactory.id);
   }
 
 }

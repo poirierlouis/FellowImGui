@@ -23,9 +23,9 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../../models/widgets/radio.widget";
 import {FIGLabelWidget} from "../../models/widgets/label.widget";
-import {WidgetBuilder, WidgetFactory} from "../../models/widgets/widget.factory";
+import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 
-interface WidgetItemBuilder extends WidgetBuilder {
+interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
 }
 
@@ -55,7 +55,7 @@ export class EditorComponent {
   document: FIGDocument;
   selectedWidget?: FIGWidget;
 
-  protected readonly builders: WidgetItemBuilder[] = WidgetFactory.builders;
+  protected readonly builders: FIGWidgetItemBuilder[] = FIGWidgetFactory.builders;
   protected readonly FIGWidgetType = FIGWidgetType;
 
   constructor() {
@@ -114,7 +114,7 @@ export class EditorComponent {
       return;
     }
     const index: number = this.builders.findIndex((builder) => builder.type === type)!;
-    const builder: WidgetBuilder = this.builders[index];
+    const builder: FIGWidgetBuilder = this.builders[index];
 
     this.builders.splice(index, 0, {
       ...builder,
