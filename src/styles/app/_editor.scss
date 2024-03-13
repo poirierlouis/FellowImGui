@@ -7,8 +7,13 @@
   .fig-widget-preview {
     @include mat.elevation(8);
 
+    position: relative;
+    top: -24px;
+    left: -24px;
+
     &.create.child {
       width: 320px!important;
+      left: -64px;
 
       padding-left: 40px;
     }
