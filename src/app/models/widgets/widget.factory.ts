@@ -18,14 +18,14 @@ export class FIGWidgetFactory {
 
   public static readonly builders: FIGWidgetBuilder[] = [
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget(`Window ${id}`)},
-    {type: FIGWidgetType.text, title: 'Text', build: (id: number) => new FIGTextWidget(`Text ${id}`)},
-    {type: FIGWidgetType.button, title: 'Button', build: (id: number) => new FIGButtonWidget(`Button ${id}`)},
+    {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget('Text')},
+    {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget('Button')},
     {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
     {
       type: FIGWidgetType.label,
       title: 'Label',
-      build: (id: number) => new FIGLabelWidget(`Label ${id}`, `Value ${id}`)
+      build: () => new FIGLabelWidget('Label', 'Value')
     },
     {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget(`Combo ${id}`)},
     {type: FIGWidgetType.separator, title: 'Separator', build: (id: number) => new FIGSeparatorWidget()},
