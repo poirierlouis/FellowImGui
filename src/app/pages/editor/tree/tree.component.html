@@ -17,7 +17,7 @@
                  cdkDrag
                  cdkDragLockAxis="y"
                  cdkDragPreviewContainer="parent"
-                 cdkDragPreviewClass="fig-widget-preview"
+                 [cdkDragPreviewClass]="['fig-widget-preview', 'move', 'child']"
                  [cdkDragData]="node.widget"
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"
@@ -39,7 +39,7 @@
                  cdkDrag
                  cdkDragLockAxis="y"
                  cdkDragPreviewContainer="parent"
-                 cdkDragPreviewClass="fig-widget-preview"
+                 [cdkDragPreviewClass]="['fig-widget-preview', 'move']"
                  [cdkDragData]="node.widget"
                  figDismissible
                  [figDismissibleBackground]="dismissibleBackground"

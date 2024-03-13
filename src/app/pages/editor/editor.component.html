@@ -4,9 +4,24 @@
      (cdkDropListEntered)="onDropEntered($event)"
      (cdkDropListExited)="onDropExited($event)"
      cdkDropListConnectedTo="fig-tree-drop">
-  <!-- Widget's preview/placeholder -->
+  <!-- Widget's preview -->
   <ng-template #preview let-widget>
-    <div class="fig-widget-preview">
+    <div class="fig-widget-preview create"
+         [class.child]="widget.type !== 'window'">
+      <div class="content">
+        <mat-icon [svgIcon]="widget.icon"></mat-icon>
+
+        {{ widget.title }}
+      </div>
+
+      <mat-icon>drag_handle</mat-icon>
+    </div>
+  </ng-template>
+
+  <!-- Widget's placeholder -->
+  <ng-template #placeholder let-widget>
+    <div class="fig-widget-placeholder create"
+         [class.child]="widget.type !== 'window'">
       <div class="content">
         <mat-icon [svgIcon]="widget.icon"></mat-icon>
 
@@ -23,7 +38,7 @@
               cdkDrag
               [cdkDragData]="builder.type">
       <ng-container *cdkDragPlaceholder>
-        <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
+        <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
       </ng-container>
 
       <ng-container *cdkDragPreview>

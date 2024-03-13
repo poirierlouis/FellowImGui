@@ -5,7 +5,27 @@
   $bg: mat.get-theme-color($theme, background, background);
 
   .fig-widget-preview {
+    @include mat.elevation(8);
+
+    &.create.child {
+      width: 320px!important;
+
+      padding-left: 40px;
+    }
+
+    &.move.child {
+      width: 320px!important;
+    }
+
     background-color: $bg;
+  }
+
+  .fig-widget-placeholder {
+    background-color: $bg;
+
+    &.create.child {
+      padding-left: 40px;
+    }
   }
 }
 
@@ -13,6 +33,10 @@
   $bg: mat.get-theme-color($theme, background, background);
 
   .fig-widget-preview {
+    background-color: $bg;
+  }
+
+  .fig-widget-placeholder {
     background-color: $bg;
   }
 }

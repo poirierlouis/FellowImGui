@@ -21,7 +21,8 @@
   }
 }
 
-.fig-widget-preview {
+.fig-widget-preview,
+.fig-widget-placeholder {
   display: flex;
   justify-content: space-between;
   align-items: center;
