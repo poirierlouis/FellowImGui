@@ -120,8 +120,8 @@ export class TreeComponent {
     }
   }
 
-  protected createWidget(event: CdkDragDrop<string>): void {
-    const type: FIGWidgetType = FIGWidgetType[event.item.data as keyof typeof FIGWidgetType];
+  protected createWidget(event: CdkDragDrop<FIGWidgetType>): void {
+    const type: FIGWidgetType = event.item.data;
     const dragWidget: FIGWidget | undefined = WidgetFactory.createWidget(type);
     const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
 

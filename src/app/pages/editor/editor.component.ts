@@ -6,7 +6,7 @@ import {FIGTextWidget} from "../../models/widgets/text.widget";
 import {FIGButtonWidget} from "../../models/widgets/button.widget";
 import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
-import {FIGWidget} from "../../models/widgets/widget";
+import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
 import {MatIcon} from "@angular/material/icon";
 import {
   CdkDrag,
@@ -23,12 +23,9 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../../models/widgets/radio.widget";
 import {FIGLabelWidget} from "../../models/widgets/label.widget";
+import {WidgetBuilder, WidgetFactory} from "../../models/widgets/widget.factory";
 
-interface WidgetBuilder {
-  readonly icon: string;
-  readonly title: string;
-  readonly type: string;
-
+interface WidgetItemBuilder extends WidgetBuilder {
   cloneTemporarily?: true;
 }
 
@@ -58,15 +55,8 @@ export class EditorComponent {
   document: FIGDocument;
   selectedWidget?: FIGWidget;
 
-  protected readonly widgetBuilders: WidgetBuilder[] = [
-    {icon: 'window', title: 'Window', type: 'window'},
-    {icon: 'text', title: 'Text', type: 'text'},
-    {icon: 'button', title: 'Button', type: 'button'},
-    {icon: 'checkbox', title: 'Checkbox', type: 'checkbox'},
-    {icon: 'radio', title: 'Radio', type: 'radio'},
-    {icon: 'label', title: 'Label', type: 'label'},
-    {icon: 'separator', title: 'Separator', type: 'separator'},
-  ];
+  protected readonly builders: WidgetItemBuilder[] = WidgetFactory.builders;
+  protected readonly FIGWidgetType = FIGWidgetType;
 
   constructor() {
     this.document = new FIGDocument();
@@ -108,25 +98,25 @@ export class EditorComponent {
   }
 
   protected onDragEnded(): void {
-    const index: number = this.widgetBuilders.findIndex((builder) => builder.cloneTemporarily);
+    const index: number = this.builders.findIndex((builder) => builder.cloneTemporarily);
 
     if (index === -1) {
       return;
     }
-    this.widgetBuilders.splice(index, 1);
+    this.builders.splice(index, 1);
   }
 
   protected onDragExited(event: CdkDragExit): void {
-    const type: string = event.item.data;
-    const hasClone: number = this.widgetBuilders.findIndex((builder) => builder.cloneTemporarily);
+    const type: FIGWidgetType = event.item.data;
+    const hasClone: number = this.builders.findIndex((builder) => builder.cloneTemporarily);
 
     if (hasClone !== -1) {
       return;
     }
-    const index: number = this.widgetBuilders.findIndex((builder) => builder.type === type)!;
-    const builder: WidgetBuilder = this.widgetBuilders[index];
+    const index: number = this.builders.findIndex((builder) => builder.type === type)!;
+    const builder: WidgetBuilder = this.builders[index];
 
-    this.widgetBuilders.splice(index, 0, {
+    this.builders.splice(index, 0, {
       ...builder,
       cloneTemporarily: true
     });
@@ -139,4 +129,5 @@ export class EditorComponent {
   protected updateWidget(widget: FIGWidget): void {
     this.tree.update();
   }
+
 }

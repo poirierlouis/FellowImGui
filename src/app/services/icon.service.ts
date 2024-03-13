@@ -1,13 +1,14 @@
 import {Injectable} from "@angular/core";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material/icon";
+import {WidgetFactory} from "../models/widgets/widget.factory";
 
 @Injectable({
   providedIn: 'root'
 })
 export class IconService {
 
-  private readonly widgets: string[] = ['window', 'text', 'button', 'checkbox', 'radio', 'label', 'separator'];
+  private readonly widgets: string[] = WidgetFactory.icons;
 
   constructor(private readonly sanitizer: DomSanitizer,
               private readonly iconRegistry: MatIconRegistry) {

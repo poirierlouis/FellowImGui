@@ -2,39 +2,37 @@
      class="widget-bar"
      cdkDropList
      cdkDropListConnectedTo="fig-tree-drop"
-     [cdkDropListData]="widgetBuilders"
+     [cdkDropListData]="builders"
      (cdkDropListEntered)="onDropEntered($event)"
      (cdkDropListExited)="onDropExited($event)">
-  <!-- Widget's preview -->
-  <ng-template #preview let-widget>
+  <ng-template #preview let-builder>
     <div class="fig-widget-preview create"
-         [class.child]="widget.type !== 'window'">
+         [class.child]="builder.type !== FIGWidgetType.window">
       <div class="content">
-        <mat-icon [svgIcon]="widget.icon"></mat-icon>
+        <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
 
-        {{ widget.title }}
+        {{ builder.title }}
       </div>
 
       <mat-icon>drag_handle</mat-icon>
     </div>
   </ng-template>
 
-  <!-- Widget's placeholder -->
-  <ng-template #placeholder let-widget>
+  <ng-template #placeholder let-builder>
     <div class="fig-widget-placeholder create"
-         [class.child]="widget.type !== 'window'">
+         [class.child]="builder.type !== FIGWidgetType.window">
       <div class="content">
-        <mat-icon [svgIcon]="widget.icon"></mat-icon>
+        <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
 
-        {{ widget.title }}
+        {{ builder.title }}
       </div>
 
       <mat-icon>drag_handle</mat-icon>
     </div>
   </ng-template>
 
-  @for (builder of widgetBuilders; track builder.type) {
-    <mat-icon [svgIcon]="builder.icon"
+  @for (builder of builders; track builder.type) {
+    <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
               [matTooltip]="builder.title"
               cdkDrag
               [cdkDragData]="builder.type"
