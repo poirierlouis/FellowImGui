@@ -29,6 +29,11 @@
                           [widget]="widget!"
                           (update)="update.emit($event)"></fig-label-properties>
   }
+  @case (FIGWidgetType.combo) {
+    <fig-combo-properties class="properties"
+                          [widget]="widget!"
+                          (update)="update.emit($event)"></fig-combo-properties>
+  }
   @case (FIGWidgetType.separator) {
     <fig-separator-properties class="properties"
                               [widget]="widget!"></fig-separator-properties>

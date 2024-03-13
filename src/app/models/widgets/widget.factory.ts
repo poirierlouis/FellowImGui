@@ -6,6 +6,7 @@ import {FIGSeparatorWidget} from "./separator.widget";
 import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
 import {FIGLabelWidget} from "./label.widget";
+import {FIGComboWidget} from "./combo.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -26,6 +27,7 @@ export class FIGWidgetFactory {
       title: 'Label',
       build: (id: number) => new FIGLabelWidget(`Label ${id}`, `Value ${id}`)
     },
+    {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget(`Combo ${id}`)},
     {type: FIGWidgetType.separator, title: 'Separator', build: (id: number) => new FIGSeparatorWidget()},
   ];
   public static readonly icons: string[] = FIGWidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);

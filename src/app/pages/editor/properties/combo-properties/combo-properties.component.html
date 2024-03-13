@@ -1,0 +1,27 @@
+<div class="header">
+  <mat-icon svgIcon="combo"></mat-icon>
+  Combo
+</div>
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input matInput
+           type="text"
+           formControlName="label" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tooltip</mat-label>
+    <input matInput
+           type="text"
+           formControlName="tooltip" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>List of items (newline)</mat-label>
+    <textarea matInput
+              formControlName="items"
+              cdkTextareaAutosize></textarea>
+  </mat-form-field>
+</form>

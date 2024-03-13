@@ -10,6 +10,7 @@ export enum FIGWidgetType {
   checkbox,
   radio,
   label,
+  combo,
   separator
 }
 

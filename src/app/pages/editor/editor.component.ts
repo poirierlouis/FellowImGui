@@ -24,6 +24,7 @@ import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../../models/widgets/radio.widget";
 import {FIGLabelWidget} from "../../models/widgets/label.widget";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
+import {FIGComboWidget} from "../../models/widgets/combo.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -70,6 +71,9 @@ export class EditorComponent {
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', undefined, 1));
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', undefined, 2));
     this.document.root[0].children.push(new FIGLabelWidget());
+    this.document.root[0].children.push(new FIGComboWidget('Combo NATO', [
+      'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'
+    ]));
     this.document.link();
   }
 
