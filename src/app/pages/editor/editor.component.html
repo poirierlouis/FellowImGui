@@ -32,6 +32,9 @@
   </ng-template>
 
   @for (builder of builders; track builder.type) {
+    @if (showCategorySeparator(builder)) {
+      <mat-divider vertical></mat-divider>
+    }
     <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
               [matTooltip]="builder.title"
               cdkDrag

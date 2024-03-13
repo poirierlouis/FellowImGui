@@ -25,9 +25,15 @@ import {FIGRadioWidget} from "../../models/widgets/radio.widget";
 import {FIGLabelWidget} from "../../models/widgets/label.widget";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {FIGComboWidget} from "../../models/widgets/combo.widget";
+import {MatDivider} from "@angular/material/divider";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
+}
+
+interface FIGWidgetCategory {
+  readonly start: FIGWidgetType;
+  readonly title: string;
 }
 
 @Component({
@@ -44,6 +50,7 @@ interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
     TreeComponent,
     CanvasComponent,
     PropertiesComponent,
+    MatDivider,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
@@ -57,6 +64,10 @@ export class EditorComponent {
   selectedWidget?: FIGWidget;
 
   protected readonly builders: FIGWidgetItemBuilder[] = FIGWidgetFactory.builders;
+  protected readonly categories: FIGWidgetCategory[] = [
+    {start: FIGWidgetType.text, title: 'Basics'},
+    {start: FIGWidgetType.label, title: 'Forms / Inputs'},
+  ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
   constructor() {
@@ -75,6 +86,10 @@ export class EditorComponent {
       'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'
     ]));
     this.document.link();
+  }
+
+  protected showCategorySeparator(builder: FIGWidgetItemBuilder): boolean {
+    return !!this.categories.find((category) => category.start === builder.type);
   }
 
   protected onDropEntered(event: CdkDragEnter): void {

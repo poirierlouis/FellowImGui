@@ -17,18 +17,23 @@ export interface FIGWidgetBuilder {
 export class FIGWidgetFactory {
 
   public static readonly builders: FIGWidgetBuilder[] = [
+    // Layouts
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget(`Window ${id}`)},
+    {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
+
+    // Basics
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget('Text')},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget('Button')},
-    {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
-    {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
+
+    // Forms / Inputs
     {
       type: FIGWidgetType.label,
       title: 'Label',
       build: () => new FIGLabelWidget('Label', 'Value')
     },
+    {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
+    {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
     {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget(`Combo ${id}`)},
-    {type: FIGWidgetType.separator, title: 'Separator', build: (id: number) => new FIGSeparatorWidget()},
   ];
   public static readonly icons: string[] = FIGWidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);
 
