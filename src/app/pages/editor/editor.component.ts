@@ -14,6 +14,7 @@ import {
   CdkDragExit,
   CdkDragPlaceholder,
   CdkDragPreview,
+  CdkDragStart,
   CdkDropList
 } from "@angular/cdk/drag-drop";
 import {NgTemplateOutlet} from "@angular/common";
@@ -26,6 +27,8 @@ interface WidgetBuilder {
   readonly icon: string;
   readonly title: string;
   readonly type: string;
+
+  cloneTemporarily?: true;
 }
 
 @Component({
@@ -103,6 +106,39 @@ export class EditorComponent {
     }
   }
 
+  protected onDragStart(event: CdkDragStart): void {
+    const $placeholder: HTMLElement = event.source.getPlaceholderElement();
+
+    if (event.source.dropContainer.id === 'fig-tree-factory') {
+      $placeholder.style.display = 'none';
+    }
+  }
+
+  protected onDragEnded(): void {
+    const index: number = this.widgetBuilders.findIndex((builder) => builder.cloneTemporarily);
+
+    if (index === -1) {
+      return;
+    }
+    this.widgetBuilders.splice(index, 1);
+  }
+
+  protected onDragExited(event: CdkDragExit): void {
+    const type: string = event.item.data;
+    const hasClone: number = this.widgetBuilders.findIndex((builder) => builder.cloneTemporarily);
+
+    if (hasClone !== -1) {
+      return;
+    }
+    const index: number = this.widgetBuilders.findIndex((builder) => builder.type === type)!;
+    const builder: WidgetBuilder = this.widgetBuilders[index];
+
+    this.widgetBuilders.splice(index, 0, {
+      ...builder,
+      cloneTemporarily: true
+    });
+  }
+
   protected selectWidget(widget?: FIGWidget): void {
     this.selectedWidget = widget;
   }
@@ -110,5 +146,4 @@ export class EditorComponent {
   protected updateWidget(widget: FIGWidget): void {
     this.tree.update();
   }
-
 }

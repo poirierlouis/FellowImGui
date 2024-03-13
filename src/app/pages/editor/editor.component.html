@@ -1,9 +1,10 @@
 <div id="fig-tree-factory"
      class="widget-bar"
      cdkDropList
+     cdkDropListConnectedTo="fig-tree-drop"
+     [cdkDropListData]="widgetBuilders"
      (cdkDropListEntered)="onDropEntered($event)"
-     (cdkDropListExited)="onDropExited($event)"
-     cdkDropListConnectedTo="fig-tree-drop">
+     (cdkDropListExited)="onDropExited($event)">
   <!-- Widget's preview -->
   <ng-template #preview let-widget>
     <div class="fig-widget-preview create"
@@ -36,7 +37,10 @@
     <mat-icon [svgIcon]="builder.icon"
               [matTooltip]="builder.title"
               cdkDrag
-              [cdkDragData]="builder.type">
+              [cdkDragData]="builder.type"
+              (cdkDragStarted)="onDragStart($event)"
+              (cdkDragEnded)="onDragEnded()"
+              (cdkDragExited)="onDragExited($event)">
       <ng-container *cdkDragPlaceholder>
         <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
       </ng-container>
