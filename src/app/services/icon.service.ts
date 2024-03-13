@@ -7,7 +7,7 @@ import {MatIconRegistry} from "@angular/material/icon";
 })
 export class IconService {
 
-  private readonly widgets: string[] = ['window', 'text', 'button', 'checkbox', 'radio', 'separator'];
+  private readonly widgets: string[] = ['window', 'text', 'button', 'checkbox', 'radio', 'label', 'separator'];
 
   constructor(private readonly sanitizer: DomSanitizer,
               private readonly iconRegistry: MatIconRegistry) {

@@ -5,6 +5,7 @@ import {FIGButtonWidget} from "./button.widget";
 import {FIGSeparatorWidget} from "./separator.widget";
 import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
+import {FIGLabelWidget} from "./label.widget";
 
 interface WidgetBuilder {
   readonly type: FIGWidgetType;
@@ -21,6 +22,7 @@ export class WidgetFactory {
     {type: FIGWidgetType.button, build: (id: number) => new FIGButtonWidget(`Button ${id}`)},
     {type: FIGWidgetType.checkbox, build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
     {type: FIGWidgetType.radio, build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
+    {type: FIGWidgetType.label, build: (id: number) => new FIGLabelWidget(`Label ${id}`, `Value ${id}`)},
     {type: FIGWidgetType.separator, build: (id: number) => new FIGSeparatorWidget()},
   ];
 

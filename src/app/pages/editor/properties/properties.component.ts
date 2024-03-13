@@ -6,12 +6,14 @@ import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {CheckboxPropertiesComponent} from "./checkbox-properties/checkbox-properties.component";
 import {SeparatorPropertiesComponent} from "./separator-properties/separator-properties.component";
 import {RadioPropertiesComponent} from "./radio-properties/radio-properties.component";
+import {LabelPropertiesComponent} from "./label-properties/label-properties.component";
 
 @Component({
   selector: 'fig-properties',
   standalone: true,
   imports: [
     TextPropertiesComponent,
+    LabelPropertiesComponent,
     RadioPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,

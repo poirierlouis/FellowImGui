@@ -22,6 +22,7 @@ import {FIGSeparatorWidget} from "../../models/widgets/separator.widget";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../../models/widgets/radio.widget";
+import {FIGLabelWidget} from "../../models/widgets/label.widget";
 
 interface WidgetBuilder {
   readonly icon: string;
@@ -63,14 +64,13 @@ export class EditorComponent {
     {icon: 'button', title: 'Button', type: 'button'},
     {icon: 'checkbox', title: 'Checkbox', type: 'checkbox'},
     {icon: 'radio', title: 'Radio', type: 'radio'},
+    {icon: 'label', title: 'Label', type: 'label'},
     {icon: 'separator', title: 'Separator', type: 'separator'},
   ];
 
   constructor() {
     this.document = new FIGDocument();
     this.document.root.push(new FIGWindowWidget('Fellow · ImGui'));
-    this.document.root.push(new FIGWindowWidget('Bienvenue · ImGui'));
-    this.document.root.push(new FIGWindowWidget('Paramount · ImGui'));
     this.document.root[0].children.push(new FIGTextWidget('Hello'));
     this.document.root[0].children.push(new FIGSeparatorWidget());
     this.document.root[0].children.push(new FIGTextWidget('World'));
@@ -79,14 +79,7 @@ export class EditorComponent {
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio A', undefined, 0));
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', undefined, 1));
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', undefined, 2));
-    this.document.root[1].children.push(new FIGTextWidget('Bonjour'));
-    this.document.root[1].children.push(new FIGSeparatorWidget());
-    this.document.root[1].children.push(new FIGTextWidget('Monde'));
-    this.document.root[1].children.push(new FIGButtonWidget('Clique moi'));
-    this.document.root[2].children.push(new FIGTextWidget('Hola'));
-    this.document.root[2].children.push(new FIGSeparatorWidget());
-    this.document.root[2].children.push(new FIGTextWidget('Mundo'));
-    this.document.root[2].children.push(new FIGButtonWidget('Hazme clic'));
+    this.document.root[0].children.push(new FIGLabelWidget());
     this.document.link();
   }
 
