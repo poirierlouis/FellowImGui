@@ -19,6 +19,7 @@ import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/dra
 import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
+import {FIGWindowWidget} from "../../../models/widgets/window.widget";
 
 interface FlatNode {
   expandable: boolean;
@@ -108,8 +109,12 @@ export class TreeComponent {
         this.treeControl.expand(node);
       }
     }
-    this.selectedWidget = node.widget;
-    this.onSelectWidget.emit(node.widget);
+    if (this.selectedWidget?.uuid === node.widget.uuid && !(this.selectedWidget instanceof FIGWindowWidget)) {
+      this.selectedWidget = undefined;
+    } else {
+      this.selectedWidget = node.widget;
+    }
+    this.onSelectWidget.emit(this.selectedWidget);
   }
 
   protected dropWidget(event: CdkDragDrop<any>): void {
