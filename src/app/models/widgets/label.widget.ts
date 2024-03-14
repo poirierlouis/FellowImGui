@@ -6,7 +6,7 @@ export class FIGLabelWidget extends FIGWithTooltip {
   value: string;
 
   constructor(label: string = 'Label', value: string = 'Value', tooltip?: string) {
-    super(FIGWidgetType.label, true, 'label');
+    super(FIGWidgetType.label, true);
     this.label = label;
     this.value = value;
     this.tooltip = tooltip;

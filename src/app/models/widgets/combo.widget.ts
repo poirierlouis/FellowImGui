@@ -8,7 +8,7 @@ export class FIGComboWidget extends FIGWithTooltip {
   selectedIndex: number;
 
   constructor(label: string = 'Combo', items: string[] = [], tooltip?: string) {
-    super(FIGWidgetType.combo, true, 'combo');
+    super(FIGWidgetType.combo, true);
     this.label = label;
     this.items = items;
     this.selectedIndex = 0;

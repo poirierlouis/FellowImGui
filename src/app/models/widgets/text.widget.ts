@@ -9,7 +9,7 @@ export class FIGTextWidget extends FIGWithTooltip {
   hasBullet: boolean = false;
 
   constructor(text: string = 'Text', tooltip?: string) {
-    super(FIGWidgetType.text, true, 'text');
+    super(FIGWidgetType.text, true);
     this.text = text;
     this.tooltip = tooltip;
   }

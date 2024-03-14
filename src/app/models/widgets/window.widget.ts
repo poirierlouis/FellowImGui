@@ -7,7 +7,7 @@ export class FIGWindowWidget extends FIGContainer {
   size: Size;
 
   constructor(title: string = 'Window', size: Size = {width: 320, height: 240}) {
-    super(FIGWidgetType.window, false, 'window');
+    super(FIGWidgetType.window, false);
     this.title = title;
     this.size = size;
   }

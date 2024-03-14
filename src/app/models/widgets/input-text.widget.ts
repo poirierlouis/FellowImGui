@@ -8,7 +8,7 @@ export class FIGInputTextWidget extends FIGWithTooltip {
   hint?: string;
 
   constructor(text: string = 'Text', hint?: string, value: string = '', bufferSize: number = 256, tooltip?: string) {
-    super(FIGWidgetType.inputText, true, 'inputText');
+    super(FIGWidgetType.inputText, true);
     this.text = text;
     this.value = value;
     this.bufferSize = bufferSize;

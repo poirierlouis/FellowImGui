@@ -3,7 +3,7 @@ import {FIGWidget, FIGWidgetType} from "./widget";
 export class FIGSeparatorWidget extends FIGWidget {
 
   constructor() {
-    super(FIGWidgetType.separator, true, 'separator');
+    super(FIGWidgetType.separator, true);
     this._focusOffset.x = -4;
   }
 

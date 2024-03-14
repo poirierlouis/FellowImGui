@@ -68,7 +68,7 @@ export class TreeComponent {
         expandable: (widget instanceof FIGContainer) ? widget.children.length > 0 : false,
         level: level,
         name: widget.name,
-        icon: widget.icon,
+        icon: FIGWidgetType[widget.type],
         widget: widget
       };
     },

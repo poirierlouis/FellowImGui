@@ -49,7 +49,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
   private _access?: FIGRadioAccessor;
 
   constructor(groupId: string = 'Radio', text: string = 'Radio', tooltip?: string, index: number = 0) {
-    super(FIGWidgetType.radio, true, 'radio');
+    super(FIGWidgetType.radio, true);
     this.groupId = groupId;
     this.text = text;
     this.tooltip = tooltip;

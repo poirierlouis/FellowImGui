@@ -7,7 +7,7 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
   isChecked: boolean = false;
 
   constructor(text: string = 'Checkbox', tooltip?: string) {
-    super(FIGWidgetType.checkbox, true, 'checkbox');
+    super(FIGWidgetType.checkbox, true);
     this.text = text;
     this.tooltip = tooltip;
   }

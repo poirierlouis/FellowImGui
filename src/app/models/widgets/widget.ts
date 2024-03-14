@@ -20,7 +20,6 @@ export abstract class FIGWidget {
   public readonly uuid: string;
   public readonly type: FIGWidgetType;
   public readonly needParent: boolean;
-  public readonly icon: string;
 
   public parent?: FIGContainer;
 
@@ -32,12 +31,10 @@ export abstract class FIGWidget {
   protected readonly _focusOffset: Vector2 = {x: 4, y: 4};
 
   protected constructor(type: FIGWidgetType,
-                        needParent: boolean,
-                        icon: string) {
+                        needParent: boolean) {
     this.uuid = uuidv4();
     this.type = type;
     this.needParent = needParent;
-    this.icon = icon;
   }
 
   public abstract get name(): string;
