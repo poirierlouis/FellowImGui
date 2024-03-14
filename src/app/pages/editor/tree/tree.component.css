@@ -15,7 +15,16 @@ mat-tree {
     & .content {
       display: flex;
       align-items: center;
-      margin-left: 12px;
+      width: calc(100% - 40px - 2 * 12px);
+      margin: 0 12px;
+
+      & div {
+        overflow: hidden;
+        width: calc(100% - 24px - 12px);
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     & .draggable {
