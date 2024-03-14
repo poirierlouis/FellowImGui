@@ -34,6 +34,11 @@
                           [widget]="widget!"
                           (update)="update.emit($event)"></fig-combo-properties>
   }
+  @case (FIGWidgetType.inputText) {
+    <fig-input-text-properties class="properties"
+                               [widget]="widget!"
+                               (update)="update.emit($event)"></fig-input-text-properties>
+  }
   @case (FIGWidgetType.separator) {
     <fig-separator-properties class="properties"
                               [widget]="widget!"></fig-separator-properties>

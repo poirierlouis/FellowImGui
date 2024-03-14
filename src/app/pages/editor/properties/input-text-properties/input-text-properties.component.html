@@ -1,0 +1,29 @@
+<div class="header">
+  <mat-icon svgIcon="inputText"></mat-icon>
+  Input Text
+</div>
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Text</mat-label>
+    <input matInput type="text" formControlName="text" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Hint</mat-label>
+    <input matInput type="text" formControlName="hint" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tooltip</mat-label>
+    <input matInput
+           type="text"
+           formControlName="tooltip" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Value</mat-label>
+    <input matInput type="text" formControlName="value" />
+  </mat-form-field>
+
+</form>

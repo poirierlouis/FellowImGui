@@ -8,6 +8,7 @@ import {SeparatorPropertiesComponent} from "./separator-properties/separator-pro
 import {RadioPropertiesComponent} from "./radio-properties/radio-properties.component";
 import {LabelPropertiesComponent} from "./label-properties/label-properties.component";
 import {ComboPropertiesComponent} from "./combo-properties/combo-properties.component";
+import {InputTextPropertiesComponent} from "./input-text-properties/input-text-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -20,6 +21,7 @@ import {ComboPropertiesComponent} from "./combo-properties/combo-properties.comp
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     CheckboxPropertiesComponent,
+    InputTextPropertiesComponent,
     SeparatorPropertiesComponent
   ],
   templateUrl: './properties.component.html',

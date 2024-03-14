@@ -26,6 +26,7 @@ import {FIGLabelWidget} from "../../models/widgets/label.widget";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {FIGComboWidget} from "../../models/widgets/combo.widget";
 import {MatDivider} from "@angular/material/divider";
+import {FIGInputTextWidget} from "../../models/widgets/input-text.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -72,7 +73,7 @@ export class EditorComponent {
 
   constructor() {
     this.document = new FIGDocument();
-    this.document.root.push(new FIGWindowWidget('Fellow · ImGui'));
+    this.document.root.push(new FIGWindowWidget('Fellow · ImGui', {width: 320, height: 280}));
     this.document.root[0].children.push(new FIGTextWidget('Hello'));
     this.document.root[0].children.push(new FIGSeparatorWidget());
     this.document.root[0].children.push(new FIGTextWidget('World'));
@@ -82,9 +83,11 @@ export class EditorComponent {
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', undefined, 1));
     this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', undefined, 2));
     this.document.root[0].children.push(new FIGLabelWidget());
-    this.document.root[0].children.push(new FIGComboWidget('Combo NATO', [
+    this.document.root[0].children.push(new FIGComboWidget('Combo', [
       'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'
     ]));
+    this.document.root[0].children.push(new FIGInputTextWidget('Firstname'));
+    this.document.root[0].children.push(new FIGInputTextWidget('Lastname', 'e.g. Freecss'));
     this.document.link();
   }
 

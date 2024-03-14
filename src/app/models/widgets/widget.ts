@@ -11,6 +11,7 @@ export enum FIGWidgetType {
   radio,
   label,
   combo,
+  inputText,
   separator
 }
 

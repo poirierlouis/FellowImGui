@@ -7,6 +7,7 @@ import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
 import {FIGLabelWidget} from "./label.widget";
 import {FIGComboWidget} from "./combo.widget";
+import {FIGInputTextWidget} from "./input-text.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -30,6 +31,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.label,
       title: 'Label',
       build: () => new FIGLabelWidget('Label', 'Value')
+    },
+    {
+      type: FIGWidgetType.inputText,
+      title: 'Input Text',
+      build: (id: number) => new FIGInputTextWidget(`Input Text ${id}`)
     },
     {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
