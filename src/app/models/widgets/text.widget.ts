@@ -6,6 +6,7 @@ export class FIGTextWidget extends FIGWithTooltip {
   text: string;
   color?: Color;
   isDisabled: boolean = false;
+  isWrapped: boolean = false;
   hasBullet: boolean = false;
 
   constructor(text: string = 'Text', tooltip?: string) {
@@ -22,12 +23,23 @@ export class FIGTextWidget extends FIGWithTooltip {
     if (this.hasBullet) {
       ImGui.Bullet();
     }
+    let color: any;
+
     if (this.isDisabled) {
-      ImGui.TextDisabled(this.text);
+      color = ImGui.GetStyleColorVec4(1);
     } else if (this.color) {
-      ImGui.TextColored(new ImGui.Vec4(this.color.r, this.color.g, this.color.b, this.color.a), this.text);
+      color = new ImGui.Vec4(this.color.r, this.color.g, this.color.b, this.color.a);
+    }
+    if (color) {
+      ImGui.PushStyleColor(0, color);
+    }
+    if (this.isWrapped) {
+      ImGui.TextWrapped(this.text);
     } else {
       ImGui.Text(this.text);
+    }
+    if (color) {
+      ImGui.PopStyleColor();
     }
     super.draw();
   }

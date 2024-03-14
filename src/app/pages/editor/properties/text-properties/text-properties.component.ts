@@ -39,6 +39,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     tooltip: new FormControl<string | null>(null),
     color: new FormControl<string>(''),
     isDisabled: new FormControl<boolean>(false),
+    isWrapped: new FormControl<boolean>(false),
     hasBullet: new FormControl<boolean>(false),
   });
 
@@ -48,6 +49,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('color').subscribe(this.onColorChanged.bind(this));
     this.listenProperty('isDisabled').subscribe(this.onIsDisabledChanged.bind(this));
+    this.listenProperty('isWrapped').subscribe(this.onIsWrappedChanged.bind(this));
     this.listenProperty('hasBullet').subscribe(this.onHasBulletChanged.bind(this));
   }
 
@@ -72,6 +74,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
       this.setProperty('color', stringifyRGBA(this.widget.color));
     }
     this.setProperty('isDisabled', this.widget.isDisabled);
+    this.setProperty('isWrapped', this.widget.isWrapped);
     this.setProperty('hasBullet', this.widget.hasBullet);
   }
 
@@ -95,6 +98,11 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
 
   private onIsDisabledChanged(value: boolean): void {
     this.widget!.isDisabled = value;
+    this.update.emit();
+  }
+
+  private onIsWrappedChanged(value: boolean): void {
+    this.widget!.isWrapped = value;
     this.update.emit();
   }
 
