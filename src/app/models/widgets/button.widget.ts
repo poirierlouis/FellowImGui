@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGWithTooltip} from "./with-tooltip.widget";
+import {Vector2} from "../math";
 
 export enum FIGArrowDirection {
   left,
@@ -11,12 +12,18 @@ export enum FIGArrowDirection {
 
 export class FIGButtonWidget extends FIGWithTooltip {
   text: string;
+  isFill: boolean;
   isSmall: boolean;
   arrow: FIGArrowDirection;
 
-  constructor(text: string = 'Button', isSmall: boolean = false, arrow: FIGArrowDirection = FIGArrowDirection.none, tooltip?: string) {
+  constructor(text: string = 'Button',
+              isFill: boolean = false,
+              isSmall: boolean = false,
+              arrow: FIGArrowDirection = FIGArrowDirection.none,
+              tooltip?: string) {
     super(FIGWidgetType.button, true);
     this.text = text;
+    this.isFill = isFill;
     this.isSmall = isSmall;
     this.arrow = arrow;
     this.tooltip = tooltip;
@@ -32,7 +39,9 @@ export class FIGButtonWidget extends FIGWithTooltip {
     } else if (this.arrow !== FIGArrowDirection.none) {
       ImGui.ArrowButton(this.text, this.arrow);
     } else {
-      ImGui.Button(this.text);
+      let size: Vector2 | undefined = (this.isFill) ? {x: -1.0, y: 0.0} : undefined;
+
+      ImGui.Button(this.text, size);
     }
     super.draw();
   }

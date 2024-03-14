@@ -33,6 +33,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   override form: FormGroup = new FormGroup<any>({
     text: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
+    isFill: new FormControl<boolean>(false),
     isSmall: new FormControl<boolean>(false),
     arrow: new FormControl<FIGArrowDirection>(FIGArrowDirection.none),
   });
@@ -43,6 +44,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     super(dr);
     this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
+    this.listenProperty('isFill').subscribe(this.onIsFillChanged.bind(this));
     this.listenProperty('isSmall').subscribe(this.onIsSmallChanged.bind(this));
     this.listenProperty('arrow').subscribe(this.onArrowChanged.bind(this));
   }
@@ -53,6 +55,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     }
     this.setProperty('text', this.widget.text);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
+    this.setProperty('isFill', this.widget.isFill);
     this.setProperty('isSmall', this.widget.isSmall);
     this.setProperty('arrow', this.widget.arrow);
   }
@@ -70,22 +73,55 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     this.update.emit();
   }
 
+  private onIsFillChanged(value: boolean): void {
+    this.widget!.isFill = value;
+    if (value) {
+      this.resetIsSmall();
+      this.resetArrow();
+    }
+    this.update.emit();
+  }
+
   private onIsSmallChanged(value: boolean): void {
     this.widget!.isSmall = value;
-    if (value && this.widget!.arrow !== FIGArrowDirection.none) {
-      this.setProperty('arrow', FIGArrowDirection.none);
-      this.widget!.arrow = FIGArrowDirection.none;
+    if (value) {
+      this.resetIsFill();
+      this.resetArrow();
     }
     this.update.emit();
   }
 
   private onArrowChanged(value: FIGArrowDirection): void {
     this.widget!.arrow = value;
-    if (value && this.widget!.isSmall) {
-      this.setProperty('isSmall', false);
-      this.widget!.isSmall = false;
+    if (value) {
+      this.resetIsFill();
+      this.resetIsSmall();
     }
     this.update.emit();
+  }
+
+  private resetIsFill(): void {
+    if (!this.widget!.isFill) {
+      return;
+    }
+    this.setProperty('isFill', false);
+    this.widget!.isFill = false;
+  }
+
+  private resetIsSmall(): void {
+    if (!this.widget!.isSmall) {
+      return;
+    }
+    this.setProperty('isSmall', false);
+    this.widget!.isSmall = false;
+  }
+
+  private resetArrow(): void {
+    if (this.widget!.arrow === FIGArrowDirection.none) {
+      return;
+    }
+    this.setProperty('arrow', FIGArrowDirection.none);
+    this.widget!.arrow = FIGArrowDirection.none;
   }
 
 }
