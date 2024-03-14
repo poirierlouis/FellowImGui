@@ -4,16 +4,16 @@ import {FIGWithTooltip} from "./with-tooltip.widget";
 export class FIGInputTextWidget extends FIGWithTooltip {
   text: string;
   value: string;
-  bufferSize: number;
   hint?: string;
+  bufferSize: number;
 
-  constructor(text: string = 'Text', hint?: string, value: string = '', bufferSize: number = 256, tooltip?: string) {
+  constructor(text: string = 'Text', hint?: string, value: string = '', tooltip?: string) {
     super(FIGWidgetType.inputText, true);
     this.text = text;
     this.value = value;
-    this.bufferSize = bufferSize;
     this.hint = hint;
     this.tooltip = tooltip;
+    this.bufferSize = 256;
   }
 
   public get name(): string {
