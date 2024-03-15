@@ -46,12 +46,25 @@ export class FIGWidgetFactory {
   private static id: number = 0;
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
-    const builder: FIGWidgetBuilder | undefined = this.builders.find((item) => item.type === type);
+    const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
 
     if (!builder) {
       return undefined;
     }
     return builder.build(++FIGWidgetFactory.id);
+  }
+
+  public static getTitle(type: FIGWidgetType): string | undefined {
+    const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
+
+    if (!builder) {
+      return undefined;
+    }
+    return builder.title;
+  }
+
+  private static findBuilder(type: FIGWidgetType): FIGWidgetBuilder | undefined {
+    return this.builders.find((item) => item.type === type);
   }
 
 }

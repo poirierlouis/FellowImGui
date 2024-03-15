@@ -1,46 +1,53 @@
-@switch (widget?.type) {
-  @case (FIGWidgetType.window) {
-    <fig-window-properties class="properties"
-                           [widget]="widget!"
-                           (update)="update.emit($event)"></fig-window-properties>
-  }
-  @case (FIGWidgetType.text) {
-    <fig-text-properties class="properties"
-                         [widget]="widget!"
-                         (update)="update.emit($event)"></fig-text-properties>
-  }
-  @case (FIGWidgetType.button) {
-    <fig-button-properties class="properties"
-                           [widget]="widget!"
-                           (update)="update.emit($event)"></fig-button-properties>
-  }
-  @case (FIGWidgetType.checkbox) {
-    <fig-checkbox-properties class="properties"
+@if (widget !== undefined) {
+  <div class="header">
+    <mat-icon [svgIcon]="FIGWidgetType[widget.type]"></mat-icon>
+    {{ widgetTitle }}
+  </div>
+
+  @switch (widget.type) {
+    @case (FIGWidgetType.window) {
+      <fig-window-properties class="properties"
                              [widget]="widget!"
-                             (update)="update.emit($event)"></fig-checkbox-properties>
-  }
-  @case (FIGWidgetType.radio) {
-    <fig-radio-properties class="properties"
-                          [widget]="widget!"
-                          (update)="update.emit($event)"></fig-radio-properties>
-  }
-  @case (FIGWidgetType.label) {
-    <fig-label-properties class="properties"
-                          [widget]="widget!"
-                          (update)="update.emit($event)"></fig-label-properties>
-  }
-  @case (FIGWidgetType.combo) {
-    <fig-combo-properties class="properties"
-                          [widget]="widget!"
-                          (update)="update.emit($event)"></fig-combo-properties>
-  }
-  @case (FIGWidgetType.inputText) {
-    <fig-input-text-properties class="properties"
+                             (update)="update.emit($event)"></fig-window-properties>
+    }
+    @case (FIGWidgetType.text) {
+      <fig-text-properties class="properties"
+                           [widget]="widget!"
+                           (update)="update.emit($event)"></fig-text-properties>
+    }
+    @case (FIGWidgetType.button) {
+      <fig-button-properties class="properties"
+                             [widget]="widget!"
+                             (update)="update.emit($event)"></fig-button-properties>
+    }
+    @case (FIGWidgetType.checkbox) {
+      <fig-checkbox-properties class="properties"
                                [widget]="widget!"
-                               (update)="update.emit($event)"></fig-input-text-properties>
-  }
-  @case (FIGWidgetType.separator) {
-    <fig-separator-properties class="properties"
-                              [widget]="widget!"></fig-separator-properties>
+                               (update)="update.emit($event)"></fig-checkbox-properties>
+    }
+    @case (FIGWidgetType.radio) {
+      <fig-radio-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-radio-properties>
+    }
+    @case (FIGWidgetType.label) {
+      <fig-label-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-label-properties>
+    }
+    @case (FIGWidgetType.combo) {
+      <fig-combo-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-combo-properties>
+    }
+    @case (FIGWidgetType.inputText) {
+      <fig-input-text-properties class="properties"
+                                 [widget]="widget!"
+                                 (update)="update.emit($event)"></fig-input-text-properties>
+    }
+    @case (FIGWidgetType.separator) {
+      <fig-separator-properties class="properties"
+                                [widget]="widget!"></fig-separator-properties>
+    }
   }
 }

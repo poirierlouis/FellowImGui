@@ -3,8 +3,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
-import {FIGDir, FIGButtonWidget} from "../../../../models/widgets/button.widget";
-import {MatIcon} from "@angular/material/icon";
+import {FIGButtonWidget, FIGDir} from "../../../../models/widgets/button.widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatOption, MatSelect} from "@angular/material/select";
@@ -13,7 +12,6 @@ import {MatOption, MatSelect} from "@angular/material/select";
   selector: 'fig-button-properties',
   standalone: true,
   imports: [
-    MatIcon,
     MatInput,
     MatLabel,
     MatSelect,

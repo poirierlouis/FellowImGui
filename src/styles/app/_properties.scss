@@ -1,16 +1,16 @@
 @mixin properties-theme($theme) {
   fig-properties {
-    .properties {
-      & .header {
-        display: flex;
-        align-items: center;
-        margin: 12px 12px 0;
+    & .header {
+      display: flex;
+      align-items: center;
+      margin: 12px 12px 0;
 
-        & mat-icon {
-          margin-right: 12px;
-        }
+      & mat-icon {
+        margin-right: 12px;
       }
+    }
 
+    .properties {
       & form {
         padding: 24px 12px 12px;
 

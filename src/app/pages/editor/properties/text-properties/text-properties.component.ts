@@ -4,7 +4,6 @@ import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGTextWidget} from "../../../../models/widgets/text.widget";
-import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
@@ -15,7 +14,6 @@ import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
   selector: 'fig-text-properties',
   standalone: true,
   imports: [
-    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,

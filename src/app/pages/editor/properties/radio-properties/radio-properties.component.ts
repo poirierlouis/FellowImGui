@@ -1,7 +1,6 @@
 import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
@@ -12,11 +11,9 @@ import {FIGRadioWidget} from "../../../../models/widgets/radio.widget";
   selector: 'fig-radio-properties',
   standalone: true,
   imports: [
-    FormsModule,
-    MatFormField,
-    MatIcon,
     MatInput,
     MatLabel,
+    MatFormField,
     MatSlideToggle,
     ReactiveFormsModule
   ],

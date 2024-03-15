@@ -1,14 +1,11 @@
 import {Component, DestroyRef} from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {FIGSeparatorWidget} from "../../../../models/widgets/separator.widget";
 
 @Component({
   selector: 'fig-separator-properties',
   standalone: true,
-  imports: [
-    MatIcon
-  ],
+  imports: [],
   templateUrl: './separator-properties.component.html',
   styleUrl: './separator-properties.component.css'
 })

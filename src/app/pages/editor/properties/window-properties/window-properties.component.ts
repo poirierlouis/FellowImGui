@@ -4,14 +4,12 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
-import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
   selector: 'fig-window-properties',
   standalone: true,
   imports: [
-    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,

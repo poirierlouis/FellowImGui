@@ -9,11 +9,14 @@ import {RadioPropertiesComponent} from "./radio-properties/radio-properties.comp
 import {LabelPropertiesComponent} from "./label-properties/label-properties.component";
 import {ComboPropertiesComponent} from "./combo-properties/combo-properties.component";
 import {InputTextPropertiesComponent} from "./input-text-properties/input-text-properties.component";
+import {MatIcon} from "@angular/material/icon";
+import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 
 @Component({
   selector: 'fig-properties',
   standalone: true,
   imports: [
+    MatIcon,
     TextPropertiesComponent,
     ComboPropertiesComponent,
     LabelPropertiesComponent,
@@ -22,19 +25,25 @@ import {InputTextPropertiesComponent} from "./input-text-properties/input-text-p
     WindowPropertiesComponent,
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,
-    SeparatorPropertiesComponent
+    SeparatorPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'
 })
 export class PropertiesComponent {
 
-  @Input()
-  widget?: FIGWidget;
-
   @Output()
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
+  widget?: FIGWidget;
+  widgetTitle?: string;
+
   protected readonly FIGWidgetType = FIGWidgetType;
+
+  @Input('widget')
+  set _widget(value: FIGWidget | undefined) {
+    this.widget = value;
+    this.widgetTitle = (value !== undefined) ? FIGWidgetFactory.getTitle(value.type) : undefined;
+  }
 
 }

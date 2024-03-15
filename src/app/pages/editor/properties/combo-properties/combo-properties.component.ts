@@ -1,7 +1,6 @@
 import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
@@ -13,7 +12,6 @@ import {CdkTextareaAutosize} from "@angular/cdk/text-field";
   selector: 'fig-combo-properties',
   standalone: true,
   imports: [
-    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,

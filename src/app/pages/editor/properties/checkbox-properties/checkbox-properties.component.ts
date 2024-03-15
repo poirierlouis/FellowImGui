@@ -3,7 +3,6 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
-import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {FIGCheckboxWidget} from "../../../../models/widgets/checkbox.widget";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -12,12 +11,11 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
   selector: 'fig-checkbox-properties',
   standalone: true,
   imports: [
-    MatIcon,
     MatInput,
     MatLabel,
     MatFormField,
-    ReactiveFormsModule,
-    MatSlideToggle
+    MatSlideToggle,
+    ReactiveFormsModule
   ],
   templateUrl: './checkbox-properties.component.html',
   styleUrl: './checkbox-properties.component.css'

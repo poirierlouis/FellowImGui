@@ -1,9 +1,6 @@
 import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {NgxColorsModule} from "ngx-colors";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {FIGWidget} from "../../../../models/widgets/widget";
@@ -13,12 +10,9 @@ import {FIGLabelWidget} from "../../../../models/widgets/label.widget";
   selector: 'fig-label-properties',
   standalone: true,
   imports: [
-    MatFormField,
-    MatIcon,
     MatInput,
     MatLabel,
-    MatSlideToggle,
-    NgxColorsModule,
+    MatFormField,
     ReactiveFormsModule
   ],
   templateUrl: './label-properties.component.html',
