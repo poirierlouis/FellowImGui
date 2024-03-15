@@ -21,7 +21,7 @@ interface FIGFormatterOptions {
   indent: string;
 }
 
-export type FIGFormatterLanguage = 'lua';
+export type FIGFormatterLanguage = 'Lua - sol2';
 
 export enum CaseStyle {
   snake_case,
@@ -54,7 +54,8 @@ export abstract class FIGFormatter {
   private indent: string = '';
   private lines: string = '';
 
-  protected constructor(protected readonly caseStyle: CaseStyle) {
+  protected constructor(public readonly language: FIGFormatterLanguage,
+                        protected readonly caseStyle: CaseStyle) {
   }
 
   public format(document: FIGDocument): string {

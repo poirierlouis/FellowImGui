@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {FIGFormatter, FIGFormatterLanguage} from "../formatters/formatter";
+import {FIGFormatter} from "../formatters/formatter";
 import {FIGLuaFormatter} from "../formatters/lua.formatter";
 import {FIGDocument} from "../models/document";
 
@@ -9,11 +9,9 @@ import {FIGDocument} from "../models/document";
 export class FormatterService {
 
   private formatter?: FIGFormatter;
-  private language?: FIGFormatterLanguage;
 
   constructor() {
     this.formatter = new FIGLuaFormatter();
-    this.language = 'lua';
   }
 
   public format(document: FIGDocument): string | undefined {

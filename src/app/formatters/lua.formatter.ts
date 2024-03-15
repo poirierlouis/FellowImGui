@@ -14,7 +14,7 @@ import {capitalize} from "../models/string";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
-    super(CaseStyle.camelCase);
+    super('Lua - sol2', CaseStyle.camelCase);
     this.options.indent = '  ';
   }
 
