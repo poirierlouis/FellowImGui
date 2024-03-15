@@ -2,8 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
 import {TreeComponent} from "./tree/tree.component";
 import {FIGWindowWidget} from "../../models/widgets/window.widget";
-import {FIGTextWidget} from "../../models/widgets/text.widget";
-import {FIGButtonWidget} from "../../models/widgets/button.widget";
 import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
@@ -18,15 +16,13 @@ import {
   CdkDropList
 } from "@angular/cdk/drag-drop";
 import {NgTemplateOutlet} from "@angular/common";
-import {FIGSeparatorWidget} from "../../models/widgets/separator.widget";
 import {MatTooltip} from "@angular/material/tooltip";
-import {FIGCheckboxWidget} from "../../models/widgets/checkbox.widget";
-import {FIGRadioWidget} from "../../models/widgets/radio.widget";
-import {FIGLabelWidget} from "../../models/widgets/label.widget";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
-import {FIGComboWidget} from "../../models/widgets/combo.widget";
 import {MatDivider} from "@angular/material/divider";
-import {FIGInputTextWidget} from "../../models/widgets/input-text.widget";
+import {FIGWidgetHelper} from '../../models/widgets/widget.helper';
+import {Color} from "../../models/math";
+import {FIGDir} from "../../models/widgets/button.widget";
+import {FIGFormatter} from "../../formatters/formatter";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -73,21 +69,56 @@ export class EditorComponent {
 
   constructor() {
     this.document = new FIGDocument();
-    this.document.root.push(new FIGWindowWidget('Fellow · ImGui', {width: 320, height: 280}));
-    this.document.root[0].children.push(new FIGTextWidget('Hello'));
-    this.document.root[0].children.push(new FIGSeparatorWidget());
-    this.document.root[0].children.push(new FIGTextWidget('World'));
-    this.document.root[0].children.push(new FIGCheckboxWidget('Toggle me'));
-    this.document.root[0].children.push(new FIGButtonWidget('Click me'));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio A', undefined, 0));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio B', undefined, 1));
-    this.document.root[0].children.push(new FIGRadioWidget('RadioGroup', 'Radio C', undefined, 2));
-    this.document.root[0].children.push(new FIGLabelWidget());
-    this.document.root[0].children.push(new FIGComboWidget('Combo', [
-      'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo'
-    ]));
-    this.document.root[0].children.push(new FIGInputTextWidget('Firstname'));
-    this.document.root[0].children.push(new FIGInputTextWidget('Lastname', 'e.g. Freecss'));
+    const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
+    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
+      'Layouts · FIG',
+      {width: 320, height: 326},
+      [
+        FIGWidgetHelper.createText('Hello world!'),
+        FIGWidgetHelper.createText('I\'m colorful!', {color: color}),
+        FIGWidgetHelper.createText('I\'m disabled!', {isDisabled: true}),
+        FIGWidgetHelper.createText('I\'m a bullet!', {hasBullet: true}),
+        FIGWidgetHelper.createText('I\'m one with a tooltip!', {tooltip: 'Explain me!'}),
+        FIGWidgetHelper.createText('I\'m "complex and long". Lorem ipsum dolor sit amet, consectetur adipiscing ' +
+          'elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
+          'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', {
+          color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
+        }),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createButton('Simple button'),
+        FIGWidgetHelper.createButton('Small button', {isSmall: true}),
+        FIGWidgetHelper.createButton('Fill button', {isFill: true}),
+        FIGWidgetHelper.createButton('Arrow button', {arrow: FIGDir.down}),
+        FIGWidgetHelper.createButton('Button w/ tooltip', {tooltip: 'Can you see me?'}),
+      ]);
+    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow(
+      'Basics · FIG',
+      {width: 460, height: 302},
+      [
+        FIGWidgetHelper.createLabel('Label', 'Input'),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createInputText('Username'),
+        FIGWidgetHelper.createInputText('Username w/ hint', {hint: 'e.g. Fig'}),
+        FIGWidgetHelper.createInputText('Username w/ tooltip', {tooltip: 'Be anonymous'}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createCheckbox('Fig'),
+        FIGWidgetHelper.createCheckbox('Banana', true),
+        FIGWidgetHelper.createCheckbox('Orange', false, 'Juicy :P'),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createRadio('Galactic Funk', {groupId: 'RadioChannel', index: 0}),
+        FIGWidgetHelper.createRadio('Space Rock', {groupId: 'RadioChannel', index: 1}),
+        FIGWidgetHelper.createRadio('Jazzy Moon', {
+          groupId: 'RadioChannel', index: 2, tooltip: 'Chill on moons of Wablad'
+        }),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createCombo('Jump Destination', {
+          items: ['Earth', 'Mars', 'Jupiter', 'Europa', 'Saturn', 'Titan'],
+          tooltip: 'Where should we go?'
+        })
+      ]);
+
+    this.document.root.push(layouts);
+    this.document.root.push(basics);
     this.document.link();
   }
 
