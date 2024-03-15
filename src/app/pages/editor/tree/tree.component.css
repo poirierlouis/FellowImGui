@@ -10,7 +10,6 @@ mat-tree {
 
   & .mat-tree-node {
     justify-content: space-between;
-    padding-left: 12px;
 
     & .content {
       display: flex;
