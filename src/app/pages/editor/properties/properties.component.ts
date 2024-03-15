@@ -4,7 +4,6 @@ import {TextPropertiesComponent} from "./text-properties/text-properties.compone
 import {WindowPropertiesComponent} from "./window-properties/window-properties.component";
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {CheckboxPropertiesComponent} from "./checkbox-properties/checkbox-properties.component";
-import {SeparatorPropertiesComponent} from "./separator-properties/separator-properties.component";
 import {RadioPropertiesComponent} from "./radio-properties/radio-properties.component";
 import {LabelPropertiesComponent} from "./label-properties/label-properties.component";
 import {ComboPropertiesComponent} from "./combo-properties/combo-properties.component";
@@ -25,7 +24,6 @@ import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
     WindowPropertiesComponent,
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,
-    SeparatorPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'
@@ -42,8 +40,16 @@ export class PropertiesComponent {
 
   @Input('widget')
   set _widget(value: FIGWidget | undefined) {
+    const prevWidget: FIGWidget | undefined = this.widget;
+
     this.widget = value;
     this.widgetTitle = (value !== undefined) ? FIGWidgetFactory.getTitle(value.type) : undefined;
+    if (prevWidget) {
+      prevWidget.isFocused = false;
+    }
+    if (this.widget) {
+      this.widget.isFocused = true;
+    }
   }
 
 }

@@ -44,7 +44,6 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
     if (!this.widget) {
       return;
     }
-    this.widget!.isFocused = true;
     this.updateS = this.widget.update$.subscribe(this.onUpdated.bind(this));
     this.updateForm();
   }
@@ -52,9 +51,6 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
   protected abstract updateForm(): void;
 
   protected dispose(): void {
-    if (this.widget) {
-      this.widget.isFocused = false;
-    }
     this.updateS?.unsubscribe();
   }
 
