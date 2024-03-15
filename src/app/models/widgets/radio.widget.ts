@@ -1,4 +1,4 @@
-import {FIGWidgetType} from "./widget";
+import {FIGWidget, FIGWidgetType} from "./widget";
 import {BehaviorSubject} from "rxjs";
 import {FIGWithTooltip} from "./with-tooltip.widget";
 
@@ -75,6 +75,10 @@ export class FIGRadioWidget extends FIGWithTooltip {
       return;
     }
     FIGRadioWidget._accessors.splice(index, 1);
+  }
+
+  public static filterByGroupId(widget: FIGWidget, groupId: string): boolean {
+    return widget.type === FIGWidgetType.radio && (widget as FIGRadioWidget).groupId === groupId;
   }
 
   public override draw(): void {

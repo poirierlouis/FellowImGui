@@ -20,6 +20,10 @@ export abstract class FIGContainer extends FIGWidget {
     return this.children.findIndex((child) => child.uuid === widget.uuid);
   }
 
+  public filter<T extends FIGWidget>(predicate: (widget: FIGWidget) => boolean): T[] {
+    return this.children.filter(predicate) as T[];
+  }
+
   public insert(widget: FIGWidget, index: number): void {
     this.children.splice(index, 0, widget);
   }
