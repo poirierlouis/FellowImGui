@@ -3,7 +3,7 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FIGWidget} from "../../../../models/widgets/widget";
-import {FIGArrowDirection, FIGButtonWidget} from "../../../../models/widgets/button.widget";
+import {FIGDir, FIGButtonWidget} from "../../../../models/widgets/button.widget";
 import {MatIcon} from "@angular/material/icon";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -35,10 +35,10 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     tooltip: new FormControl<string | null>(null),
     isFill: new FormControl<boolean>(false),
     isSmall: new FormControl<boolean>(false),
-    arrow: new FormControl<FIGArrowDirection>(FIGArrowDirection.none),
+    arrow: new FormControl<FIGDir>(FIGDir.none),
   });
 
-  protected readonly FIGArrowDirection = FIGArrowDirection;
+  protected readonly FIGArrowDirection = FIGDir;
 
   constructor(dr: DestroyRef) {
     super(dr);
@@ -91,7 +91,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     this.update.emit();
   }
 
-  private onArrowChanged(value: FIGArrowDirection): void {
+  private onArrowChanged(value: FIGDir): void {
     this.widget!.arrow = value;
     if (value) {
       this.resetIsFill();
@@ -117,11 +117,11 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   private resetArrow(): void {
-    if (this.widget!.arrow === FIGArrowDirection.none) {
+    if (this.widget!.arrow === FIGDir.none) {
       return;
     }
-    this.setProperty('arrow', FIGArrowDirection.none);
-    this.widget!.arrow = FIGArrowDirection.none;
+    this.setProperty('arrow', FIGDir.none);
+    this.widget!.arrow = FIGDir.none;
   }
 
 }
