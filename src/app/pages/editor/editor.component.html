@@ -5,52 +5,62 @@
      [cdkDropListData]="builders"
      (cdkDropListEntered)="onDropEntered($event)"
      (cdkDropListExited)="onDropExited($event)">
-  <ng-template #preview let-builder>
-    <div class="fig-widget-preview create"
-         [class.child]="builder.type !== FIGWidgetType.window">
-      <div class="content">
-        <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
+  <div class="widgets">
+    <ng-template #preview let-builder>
+      <div class="fig-widget-preview create"
+           [class.child]="builder.type !== FIGWidgetType.window">
+        <div class="content">
+          <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
 
-        {{ builder.title }}
+          {{ builder.title }}
+        </div>
+
+        <mat-icon>drag_handle</mat-icon>
       </div>
+    </ng-template>
 
-      <mat-icon>drag_handle</mat-icon>
-    </div>
-  </ng-template>
+    <ng-template #placeholder let-builder>
+      <div class="fig-widget-placeholder create"
+           [class.child]="builder.type !== FIGWidgetType.window">
+        <div class="content">
+          <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
 
-  <ng-template #placeholder let-builder>
-    <div class="fig-widget-placeholder create"
-         [class.child]="builder.type !== FIGWidgetType.window">
-      <div class="content">
-        <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
+          {{ builder.title }}
+        </div>
 
-        {{ builder.title }}
+        <mat-icon>drag_handle</mat-icon>
       </div>
+    </ng-template>
 
-      <mat-icon>drag_handle</mat-icon>
-    </div>
-  </ng-template>
+    @for (builder of builders; track builder.type) {
+      @if (showCategorySeparator(builder)) {
+        <mat-divider vertical></mat-divider>
+      }
+      <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
+                [matTooltip]="builder.title"
+                cdkDrag
+                [cdkDragData]="builder.type"
+                (cdkDragStarted)="onDragStart($event)"
+                (cdkDragEnded)="onDragEnded()"
+                (cdkDragExited)="onDragExited($event)">
+        <ng-container *cdkDragPlaceholder>
+          <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
+        </ng-container>
 
-  @for (builder of builders; track builder.type) {
-    @if (showCategorySeparator(builder)) {
-      <mat-divider vertical></mat-divider>
+        <ng-container *cdkDragPreview>
+          <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
+        </ng-container>
+      </mat-icon>
     }
-    <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
-              [matTooltip]="builder.title"
-              cdkDrag
-              [cdkDragData]="builder.type"
-              (cdkDragStarted)="onDragStart($event)"
-              (cdkDragEnded)="onDragEnded()"
-              (cdkDragExited)="onDragExited($event)">
-      <ng-container *cdkDragPlaceholder>
-        <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
-      </ng-container>
+  </div>
 
-      <ng-container *cdkDragPreview>
-        <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
-      </ng-container>
-    </mat-icon>
-  }
+  <div class="expand"></div>
+
+  <div class="actions">
+    <button mat-icon-button (click)="onFormat()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div class="panels">

@@ -19,9 +19,11 @@ import {NgTemplateOutlet} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
+import {FIGLuaFormatter} from "../../formatters/lua.formatter";
 import {FIGWidgetHelper} from '../../models/widgets/widget.helper';
 import {Color} from "../../models/math";
 import {FIGDir} from "../../models/widgets/button.widget";
+import {MatIconButton} from "@angular/material/button";
 import {FIGFormatter} from "../../formatters/formatter";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
@@ -38,7 +40,9 @@ interface FIGWidgetCategory {
   standalone: true,
   imports: [
     MatIcon,
+    MatDivider,
     MatTooltip,
+    MatIconButton,
     CdkDrag,
     CdkDropList,
     CdkDragPreview,
@@ -47,7 +51,6 @@ interface FIGWidgetCategory {
     TreeComponent,
     CanvasComponent,
     PropertiesComponent,
-    MatDivider,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
@@ -67,7 +70,10 @@ export class EditorComponent {
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
+  private readonly formatter: FIGFormatter;
+
   constructor() {
+    this.formatter = new FIGLuaFormatter();
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
@@ -120,6 +126,12 @@ export class EditorComponent {
     this.document.root.push(layouts);
     this.document.root.push(basics);
     this.document.link();
+  }
+
+  public onFormat(): void {
+    const output: string = this.formatter.format(this.document);
+
+    navigator.clipboard.writeText(output);
   }
 
   protected showCategorySeparator(builder: FIGWidgetItemBuilder): boolean {
