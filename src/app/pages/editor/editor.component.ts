@@ -19,12 +19,11 @@ import {NgTemplateOutlet} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
-import {FIGLuaFormatter} from "../../formatters/lua.formatter";
 import {FIGWidgetHelper} from '../../models/widgets/widget.helper';
 import {Color} from "../../models/math";
 import {FIGDir} from "../../models/widgets/button.widget";
 import {MatIconButton} from "@angular/material/button";
-import {FIGFormatter} from "../../formatters/formatter";
+import {FormatterService} from "../../services/formatter.service";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -70,10 +69,7 @@ export class EditorComponent {
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
-  private readonly formatter: FIGFormatter;
-
-  constructor() {
-    this.formatter = new FIGLuaFormatter();
+  constructor(private readonly formatterService: FormatterService) {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
@@ -129,8 +125,12 @@ export class EditorComponent {
   }
 
   public onFormat(): void {
-    const output: string = this.formatter.format(this.document);
+    const output: string | undefined = this.formatterService.format(this.document);
 
+    if (!output) {
+      // TODO: show toast "You must select a language to format to."
+      return;
+    }
     navigator.clipboard.writeText(output);
   }
 

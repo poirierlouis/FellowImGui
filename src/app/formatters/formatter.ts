@@ -21,6 +21,8 @@ interface FIGFormatterOptions {
   indent: string;
 }
 
+export type FIGFormatterLanguage = 'lua';
+
 export enum CaseStyle {
   snake_case,
   camelCase
