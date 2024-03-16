@@ -20,7 +20,8 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
     const prevIsChecked: boolean = this.isChecked;
 
     ImGui.Checkbox(this.text, (_ = this.isChecked) => this.isChecked = _);
-    super.draw();
+    super.drawTooltip();
+    super.drawFocus();
     if (prevIsChecked !== this.isChecked) {
       this.updateSubject.next();
     }

@@ -4,11 +4,10 @@ export abstract class FIGWithTooltip extends FIGWidget {
 
   public tooltip?: string;
 
-  public override draw() {
+  protected drawTooltip(): void {
     if (this.tooltip && ImGui.IsItemHovered()) {
       ImGui.SetTooltip(this.tooltip);
     }
-    super.draw();
   }
 
 }

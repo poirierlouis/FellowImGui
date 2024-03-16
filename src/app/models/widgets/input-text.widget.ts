@@ -29,7 +29,8 @@ export class FIGInputTextWidget extends FIGWithTooltip {
     } else {
       ImGui.InputTextWithHint(this.text, this.hint, access, this.bufferSize);
     }
-    super.draw();
+    super.drawTooltip();
+    super.drawFocus();
     if (prevValue !== this.value) {
       this.updateSubject.next();
     }

@@ -39,6 +39,7 @@ export class FIGTextWidget extends FIGWithTooltip {
     } else if (this.color) {
       ImGui.PopStyleColor();
     }
-    super.draw();
+    super.drawTooltip();
+    super.drawFocus();
   }
 }

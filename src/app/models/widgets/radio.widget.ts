@@ -86,7 +86,8 @@ export class FIGRadioWidget extends FIGWithTooltip {
     const prevValue: number = this.value;
 
     ImGui.RadioButton(this.text, this._access!.access, this.index);
-    super.draw();
+    super.drawTooltip();
+    super.drawFocus();
     if (prevValue !== this.value) {
       accessor.update();
     }

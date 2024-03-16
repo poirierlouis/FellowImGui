@@ -26,6 +26,7 @@ export class FIGComboWidget extends FIGWithTooltip {
       this.items,
       this.items.length
     );
-    super.draw();
+    super.drawTooltip();
+    super.drawFocus();
   }
 }

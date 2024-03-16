@@ -41,22 +41,7 @@ export abstract class FIGWidget {
 
   public abstract get name(): string;
 
-  public draw(): void {
-    if (this.isFocused) {
-      this.growFocusRect();
-      const drawList = ImGui.GetWindowDrawList();
-
-      this._focusMin.x -= this._focusOffset.x;
-      this._focusMin.y -= this._focusOffset.y;
-      this._focusMax.x += this._focusOffset.x;
-      this._focusMax.y += this._focusOffset.y;
-      drawList.AddRect(this._focusMin, this._focusMax, ImGui.COL32(255, 255, 0, 255));
-      this._focusMin.x = Number.MAX_VALUE;
-      this._focusMin.y = Number.MAX_VALUE;
-      this._focusMax.x = Number.MIN_VALUE;
-      this._focusMax.y = Number.MIN_VALUE;
-    }
-  }
+  public abstract draw(): void;
 
   public dispose(): void {
 
@@ -72,6 +57,23 @@ export abstract class FIGWidget {
 
   public flatMap(): FIGWidget[] {
     return [this];
+  }
+
+  protected drawFocus(): void {
+    if (this.isFocused) {
+      this.growFocusRect();
+      const drawList = ImGui.GetWindowDrawList();
+
+      this._focusMin.x -= this._focusOffset.x;
+      this._focusMin.y -= this._focusOffset.y;
+      this._focusMax.x += this._focusOffset.x;
+      this._focusMax.y += this._focusOffset.y;
+      drawList.AddRect(this._focusMin, this._focusMax, ImGui.COL32(255, 255, 0, 255));
+      this._focusMin.x = Number.MAX_VALUE;
+      this._focusMin.y = Number.MAX_VALUE;
+      this._focusMax.x = Number.MIN_VALUE;
+      this._focusMax.y = Number.MIN_VALUE;
+    }
   }
 
   protected growFocusRect(): void {
