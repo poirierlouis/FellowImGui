@@ -73,7 +73,7 @@ export class EditorComponent {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
-      'Layouts · FIG',
+      'Basics · FIG',
       {width: 320, height: 398},
       [
         FIGWidgetHelper.createText('Hello world!'),
@@ -98,7 +98,7 @@ export class EditorComponent {
         FIGWidgetHelper.createProgressBar(1.00, {label: 'Loading'}),
       ]);
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow(
-      'Basics · FIG',
+      'Forms / Inputs · FIG',
       {width: 460, height: 302},
       [
         FIGWidgetHelper.createLabel('Label', 'Input'),
