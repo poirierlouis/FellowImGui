@@ -73,7 +73,9 @@ export abstract class FIGFormatter {
     const formatter: FIGFormatterItem | undefined = this.findFormatter(widget.type);
 
     if (!formatter) {
-      throw new Error(`${FIGWidgetType[widget.type]} formatter is not implemented!`);
+      this.append(`-- ${FIGWidgetType[widget.type]} formatter for '${this.language}' is not implemented!`);
+      this.append('');
+      return;
     }
     formatter.fmt(widget);
     if (widget instanceof FIGWithTooltip) {
