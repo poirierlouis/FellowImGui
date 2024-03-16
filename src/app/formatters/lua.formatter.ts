@@ -91,6 +91,7 @@ export class FIGLuaFormatter extends FIGFormatter {
         this.append('ImGui.PopStyleColor()');
       }
     }
+    this.formatTooltip(widget);
   }
 
   protected override formatButton(widget: FIGButtonWidget): void {
@@ -109,11 +110,13 @@ export class FIGLuaFormatter extends FIGFormatter {
       }
       this.append(`${varDef}ImGui.Button(${this.formatString(widget.text)}${size})`);
     }
+    this.formatTooltip(widget);
   }
 
   // Forms / Inputs
   protected override formatLabel(widget: FIGLabelWidget): void {
     this.append(`ImGui.LabelText("${widget.label}", "${widget.value}")`);
+    this.formatTooltip(widget);
   }
 
   protected override formatInputText(widget: FIGInputTextWidget): void {
@@ -127,6 +130,7 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else {
       this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.text)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize})`);
     }
+    this.formatTooltip(widget);
   }
 
   protected override formatCheckbox(widget: FIGCheckboxWidget): void {
@@ -135,6 +139,7 @@ export class FIGLuaFormatter extends FIGFormatter {
 
     this.append(`local ${varValue} = false, ${varPressed}`);
     this.append(`${varValue}, ${varPressed} = ImGui.Checkbox(${this.formatString(widget.text)}, ${varValue})`);
+    this.formatTooltip(widget);
   }
 
   protected override formatRadio(widget: FIGRadioWidget): void {
@@ -148,6 +153,7 @@ export class FIGLuaFormatter extends FIGFormatter {
     const varDef: string = `${varValue}, ${varPressed} = `;
 
     this.append(`${varDef}ImGui.RadioButton(${this.formatString(widget.text)}, ${varValue}, ${widget.index})`);
+    this.formatTooltip(widget);
   }
 
   protected override formatCombo(widget: FIGComboWidget): void {
@@ -157,6 +163,7 @@ export class FIGLuaFormatter extends FIGFormatter {
 
     this.append(`local ${varCurrentItem} = 0, ${varClicked}`);
     this.append(`${varCurrentItem}, ${varClicked} = ImGui.Combo(${this.formatString(widget.label)}, ${varCurrentItem}, {${items}}, ${widget.items.length})`);
+    this.formatTooltip(widget);
   }
 
 }

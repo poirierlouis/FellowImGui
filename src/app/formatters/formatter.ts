@@ -78,9 +78,6 @@ export abstract class FIGFormatter {
       return;
     }
     formatter.fmt(widget);
-    if (widget instanceof FIGWithTooltip) {
-      this.formatTooltip(widget);
-    }
     this.append('');
   }
 
