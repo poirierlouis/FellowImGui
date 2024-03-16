@@ -74,7 +74,7 @@ export class EditorComponent {
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
       'Layouts · FIG',
-      {width: 320, height: 326},
+      {width: 320, height: 398},
       [
         FIGWidgetHelper.createText('Hello world!'),
         FIGWidgetHelper.createText('I\'m colorful!', {color: color}),
@@ -92,6 +92,10 @@ export class EditorComponent {
         FIGWidgetHelper.createButton('Fill button', {isFill: true}),
         FIGWidgetHelper.createButton('Arrow button', {arrow: FIGDir.down}),
         FIGWidgetHelper.createButton('Button w/ tooltip', {tooltip: 'Can you see me?'}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createProgressBar(0.00),
+        FIGWidgetHelper.createProgressBar(0.42, {isFill: true, tooltip: 'Fill horizontally.'}),
+        FIGWidgetHelper.createProgressBar(1.00, {label: 'Loading'}),
       ]);
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow(
       'Basics · FIG',

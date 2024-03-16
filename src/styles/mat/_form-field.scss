@@ -4,13 +4,24 @@
   }
 
   .mat-form-field {
+    overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 48px;
+    min-height: 48px;
 
     & + mat-form-field {
       margin-top: 16px;
+    }
+
+    &.thumb {
+      padding-top: 28px;
+    }
+
+    & mat-slider {
+      flex: 1;
+      margin-left: 24px;
+      margin-right: 28px;
     }
   }
 }

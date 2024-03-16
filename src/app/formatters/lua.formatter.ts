@@ -9,8 +9,9 @@ import {FIGTextWidget} from "../models/widgets/text.widget";
 import {FIGWindowWidget} from "../models/widgets/window.widget";
 import {CaseStyle, FIGFormatter} from "./formatter";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
-import {Color} from "../models/math";
+import {Color, Vector2} from "../models/math";
 import {capitalize} from "../models/string";
+import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -111,6 +112,35 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.append(`${varDef}ImGui.Button(${this.formatString(widget.text)}${size})`);
     }
     this.formatTooltip(widget);
+  }
+
+  protected override formatProgressBar(widget: FIGProgressBarWidget): void {
+    const progression: string = `${(widget.value * 100.0).toFixed(0)}%`;
+    const size: Vector2 = {x: 0, y: 0};
+
+    if (widget.isFill) {
+      size.x = -1;
+    }
+    this.append(`ImGui.ProgressBar(${widget.value}, ${size.x}, ${size.y}, ${this.formatString(progression)})`);
+    let varShow: string = this.formatVar(`${widget.label ?? ''} show tooltip`, widget.type);
+
+    if (widget.tooltip && widget.label && !widget.isFill) {
+      this.append(`local ${varShow} = ImGui.IsItemHovered()`);
+    } else if (widget.tooltip) {
+      varShow = 'ImGui.IsItemHovered()';
+    }
+    if (widget.label && !widget.isFill) {
+      this.append(`ImGui.SameLine()`);
+      this.append(`ImGui.Text(${this.formatString(widget.label)})`);
+      if (widget.tooltip) {
+        this.append(`${varShow} = ${varShow} or ImGui.IsItemHovered()`);
+      }
+    }
+    if (widget.tooltip) {
+      this.append(`if ${varShow} then`);
+      this.appendIndent(`ImGui.SetTooltip(${this.formatString(widget.tooltip)})`);
+      this.append('end');
+    }
   }
 
   // Forms / Inputs

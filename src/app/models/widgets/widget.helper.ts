@@ -9,9 +9,12 @@ import {FIGInputTextWidget} from "./input-text.widget";
 import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
 import {FIGComboWidget} from "./combo.widget";
+import {FIGProgressBarWidget} from "./progress-bar.widget";
 
 type FIGTextOptions = Partial<FIGTextWidget>;
 type FIGButtonOptions = Partial<FIGButtonWidget>;
+type FIGProgressBarOptions = Partial<FIGProgressBarWidget>;
+
 type FIGInputTextOptions = Partial<FIGInputTextWidget>;
 type FIGRadioOptions = Partial<FIGRadioWidget>;
 type FIGComboOptions = Partial<FIGComboWidget>;
@@ -54,6 +57,17 @@ export class FIGWidgetHelper {
     widget.isFill = options?.isFill ?? false;
     widget.isSmall = options?.isSmall ?? false;
     widget.arrow = options?.arrow ?? FIGDir.none;
+    widget.tooltip = options?.tooltip;
+    return widget;
+  }
+
+  public static createProgressBar(value: number,
+                                  options?: FIGProgressBarOptions): FIGProgressBarWidget {
+    const widget: FIGProgressBarWidget = new FIGProgressBarWidget();
+
+    widget.value = value;
+    widget.label = options?.label;
+    widget.isFill = options?.isFill ?? false;
     widget.tooltip = options?.tooltip;
     return widget;
   }

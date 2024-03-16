@@ -10,6 +10,7 @@ import {ComboPropertiesComponent} from "./combo-properties/combo-properties.comp
 import {InputTextPropertiesComponent} from "./input-text-properties/input-text-properties.component";
 import {MatIcon} from "@angular/material/icon";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
+import {ProgressBarPropertiesComponent} from "./progress-bar-properties/progress-bar-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -24,6 +25,7 @@ import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
     WindowPropertiesComponent,
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,
+    ProgressBarPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'

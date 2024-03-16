@@ -45,5 +45,10 @@
                                  [widget]="widget!"
                                  (update)="update.emit($event)"></fig-input-text-properties>
     }
+    @case (FIGWidgetType.progressBar) {
+      <fig-progress-bar-properties class="properties"
+                                   [widget]="widget!"
+                                   (update)="update.emit($event)"></fig-progress-bar-properties>
+    }
   }
 }

@@ -26,6 +26,7 @@
   @include mat.select-theme($theme);
   @include mat.option-theme($theme);
   @include mat.icon-button-theme($theme);
+  @include mat.slider-theme($theme);
 
   @include list-theme($theme);
   @include form-field-theme($theme);
@@ -47,6 +48,7 @@
   @include mat.select-color($theme);
   @include mat.option-color($theme);
   @include mat.icon-button-color($theme);
+  @include mat.slider-color($theme);
 
   @include list-color($theme);
   @include form-field-color($theme);

@@ -8,6 +8,7 @@ import {FIGRadioWidget} from "./radio.widget";
 import {FIGLabelWidget} from "./label.widget";
 import {FIGComboWidget} from "./combo.widget";
 import {FIGInputTextWidget} from "./input-text.widget";
+import {FIGProgressBarWidget} from "./progress-bar.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -25,6 +26,7 @@ export class FIGWidgetFactory {
     // Basics
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget('Text')},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget('Button')},
+    {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget(0.0, 'Progress Bar')},
 
     // Forms / Inputs
     {

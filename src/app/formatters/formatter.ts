@@ -11,6 +11,7 @@ import {FIGComboWidget} from "../models/widgets/combo.widget";
 import {FIGWidget, FIGWidgetType} from "../models/widgets/widget";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {sanitizeVar, toCamelCase, toSnakeCase} from "../models/string";
+import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -42,6 +43,7 @@ export abstract class FIGFormatter {
     // Basics
     {type: FIGWidgetType.text, fmt: this.formatText.bind(this)},
     {type: FIGWidgetType.button, fmt: this.formatButton.bind(this)},
+    {type: FIGWidgetType.progressBar, fmt: this.formatProgressBar.bind(this)},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
@@ -118,6 +120,7 @@ export abstract class FIGFormatter {
   protected abstract formatTooltip(widget: FIGWithTooltip): void;
   protected abstract formatText(widget: FIGTextWidget): void;
   protected abstract formatButton(widget: FIGButtonWidget): void;
+  protected abstract formatProgressBar(widget: FIGProgressBarWidget): void;
 
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;
