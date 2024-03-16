@@ -4,15 +4,20 @@ import {FIGContainer} from "./container";
 import {Vector2} from "../math";
 
 export enum FIGWidgetType {
+  // Layouts
   window,
+  separator,
+
+  // Basics
   text,
   button,
+
+  // Forms / Inputs
+  label,
+  inputText,
   checkbox,
   radio,
-  label,
   combo,
-  inputText,
-  separator
 }
 
 export abstract class FIGWidget {
