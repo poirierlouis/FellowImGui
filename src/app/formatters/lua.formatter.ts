@@ -59,10 +59,15 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.append(`ImGui.Text(${this.formatString(widget.text)})`);
     } else if (widget.hasBullet && !widget.isWrapped) {
       if (widget.isDisabled) {
+        this.append('local color = ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)');
+        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, color[1], color[2], color[3], color[4])`);
         this.append('ImGui.Bullet()');
+        this.append('ImGui.PopStyleColor()');
         this.append(`ImGui.TextDisabled(${this.formatString(widget.text)})`);
       } else if (widget.color) {
+        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaFormatter.formatColor(widget.color)})`);
         this.append('ImGui.Bullet()');
+        this.append('ImGui.PopStyleColor()');
         this.append(`ImGui.TextColored(${FIGLuaFormatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
       } else {
         this.append(`ImGui.BulletText(${this.formatString(widget.text)})`);
@@ -72,14 +77,14 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else if (widget.color && !widget.isWrapped) {
       this.append(`ImGui.TextColored(${FIGLuaFormatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
     } else {
-      if (widget.hasBullet) {
-        this.append('ImGui.Bullet()');
-      }
       if (widget.isDisabled) {
         this.append('local color = ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)');
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, color[1], color[2], color[3], color[4])`);
       } else if (widget.color) {
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaFormatter.formatColor(widget.color)})`);
+      }
+      if (widget.hasBullet) {
+        this.append('ImGui.Bullet()');
       }
       this.append(`ImGui.TextWrapped(${this.formatString(widget.text)})`);
       if (widget.isDisabled || widget.color) {
