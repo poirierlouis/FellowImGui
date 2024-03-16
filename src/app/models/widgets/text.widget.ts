@@ -20,25 +20,23 @@ export class FIGTextWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
+    if (this.isDisabled) {
+      ImGui.BeginDisabled(true);
+    } else if (this.color) {
+      ImGui.PushStyleColor(0, new ImGui.Vec4(this.color.r, this.color.g, this.color.b, this.color.a));
+    }
     if (this.hasBullet) {
       ImGui.Bullet();
-    }
-    let color: any;
-
-    if (this.isDisabled) {
-      color = ImGui.GetStyleColorVec4(1);
-    } else if (this.color) {
-      color = new ImGui.Vec4(this.color.r, this.color.g, this.color.b, this.color.a);
-    }
-    if (color) {
-      ImGui.PushStyleColor(0, color);
+      this.growFocusRect();
     }
     if (this.isWrapped) {
       ImGui.TextWrapped(this.text);
     } else {
       ImGui.Text(this.text);
     }
-    if (color) {
+    if (this.isDisabled) {
+      ImGui.EndDisabled();
+    } else if (this.color) {
       ImGui.PopStyleColor();
     }
     super.draw();
