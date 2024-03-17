@@ -13,6 +13,7 @@ import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {sanitizeVar, toCamelCase, toSnakeCase} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
+import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -50,6 +51,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
     {type: FIGWidgetType.inputText, fmt: this.formatInputText.bind(this)},
     {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
+    {type: FIGWidgetType.inputColorEdit, fmt: this.formatInputColorEdit.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
     {type: FIGWidgetType.radio, fmt: this.formatRadio.bind(this)},
     {type: FIGWidgetType.combo, fmt: this.formatCombo.bind(this)},
@@ -128,6 +130,7 @@ export abstract class FIGFormatter {
   protected abstract formatLabel(widget: FIGLabelWidget): void;
   protected abstract formatInputText(widget: FIGInputTextWidget): void;
   protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
+  protected abstract formatInputColorEdit(widget: FIGInputColorEditWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;
   protected abstract formatRadio(widget: FIGRadioWidget): void;
   protected abstract formatCombo(widget: FIGComboWidget): void;

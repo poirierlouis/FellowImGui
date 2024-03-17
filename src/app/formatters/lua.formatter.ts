@@ -13,6 +13,7 @@ import {Color, Vector2} from "../models/math";
 import {capitalize} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
+import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -225,6 +226,25 @@ export class FIGLuaFormatter extends FIGFormatter {
     }
     this.append(`local ${varValue} = ${value}, ${varUsed}`);
     this.append(`${varValue}, ${varUsed} = ${fn}(${args.join(', ')})`);
+    this.formatTooltip(widget);
+  }
+
+  protected override formatInputColorEdit(widget: FIGInputColorEditWidget): void {
+    const text: string = this.formatString(widget.text);
+    const varColor: string = this.formatVar(`${widget.text} color`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.text} used`, widget.type);
+    let value: string = `${widget.color.r}, ${widget.color.g}, ${widget.color.b}`;
+
+    if (widget.withAlpha) {
+      value += `, ${widget.color.a}`;
+    }
+    value = `{${value}}`;
+    this.append(`local ${varColor} = ${value}, ${varUsed}`);
+    if (!widget.withAlpha) {
+      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit3(${text}, ${varColor})`);
+    } else {
+      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor})`);
+    }
     this.formatTooltip(widget);
   }
 

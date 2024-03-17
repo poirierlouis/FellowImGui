@@ -100,7 +100,7 @@ export class EditorComponent {
       ]);
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow(
       'Forms / Inputs · FIG',
-      {width: 460, height: 512},
+      {width: 460, height: 564},
       [
         FIGWidgetHelper.createLabel('Label', 'Input'),
         FIGWidgetHelper.createSeparator(),
@@ -117,6 +117,9 @@ export class EditorComponent {
         FIGWidgetHelper.createInputNumber('float3', {value: [1.2, 2.3, 3.5], dataType: FIGInputNumberType.float3}),
         FIGWidgetHelper.createInputNumber('float4', {value: [5.8, 8.13, 13.21, 21.34], dataType: FIGInputNumberType.float4}),
         FIGWidgetHelper.createInputNumber('double', {step: 0.001, stepFast: 0.5, dataType: FIGInputNumberType.double}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createInputColorEdit('color', {tooltip: 'Define an RGB color using inputs/picker.'}),
+        FIGWidgetHelper.createInputColorEdit('color w/ alpha', {withAlpha: true}),
         FIGWidgetHelper.createSeparator(),
         FIGWidgetHelper.createCheckbox('Fig'),
         FIGWidgetHelper.createCheckbox('Banana', true),

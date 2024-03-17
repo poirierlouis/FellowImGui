@@ -12,6 +12,7 @@ import {MatIcon} from "@angular/material/icon";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {ProgressBarPropertiesComponent} from "./progress-bar-properties/progress-bar-properties.component";
 import {InputNumberPropertiesComponent} from "./input-number-properties/input-number-properties.component";
+import {InputColorEditPropertiesComponent} from "./input-color-edit-properties/input-color-edit-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -28,6 +29,7 @@ import {InputNumberPropertiesComponent} from "./input-number-properties/input-nu
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
+    InputColorEditPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'

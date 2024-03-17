@@ -10,6 +10,7 @@ import {FIGComboWidget} from "./combo.widget";
 import {FIGInputTextWidget} from "./input-text.widget";
 import {FIGProgressBarWidget} from "./progress-bar.widget";
 import {FIGInputNumberWidget} from "./input-number.widget";
+import {FIGInputColorEditWidget} from "./input-color-edit.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -44,6 +45,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.inputNumber,
       title: 'Input Number',
       build: (id: number) => new FIGInputNumberWidget(`Input Number ${id}`)
+    },
+    {
+      type: FIGWidgetType.inputColorEdit,
+      title: 'Color Edit',
+      build: (id: number) => new FIGInputColorEditWidget(`Color Edit ${id}`)
     },
     {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},

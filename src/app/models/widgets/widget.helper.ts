@@ -11,6 +11,7 @@ import {FIGRadioWidget} from "./radio.widget";
 import {FIGComboWidget} from "./combo.widget";
 import {FIGProgressBarWidget} from "./progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "./input-number.widget";
+import {FIGInputColorEditWidget} from "./input-color-edit.widget";
 
 type FIGTextOptions = Partial<FIGTextWidget>;
 type FIGButtonOptions = Partial<FIGButtonWidget>;
@@ -18,6 +19,7 @@ type FIGProgressBarOptions = Partial<FIGProgressBarWidget>;
 
 type FIGInputTextOptions = Partial<FIGInputTextWidget>;
 type FIGInputNumberOptions = Partial<FIGInputNumberWidget>;
+type FIGInputColorEditOptions = Partial<FIGInputColorEditWidget>;
 type FIGRadioOptions = Partial<FIGRadioWidget>;
 type FIGComboOptions = Partial<FIGComboWidget>;
 
@@ -97,6 +99,15 @@ export class FIGWidgetHelper {
     widget.step = options?.step ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 1 : 0.01);
     widget.stepFast = options?.stepFast ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 10 : 1);
     widget.format = options?.format ?? (widget.dataType === FIGInputNumberType.double ? "%.8f" : "%.3f");
+    widget.tooltip = options?.tooltip;
+    return widget;
+  }
+
+  public static createInputColorEdit(text: string, options?: FIGInputColorEditOptions): FIGInputColorEditWidget {
+    const widget: FIGInputColorEditWidget = new FIGInputColorEditWidget(text);
+
+    widget.color = options?.color ?? {r: 0.5, g: 0.5, b: 0.5, a: 0.5};
+    widget.withAlpha = options?.withAlpha ?? false;
     widget.tooltip = options?.tooltip;
     return widget;
   }

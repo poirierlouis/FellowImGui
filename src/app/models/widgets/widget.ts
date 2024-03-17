@@ -17,6 +17,7 @@ export enum FIGWidgetType {
   label,
   inputText,
   inputNumber,
+  inputColorEdit,
   checkbox,
   radio,
   combo,
