@@ -28,7 +28,11 @@ export class FIGWidgetFactory {
     // Basics
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget('Text')},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget('Button')},
-    {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget(0.0, 'Progress Bar')},
+    {
+      type: FIGWidgetType.progressBar,
+      title: 'Progress Bar',
+      build: () => new FIGProgressBarWidget(0.0, 'Progress Bar')
+    },
 
     // Forms / Inputs
     {
