@@ -9,6 +9,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
 import {parseRGBA, stringifyHEX, stringifyRGBA} from "../../../../models/math";
 import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
+import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 
 @Component({
   selector: 'fig-text-properties',
@@ -19,7 +20,8 @@ import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
     MatFormField,
     MatSlideToggle,
     NgxColorsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CdkTextareaAutosize
   ],
   templateUrl: './text-properties.component.html',
   styleUrl: './text-properties.component.css'

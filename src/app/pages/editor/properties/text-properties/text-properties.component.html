@@ -1,10 +1,19 @@
 <form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Text</mat-label>
-    <input matInput
-           type="text"
-           formControlName="text" />
-  </mat-form-field>
+  @if (!getProperty('isWrapped')) {
+    <mat-form-field>
+      <mat-label>Text</mat-label>
+      <input matInput
+             type="text"
+             formControlName="text" />
+    </mat-form-field>
+  } @else {
+    <mat-form-field>
+      <mat-label>Text</mat-label>
+      <textarea matInput
+                formControlName="text"
+                cdkTextareaAutosize></textarea>
+    </mat-form-field>
+  }
 
   <mat-form-field>
     <mat-label>Tooltip</mat-label>
