@@ -19,6 +19,15 @@ export function stringifyRGBA(value: Color): string {
   return `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a})`;
 }
 
+export function stringifyHEX(value: Color): string {
+  const r: string = Math.floor(value.r * 255).toString(16);
+  const g: string = Math.floor(value.g * 255).toString(16);
+  const b: string = Math.floor(value.b * 255).toString(16);
+  const a: string = Math.floor(value.a * 255).toString(16);
+
+  return `#${r}${g}${b}${a}`;
+}
+
 export function parseRGBA(value: string): Color | undefined {
   const rule = new RegExp(/rgba?\((?<r>[0-9]{1,3}), (?<g>[0-9]{1,3}), (?<b>[0-9]{1,3})(, (?<a>-?([0-9]*[.])?[0-9]+))?\)/);
   const match = value.match(rule);

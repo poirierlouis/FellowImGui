@@ -7,7 +7,7 @@ import {FIGTextWidget} from "../../../../models/widgets/text.widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
-import {parseRGBA, stringifyRGBA} from "../../../../models/math";
+import {parseRGBA, stringifyHEX, stringifyRGBA} from "../../../../models/math";
 import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
 
 @Component({
@@ -68,9 +68,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     }
     this.setProperty('text', this.widget.text);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
-    if (this.widget.color) {
-      this.setProperty('color', stringifyRGBA(this.widget.color));
-    }
+    this.setProperty('color', this.widget.color ? stringifyHEX(this.widget.color) : '');
     this.setProperty('isDisabled', this.widget.isDisabled);
     this.setProperty('isWrapped', this.widget.isWrapped);
     this.setProperty('hasBullet', this.widget.hasBullet);
