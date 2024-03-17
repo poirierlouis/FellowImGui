@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+}
+
+.wrap {
+  flex-flow: column;
+}

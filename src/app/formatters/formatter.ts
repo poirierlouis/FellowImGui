@@ -12,6 +12,7 @@ import {FIGWidget, FIGWidgetType} from "../models/widgets/widget";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {sanitizeVar, toCamelCase, toSnakeCase} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
+import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -48,6 +49,7 @@ export abstract class FIGFormatter {
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
     {type: FIGWidgetType.inputText, fmt: this.formatInputText.bind(this)},
+    {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
     {type: FIGWidgetType.radio, fmt: this.formatRadio.bind(this)},
     {type: FIGWidgetType.combo, fmt: this.formatCombo.bind(this)},
@@ -125,6 +127,7 @@ export abstract class FIGFormatter {
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;
   protected abstract formatInputText(widget: FIGInputTextWidget): void;
+  protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;
   protected abstract formatRadio(widget: FIGRadioWidget): void;
   protected abstract formatCombo(widget: FIGComboWidget): void;

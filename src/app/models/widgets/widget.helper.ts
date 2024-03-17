@@ -10,12 +10,14 @@ import {FIGCheckboxWidget} from "./checkbox.widget";
 import {FIGRadioWidget} from "./radio.widget";
 import {FIGComboWidget} from "./combo.widget";
 import {FIGProgressBarWidget} from "./progress-bar.widget";
+import {FIGInputNumberType, FIGInputNumberWidget} from "./input-number.widget";
 
 type FIGTextOptions = Partial<FIGTextWidget>;
 type FIGButtonOptions = Partial<FIGButtonWidget>;
 type FIGProgressBarOptions = Partial<FIGProgressBarWidget>;
 
 type FIGInputTextOptions = Partial<FIGInputTextWidget>;
+type FIGInputNumberOptions = Partial<FIGInputNumberWidget>;
 type FIGRadioOptions = Partial<FIGRadioWidget>;
 type FIGComboOptions = Partial<FIGComboWidget>;
 
@@ -83,6 +85,18 @@ export class FIGWidgetHelper {
     widget.hint = options?.hint;
     widget.value = options?.value ?? '';
     widget.bufferSize = options?.bufferSize ?? 256;
+    widget.tooltip = options?.tooltip;
+    return widget;
+  }
+
+  public static createInputNumber(text: string, options?: FIGInputNumberOptions): FIGInputNumberWidget {
+    const widget: FIGInputNumberWidget = new FIGInputNumberWidget(text);
+
+    widget.value = options?.value ?? 0;
+    widget.dataType = options?.dataType ?? FIGInputNumberType.int;
+    widget.step = options?.step ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 1 : 0.01);
+    widget.stepFast = options?.stepFast ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 10 : 1);
+    widget.format = options?.format ?? (widget.dataType === FIGInputNumberType.double ? "%.8f" : "%.3f");
     widget.tooltip = options?.tooltip;
     return widget;
   }

@@ -11,6 +11,7 @@ import {InputTextPropertiesComponent} from "./input-text-properties/input-text-p
 import {MatIcon} from "@angular/material/icon";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {ProgressBarPropertiesComponent} from "./progress-bar-properties/progress-bar-properties.component";
+import {InputNumberPropertiesComponent} from "./input-number-properties/input-number-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -26,6 +27,7 @@ import {ProgressBarPropertiesComponent} from "./progress-bar-properties/progress
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
+    InputNumberPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'

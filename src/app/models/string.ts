@@ -7,7 +7,7 @@ export function deCapitalize(str: string): string {
 }
 
 export function sanitizeVar(str: string): string {
-  return str.replaceAll(/[^a-zA-Z ]/g, '');
+  return str.replaceAll(/[^a-zA-Z0-9 ]/g, '');
 }
 
 export function toSnakeCase(str: string): string {

@@ -12,6 +12,7 @@ import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {Color, Vector2} from "../models/math";
 import {capitalize} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
+import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -160,6 +161,70 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else {
       this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.text)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize})`);
     }
+    this.formatTooltip(widget);
+  }
+
+  protected override formatInputNumber(widget: FIGInputNumberWidget): void {
+    const size: number = FIGInputNumberWidget.getArraySize(widget.dataType);
+    const varValue: string = this.formatVar(`${widget.text} value${size > 0 ? 's' : ''}`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.text} used`, widget.type);
+    const varStep: string = widget.step.toString();
+    const varStepFast: string = widget.stepFast.toString();
+    const varFormat: string = this.formatString(widget.format);
+    const args: string[] = [this.formatString(widget.text), varValue];
+    let fn: string;
+
+    switch (widget.dataType) {
+      case FIGInputNumberType.int:
+        fn = 'ImGui.InputInt';
+        args.push(varStep, varStepFast);
+        break;
+      case FIGInputNumberType.int2:
+        fn = 'ImGui.InputInt2';
+        break;
+      case FIGInputNumberType.int3:
+        fn = 'ImGui.InputInt3';
+        break;
+      case FIGInputNumberType.int4:
+        fn = 'ImGui.InputInt4';
+        break;
+      case FIGInputNumberType.float:
+        fn = 'ImGui.InputFloat';
+        args.push(varStep, varStepFast, varFormat);
+        break;
+      case FIGInputNumberType.float2:
+        fn = 'ImGui.InputFloat2';
+        args.push(varFormat);
+        break;
+      case FIGInputNumberType.float3:
+        fn = 'ImGui.InputFloat3';
+        args.push(varFormat);
+        break;
+      case FIGInputNumberType.float4:
+        fn = 'ImGui.InputFloat4';
+        args.push(varFormat);
+        break;
+      case FIGInputNumberType.double:
+        fn = 'ImGui.InputDouble';
+        args.push(varStep, varStepFast, varFormat);
+        break;
+    }
+    const precision: number | undefined = FIGInputNumberWidget.getPrecision(widget);
+    const isInteger: boolean = FIGInputNumberWidget.isInteger(widget.dataType);
+    let value: string;
+
+    if (size === 0) {
+      const number: number = widget.value as number;
+
+      value = isInteger ? number.toString() : number.toFixed(precision);
+    } else {
+      const numbers: number[] = widget.value as number[];
+
+      value = numbers.map((item) => isInteger ? item.toString() : item.toFixed(precision)).join(', ');
+      value = `{${value}}`;
+    }
+    this.append(`local ${varValue} = ${value}, ${varUsed}`);
+    this.append(`${varValue}, ${varUsed} = ${fn}(${args.join(', ')})`);
     this.formatTooltip(widget);
   }
 
