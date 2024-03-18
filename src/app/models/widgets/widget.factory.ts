@@ -22,42 +22,42 @@ export class FIGWidgetFactory {
 
   public static readonly builders: FIGWidgetBuilder[] = [
     // Layouts
-    {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget(`Window ${id}`)},
+    {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget({label: `Window ${id}`})},
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics
-    {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget('Text')},
-    {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget('Button')},
+    {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget()},
+    {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget()},
     {
       type: FIGWidgetType.progressBar,
       title: 'Progress Bar',
-      build: () => new FIGProgressBarWidget(0.0, 'Progress Bar')
+      build: () => new FIGProgressBarWidget()
     },
 
     // Forms / Inputs
     {
       type: FIGWidgetType.label,
       title: 'Label',
-      build: () => new FIGLabelWidget('Label', 'Value')
+      build: () => new FIGLabelWidget()
     },
     {
       type: FIGWidgetType.inputText,
       title: 'Input Text',
-      build: (id: number) => new FIGInputTextWidget(`Input Text ${id}`)
+      build: (id: number) => new FIGInputTextWidget({label: `Input Text ${id}`})
     },
     {
       type: FIGWidgetType.inputNumber,
       title: 'Input Number',
-      build: (id: number) => new FIGInputNumberWidget(`Input Number ${id}`)
+      build: (id: number) => new FIGInputNumberWidget({label: `Input Number ${id}`})
     },
     {
       type: FIGWidgetType.inputColorEdit,
       title: 'Color Edit',
-      build: (id: number) => new FIGInputColorEditWidget(`Color Edit ${id}`)
+      build: (id: number) => new FIGInputColorEditWidget({label: `Color Edit ${id}`})
     },
-    {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget(`Checkbox ${id}`)},
-    {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget(`Radio ${id}`)},
-    {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget(`Combo ${id}`)},
+    {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget({label: `Checkbox ${id}`})},
+    {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget({label: `Radio ${id}`})},
+    {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget({label: `Combo ${id}`})},
   ];
   public static readonly icons: string[] = FIGWidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);
 

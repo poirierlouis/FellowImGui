@@ -1,5 +1,9 @@
 import {FIGWidget} from "./widget";
 
+export interface FIGTooltipOption {
+  readonly tooltip?: string;
+}
+
 export abstract class FIGWithTooltip extends FIGWidget {
 
   public tooltip?: string;

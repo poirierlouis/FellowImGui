@@ -27,7 +27,7 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
 
   override form: FormGroup = new FormGroup<any>({
     groupId: new FormControl<string>(''),
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
     index: new FormControl<number>(0, {validators: Validators.min(0)}),
     isSelected: new FormControl<boolean>({value: false, disabled: true}),
@@ -36,7 +36,7 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('groupId', 300).subscribe(this.onGroupIDChanged.bind(this));
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('index', 200).subscribe(this.onIndexChanged.bind(this));
   }
@@ -46,7 +46,7 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
       return;
     }
     this.setProperty('groupId', this.widget.groupId);
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('index', this.widget.index);
     this.setProperty('isSelected', this.widget.value == this.widget.index);
@@ -57,8 +57,8 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
     this.update.emit();
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

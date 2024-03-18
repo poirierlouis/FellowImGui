@@ -24,14 +24,14 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
-    title: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     width: new FormControl<number>(32, {validators: [Validators.min(32)]}),
     height: new FormControl<number>(32, {validators: [Validators.min(32)]})
   });
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('title').subscribe(this.onTitleChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('width').subscribe(this.onWidthChanged.bind(this));
     this.listenProperty('height').subscribe(this.onHeightChanged.bind(this));
   }
@@ -40,13 +40,13 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     if (!this.widget) {
       return;
     }
-    this.setProperty('title', this.widget.title);
+    this.setProperty('label', this.widget.label);
     this.setProperty('width', this.widget.size.width);
     this.setProperty('height', this.widget.size.height);
   }
 
-  private onTitleChanged(value: string): void {
-    this.widget!.title = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

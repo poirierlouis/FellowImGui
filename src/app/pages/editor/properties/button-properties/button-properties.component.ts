@@ -29,7 +29,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
     isFill: new FormControl<boolean>(false),
     isSmall: new FormControl<boolean>(false),
@@ -40,7 +40,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('isFill').subscribe(this.onIsFillChanged.bind(this));
     this.listenProperty('isSmall').subscribe(this.onIsSmallChanged.bind(this));
@@ -51,15 +51,15 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     if (!this.widget) {
       return;
     }
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('isFill', this.widget.isFill);
     this.setProperty('isSmall', this.widget.isSmall);
     this.setProperty('arrow', this.widget.arrow);
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

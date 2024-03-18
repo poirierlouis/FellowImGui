@@ -1,5 +1,10 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+
+export interface FIGComboOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly items?: string[];
+}
 
 export class FIGComboWidget extends FIGWithTooltip {
   label: string;
@@ -7,12 +12,12 @@ export class FIGComboWidget extends FIGWithTooltip {
 
   selectedIndex: number;
 
-  constructor(label: string = 'Combo', items: string[] = [], tooltip?: string) {
+  constructor(options?: FIGComboOptions) {
     super(FIGWidgetType.combo, true);
-    this.label = label;
-    this.items = items;
+    this.label = options?.label ?? 'Combo';
+    this.items = options?.items ?? [];
     this.selectedIndex = 0;
-    this.tooltip = tooltip;
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {

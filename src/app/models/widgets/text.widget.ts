@@ -1,18 +1,30 @@
 import {FIGWidgetType} from "./widget";
 import {Color} from "../math";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+
+export interface FIGTextOptions extends FIGTooltipOption {
+  readonly text?: string;
+  readonly color?: Color;
+  readonly isDisabled?: boolean;
+  readonly isWrapped?: boolean;
+  readonly hasBullet?: boolean;
+}
 
 export class FIGTextWidget extends FIGWithTooltip {
   text: string;
   color?: Color;
-  isDisabled: boolean = false;
-  isWrapped: boolean = false;
-  hasBullet: boolean = false;
+  isDisabled: boolean;
+  isWrapped: boolean;
+  hasBullet: boolean;
 
-  constructor(text: string = 'Text', tooltip?: string) {
+  constructor(options?: FIGTextOptions) {
     super(FIGWidgetType.text, true);
-    this.text = text;
-    this.tooltip = tooltip;
+    this.text = options?.text ?? 'Text';
+    this.color = options?.color;
+    this.isDisabled = options?.isDisabled ?? false;
+    this.isWrapped = options?.isWrapped ?? false;
+    this.hasBullet = options?.hasBullet ?? false;
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {

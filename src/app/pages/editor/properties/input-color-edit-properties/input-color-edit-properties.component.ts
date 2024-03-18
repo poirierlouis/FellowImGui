@@ -33,7 +33,7 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     color: new FormControl<string>(''),
     withAlpha: new FormControl<boolean>(false),
     tooltip: new FormControl<string | null>(null),
@@ -41,7 +41,7 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('color').subscribe(this.onColorChanged.bind(this));
     this.listenProperty('withAlpha').subscribe(this.onWithAlphaChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
@@ -67,14 +67,14 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
     if (!this.widget.withAlpha) {
       color.a = 1.0;
     }
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('color', stringifyHEX(color));
     this.setProperty('withAlpha', this.widget.withAlpha);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

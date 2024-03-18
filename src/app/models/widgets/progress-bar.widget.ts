@@ -1,20 +1,24 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Vector2} from "../math";
+
+export interface FIGProgressBarOptions extends FIGTooltipOption {
+  readonly value?: number;
+  readonly label?: string;
+  readonly isFill?: boolean;
+}
 
 export class FIGProgressBarWidget extends FIGWithTooltip {
   value: number;
   label?: string;
   isFill: boolean;
 
-  constructor(value: number = 0.0,
-              label?: string,
-              tooltip?: string) {
+  constructor(options?: FIGProgressBarOptions) {
     super(FIGWidgetType.progressBar, true);
-    this.value = value;
-    this.label = label;
-    this.isFill = false;
-    this.tooltip = tooltip;
+    this.value = options?.value ?? 0.0;
+    this.label = options?.label;
+    this.isFill = options?.isFill ?? false;
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {

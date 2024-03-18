@@ -73,69 +73,82 @@ export class EditorComponent {
   constructor(private readonly formatterService: FormatterService) {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
-    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow(
-      'Basics · FIG',
-      {width: 320, height: 398},
-      [
-        FIGWidgetHelper.createText('Hello world!'),
-        FIGWidgetHelper.createText('I\'m colorful!', {color: color}),
-        FIGWidgetHelper.createText('I\'m disabled!', {isDisabled: true}),
-        FIGWidgetHelper.createText('I\'m a bullet!', {hasBullet: true}),
-        FIGWidgetHelper.createText('I\'m one with a tooltip!', {tooltip: 'Explain me!'}),
-        FIGWidgetHelper.createText('I\'m "complex and long". Lorem ipsum dolor sit amet, consectetur adipiscing ' +
+    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
+      label: 'Basics · FIG',
+      size: {width: 320, height: 398}
+    }, [
+      FIGWidgetHelper.createText({text: 'Hello world!'}),
+      FIGWidgetHelper.createText({text: 'I\'m colorful!', color: color}),
+      FIGWidgetHelper.createText({text: 'I\'m disabled!', isDisabled: true}),
+      FIGWidgetHelper.createText({text: 'I\'m a bullet!', hasBullet: true}),
+      FIGWidgetHelper.createText({text: 'I\'m one with a tooltip!', tooltip: 'Explain me!'}),
+      FIGWidgetHelper.createText({
+        text: 'I\'m "complex and long". Lorem ipsum dolor sit amet, consectetur adipiscing ' +
           'elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-          'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', {
-          color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
-        }),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createButton('Simple button'),
-        FIGWidgetHelper.createButton('Small button', {isSmall: true}),
-        FIGWidgetHelper.createButton('Fill button', {isFill: true}),
-        FIGWidgetHelper.createButton('Arrow button', {arrow: FIGDir.down}),
-        FIGWidgetHelper.createButton('Button w/ tooltip', {tooltip: 'Can you see me?'}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createProgressBar(0.00),
-        FIGWidgetHelper.createProgressBar(0.42, {isFill: true, tooltip: 'Fill horizontally.'}),
-        FIGWidgetHelper.createProgressBar(1.00, {label: 'Loading'}),
-      ]);
-    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow(
-      'Forms / Inputs · FIG',
-      {width: 460, height: 564},
-      [
-        FIGWidgetHelper.createLabel('Label', 'Input'),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createInputText('Username'),
-        FIGWidgetHelper.createInputText('Username w/ hint', {hint: 'e.g. Fig'}),
-        FIGWidgetHelper.createInputText('Username w/ tooltip', {tooltip: 'Be anonymous'}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createInputNumber('int', {tooltip: 'Hold CTRL to fast increment/decrement.'}),
-        FIGWidgetHelper.createInputNumber('int2', {value: [0, 1], dataType: FIGInputNumberType.int2}),
-        FIGWidgetHelper.createInputNumber('int3', {value: [1, 2, 3], dataType: FIGInputNumberType.int3}),
-        FIGWidgetHelper.createInputNumber('int4', {value: [5, 8, 13, 21], dataType: FIGInputNumberType.int4}),
-        FIGWidgetHelper.createInputNumber('float', {dataType: FIGInputNumberType.float}),
-        FIGWidgetHelper.createInputNumber('float2', {value: [0.1, 1.1], dataType: FIGInputNumberType.float2}),
-        FIGWidgetHelper.createInputNumber('float3', {value: [1.2, 2.3, 3.5], dataType: FIGInputNumberType.float3}),
-        FIGWidgetHelper.createInputNumber('float4', {value: [5.8, 8.13, 13.21, 21.34], dataType: FIGInputNumberType.float4}),
-        FIGWidgetHelper.createInputNumber('double', {step: 0.001, stepFast: 0.5, dataType: FIGInputNumberType.double}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createInputColorEdit('color', {tooltip: 'Define an RGB color using inputs/picker.'}),
-        FIGWidgetHelper.createInputColorEdit('color w/ alpha', {withAlpha: true}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createCheckbox('Fig'),
-        FIGWidgetHelper.createCheckbox('Banana', true),
-        FIGWidgetHelper.createCheckbox('Orange', false, 'Juicy :P'),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createRadio('Galactic Funk', {groupId: 'RadioChannel', index: 0}),
-        FIGWidgetHelper.createRadio('Space Rock', {groupId: 'RadioChannel', index: 1}),
-        FIGWidgetHelper.createRadio('Jazzy Moon', {
-          groupId: 'RadioChannel', index: 2, tooltip: 'Chill on moons of Wablad'
-        }),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createCombo('Jump Destination', {
-          items: ['Earth', 'Mars', 'Jupiter', 'Europa', 'Saturn', 'Titan'],
-          tooltip: 'Where should we go?'
-        })
-      ]);
+          'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
+      }),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createButton({label: 'Simple button'}),
+      FIGWidgetHelper.createButton({label: 'Small button', isSmall: true}),
+      FIGWidgetHelper.createButton({label: 'Fill button', isFill: true}),
+      FIGWidgetHelper.createButton({label: 'Arrow button', arrow: FIGDir.down}),
+      FIGWidgetHelper.createButton({label: 'Button w/ tooltip', tooltip: 'Can you see me?'}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createProgressBar({value: 0.00}),
+      FIGWidgetHelper.createProgressBar({value: 0.42, isFill: true, tooltip: 'Fill horizontally.'}),
+      FIGWidgetHelper.createProgressBar({value: 1.00, label: 'Loading'}),
+    ]);
+    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
+      label:
+        'Forms / Inputs · FIG',
+      size: {width: 460, height: 564}
+    }, [
+      FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createInputText({label: 'Username'}),
+      FIGWidgetHelper.createInputText({label: 'Username w/ hint', hint: 'e.g. Fig'}),
+      FIGWidgetHelper.createInputText({label: 'Username w/ tooltip', tooltip: 'Be anonymous'}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createInputNumber({label: 'int', tooltip: 'Hold CTRL to fast increment/decrement.'}),
+      FIGWidgetHelper.createInputNumber({label: 'int2', value: [0, 1], dataType: FIGInputNumberType.int2}),
+      FIGWidgetHelper.createInputNumber({label: 'int3', value: [1, 2, 3], dataType: FIGInputNumberType.int3}),
+      FIGWidgetHelper.createInputNumber({label: 'int4', value: [5, 8, 13, 21], dataType: FIGInputNumberType.int4}),
+      FIGWidgetHelper.createInputNumber({label: 'float', dataType: FIGInputNumberType.float}),
+      FIGWidgetHelper.createInputNumber({label: 'float2', value: [0.1, 1.1], dataType: FIGInputNumberType.float2}),
+      FIGWidgetHelper.createInputNumber({label: 'float3', value: [1.2, 2.3, 3.5], dataType: FIGInputNumberType.float3}),
+      FIGWidgetHelper.createInputNumber({
+        label: 'float4',
+        value: [5.8, 8.13, 13.21, 21.34],
+        dataType: FIGInputNumberType.float4
+      }),
+      FIGWidgetHelper.createInputNumber({
+        label: 'double',
+        step: 0.001,
+        stepFast: 0.5,
+        dataType: FIGInputNumberType.double
+      }),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createInputColorEdit({label: 'color', tooltip: 'Define an RGB color using inputs/picker.'}),
+      FIGWidgetHelper.createInputColorEdit({label: 'color w/ alpha', withAlpha: true}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createCheckbox({label: 'Fig'}),
+      FIGWidgetHelper.createCheckbox({label: 'Banana', isChecked: true}),
+      FIGWidgetHelper.createCheckbox({label: 'Orange', tooltip: 'Juicy :P'}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createRadio({label: 'Galactic Funk', groupId: 'RadioChannel', index: 0}),
+      FIGWidgetHelper.createRadio({label: 'Space Rock', groupId: 'RadioChannel', index: 1}),
+      FIGWidgetHelper.createRadio({
+        label: 'Jazzy Moon',
+        groupId: 'RadioChannel', index: 2, tooltip: 'Chill on moons of Wablad'
+      }),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createCombo({
+        label: 'Jump Destination',
+        items: ['Earth', 'Mars', 'Jupiter', 'Europa', 'Saturn', 'Titan'],
+        tooltip: 'Where should we go?'
+      })
+    ]);
 
     this.document.root.push(layouts);
     this.document.root.push(basics);

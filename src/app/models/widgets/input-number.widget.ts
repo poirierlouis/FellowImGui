@@ -1,5 +1,5 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export enum FIGInputNumberType {
   int,
@@ -15,33 +15,38 @@ export enum FIGInputNumberType {
   double
 }
 
+export interface FIGInputNumberOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly value?: number | number[];
+  readonly step?: number;
+  readonly stepFast?: number;
+  readonly format?: string;
+  readonly dataType?: FIGInputNumberType;
+}
+
 export class FIGInputNumberWidget extends FIGWithTooltip {
   private static readonly formatRule: RegExp = new RegExp(/^%\.(?<precision>[0-9]+)f$/);
 
-  text: string;
+  label: string;
+  dataType: FIGInputNumberType;
   value: number | number[];
   step: number;
   stepFast: number;
   format: string;
-  dataType: FIGInputNumberType;
 
-  constructor(text: string = 'Input Number',
-              value: number = 0,
-              dataType: FIGInputNumberType = FIGInputNumberType.int,
-              format: string = "%.2f",
-              tooltip?: string) {
+  constructor(options?: FIGInputNumberOptions) {
     super(FIGWidgetType.inputNumber, true);
-    this.text = text;
-    this.value = value;
-    this.step = FIGInputNumberWidget.isInteger(dataType) ? 1 : 0.01;
-    this.stepFast = FIGInputNumberWidget.isInteger(dataType) ? 10 : 1;
-    this.format = format;
-    this.dataType = dataType;
-    this.tooltip = tooltip;
+    this.label = options?.label ?? 'Input Number';
+    this.dataType = options?.dataType ?? FIGInputNumberType.int;
+    this.value = options?.value ?? 0;
+    this.step = options?.step ?? (FIGInputNumberWidget.isInteger(this.dataType) ? 1 : 0.01);
+    this.stepFast = options?.stepFast ?? (FIGInputNumberWidget.isInteger(this.dataType) ? 10 : 1);
+    this.format = options?.format ?? (this.dataType === FIGInputNumberType.double ? '%.8f' : '%.3f');
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {
-    return this.text;
+    return this.label;
   }
 
   public static isInteger(dataType: FIGInputNumberType): boolean {
@@ -75,7 +80,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
 
   public override draw(): void {
     const prevValue: number | number[] = (this.value instanceof Array) ? [...this.value] : this.value;
-    const args: any[] = [this.text];
+    const args: any[] = [this.label];
     let fn: (...args: any[]) => void;
 
     switch (this.dataType) {

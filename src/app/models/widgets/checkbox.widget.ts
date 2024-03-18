@@ -1,25 +1,29 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+
+export interface FIGCheckboxOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly isChecked?: boolean;
+}
 
 export class FIGCheckboxWidget extends FIGWithTooltip {
-  text: string;
-
+  label: string;
   isChecked: boolean = false;
 
-  constructor(text: string = 'Checkbox', tooltip?: string) {
+  constructor(options?: FIGCheckboxOptions) {
     super(FIGWidgetType.checkbox, true);
-    this.text = text;
-    this.tooltip = tooltip;
+    this.label = options?.label ?? 'Checkbox';
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {
-    return this.text;
+    return this.label;
   }
 
   public override draw(): void {
     const prevIsChecked: boolean = this.isChecked;
 
-    ImGui.Checkbox(this.text, (_ = this.isChecked) => this.isChecked = _);
+    ImGui.Checkbox(this.label, (_ = this.isChecked) => this.isChecked = _);
     super.drawTooltip();
     super.drawFocus();
     if (prevIsChecked !== this.isChecked) {

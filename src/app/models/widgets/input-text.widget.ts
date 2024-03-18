@@ -1,23 +1,30 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+
+export interface FIGInputTextOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly value?: string;
+  readonly hint?: string;
+  readonly bufferSize?: number;
+}
 
 export class FIGInputTextWidget extends FIGWithTooltip {
-  text: string;
+  label: string;
   value: string;
   hint?: string;
   bufferSize: number;
 
-  constructor(text: string = 'Text', hint?: string, value: string = '', tooltip?: string) {
+  constructor(options?: FIGInputTextOptions) {
     super(FIGWidgetType.inputText, true);
-    this.text = text;
-    this.value = value;
-    this.hint = hint;
-    this.tooltip = tooltip;
-    this.bufferSize = 256;
+    this.label = options?.label ?? 'Text';
+    this.value = options?.value ?? '';
+    this.hint = options?.hint;
+    this.tooltip = options?.tooltip;
+    this.bufferSize = options?.bufferSize ?? 256;
   }
 
   public get name(): string {
-    return this.text;
+    return this.label;
   }
 
   public override draw(): void {
@@ -25,9 +32,9 @@ export class FIGInputTextWidget extends FIGWithTooltip {
     const prevValue = this.value;
 
     if (!this.hint) {
-      ImGui.InputText(this.text, access, this.bufferSize);
+      ImGui.InputText(this.label, access, this.bufferSize);
     } else {
-      ImGui.InputTextWithHint(this.text, this.hint, access, this.bufferSize);
+      ImGui.InputTextWithHint(this.label, this.hint, access, this.bufferSize);
     }
     super.drawTooltip();
     super.drawFocus();

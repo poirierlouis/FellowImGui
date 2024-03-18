@@ -1,23 +1,28 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Color} from "../math";
 
-export class FIGInputColorEditWidget extends FIGWithTooltip {
-  color: Color;
-  text: string;
+export interface FIGInputColorEditOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly color?: Color;
+  readonly withAlpha?: boolean;
+}
 
+export class FIGInputColorEditWidget extends FIGWithTooltip {
+  label: string;
+  color: Color;
   withAlpha: boolean;
 
-  constructor(text: string = 'Input Color Edit', tooltip?: string) {
+  constructor(options?: FIGInputColorEditOptions) {
     super(FIGWidgetType.inputColorEdit, true);
-    this.color = {r: 0.5, g: 0.5, b: 0.5, a: 0.5};
-    this.text = text;
-    this.withAlpha = false;
-    this.tooltip = tooltip;
+    this.label = options?.label ?? 'Input Color Edit';
+    this.color = options?.color ?? {r: 0.5, g: 0.5, b: 0.5, a: 0.5};
+    this.withAlpha = options?.withAlpha ?? false;
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {
-    return this.text;
+    return this.label;
   }
 
   public override draw(): void {
@@ -25,9 +30,9 @@ export class FIGInputColorEditWidget extends FIGWithTooltip {
     const prevValues: number[] = [...values];
 
     if (!this.withAlpha) {
-      ImGui.ColorEdit3(this.text, values);
+      ImGui.ColorEdit3(this.label, values);
     } else {
-      ImGui.ColorEdit4(this.text, values);
+      ImGui.ColorEdit4(this.label, values);
     }
     if (this.diffColor(prevValues, values)) {
       this.color.r = values[0];

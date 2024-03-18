@@ -24,7 +24,7 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     hint: new FormControl<string | null>(null),
     value: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
@@ -33,7 +33,7 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('hint').subscribe(this.onHintChanged.bind(this));
     this.listenProperty('value').subscribe(this.onValueChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
@@ -44,15 +44,15 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
     if (!this.widget) {
       return;
     }
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('hint', this.widget.hint ?? null);
     this.setProperty('value', this.widget.value);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('bufferSize', this.widget.bufferSize);
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

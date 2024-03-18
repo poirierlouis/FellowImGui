@@ -41,7 +41,7 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
     precision: new FormControl<number>(2, {nonNullable: true}),
     format: new FormControl<string>({value: "%.2f", disabled: true}),
     useScientificNotation: new FormControl<boolean>(false),
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
   });
 
@@ -62,7 +62,7 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
     this.listenProperty('stepFast').subscribe(this.onStepFastChanged.bind(this));
     this.listenProperty('precision').subscribe(this.onPrecisionChanged.bind(this));
     this.listenProperty('useScientificNotation').subscribe(this.onScientificNotationChanged.bind(this));
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
   }
 
@@ -98,7 +98,7 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
     }
     this.setProperty('format', this.widget.format);
     this.setProperty('useScientificNotation', this.widget.format === '%e');
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
   }
 
@@ -188,8 +188,8 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
     this.update.emit();
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

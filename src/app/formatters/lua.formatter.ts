@@ -32,7 +32,7 @@ export class FIGLuaFormatter extends FIGFormatter {
   // Layouts
   protected override formatWindow(widget: FIGWindowWidget): void {
     this.append(`ImGui.SetNextWindowSize(${widget.size.width}, ${widget.size.height})`);
-    this.append(`if not ImGui.Begin(${this.formatString(widget.title)}) then`);
+    this.append(`if not ImGui.Begin(${this.formatString(widget.label)}) then`);
     this.appendIndent('ImGui.End()');
     this.appendIndent('return');
     this.append('end');
@@ -98,20 +98,20 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatButton(widget: FIGButtonWidget): void {
-    const varClicked: string = this.formatVar(`${widget.text} clicked`, widget.type);
+    const varClicked: string = this.formatVar(`${widget.label} clicked`, widget.type);
     const varDef: string = `local ${varClicked} = `;
 
     if (widget.isSmall) {
-      this.append(`${varDef}ImGui.SmallButton(${this.formatString(widget.text)})`);
+      this.append(`${varDef}ImGui.SmallButton(${this.formatString(widget.label)})`);
     } else if (widget.arrow !== FIGDir.none) {
-      this.append(`${varDef}ImGui.ArrowButton(${this.formatString(widget.text)}, ${FIGLuaFormatter.formatDir(widget.arrow)})`);
+      this.append(`${varDef}ImGui.ArrowButton(${this.formatString(widget.label)}, ${FIGLuaFormatter.formatDir(widget.arrow)})`);
     } else {
       let size: string = '';
 
       if (widget.isFill) {
         size = ', -1, 0';
       }
-      this.append(`${varDef}ImGui.Button(${this.formatString(widget.text)}${size})`);
+      this.append(`${varDef}ImGui.Button(${this.formatString(widget.label)}${size})`);
     }
     this.formatTooltip(widget);
   }
@@ -152,27 +152,27 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatInputText(widget: FIGInputTextWidget): void {
-    const varText: string = this.formatVar(`${widget.text} text`, widget.type);
-    const varSelected: string = this.formatVar(`${widget.text} selected`, widget.type);
+    const varText: string = this.formatVar(`${widget.label} text`, widget.type);
+    const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
     const varDef: string = `${varText}, ${varSelected}`;
 
     this.append(`local ${varText} = "", ${varSelected}`);
     if (!widget.hint) {
-      this.append(`${varDef} = ImGui.InputText(${this.formatString(widget.text)}, ${varText}, ${widget.bufferSize})`);
+      this.append(`${varDef} = ImGui.InputText(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize})`);
     } else {
-      this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.text)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize})`);
+      this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.label)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize})`);
     }
     this.formatTooltip(widget);
   }
 
   protected override formatInputNumber(widget: FIGInputNumberWidget): void {
     const size: number = FIGInputNumberWidget.getArraySize(widget.dataType);
-    const varValue: string = this.formatVar(`${widget.text} value${size > 0 ? 's' : ''}`, widget.type);
-    const varUsed: string = this.formatVar(`${widget.text} used`, widget.type);
+    const varValue: string = this.formatVar(`${widget.label} value${size > 0 ? 's' : ''}`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
     const varStep: string = widget.step.toString();
     const varStepFast: string = widget.stepFast.toString();
     const varFormat: string = this.formatString(widget.format);
-    const args: string[] = [this.formatString(widget.text), varValue];
+    const args: string[] = [this.formatString(widget.label), varValue];
     let fn: string;
 
     switch (widget.dataType) {
@@ -230,9 +230,9 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatInputColorEdit(widget: FIGInputColorEditWidget): void {
-    const text: string = this.formatString(widget.text);
-    const varColor: string = this.formatVar(`${widget.text} color`, widget.type);
-    const varUsed: string = this.formatVar(`${widget.text} used`, widget.type);
+    const text: string = this.formatString(widget.label);
+    const varColor: string = this.formatVar(`${widget.label} color`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
     let value: string = `${widget.color.r}, ${widget.color.g}, ${widget.color.b}`;
 
     if (widget.withAlpha) {
@@ -249,11 +249,11 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatCheckbox(widget: FIGCheckboxWidget): void {
-    const varValue: string = this.formatVar(`${widget.text} value`, widget.type);
-    const varPressed: string = this.formatVar(`${widget.text} pressed`, widget.type);
+    const varValue: string = this.formatVar(`${widget.label} value`, widget.type);
+    const varPressed: string = this.formatVar(`${widget.label} pressed`, widget.type);
 
     this.append(`local ${varValue} = false, ${varPressed}`);
-    this.append(`${varValue}, ${varPressed} = ImGui.Checkbox(${this.formatString(widget.text)}, ${varValue})`);
+    this.append(`${varValue}, ${varPressed} = ImGui.Checkbox(${this.formatString(widget.label)}, ${varValue})`);
     this.formatTooltip(widget);
   }
 
@@ -264,10 +264,10 @@ export class FIGLuaFormatter extends FIGFormatter {
     if (group[0].uuid === widget.uuid) {
       this.append(`local ${varValue} = ${widget.index}`);
     }
-    const varPressed: string = this.formatVar(`${widget.text} pressed`, widget.type);
+    const varPressed: string = this.formatVar(`${widget.label} pressed`, widget.type);
     const varDef: string = `${varValue}, ${varPressed} = `;
 
-    this.append(`${varDef}ImGui.RadioButton(${this.formatString(widget.text)}, ${varValue}, ${widget.index})`);
+    this.append(`${varDef}ImGui.RadioButton(${this.formatString(widget.label)}, ${varValue}, ${widget.index})`);
     this.formatTooltip(widget);
   }
 

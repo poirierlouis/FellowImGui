@@ -1,15 +1,20 @@
 import {FIGWidgetType} from "./widget";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+
+export interface FIGLabelOptions extends FIGTooltipOption {
+  readonly label?: string;
+  readonly value?: string;
+}
 
 export class FIGLabelWidget extends FIGWithTooltip {
   label: string;
   value: string;
 
-  constructor(label: string = 'Label', value: string = 'Value', tooltip?: string) {
+  constructor(options?: FIGLabelOptions) {
     super(FIGWidgetType.label, true);
-    this.label = label;
-    this.value = value;
-    this.tooltip = tooltip;
+    this.label = options?.label ?? 'Label';
+    this.value = options?.value ?? 'Value';
+    this.tooltip = options?.tooltip;
   }
 
   public get name(): string {

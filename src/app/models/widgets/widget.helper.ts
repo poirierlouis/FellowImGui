@@ -1,35 +1,23 @@
-import {FIGTextWidget} from "./text.widget";
-import {Size} from "../math";
-import {FIGWindowWidget} from "./window.widget";
+import {FIGTextOptions, FIGTextWidget} from "./text.widget";
+import {FIGWindowOptions, FIGWindowWidget} from "./window.widget";
 import {FIGWidget} from "./widget";
 import {FIGSeparatorWidget} from "./separator.widget";
-import {FIGButtonWidget, FIGDir} from "./button.widget";
-import {FIGLabelWidget} from "./label.widget";
-import {FIGInputTextWidget} from "./input-text.widget";
-import {FIGCheckboxWidget} from "./checkbox.widget";
-import {FIGRadioWidget} from "./radio.widget";
-import {FIGComboWidget} from "./combo.widget";
-import {FIGProgressBarWidget} from "./progress-bar.widget";
-import {FIGInputNumberType, FIGInputNumberWidget} from "./input-number.widget";
-import {FIGInputColorEditWidget} from "./input-color-edit.widget";
-
-type FIGTextOptions = Partial<FIGTextWidget>;
-type FIGButtonOptions = Partial<FIGButtonWidget>;
-type FIGProgressBarOptions = Partial<FIGProgressBarWidget>;
-
-type FIGInputTextOptions = Partial<FIGInputTextWidget>;
-type FIGInputNumberOptions = Partial<FIGInputNumberWidget>;
-type FIGInputColorEditOptions = Partial<FIGInputColorEditWidget>;
-type FIGRadioOptions = Partial<FIGRadioWidget>;
-type FIGComboOptions = Partial<FIGComboWidget>;
+import {FIGButtonOptions, FIGButtonWidget} from "./button.widget";
+import {FIGLabelOptions, FIGLabelWidget} from "./label.widget";
+import {FIGInputTextOptions, FIGInputTextWidget} from "./input-text.widget";
+import {FIGCheckboxOptions, FIGCheckboxWidget} from "./checkbox.widget";
+import {FIGRadioOptions, FIGRadioWidget} from "./radio.widget";
+import {FIGComboOptions, FIGComboWidget} from "./combo.widget";
+import {FIGProgressBarOptions, FIGProgressBarWidget} from "./progress-bar.widget";
+import {FIGInputNumberOptions, FIGInputNumberWidget} from "./input-number.widget";
+import {FIGInputColorEditOptions, FIGInputColorEditWidget} from "./input-color-edit.widget";
 
 export class FIGWidgetHelper {
 
   // Layouts
-  public static createWindow(text: string,
-                             size: Size = {width: 320, height: 240},
+  public static createWindow(options?: FIGWindowOptions,
                              children: FIGWidget[] = []): FIGWindowWidget {
-    const widget: FIGWindowWidget = new FIGWindowWidget(text, size);
+    const widget: FIGWindowWidget = new FIGWindowWidget(options);
 
     widget.children.push(...children);
     return widget;
@@ -40,103 +28,45 @@ export class FIGWidgetHelper {
   }
 
   // Basics
-  public static createText(text: string,
-                           options?: FIGTextOptions): FIGTextWidget {
-    const widget: FIGTextWidget = new FIGTextWidget();
-
-    widget.text = text;
-    widget.color = options?.color;
-    widget.isDisabled = options?.isDisabled ?? false;
-    widget.isWrapped = options?.isWrapped ?? false;
-    widget.hasBullet = options?.hasBullet ?? false;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createText(options?: FIGTextOptions): FIGTextWidget {
+    return new FIGTextWidget(options);
   }
 
-  public static createButton(text: string,
-                             options?: FIGButtonOptions): FIGButtonWidget {
-    const widget: FIGButtonWidget = new FIGButtonWidget();
-
-    widget.text = text;
-    widget.isFill = options?.isFill ?? false;
-    widget.isSmall = options?.isSmall ?? false;
-    widget.arrow = options?.arrow ?? FIGDir.none;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createButton(options?: FIGButtonOptions): FIGButtonWidget {
+    return new FIGButtonWidget(options);
   }
 
-  public static createProgressBar(value: number,
-                                  options?: FIGProgressBarOptions): FIGProgressBarWidget {
-    const widget: FIGProgressBarWidget = new FIGProgressBarWidget();
-
-    widget.value = value;
-    widget.label = options?.label;
-    widget.isFill = options?.isFill ?? false;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createProgressBar(options?: FIGProgressBarOptions): FIGProgressBarWidget {
+    return new FIGProgressBarWidget(options);
   }
 
   // Forms / Inputs
-  public static createLabel(label: string, value: string, tooltip?: string): FIGLabelWidget {
-    return new FIGLabelWidget(label, value, tooltip);
+  public static createLabel(options?: FIGLabelOptions): FIGLabelWidget {
+    return new FIGLabelWidget(options);
   }
 
-  public static createInputText(text: string, options?: FIGInputTextOptions): FIGInputTextWidget {
-    const widget: FIGInputTextWidget = new FIGInputTextWidget(text);
-
-    widget.hint = options?.hint;
-    widget.value = options?.value ?? '';
-    widget.bufferSize = options?.bufferSize ?? 256;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createInputText(options?: FIGInputTextOptions): FIGInputTextWidget {
+    return new FIGInputTextWidget(options);
   }
 
-  public static createInputNumber(text: string, options?: FIGInputNumberOptions): FIGInputNumberWidget {
-    const widget: FIGInputNumberWidget = new FIGInputNumberWidget(text);
-
-    widget.value = options?.value ?? 0;
-    widget.dataType = options?.dataType ?? FIGInputNumberType.int;
-    widget.step = options?.step ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 1 : 0.01);
-    widget.stepFast = options?.stepFast ?? (FIGInputNumberWidget.isInteger(widget.dataType) ? 10 : 1);
-    widget.format = options?.format ?? (widget.dataType === FIGInputNumberType.double ? "%.8f" : "%.3f");
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createInputNumber(options?: FIGInputNumberOptions): FIGInputNumberWidget {
+    return new FIGInputNumberWidget(options);
   }
 
-  public static createInputColorEdit(text: string, options?: FIGInputColorEditOptions): FIGInputColorEditWidget {
-    const widget: FIGInputColorEditWidget = new FIGInputColorEditWidget(text);
-
-    widget.color = options?.color ?? {r: 0.5, g: 0.5, b: 0.5, a: 0.5};
-    widget.withAlpha = options?.withAlpha ?? false;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createInputColorEdit(options?: FIGInputColorEditOptions): FIGInputColorEditWidget {
+    return new FIGInputColorEditWidget(options);
   }
 
-  public static createCheckbox(text: string, isChecked: boolean = false, tooltip?: string): FIGCheckboxWidget {
-    const widget: FIGCheckboxWidget = new FIGCheckboxWidget(text);
-
-    widget.isChecked = isChecked;
-    widget.tooltip = tooltip;
-    return widget;
+  public static createCheckbox(options?: FIGCheckboxOptions): FIGCheckboxWidget {
+    return new FIGCheckboxWidget(options);
   }
 
-  public static createRadio(text: string, options?: FIGRadioOptions): FIGRadioWidget {
-    const widget: FIGRadioWidget = new FIGRadioWidget(text);
-
-    widget.text = text;
-    widget.groupId = options?.groupId ?? 'RadioGroup';
-    widget.index = options?.index ?? 0;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createRadio(options?: FIGRadioOptions): FIGRadioWidget {
+    return new FIGRadioWidget(options);
   }
 
-  public static createCombo(label: string, options?: FIGComboOptions): FIGComboWidget {
-    const widget: FIGComboWidget = new FIGComboWidget(label);
-
-    widget.items.push(...(options?.items ?? []));
-    widget.selectedIndex = options?.selectedIndex ?? 0;
-    widget.tooltip = options?.tooltip;
-    return widget;
+  public static createCombo(options?: FIGComboOptions): FIGComboWidget {
+    return new FIGComboWidget(options);
   }
 
 }

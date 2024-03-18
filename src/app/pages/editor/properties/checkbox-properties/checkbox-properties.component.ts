@@ -26,14 +26,14 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
-    text: new FormControl<string>(''),
+    label: new FormControl<string>(''),
     isChecked: new FormControl<boolean>(false),
     tooltip: new FormControl<string | null>(null),
   });
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('text').subscribe(this.onTextChanged.bind(this));
+    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
     this.listenProperty('isChecked').subscribe(this.onIsCheckedChanged.bind(this));
   }
@@ -42,13 +42,13 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
     if (!this.widget) {
       return;
     }
-    this.setProperty('text', this.widget.text);
+    this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('isChecked', this.widget.isChecked);
   }
 
-  private onTextChanged(value: string): void {
-    this.widget!.text = value;
+  private onLabelChanged(value: string): void {
+    this.widget!.label = value;
     this.update.emit();
   }
 

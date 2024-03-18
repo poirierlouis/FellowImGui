@@ -2,18 +2,23 @@ import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
 import {Size} from "../math";
 
+export interface FIGWindowOptions {
+  readonly label?: string;
+  readonly size?: Size;
+}
+
 export class FIGWindowWidget extends FIGContainer {
-  title: string;
+  label: string;
   size: Size;
 
-  constructor(title: string = 'Window', size: Size = {width: 320, height: 240}) {
+  constructor(options?: FIGWindowOptions) {
     super(FIGWidgetType.window, false);
-    this.title = title;
-    this.size = size;
+    this.label = options?.label ?? 'Window';
+    this.size = options?.size ?? {width: 320, height: 240};
   }
 
   public get name(): string {
-    return this.title;
+    return this.label;
   }
 
   public override draw(): void {
@@ -21,7 +26,7 @@ export class FIGWindowWidget extends FIGContainer {
       ImGui.SetNextWindowFocus();
     }
     ImGui.SetNextWindowSize(new ImGui.Vec2(this.size.width, this.size.height));
-    ImGui.Begin(this.title);
+    ImGui.Begin(this.label);
     for (const child of this.children) {
       child.draw();
     }

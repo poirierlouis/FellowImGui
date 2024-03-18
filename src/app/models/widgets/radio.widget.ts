@@ -1,6 +1,6 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
 import {BehaviorSubject} from "rxjs";
-import {FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export class FIGRadioAccessor {
   readonly groupId: string;
@@ -39,25 +39,31 @@ export class FIGRadioAccessor {
   }
 }
 
+export interface FIGRadioOptions extends FIGTooltipOption {
+  readonly groupId?: string;
+  readonly label?: string;
+  readonly index?: number;
+}
+
 export class FIGRadioWidget extends FIGWithTooltip {
   private static readonly _accessors: FIGRadioAccessor[] = [];
 
   groupId: string;
-  text: string;
+  label: string;
   index: number = 0;
 
   private _access?: FIGRadioAccessor;
 
-  constructor(groupId: string = 'Radio', text: string = 'Radio', tooltip?: string, index: number = 0) {
+  constructor(options?: FIGRadioOptions) {
     super(FIGWidgetType.radio, true);
-    this.groupId = groupId;
-    this.text = text;
-    this.tooltip = tooltip;
-    this.index = index;
+    this.groupId = options?.groupId ?? 'RadioGroup';
+    this.label = options?.label ?? 'Radio';
+    this.tooltip = options?.tooltip;
+    this.index = options?.index ?? 0;
   }
 
   public get name(): string {
-    return this.text;
+    return this.label;
   }
 
   public get value(): number {
@@ -85,7 +91,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
     const accessor: FIGRadioAccessor = this._requestAccessor();
     const prevValue: number = this.value;
 
-    ImGui.RadioButton(this.text, this._access!.access, this.index);
+    ImGui.RadioButton(this.label, this._access!.access, this.index);
     super.drawTooltip();
     super.drawFocus();
     if (prevValue !== this.value) {
