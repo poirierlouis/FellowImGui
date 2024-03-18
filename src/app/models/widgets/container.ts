@@ -1,7 +1,7 @@
 import {FIGWidget} from "./widget";
 
 export abstract class FIGContainer extends FIGWidget {
-  children: FIGWidget[] = [];
+  readonly children: FIGWidget[] = [];
 
   public override trackBy(): any {
     return this.children.map((child) => child.trackBy());
