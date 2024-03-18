@@ -81,6 +81,12 @@ export class FIGWidgetFactory {
     return builder.title;
   }
 
+  public static filterBetween(from: FIGWidgetType, to?: FIGWidgetType): FIGWidgetBuilder[] {
+    return this.builders.filter((builder) => {
+      return (to !== undefined) ? builder.type >= from && builder.type <= to : builder.type >= from;
+    });
+  }
+
   private static findBuilder(type: FIGWidgetType): FIGWidgetBuilder | undefined {
     return this.builders.find((item) => item.type === type);
   }

@@ -12,8 +12,12 @@
 
   & .widgets {
     display: flex;
-    align-items: center;
-    height: 100%;
+
+    & div {
+      display: flex;
+      align-items: center;
+      height: inherit;
+    }
 
     & mat-divider {
       height: 100%;

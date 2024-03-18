@@ -32,25 +32,29 @@
       </div>
     </ng-template>
 
-    @for (builder of builders; track builder.type) {
-      @if (showCategorySeparator(builder)) {
+    @for (category of categories; track category.title) {
+      <div [matTooltip]="category.title" matTooltipPosition="above">
+        @for (builder of category.builders; track builder.type) {
+          <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
+                    [matTooltip]="builder.title"
+                    cdkDrag
+                    [cdkDragData]="builder.type"
+                    (cdkDragStarted)="onDragStart($event)"
+                    (cdkDragEnded)="onDragEnded()"
+                    (cdkDragExited)="onDragExited($event)">
+            <ng-container *cdkDragPlaceholder>
+              <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
+            </ng-container>
+
+            <ng-container *cdkDragPreview>
+              <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
+            </ng-container>
+          </mat-icon>
+        }
+      </div>
+      @if ($index + 1 < categories.length) {
         <mat-divider vertical></mat-divider>
       }
-      <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
-                [matTooltip]="builder.title"
-                cdkDrag
-                [cdkDragData]="builder.type"
-                (cdkDragStarted)="onDragStart($event)"
-                (cdkDragEnded)="onDragEnded()"
-                (cdkDragExited)="onDragExited($event)">
-        <ng-container *cdkDragPlaceholder>
-          <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
-        </ng-container>
-
-        <ng-container *cdkDragPreview>
-          <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
-        </ng-container>
-      </mat-icon>
     }
   </div>
 

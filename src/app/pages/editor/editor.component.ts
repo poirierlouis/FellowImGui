@@ -30,9 +30,9 @@ interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
 }
 
-interface FIGWidgetCategory {
-  readonly start: FIGWidgetType;
+interface FIGWidgetBuilderCategory {
   readonly title: string;
+  readonly builders: FIGWidgetItemBuilder[];
 }
 
 @Component({
@@ -40,8 +40,8 @@ interface FIGWidgetCategory {
   standalone: true,
   imports: [
     MatIcon,
-    MatDivider,
     MatTooltip,
+    MatDivider,
     MatIconButton,
     CdkDrag,
     CdkDropList,
@@ -63,11 +63,12 @@ export class EditorComponent {
   document: FIGDocument;
   selectedWidget?: FIGWidget;
 
-  protected readonly builders: FIGWidgetItemBuilder[] = FIGWidgetFactory.builders;
-  protected readonly categories: FIGWidgetCategory[] = [
-    {start: FIGWidgetType.text, title: 'Basics'},
-    {start: FIGWidgetType.label, title: 'Forms / Inputs'},
+  protected readonly categories: FIGWidgetBuilderCategory[] = [
+    {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.text, FIGWidgetType.progressBar)},
+    {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
+  protected readonly builders: FIGWidgetItemBuilder[] = FIGWidgetFactory.builders;
   protected readonly FIGWidgetType = FIGWidgetType;
 
   constructor(private readonly formatterService: FormatterService) {
@@ -163,10 +164,6 @@ export class EditorComponent {
       return;
     }
     navigator.clipboard.writeText(output);
-  }
-
-  protected showCategorySeparator(builder: FIGWidgetItemBuilder): boolean {
-    return !!this.categories.find((category) => category.start === builder.type);
   }
 
   protected onDropEntered(event: CdkDragEnter): void {
