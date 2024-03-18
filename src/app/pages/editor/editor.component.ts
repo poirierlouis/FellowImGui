@@ -74,7 +74,7 @@ export class EditorComponent {
   constructor(private readonly formatterService: FormatterService) {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
-    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
+    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Basics · FIG',
       size: {width: 320, height: 398}
     }, [
@@ -100,9 +100,8 @@ export class EditorComponent {
       FIGWidgetHelper.createProgressBar({value: 0.42, isFill: true, tooltip: 'Fill horizontally.'}),
       FIGWidgetHelper.createProgressBar({value: 1.00, label: 'Loading'}),
     ]);
-    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
-      label:
-        'Forms / Inputs · FIG',
+    const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
+      label: 'Forms / Inputs · FIG',
       size: {width: 460, height: 564}
     }, [
       FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
@@ -151,8 +150,8 @@ export class EditorComponent {
       })
     ]);
 
-    this.document.root.push(layouts);
     this.document.root.push(basics);
+    this.document.root.push(inputs);
     this.document.link();
   }
 
