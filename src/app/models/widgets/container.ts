@@ -16,6 +16,23 @@ export abstract class FIGContainer extends FIGWidget {
     return [this, ...this.children.flatMap((child) => child.flatMap())];
   }
 
+  public findByUuid(uuid: string): FIGWidget | undefined {
+    for (const child of this.children) {
+      if (child.uuid === uuid) {
+        return child;
+      }
+      let widget: FIGWidget | undefined;
+
+      if (child instanceof FIGContainer) {
+        widget = child.findByUuid(uuid);
+      }
+      if (widget) {
+        return widget;
+      }
+    }
+    return undefined;
+  }
+
   public findIndex(widget: FIGWidget): number {
     return this.children.findIndex((child) => child.uuid === widget.uuid);
   }

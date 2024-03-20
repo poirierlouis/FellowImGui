@@ -9,6 +9,20 @@ export class FIGDocument {
     this.root.forEach((container) => container.link());
   }
 
+  public findByUuid(uuid: string): FIGWidget | undefined {
+    for (const container of this.root) {
+      if (container.uuid === uuid) {
+        return container;
+      }
+      const widget: FIGWidget | undefined = container.findByUuid(uuid);
+
+      if (widget) {
+        return widget;
+      }
+    }
+    return undefined;
+  }
+
   public createWidget(dragWidget: FIGWidget, dropWidget?: FIGWidget): boolean {
     let dropParent: FIGContainer | undefined = dropWidget?.parent;
 
