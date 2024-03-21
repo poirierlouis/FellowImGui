@@ -32,46 +32,10 @@ export class DropDirective implements AfterViewInit {
   @HostListener('dragover', ['$event'])
   public onDragOver(event: DragEvent): void {
     event.preventDefault();
-  }
-
-  @HostListener('dragenter', ['$event'])
-  public onDragEnter(event: DragEvent): void {
-    event.preventDefault();
-    const direction: FIGDropDirection = this.computeDirection(this.$el, event);
-    const $placeholder: HTMLDivElement | null = document.body.querySelector('#fig-drag-placeholder');
-
-    if (!$placeholder) {
-      console.log('placeholder not found!');
-      return;
-    }
-    const data: DOMStringMap = $placeholder.dataset;
-
-    if (data['direction'] === direction && data['handle'] === this.data) {
-      return;
-    }
-    data['direction'] = direction;
-    data['handle'] = this.data;
-    $placeholder.style.display = 'block';
-    $placeholder.style.marginLeft = this.$el.style.paddingLeft;
-    this.updateLayout($placeholder, data['direction']);
-    if (direction === 'before') {
-      this.$el.insertAdjacentElement('beforebegin', $placeholder);
-    } else {
-      this.$el.insertAdjacentElement('afterend', $placeholder);
-    }
-  }
-
-  @HostListener('drag', ['$event'])
-  public onDrag(event: DragEvent): void {
-    event.preventDefault();
-    if (event.clientY === 0) {
-      return;
-    }
     const direction: FIGDropDirection = this.computeDirection(this.$el, event);
     let $placeholder: HTMLDivElement | null = document.body.querySelector('#fig-drag-placeholder');
 
     if (!$placeholder) {
-      console.log('placeholder not found!');
       return;
     }
     const data: DOMStringMap = $placeholder.dataset;
@@ -81,7 +45,30 @@ export class DropDirective implements AfterViewInit {
     }
     data['direction'] = direction;
     $placeholder = $placeholder.parentElement!.removeChild($placeholder);
-    this.updateLayout($placeholder, data['direction']);
+    if (direction === 'before') {
+      this.$el.insertAdjacentElement('beforebegin', $placeholder);
+    } else {
+      this.$el.insertAdjacentElement('afterend', $placeholder);
+    }
+  }
+
+  @HostListener('dragenter', ['$event'])
+  public onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    const direction: FIGDropDirection = this.computeDirection(this.$el, event);
+    const $placeholder: HTMLDivElement | null = document.body.querySelector('#fig-drag-placeholder');
+
+    if (!$placeholder) {
+      return;
+    }
+    const data: DOMStringMap = $placeholder.dataset;
+
+    if (data['direction'] === direction && data['handle'] === this.data) {
+      return;
+    }
+    data['direction'] = direction;
+    data['handle'] = this.data;
+    $placeholder.style.marginLeft = this.$el.style.paddingLeft;
     if (direction === 'before') {
       this.$el.insertAdjacentElement('beforebegin', $placeholder);
     } else {
@@ -107,14 +94,6 @@ export class DropDirective implements AfterViewInit {
     });
   }
 
-  private updateLayout($placeholder: HTMLElement, direction: string): void {
-    if (direction === 'insert') {
-      $placeholder.classList.add('insert');
-    } else {
-      $placeholder.classList.remove('insert');
-    }
-  }
-
   private computeDirection($element: HTMLElement, event: DragEvent): FIGDropDirection {
     const isContainer: boolean = $element.classList.contains('container');
     const rect: DOMRect = $element.getBoundingClientRect();
@@ -122,9 +101,9 @@ export class DropDirective implements AfterViewInit {
     const y: number = event.clientY - rect.top;
 
     if (isContainer) {
-      if (y <= height / 4) {
+      if (y <= height / 3) {
         return 'before';
-      } else if (y < height * 3 / 4) {
+      } else if (y < height * 2 / 3) {
         return 'insert';
       } else {
         return 'after';

@@ -39,14 +39,23 @@
   #fig-drag-placeholder {
     position: relative;
     pointer-events: none;
-    display: none;
     max-width: 360px;
     height: 2px;
     background-color: $primary;
 
-    &.insert {
+    &[data-direction="before"] {
+      top: 2px;
+      margin-top: -2px;
+    }
+
+    &[data-direction="after"] {
+      margin-top: -2px;
+    }
+
+    &[data-direction="insert"] {
       height: 48px;
-      margin-top: -50px;
+      margin-top: -48px;
+      box-sizing: border-box;
       border: 2px solid $primary;
       background-color: color.change($primary, $alpha: 0.10);
     }
@@ -72,12 +81,8 @@
 
   #fig-drag-placeholder {
     background-color: $primary;
-  }
 
-  #fig-drag-placeholder {
-    background-color: $primary;
-
-    &.insert {
+    &[data-direction="insert"] {
       border-color: $primary;
       background-color: color.change($primary, $alpha: 0.10);
     }
