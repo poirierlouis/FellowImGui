@@ -14,7 +14,7 @@
     </ng-template>
 
     @for (category of categories; track category.title) {
-      <div [matTooltip]="category.title" matTooltipPosition="above">
+      <div>
         @for (builder of category.builders; track builder.type) {
           <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
                     [matTooltip]="builder.title"
