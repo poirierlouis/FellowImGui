@@ -45,17 +45,17 @@ export abstract class FIGContainer extends FIGWidget {
     this.children.splice(index, 0, widget);
   }
 
-  public removeAt(index: number): boolean {
-    if (index < 0 || index >= this.children.length) {
-      return false;
-    }
-    this.children.splice(index, 1);
-    return true;
-  }
-
   public remove(widget: FIGWidget): boolean {
-    const index: number = this.findIndex(widget);
+    for (let i: number = 0; i < this.children.length; i++) {
+      const child: FIGWidget = this.children[i];
 
-    return this.removeAt(index);
+      if (child.uuid === widget.uuid) {
+        this.children.splice(i, 1);
+        return true;
+      } else if (child instanceof FIGContainer && child.remove(widget)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

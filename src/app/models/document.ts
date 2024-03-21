@@ -127,7 +127,7 @@ export class FIGDocument {
   }
 
   public removeWidget(widget: FIGWidget): boolean {
-    for (let i = 0; i < this.root.length; i++) {
+    for (let i: number = 0; i < this.root.length; i++) {
       const container: FIGContainer = this.root[i];
 
       if (container.uuid === widget.uuid) {
