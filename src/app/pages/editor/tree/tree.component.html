@@ -1,56 +1,52 @@
 <mat-tree id="fig-tree-drop"
-          cdkDropList
           [dataSource]="dataSource"
           [treeControl]="treeControl"
-          [trackBy]="trackBy"
-          (cdkDropListDropped)="dropWidget($event)">
-  <ng-template #dismissibleBackground>
+          [trackBy]="trackBy">
+  <ng-template #preview let-node>
+    <div class="fig-widget-preview">
+      <div class="content">
+        <mat-icon [svgIcon]="node.icon"></mat-icon>
+
+        <div>{{ node.name }}</div>
+      </div>
+
+      <mat-icon>drag_handle</mat-icon>
+    </div>
+  </ng-template>
+
+  <ng-template #dismissible>
     <div>
       <mat-icon>delete</mat-icon>
     </div>
   </ng-template>
 
-  <!-- Child widget -->
+<!--
+ISSUE: pan events are triggered after drag/drop events.
+       tell HammerJS to temporarily disable pan recognizer?
+
+       figDismissible
+       [figDismissibleBackground]="dismissible"
+       (figDismissibleClick)="selectWidget(node)"
+       (figDismissed)="removeWidget(node.widget)"
+-->
   <mat-tree-node *matTreeNodeDef="let node"
                  [class.selected]="selectedWidget === node.widget"
+                 [class.container]="node.isContainer"
                  matTreeNodePadding
-                 cdkDrag
-                 cdkDragLockAxis="y"
-                 cdkDragPreviewContainer="parent"
-                 [cdkDragPreviewClass]="['fig-widget-preview', 'move', 'child']"
-                 [cdkDragData]="node.widget"
-                 figDismissible
-                 [figDismissibleBackground]="dismissibleBackground"
-                 (figDismissibleClick)="selectWidget(node)"
-                 (figDismissed)="removeWidget(node.widget)">
+                 figDrag
+                 [figDragData]="node.widget.uuid"
+                 [figDragPreview]="preview"
+                 [figDragPreviewData]="{icon: node.icon, name: node.name}"
+                 figDrop
+                 [figDropData]="node.widget.uuid"
+                 (figDropped)="dropWidget($event)"
+                 (click)="selectWidget(node)">
     <div class="content">
       <mat-icon [svgIcon]="node.icon"></mat-icon>
 
       <div>{{ node.name }}</div>
     </div>
 
-    <mat-icon class="draggable" cdkDragHandle>drag_handle</mat-icon>
-  </mat-tree-node>
-
-  <!-- Container widget -->
-  <mat-tree-node *matTreeNodeDef="let node; when: hasChild"
-                 [class.selected]="selectedWidget === node.widget"
-                 matTreeNodePadding
-                 cdkDrag
-                 cdkDragLockAxis="y"
-                 cdkDragPreviewContainer="parent"
-                 [cdkDragPreviewClass]="['fig-widget-preview', 'move']"
-                 [cdkDragData]="node.widget"
-                 figDismissible
-                 [figDismissibleBackground]="dismissibleBackground"
-                 (figDismissibleClick)="selectWidget(node)"
-                 (figDismissed)="removeWidget(node.widget)">
-    <div class="content">
-      <mat-icon [svgIcon]="node.icon"></mat-icon>
-
-      <div>{{ node.name }}</div>
-    </div>
-
-    <mat-icon class="draggable" cdkDragHandle>drag_handle</mat-icon>
+    <mat-icon class="draggable" figDragHandle>drag_handle</mat-icon>
   </mat-tree-node>
 </mat-tree>

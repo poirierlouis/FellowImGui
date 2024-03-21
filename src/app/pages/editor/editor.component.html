@@ -1,27 +1,8 @@
 <div id="fig-tree-factory"
-     class="widget-bar"
-     cdkDropList
-     cdkDropListConnectedTo="fig-tree-drop"
-     [cdkDropListData]="builders"
-     (cdkDropListEntered)="onDropEntered($event)"
-     (cdkDropListExited)="onDropExited($event)">
+     class="widget-bar">
   <div class="widgets">
     <ng-template #preview let-builder>
-      <div class="fig-widget-preview create"
-           [class.child]="builder.type !== FIGWidgetType.window">
-        <div class="content">
-          <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
-
-          {{ builder.title }}
-        </div>
-
-        <mat-icon>drag_handle</mat-icon>
-      </div>
-    </ng-template>
-
-    <ng-template #placeholder let-builder>
-      <div class="fig-widget-placeholder create"
-           [class.child]="builder.type !== FIGWidgetType.window">
+      <div class="fig-widget-preview">
         <div class="content">
           <mat-icon [svgIcon]="FIGWidgetType[builder.type]"></mat-icon>
 
@@ -37,18 +18,10 @@
         @for (builder of category.builders; track builder.type) {
           <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
                     [matTooltip]="builder.title"
-                    cdkDrag
-                    [cdkDragData]="builder.type"
-                    (cdkDragStarted)="onDragStart($event)"
-                    (cdkDragEnded)="onDragEnded()"
-                    (cdkDragExited)="onDragExited($event)">
-            <ng-container *cdkDragPlaceholder>
-              <ng-container *ngTemplateOutlet="placeholder; context: {$implicit: builder}"></ng-container>
-            </ng-container>
-
-            <ng-container *cdkDragPreview>
-              <ng-container *ngTemplateOutlet="preview; context: {$implicit: builder}"></ng-container>
-            </ng-container>
+                    figDrag
+                    [figDragData]="FIGWidgetType[builder.type]"
+                    [figDragPreview]="preview"
+                    [figDragPreviewData]="builder">
           </mat-icon>
         }
       </div>

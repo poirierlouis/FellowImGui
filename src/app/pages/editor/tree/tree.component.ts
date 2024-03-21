@@ -15,10 +15,12 @@ import {FlatTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/widgets/container";
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";
-import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
+import {DragDirective} from "../../../directives/drag.directive";
+import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
+import {DragHandleDirective} from "../../../directives/drag-handle.directive";
 
 interface FlatNode {
   expandable: boolean;
@@ -26,6 +28,7 @@ interface FlatNode {
 
   name: string;
   icon: string;
+  isContainer: boolean;
   widget: FIGWidget;
 }
 
@@ -33,9 +36,6 @@ interface FlatNode {
   selector: 'fig-tree',
   standalone: true,
   imports: [
-    CdkDrag,
-    CdkDropList,
-    CdkDragHandle,
     MatIcon,
     MatTree,
     MatTreeNode,
@@ -44,6 +44,9 @@ interface FlatNode {
     MatTreeNodeToggle,
     MatNestedTreeNode,
     MatTreeNodePadding,
+    DragDirective,
+    DropDirective,
+    DragHandleDirective,
     DismissibleDirective,
   ],
   templateUrl: './tree.component.html',
@@ -68,6 +71,7 @@ export class TreeComponent {
         level: level,
         name: widget.name,
         icon: FIGWidgetType[widget.type],
+        isContainer: FIGWidgetFactory.isContainer(widget.type),
         widget: widget
       };
     },
@@ -91,10 +95,6 @@ export class TreeComponent {
     this.updateTree();
   }
 
-  protected hasChild(_: number, node: FlatNode) {
-    return node.expandable;
-  }
-
   protected trackBy(_: number, node: FlatNode): any {
     return node.widget.trackBy();
   }
@@ -116,37 +116,18 @@ export class TreeComponent {
     this.onSelectWidget.emit(this.selectedWidget);
   }
 
-  protected dropWidget(event: CdkDragDrop<any>): void {
-    if (event.container !== event.previousContainer) {
-      this.createWidget(event);
-    } else {
-      this.moveWidget(event);
-    }
-  }
+  protected dropWidget(event: FIGDropEvent): void {
+    const drag: FIGWidget | undefined = (!event.drag) ? undefined : this.document.findByUuid(event.drag);
+    const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
+    const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
+    let needUpdate: boolean = false;
 
-  protected createWidget(event: CdkDragDrop<FIGWidgetType>): void {
-    const type: FIGWidgetType = event.item.data;
-    const dragWidget: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
-    const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
-
-    if (!dragWidget) {
-      console.log('drag/drop widgets not found.');
-      return;
+    if (type !== undefined) {
+      needUpdate = this.document.createWidget(type, drop, event.direction);
+    } else if (drag && drop) {
+      needUpdate = this.document.moveWidget(drag, drop, event.direction);
     }
-    if (this.document.createWidget(dragWidget, dropWidget)) {
-      this.update();
-    }
-  }
-
-  protected moveWidget(event: CdkDragDrop<FIGWidget>): void {
-    const dragWidget: FIGWidget | undefined = this.findWidgetInTree(event.previousIndex);
-    const dropWidget: FIGWidget | undefined = this.findWidgetInTree(event.currentIndex);
-
-    if (!dragWidget || !dropWidget) {
-      console.log('drag/drop widgets not found.');
-      return;
-    }
-    if (this.document.moveWidget(dragWidget, dropWidget)) {
+    if (needUpdate) {
       this.update();
     }
   }
@@ -169,29 +150,6 @@ export class TreeComponent {
         this.treeControl.expand(node);
       }
     });
-  }
-
-  private findWidgetInTree(index: number): FIGWidget | undefined {
-    let i: number = 0;
-
-    for (const container of this.document.root) {
-      if (i === index) {
-        return container;
-      }
-      if (this.treeSelection.isSelected(container.uuid)) {
-        i++;
-        // TODO: use recursive implementation.
-        for (const child of container.children) {
-          if (i === index) {
-            return child;
-          }
-          i++;
-        }
-      } else {
-        i++;
-      }
-    }
-    return undefined;
   }
 
 }

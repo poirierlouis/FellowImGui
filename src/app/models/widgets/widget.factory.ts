@@ -63,6 +63,11 @@ export class FIGWidgetFactory {
 
   private static id: number = 0;
 
+  public static isContainer(type: FIGWidgetType): boolean {
+    return type === FIGWidgetType.window ||
+      type === FIGWidgetType.collapsingHeader;
+  }
+
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
     const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
 

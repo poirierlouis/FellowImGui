@@ -1,47 +1,86 @@
 @use 'sass:map';
+@use 'sass:color';
 @use '@angular/material' as mat;
 
 @mixin editor-theme($theme) {
+  $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
 
   .fig-widget-preview {
     @include mat.elevation(8);
 
-    position: relative;
-    top: -24px;
-    left: -24px;
-
-    &.create.child {
-      width: 320px!important;
-      left: -64px;
-
-      padding-left: 40px;
-    }
-
-    &.move.child {
-      width: 320px!important;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
 
     background-color: $bg;
+
+    & .content {
+      display: flex;
+      align-items: center;
+      width: calc(100% - 40px - 2 * 12px);
+      margin: 0 12px;
+
+      & div {
+        overflow: hidden;
+        width: calc(100% - 24px - 12px);
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    & mat-icon {
+      margin-right: 12px;
+    }
   }
 
-  .fig-widget-placeholder {
-    background-color: $bg;
+  #fig-drag-placeholder {
+    position: relative;
+    pointer-events: none;
+    display: none;
+    max-width: 360px;
+    height: 2px;
+    background-color: $primary;
 
-    &.create.child {
-      padding-left: 40px;
+    &.insert {
+      height: 48px;
+      margin-top: -50px;
+      border: 2px solid $primary;
+      background-color: color.change($primary, $alpha: 0.10);
     }
+  }
+
+  #fig-drag-preview {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+    top: -24px;
+    width: 360px;
+    opacity: 0.75;
   }
 }
 
 @mixin editor-color($theme) {
+  $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
 
   .fig-widget-preview {
     background-color: $bg;
   }
 
-  .fig-widget-placeholder {
-    background-color: $bg;
+  #fig-drag-placeholder {
+    background-color: $primary;
   }
+
+  #fig-drag-placeholder {
+    background-color: $primary;
+
+    &.insert {
+      border-color: $primary;
+      background-color: color.change($primary, $alpha: 0.10);
+    }
+  }
+
 }

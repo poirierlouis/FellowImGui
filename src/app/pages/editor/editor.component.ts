@@ -6,15 +6,6 @@ import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
 import {MatIcon} from "@angular/material/icon";
-import {
-  CdkDrag,
-  CdkDragEnter,
-  CdkDragExit,
-  CdkDragPlaceholder,
-  CdkDragPreview,
-  CdkDragStart,
-  CdkDropList
-} from "@angular/cdk/drag-drop";
 import {NgTemplateOutlet} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
@@ -25,6 +16,7 @@ import {FIGDir} from "../../models/widgets/button.widget";
 import {MatIconButton} from "@angular/material/button";
 import {FormatterService} from "../../services/formatter.service";
 import {FIGInputNumberType} from "../../models/widgets/input-number.widget";
+import {DragDirective} from "../../directives/drag.directive";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -43,11 +35,8 @@ interface FIGWidgetBuilderCategory {
     MatTooltip,
     MatDivider,
     MatIconButton,
-    CdkDrag,
-    CdkDropList,
-    CdkDragPreview,
-    CdkDragPlaceholder,
     NgTemplateOutlet,
+    DragDirective,
     TreeComponent,
     CanvasComponent,
     PropertiesComponent,
@@ -68,7 +57,6 @@ export class EditorComponent {
     {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.text, FIGWidgetType.progressBar)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
-  protected readonly builders: FIGWidgetItemBuilder[] = FIGWidgetFactory.builders;
   protected readonly FIGWidgetType = FIGWidgetType;
 
   constructor(private readonly formatterService: FormatterService) {
@@ -163,55 +151,6 @@ export class EditorComponent {
       return;
     }
     navigator.clipboard.writeText(output);
-  }
-
-  protected onDropEntered(event: CdkDragEnter): void {
-    const $placeholder: HTMLElement = event.item.getPlaceholderElement();
-
-    if (event.container.id === 'fig-tree-factory') {
-      $placeholder.style.display = 'none';
-    }
-  }
-
-  protected onDropExited(event: CdkDragExit): void {
-    const $placeholder: HTMLElement = event.item.getPlaceholderElement();
-
-    if (event.container.id === 'fig-tree-factory') {
-      $placeholder.style.display = '';
-    }
-  }
-
-  protected onDragStart(event: CdkDragStart): void {
-    const $placeholder: HTMLElement = event.source.getPlaceholderElement();
-
-    if (event.source.dropContainer.id === 'fig-tree-factory') {
-      $placeholder.style.display = 'none';
-    }
-  }
-
-  protected onDragEnded(): void {
-    const index: number = this.builders.findIndex((builder) => builder.cloneTemporarily);
-
-    if (index === -1) {
-      return;
-    }
-    this.builders.splice(index, 1);
-  }
-
-  protected onDragExited(event: CdkDragExit): void {
-    const type: FIGWidgetType = event.item.data;
-    const hasClone: number = this.builders.findIndex((builder) => builder.cloneTemporarily);
-
-    if (hasClone !== -1) {
-      return;
-    }
-    const index: number = this.builders.findIndex((builder) => builder.type === type)!;
-    const builder: FIGWidgetBuilder = this.builders[index];
-
-    this.builders.splice(index, 0, {
-      ...builder,
-      cloneTemporarily: true
-    });
   }
 
   protected selectWidget(widget?: FIGWidget): void {

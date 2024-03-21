@@ -1,5 +1,7 @@
 import {FIGContainer} from "./widgets/container";
-import {FIGWidget} from "./widgets/widget";
+import {FIGWidget, FIGWidgetType} from "./widgets/widget";
+import {FIGDropDirection} from "../directives/drop.directive";
+import {FIGWidgetFactory} from "./widgets/widget.factory";
 
 export class FIGDocument {
 
@@ -23,114 +25,99 @@ export class FIGDocument {
     return undefined;
   }
 
-  public createWidget(dragWidget: FIGWidget, dropWidget?: FIGWidget): boolean {
-    let dropParent: FIGContainer | undefined = dropWidget?.parent;
+  public createWidget(type: FIGWidgetType, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
+    const drag: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
+    let parent: FIGContainer | undefined = drop?.parent;
 
-    if (!dragWidget.needParent && dropParent) {
+    if (!drag) {
       return false;
     }
-    if (dragWidget.needParent && dropParent === undefined && !(dropWidget instanceof FIGContainer)) {
-      dropParent = this.root[this.root.length - 1];
-      dropParent.children.push(dragWidget);
-      dragWidget.parent = dropParent;
-      return true;
-    }
-    if (dragWidget instanceof FIGContainer && dropParent === undefined) {
-      const dropIndex: number = this.root.findIndex((container) => container.uuid === dropWidget?.uuid);
-
-      if (dropIndex === -1) {
-        this.root.push(dragWidget as FIGContainer);
-      } else {
-        this.insert(dragWidget as FIGContainer, dropIndex);
-      }
-      return true;
-    }
-    if (!dropWidget) {
-      console.log(`<create-widget drop-error />`);
+    if (!drop) {
+      // TODO: append at the end of root based on drag's type?
       return false;
     }
-    if (dropParent === undefined && dropWidget instanceof FIGContainer) {
-      dropParent = dropWidget;
+    // Prevent window-like widgets within containers.
+    if (!drag.needParent && (parent || direction === 'insert')) {
+      return false;
     }
-    const dropParentIndex: number = this.findIndex(dropParent!);
+    // Insert window-like widgets before/after a container.
+    if (!drag.needParent && drag instanceof FIGContainer && drop instanceof FIGContainer) {
+      let index: number = this.findIndex(drop);
 
-    if (dropWidget instanceof FIGContainer) {
-      if (dropParentIndex - 1 < 0) {
-        return false;
+      if (direction === 'after') {
+        index++;
       }
-      dropParent = this.root[dropParentIndex - 1];
-      dropParent.children.push(dragWidget);
-      dragWidget.parent = dropParent;
+      this.insert(drag, index);
+      drag.parent = undefined;
       return true;
     }
-    let dropIndex: number = dropParent!.findIndex(dropWidget);
+    // Append widget at the end of drop container.
+    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert') {
+      drop.children.push(drag);
+      drag.parent = drop;
+      return true;
+    }
+    // Insert widget before/after a widget.
+    if (drag.needParent && parent) {
+      let index: number = parent.findIndex(drop);
 
-    dropParent!.insert(dragWidget, dropIndex);
-    dragWidget.parent = dropParent;
-    return true;
+      if (direction === 'after') {
+        index++;
+      }
+      parent.insert(drag, index);
+      drag.parent = parent;
+      return true;
+    }
+    return false;
   }
 
-  public moveWidget(dragWidget: FIGWidget, dropWidget: FIGWidget): boolean {
-    if (dragWidget.uuid === dropWidget.uuid) {
-      return false;
-    }
-    const dragParent: FIGContainer | undefined = dragWidget.parent;
-    let dropParent: FIGContainer | undefined = dropWidget.parent;
+  public moveWidget(drag: FIGWidget, drop: FIGWidget, direction: FIGDropDirection): boolean {
+    let parent: FIGContainer | undefined = drop?.parent;
 
-    if (!dragWidget.needParent && dropParent) {
+    // Prevent moving widget on itself.
+    if (drag.uuid === drop.uuid) {
       return false;
     }
-    if (dragWidget.needParent && dropParent === undefined && !(dropWidget instanceof FIGContainer)) {
+    // Prevent window-like widgets within containers.
+    if (!drag.needParent && (parent || direction === 'insert')) {
       return false;
     }
-    if (dragParent === undefined && dropParent === undefined) {
-      const dropIndex: number = this.root.findIndex((container) => container.uuid === dropWidget.uuid);
+    // Move window-like widgets before/after a container.
+    if (!drag.needParent && drag instanceof FIGContainer && drop instanceof FIGContainer) {
+      let index: number = this.findIndex(drop);
 
-      this.remove(dragWidget as FIGContainer);
-      this.insert(dragWidget as FIGContainer, dropIndex);
-      return true;
-    }
-    if (dropParent === undefined && dropWidget instanceof FIGContainer) {
-      dropParent = dropWidget;
-    }
-    if (dragParent === undefined && dropParent === undefined) {
-      console.log(`<move-widget parent-error />`);
-      return false;
-    }
-    if (dragParent!.uuid !== dropParent!.uuid || dropWidget.uuid === dropParent!.uuid) {
-      const dragParentIndex: number = this.findIndex(dragParent!);
-      const dropParentIndex: number = this.findIndex(dropParent!);
-      const delta: number = dropParentIndex - dragParentIndex;
-      let dropIndex: number = dropParent!.findIndex(dropWidget);
-
-      if (delta > 0) {
-        if (dropWidget instanceof FIGContainer) {
-          dropIndex = 0;
-        } else {
-          dropIndex++;
-        }
-        dragParent!.remove(dragWidget);
-        dropParent!.insert(dragWidget, dropIndex);
-      } else if (dropWidget instanceof FIGContainer) {
-        if (dropParentIndex - 1 < 0) {
-          return false;
-        }
-        dropParent = this.root[dropParentIndex - 1];
-        dragParent!.remove(dragWidget);
-        dropParent.children.push(dragWidget);
-      } else {
-        dragParent!.remove(dragWidget);
-        dropParent!.insert(dragWidget, dropIndex);
+      if (direction === 'after') {
+        index++;
       }
-      dragWidget.parent = dropParent;
+      this.remove(drag);
+      this.insert(drag, index);
+      drag.parent = undefined;
       return true;
     }
-    const dropIndex = dropParent!.findIndex(dropWidget);
+    // Prevent moving widget in itself.
+    if (drag.needParent && drag.uuid === parent?.uuid) {
+      return false;
+    }
+    // Move widget at the end of drop container.
+    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert') {
+      drag.parent?.remove(drag);
+      drop.children.push(drag);
+      drag.parent = drop;
+      return true;
+    }
+    // Move widget elsewhere within a container.
+    if (drag.needParent && parent) {
+      let index: number = parent.findIndex(drop);
 
-    dragParent!.remove(dragWidget);
-    dropParent!.insert(dragWidget, dropIndex);
-    dragWidget.parent = dropParent;
-    return true;
+      if (direction === 'after') {
+        index++;
+      }
+      drag.parent?.remove(drag);
+      parent.insert(drag, index);
+      drag.parent = parent;
+      return true;
+    }
+    return false;
   }
 
   public removeWidget(widget: FIGWidget): boolean {
