@@ -49,12 +49,14 @@ export class FIGDocument {
       }
       this.insert(drag, index);
       drag.parent = undefined;
+      drag.onCreated();
       return true;
     }
     // Append widget at the end of drop container.
     if (drag.needParent && drop instanceof FIGContainer && direction === 'insert') {
       drop.children.push(drag);
       drag.parent = drop;
+      drag.onCreated();
       return true;
     }
     // Insert widget before/after a widget.
@@ -66,6 +68,7 @@ export class FIGDocument {
       }
       parent.insert(drag, index);
       drag.parent = parent;
+      drag.onCreated();
       return true;
     }
     return false;
@@ -92,6 +95,7 @@ export class FIGDocument {
       this.remove(drag);
       this.insert(drag, index);
       drag.parent = undefined;
+      drag.onMoved();
       return true;
     }
     // Prevent moving widget in itself.
@@ -103,6 +107,7 @@ export class FIGDocument {
       drag.parent?.remove(drag);
       drop.children.push(drag);
       drag.parent = drop;
+      drag.onMoved();
       return true;
     }
     // Move widget elsewhere within a container.
@@ -115,6 +120,7 @@ export class FIGDocument {
       drag.parent?.remove(drag);
       parent.insert(drag, index);
       drag.parent = parent;
+      drag.onMoved();
       return true;
     }
     return false;
@@ -126,10 +132,10 @@ export class FIGDocument {
 
       if (container.uuid === widget.uuid) {
         this.root.splice(i, 1);
-        widget.dispose();
+        widget.onDeleted();
         return true;
       } else if (container.remove(widget)) {
-        widget.dispose();
+        widget.onDeleted();
         return true;
       }
     }

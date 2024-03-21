@@ -51,7 +51,24 @@ export abstract class FIGWidget {
 
   public abstract draw(): void;
 
-  public dispose(): void {
+  /**
+   * Callback after widget is created and inserted in tree.
+   */
+  public onCreated(): void {
+
+  }
+
+  /**
+   * Callback after widget is moved within tree.
+   */
+  public onMoved(): void {
+
+  }
+
+  /**
+   * Callback after widget is removed from tree.
+   */
+  public onDeleted(): void {
 
   }
 

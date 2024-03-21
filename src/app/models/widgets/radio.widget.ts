@@ -99,7 +99,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
     }
   }
 
-  public override dispose() {
+  public override onDeleted() {
     if (this._access) {
       if (this._access.forgetSubject(this.updateSubject)) {
         FIGRadioWidget.forgetAccessor(this._access);
