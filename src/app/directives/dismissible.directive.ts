@@ -84,8 +84,6 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
   private playerAbort?: AnimationPlayer;
   private playerRemove?: AnimationPlayer;
 
-  private isDragging: boolean = false;
-
   private isActive: boolean = false;
   private deltaX: number = 0;
   private isDismissed: boolean = false;
@@ -131,21 +129,12 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
     this.delegateClick.emit(event);
   }
 
-  @HostListener('cdkDragStarted', ['$event'])
-  public onDragStarted(): void {
-    this.isDragging = true;
-  }
-
-  @HostListener('cdkDragEnded', ['$event'])
-  public onDragEnded(): void {
-    this.isDragging = false;
-  }
-
   @HostListener('panstart', ['$event'])
   public onPanStart(event: HammerInput): void {
-    if (this.isDragging) {
+    if (this.$el.dataset['figDrag'] === 'true') {
       return;
     }
+    event.preventDefault();
     this.isActive = true;
     this.deltaX = event.deltaX;
     this.createBackground();
@@ -156,11 +145,15 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
     this.renderer.setStyle(this.$el, 'position', 'relative');
     this.renderer.setStyle(this.$el, 'margin-top', `-${height}`);
     this.renderer.addClass(this.$el, 'dragged');
+    this.$el.dataset['figSwipe'] = 'true';
   }
 
   @HostListener('panmove', ['$event'])
   public onPanMove(event: HammerInput): void {
-    if (this.isDragging) {
+    if (this.$el.dataset['figDrag'] === 'true') {
+      return;
+    }
+    if (!this.isActive) {
       return;
     }
     const width: number = this.$el.offsetWidth;
@@ -184,9 +177,10 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
   @HostListener('panend')
   @HostListener('pancancel')
   public onPanStop(): void {
-    if (this.isDragging) {
+    if (this.$el.dataset['figDrag'] === 'true') {
       return;
     }
+    delete this.$el.dataset['figSwipe'];
     if (!this.isDismissed) {
       this.stopDismiss();
       this.restoreClick();

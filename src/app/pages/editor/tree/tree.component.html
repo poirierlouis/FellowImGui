@@ -20,15 +20,6 @@
     </div>
   </ng-template>
 
-<!--
-ISSUE: pan events are triggered after drag/drop events.
-       tell HammerJS to temporarily disable pan recognizer?
-
-       figDismissible
-       [figDismissibleBackground]="dismissible"
-       (figDismissibleClick)="selectWidget(node)"
-       (figDismissed)="removeWidget(node.widget)"
--->
   <mat-tree-node *matTreeNodeDef="let node"
                  [class.selected]="selectedWidget === node.widget"
                  [class.container]="node.isContainer"
@@ -40,7 +31,10 @@ ISSUE: pan events are triggered after drag/drop events.
                  figDrop
                  [figDropData]="node.widget.uuid"
                  (figDropped)="dropWidget($event)"
-                 (click)="selectWidget(node)">
+                 figDismissible
+                 [figDismissibleBackground]="dismissible"
+                 (figDismissibleClick)="selectWidget(node)"
+                 (figDismissed)="removeWidget(node.widget)">
     <div class="content">
       <mat-icon [svgIcon]="node.icon"></mat-icon>
 

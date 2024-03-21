@@ -64,6 +64,7 @@ export class DragDirective implements AfterViewInit {
     this.renderer.appendChild(document.body, $preview);
     this.$el.dataset['figDrag'] = 'true';
     this.onDragListener = this.renderer.listen(document, 'dragover', this.onDrag.bind(this));
+    this.renderer.setStyle($preview, 'transform', `translateY(${event.pageY}px)`);
     event.dataTransfer!.setData('text/plain', this.data ?? '');
   }
 
@@ -89,7 +90,16 @@ export class DragDirective implements AfterViewInit {
     this.onDragListener?.();
     this.onDragListener = undefined;
     delete this.$el.dataset['figDrag'];
-    this.$el.dispatchEvent(new MouseEvent('mouseup'));
+  }
+
+  @HostListener('drop')
+  public onDrop(): void {
+    const $placeholder: HTMLElement | null = document.body.querySelector('#fig-drag-placeholder');
+
+    $placeholder?.remove();
+    this.onDragListener?.();
+    this.onDragListener = undefined;
+    delete this.$el.dataset['figDrag'];
   }
 
   private createPlaceholder(): HTMLElement {
