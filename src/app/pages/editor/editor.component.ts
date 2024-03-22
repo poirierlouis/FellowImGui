@@ -65,7 +65,7 @@ export class EditorComponent {
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Basics · FIG',
-      size: {width: 320, height: 398}
+      size: {width: 320, height: 418}
     }, [
       FIGWidgetHelper.createBullet(),
       FIGWidgetHelper.createText({text: ''}),
