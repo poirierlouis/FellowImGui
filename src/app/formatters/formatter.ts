@@ -16,6 +16,7 @@ import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
+import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -54,6 +55,7 @@ export abstract class FIGFormatter {
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
     {type: FIGWidgetType.inputText, fmt: this.formatInputText.bind(this)},
+    {type: FIGWidgetType.inputTextarea, fmt: this.formatInputTextarea.bind(this)},
     {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
     {type: FIGWidgetType.inputColorEdit, fmt: this.formatInputColorEdit.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
@@ -139,6 +141,7 @@ export abstract class FIGFormatter {
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;
   protected abstract formatInputText(widget: FIGInputTextWidget): void;
+  protected abstract formatInputTextarea(widget: FIGInputTextareaWidget): void;
   protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
   protected abstract formatInputColorEdit(widget: FIGInputColorEditWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;

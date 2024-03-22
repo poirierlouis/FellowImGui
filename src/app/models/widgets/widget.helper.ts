@@ -13,6 +13,7 @@ import {FIGInputNumberOptions, FIGInputNumberWidget} from "./input-number.widget
 import {FIGInputColorEditOptions, FIGInputColorEditWidget} from "./input-color-edit.widget";
 import {FIGCollapsingHeaderOptions, FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 import {FIGBulletOptions, FIGBulletWidget} from "./bullet.widget";
+import {FIGInputTextareaOptions, FIGInputTextareaWidget} from "./input-textarea.widget";
 
 export class FIGWidgetHelper {
 
@@ -59,6 +60,10 @@ export class FIGWidgetHelper {
 
   public static createInputText(options?: FIGInputTextOptions): FIGInputTextWidget {
     return new FIGInputTextWidget(options);
+  }
+
+  public static createInputTextarea(options?: FIGInputTextareaOptions): FIGInputTextareaWidget {
+    return new FIGInputTextareaWidget(options);
   }
 
   public static createInputNumber(options?: FIGInputNumberOptions): FIGInputNumberWidget {

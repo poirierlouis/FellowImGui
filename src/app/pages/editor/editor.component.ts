@@ -106,6 +106,14 @@ export class EditorComponent {
         flags: FIGInputTextFlags.Password
       }),
       FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createInputTextarea({
+        value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,\n' +
+          'sed do eiusmod tempor incididunt ut labore et dolore magna\n' +
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation\n' +
+          'ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        tooltip: 'Lorem ipsum is a classic ;)'
+      }),
+      FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputNumber({label: 'int', tooltip: 'Hold CTRL to fast increment/decrement.'}),
       FIGWidgetHelper.createInputNumber({label: 'int2', value: [0, 1], dataType: FIGInputNumberType.int2}),
       FIGWidgetHelper.createInputNumber({label: 'int3', value: [1, 2, 3], dataType: FIGInputNumberType.int3}),

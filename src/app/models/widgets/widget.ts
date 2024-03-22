@@ -18,6 +18,7 @@ export enum FIGWidgetType {
   // Forms / Inputs
   label,
   inputText,
+  inputTextarea,
   inputNumber,
   inputColorEdit,
   checkbox,

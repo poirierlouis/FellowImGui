@@ -1,0 +1,40 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Label</mat-label>
+    <span class="prefix" matPrefix>##</span>
+    <input matInput type="text" formControlName="label" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tooltip</mat-label>
+    <input matInput
+           type="text"
+           formControlName="tooltip" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Value</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              formControlName="value"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Number of lines</mat-label>
+    <input matInput type="number" formControlName="linesSize" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Buffer size</mat-label>
+    <input matInput type="number" formControlName="bufferSize" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Flags</mat-label>
+    <mat-select multiple formControlName="flags">
+      @for (flag of flags; track flag.value) {
+        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>

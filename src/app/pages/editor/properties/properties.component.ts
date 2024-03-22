@@ -16,6 +16,7 @@ import {InputColorEditPropertiesComponent} from "./input-color-edit-properties/i
 import {
   CollapsingHeaderPropertiesComponent
 } from "./collapsing-header-properties/collapsing-header-properties.component";
+import {InputTextareaPropertiesComponent} from "./input-textarea-properties/input-textarea-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -32,6 +33,7 @@ import {
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
+    InputTextareaPropertiesComponent,
     InputColorEditPropertiesComponent,
     CollapsingHeaderPropertiesComponent,
   ],

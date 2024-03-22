@@ -16,6 +16,7 @@ import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
+import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -201,6 +202,27 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else {
       this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.label)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize}${varFlags})`);
     }
+    this.formatTooltip(widget);
+  }
+
+  protected override formatInputTextarea(widget: FIGInputTextareaWidget): void {
+    const varText: string = this.formatVar(`${widget.label} text`, widget.type);
+    const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
+    const varSize: string = `-1, ${widget.linesSize} * ImGui.GetTextLineHeight()`;
+    const varDef: string = `${varText}, ${varSelected}`;
+    let varFlags: string = '';
+
+    if (widget.flags !== 0) {
+      varFlags = ', ';
+      varFlags += FIGInputTextWidget.flags
+        .filter((flag) => (widget.flags & flag) === flag)
+        .map((flag) => FIGInputTextFlags[flag])
+        .map((name) => `ImGuiInputTextFlags.${name}`)
+        .join(' + ');
+    }
+
+    this.append(`local ${varText} = "", ${varSelected}`);
+    this.append(`${varDef} = ImGui.InputTextMultiline(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize}, ${varSize}${varFlags})`);
     this.formatTooltip(widget);
   }
 

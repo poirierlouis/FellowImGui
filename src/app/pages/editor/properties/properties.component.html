@@ -43,6 +43,11 @@
                                  [widget]="widget!"
                                  (update)="update.emit($event)"></fig-input-text-properties>
     }
+    @case (FIGWidgetType.inputTextarea) {
+      <fig-input-textarea-properties class="properties"
+                                     [widget]="widget!"
+                                     (update)="update.emit($event)"></fig-input-textarea-properties>
+    }
     @case (FIGWidgetType.inputNumber) {
       <fig-input-number-properties class="properties"
                                    [widget]="widget!"

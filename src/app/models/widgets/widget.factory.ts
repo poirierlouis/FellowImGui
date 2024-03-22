@@ -13,6 +13,7 @@ import {FIGInputNumberWidget} from "./input-number.widget";
 import {FIGInputColorEditWidget} from "./input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 import {FIGBulletWidget} from "./bullet.widget";
+import {FIGInputTextareaWidget} from "./input-textarea.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -48,6 +49,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.inputText,
       title: 'Input Text',
       build: (id: number) => new FIGInputTextWidget({label: `Input Text ${id}`})
+    },
+    {
+      type: FIGWidgetType.inputTextarea,
+      title: 'Input Text Multiline',
+      build: (id: number) => new FIGInputTextareaWidget({label: `##InputTextMultiline${id}`})
     },
     {
       type: FIGWidgetType.inputNumber,
