@@ -17,6 +17,7 @@ import {MatIconButton} from "@angular/material/button";
 import {FormatterService} from "../../services/formatter.service";
 import {FIGInputNumberType} from "../../models/widgets/input-number.widget";
 import {DragDirective} from "../../directives/drag.directive";
+import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -99,7 +100,11 @@ export class EditorComponent {
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputText({label: 'Username'}),
       FIGWidgetHelper.createInputText({label: 'Username w/ hint', hint: 'e.g. Fig'}),
-      FIGWidgetHelper.createInputText({label: 'Username w/ tooltip', tooltip: 'Be anonymous'}),
+      FIGWidgetHelper.createInputText({
+        label: 'Password w/ tooltip',
+        tooltip: 'Be anonymous',
+        flags: FIGInputTextFlags.Password
+      }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputNumber({label: 'int', tooltip: 'Hold CTRL to fast increment/decrement.'}),
       FIGWidgetHelper.createInputNumber({label: 'int2', value: [0, 1], dataType: FIGInputNumberType.int2}),

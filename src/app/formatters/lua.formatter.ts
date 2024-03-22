@@ -1,7 +1,7 @@
 import {FIGButtonWidget, FIGDir} from "../models/widgets/button.widget";
 import {FIGCheckboxWidget} from "../models/widgets/checkbox.widget";
 import {FIGComboWidget} from "../models/widgets/combo.widget";
-import {FIGInputTextWidget} from "../models/widgets/input-text.widget";
+import {FIGInputTextFlags, FIGInputTextWidget} from "../models/widgets/input-text.widget";
 import {FIGLabelWidget} from "../models/widgets/label.widget";
 import {FIGRadioWidget} from "../models/widgets/radio.widget";
 import {FIGSeparatorWidget} from "../models/widgets/separator.widget";
@@ -179,12 +179,22 @@ export class FIGLuaFormatter extends FIGFormatter {
     const varText: string = this.formatVar(`${widget.label} text`, widget.type);
     const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
     const varDef: string = `${varText}, ${varSelected}`;
+    let varFlags: string = '';
+
+    if (widget.flags !== 0) {
+      varFlags = ', ';
+      varFlags += FIGInputTextWidget.flags
+        .filter((flag) => (widget.flags & flag) === flag)
+        .map((flag) => FIGInputTextFlags[flag])
+        .map((name) => `ImGuiInputTextFlags.${name}`)
+        .join(' | ');
+    }
 
     this.append(`local ${varText} = "", ${varSelected}`);
     if (!widget.hint) {
-      this.append(`${varDef} = ImGui.InputText(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize})`);
+      this.append(`${varDef} = ImGui.InputText(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize}${varFlags})`);
     } else {
-      this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.label)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize})`);
+      this.append(`${varDef} = ImGui.InputTextWithHint(${this.formatString(widget.label)}, ${this.formatString(widget.hint)}, ${varText}, ${widget.bufferSize}${varFlags})`);
     }
     this.formatTooltip(widget);
   }
