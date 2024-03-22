@@ -52,6 +52,10 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
     this.form.get(property)!.enable({emitEvent: false});
   }
 
+  protected testProperty(property: string): boolean {
+    return this.form.get(property)!.valid;
+  }
+
   protected load(): void {
     if (!this.widget) {
       return;
