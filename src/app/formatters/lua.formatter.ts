@@ -15,6 +15,7 @@ import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
+import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -79,6 +80,10 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append(`if ImGui.IsItemHovered() then`);
     this.appendIndent(`ImGui.SetTooltip(${this.formatString(widget.tooltip)})`);
     this.append(`end`);
+  }
+
+  protected override formatBullet(_widget: FIGBulletWidget): void {
+    this.append('ImGui.Bullet()');
   }
 
   protected override formatText(widget: FIGTextWidget): void {

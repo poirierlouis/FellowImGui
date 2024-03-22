@@ -15,6 +15,7 @@ import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
+import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -45,6 +46,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
 
     // Basics
+    {type: FIGWidgetType.bullet, fmt: this.formatBullet.bind(this)},
     {type: FIGWidgetType.text, fmt: this.formatText.bind(this)},
     {type: FIGWidgetType.button, fmt: this.formatButton.bind(this)},
     {type: FIGWidgetType.progressBar, fmt: this.formatProgressBar.bind(this)},
@@ -129,6 +131,7 @@ export abstract class FIGFormatter {
 
   // Basics
   protected abstract formatTooltip(widget: FIGWithTooltip): void;
+  protected abstract formatBullet(widget: FIGBulletWidget): void;
   protected abstract formatText(widget: FIGTextWidget): void;
   protected abstract formatButton(widget: FIGButtonWidget): void;
   protected abstract formatProgressBar(widget: FIGProgressBarWidget): void;
