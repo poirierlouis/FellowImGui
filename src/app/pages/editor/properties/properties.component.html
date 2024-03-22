@@ -5,11 +5,13 @@
   </div>
 
   @switch (widget.type) {
+    <!-- Layouts -->
     @case (FIGWidgetType.window) {
       <fig-window-properties class="properties"
                              [widget]="widget!"
                              (update)="update.emit($event)"></fig-window-properties>
     }
+    <!-- Basics -->
     @case (FIGWidgetType.text) {
       <fig-text-properties class="properties"
                            [widget]="widget!"
@@ -20,25 +22,16 @@
                              [widget]="widget!"
                              (update)="update.emit($event)"></fig-button-properties>
     }
-    @case (FIGWidgetType.checkbox) {
-      <fig-checkbox-properties class="properties"
-                               [widget]="widget!"
-                               (update)="update.emit($event)"></fig-checkbox-properties>
+    @case (FIGWidgetType.progressBar) {
+      <fig-progress-bar-properties class="properties"
+                                   [widget]="widget!"
+                                   (update)="update.emit($event)"></fig-progress-bar-properties>
     }
-    @case (FIGWidgetType.radio) {
-      <fig-radio-properties class="properties"
-                            [widget]="widget!"
-                            (update)="update.emit($event)"></fig-radio-properties>
-    }
+    <!-- Forms / Inputs -->
     @case (FIGWidgetType.label) {
       <fig-label-properties class="properties"
                             [widget]="widget!"
                             (update)="update.emit($event)"></fig-label-properties>
-    }
-    @case (FIGWidgetType.combo) {
-      <fig-combo-properties class="properties"
-                            [widget]="widget!"
-                            (update)="update.emit($event)"></fig-combo-properties>
     }
     @case (FIGWidgetType.inputText) {
       <fig-input-text-properties class="properties"
@@ -55,10 +48,20 @@
                                        [widget]="widget!"
                                        (update)="update.emit($event)"></fig-input-color-edit-properties>
     }
-    @case (FIGWidgetType.progressBar) {
-      <fig-progress-bar-properties class="properties"
-                                   [widget]="widget!"
-                                   (update)="update.emit($event)"></fig-progress-bar-properties>
+    @case (FIGWidgetType.checkbox) {
+      <fig-checkbox-properties class="properties"
+                               [widget]="widget!"
+                               (update)="update.emit($event)"></fig-checkbox-properties>
+    }
+    @case (FIGWidgetType.radio) {
+      <fig-radio-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-radio-properties>
+    }
+    @case (FIGWidgetType.combo) {
+      <fig-combo-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-combo-properties>
     }
   }
 }
