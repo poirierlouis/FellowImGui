@@ -3,13 +3,11 @@ import {
   ContentChild,
   Directive,
   ElementRef,
-  EmbeddedViewRef,
   HostBinding,
   HostListener,
   Input,
   Renderer2,
-  TemplateRef,
-  ViewContainerRef
+  TemplateRef
 } from "@angular/core";
 import {DragHandleDirective} from "./drag-handle.directive";
 
@@ -34,13 +32,9 @@ export class DragDirective implements AfterViewInit {
   @ContentChild(DragHandleDirective)
   dragHandle?: DragHandleDirective;
 
-  private previewRef?: EmbeddedViewRef<any>;
-  private onDragOverListener?: () => void;
-
   private $el!: HTMLElement;
 
   constructor(private readonly el: ElementRef,
-              private readonly vcr: ViewContainerRef,
               private readonly renderer: Renderer2) {
   }
 
@@ -58,44 +52,20 @@ export class DragDirective implements AfterViewInit {
       return;
     }
     const $placeholder: HTMLElement = this.createPlaceholder();
-    const $preview: HTMLElement = this.createPreview();
+    const $empty: HTMLElement = this.renderer.createElement('div');
 
-    this.renderer.appendChild(document.body, $placeholder);
-    this.renderer.appendChild(document.body, $preview);
     this.$el.dataset['figDrag'] = 'true';
-    this.onDragOverListener = this.renderer.listen(document, 'dragover', this.onDragOver.bind(this));
-    this.renderer.setStyle($preview, 'transform', `translateY(${event.pageY}px)`);
+    this.renderer.appendChild(document.body, $placeholder);
     event.dataTransfer!.setData('text/plain', this.data ?? '');
-  }
-
-  public onDragOver(event: DragEvent): void {
-    const $preview: HTMLElement | null = document.body.querySelector('#fig-drag-preview');
-
-    if (!$preview) {
-      return;
-    }
-    //this.renderer.setStyle($preview, 'transform', `translateX(${event.pageX}px)`);
-    this.renderer.setStyle($preview, 'transform', `translateY(${event.pageY}px)`);
+    event.dataTransfer!.setDragImage($empty, 0, 0);
   }
 
   @HostListener('dragend')
   public onDragEnd(): void {
     const $placeholder: HTMLElement | null = document.body.querySelector('#fig-drag-placeholder');
-    const $preview: HTMLElement | null = document.body.querySelector('#fig-drag-preview');
 
     $placeholder?.remove();
-    $preview?.remove();
-    this.previewRef?.destroy();
-    this.previewRef = undefined;
-    this.onDragOverListener?.();
-    this.onDragOverListener = undefined;
     delete this.$el.dataset['figDrag'];
-  }
-
-  @HostListener('drop')
-  public onDrop(): void {
-    this.onDragOverListener?.();
-    this.onDragOverListener = undefined;
   }
 
   private createPlaceholder(): HTMLElement {
@@ -103,14 +73,6 @@ export class DragDirective implements AfterViewInit {
 
     $placeholder.id = 'fig-drag-placeholder';
     return $placeholder;
-  }
-
-  private createPreview(): HTMLElement {
-    this.previewRef = this.vcr.createEmbeddedView(this.preview, {$implicit: this.previewData});
-    const $preview: HTMLElement = this.previewRef.rootNodes[0];
-
-    $preview.id = 'fig-drag-preview';
-    return $preview;
   }
 
 }

@@ -6,36 +6,6 @@
   $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
 
-  .fig-widget-preview {
-    @include mat.elevation(8);
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 48px;
-
-    background-color: $bg;
-
-    & .content {
-      display: flex;
-      align-items: center;
-      width: calc(100% - 40px - 2 * 12px);
-      margin: 0 12px;
-
-      & div {
-        overflow: hidden;
-        width: calc(100% - 24px - 12px);
-
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-
-    & mat-icon {
-      margin-right: 12px;
-    }
-  }
-
   #fig-drag-placeholder {
     position: relative;
     pointer-events: none;
@@ -60,24 +30,11 @@
       background-color: color.change($primary, $alpha: 0.10);
     }
   }
-
-  #fig-drag-preview {
-    position: absolute;
-    pointer-events: none;
-    z-index: 9999;
-    top: -24px;
-    width: 360px;
-    opacity: 0.75;
-  }
 }
 
 @mixin editor-color($theme) {
   $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
-
-  .fig-widget-preview {
-    background-color: $bg;
-  }
 
   #fig-drag-placeholder {
     background-color: $primary;
