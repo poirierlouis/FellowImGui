@@ -73,6 +73,7 @@
   height: calc(100% - 64px);
 
   & fig-tree {
+    overflow-y: auto;
     width: 360px;
   }
 
