@@ -12,6 +12,7 @@ import {FIGProgressBarOptions, FIGProgressBarWidget} from "./progress-bar.widget
 import {FIGInputNumberOptions, FIGInputNumberWidget} from "./input-number.widget";
 import {FIGInputColorEditOptions, FIGInputColorEditWidget} from "./input-color-edit.widget";
 import {FIGCollapsingHeaderOptions, FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
+import {FIGBulletOptions, FIGBulletWidget} from "./bullet.widget";
 
 export class FIGWidgetHelper {
 
@@ -36,6 +37,9 @@ export class FIGWidgetHelper {
   }
 
   // Basics
+  public static createBullet(options?: FIGBulletOptions): FIGBulletWidget {
+    return new FIGBulletWidget(options);
+  }
   public static createText(options?: FIGTextOptions): FIGTextWidget {
     return new FIGTextWidget(options);
   }

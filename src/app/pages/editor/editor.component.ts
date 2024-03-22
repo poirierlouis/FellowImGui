@@ -54,7 +54,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.text, FIGWidgetType.progressBar)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.progressBar)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -66,6 +66,9 @@ export class EditorComponent {
       label: 'Basics · FIG',
       size: {width: 320, height: 398}
     }, [
+      FIGWidgetHelper.createBullet(),
+      FIGWidgetHelper.createText({text: ''}),
+      FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createText({text: 'Hello world!'}),
       FIGWidgetHelper.createText({text: 'I\'m colorful!', color: color}),
       FIGWidgetHelper.createText({text: 'I\'m disabled!', isDisabled: true}),

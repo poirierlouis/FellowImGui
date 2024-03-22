@@ -10,6 +10,7 @@ export enum FIGWidgetType {
   separator,
 
   // Basics
+  bullet,
   text,
   button,
   progressBar,
