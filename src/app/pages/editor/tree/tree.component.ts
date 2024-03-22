@@ -117,14 +117,14 @@ export class TreeComponent {
   }
 
   protected dropWidget(event: FIGDropEvent): void {
+    const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
     const drag: FIGWidget | undefined = (!event.drag) ? undefined : this.document.findByUuid(event.drag);
     const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
-    const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
     let needUpdate: boolean = false;
 
     if (type !== undefined) {
       needUpdate = this.document.createWidget(type, drop, event.direction);
-    } else if (drag && drop) {
+    } else if (drag) {
       needUpdate = this.document.moveWidget(drag, drop, event.direction);
     }
     if (needUpdate) {

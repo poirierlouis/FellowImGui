@@ -94,10 +94,6 @@ export class DragDirective implements AfterViewInit {
 
   @HostListener('drop')
   public onDrop(): void {
-    const $placeholder: HTMLElement | null = document.body.querySelector('#fig-drag-placeholder');
-
-    $placeholder?.remove();
-    delete this.$el.dataset['figDrag'];
     this.onDragOverListener?.();
     this.onDragOverListener = undefined;
   }

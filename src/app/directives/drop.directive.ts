@@ -86,7 +86,10 @@ export class DropDirective implements AfterViewInit {
     event.preventDefault();
     const direction: FIGDropDirection = this.computeDirection(this.$el, event);
     const data: string = event.dataTransfer!.getData('text/plain');
+    const $placeholder: HTMLElement | null = document.body.querySelector('#fig-drag-placeholder');
 
+    $placeholder?.remove();
+    delete this.$el.dataset['figDrag'];
     this.dropped.emit({
       drag: data,
       drop: this.data,

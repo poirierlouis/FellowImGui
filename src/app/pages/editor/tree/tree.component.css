@@ -1,6 +1,5 @@
 mat-tree {
   user-select: none;
-  height: 100%;
 
   & .invisible {
     display: none;
@@ -36,4 +35,9 @@ mat-tree {
       margin-right: 12px;
     }
   }
+}
+
+#fig-drop {
+  display: flex;
+  flex: 1;
 }

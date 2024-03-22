@@ -32,9 +32,16 @@ export class FIGDocument {
     if (!drag) {
       return false;
     }
-    if (!drop) {
-      // TODO: append at the end of root based on drag's type?
+    // Prevent inserting child-like widget in root.
+    if (!drop && (drag.needParent || !(drag instanceof FIGContainer))) {
       return false;
+    }
+    // Insert window-like widgets at the end of tree.
+    if (!drop) {
+      this.root.push(drag as FIGContainer);
+      drag.parent = undefined;
+      drag.onCreated();
+      return true;
     }
     // Prevent window-like widgets within containers.
     if (!drag.needParent && (parent || direction === 'insert')) {
@@ -74,9 +81,21 @@ export class FIGDocument {
     return false;
   }
 
-  public moveWidget(drag: FIGWidget, drop: FIGWidget, direction: FIGDropDirection): boolean {
+  public moveWidget(drag: FIGWidget, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
     let parent: FIGContainer | undefined = drop?.parent;
 
+    // Prevent moving child-like widget at the end of tree.
+    if (!drop && (drag.needParent || !(drag instanceof FIGContainer))) {
+      return false;
+    }
+    // Move window-like widgets at the end of tree.
+    if (!drop) {
+      this.remove(drag as FIGContainer);
+      this.root.push(drag as FIGContainer);
+      drag.parent = undefined;
+      drag.onCreated();
+      return true;
+    }
     // Prevent moving widget on itself.
     if (drag.uuid === drop.uuid) {
       return false;

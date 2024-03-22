@@ -74,6 +74,8 @@
 
   & fig-tree {
     overflow-y: auto;
+    display: flex;
+    flex-flow: column;
     width: 360px;
   }
 
