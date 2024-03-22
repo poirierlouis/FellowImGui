@@ -11,6 +11,7 @@ import {FIGComboOptions, FIGComboWidget} from "./combo.widget";
 import {FIGProgressBarOptions, FIGProgressBarWidget} from "./progress-bar.widget";
 import {FIGInputNumberOptions, FIGInputNumberWidget} from "./input-number.widget";
 import {FIGInputColorEditOptions, FIGInputColorEditWidget} from "./input-color-edit.widget";
+import {FIGCollapsingHeaderOptions, FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 
 export class FIGWidgetHelper {
 
@@ -18,6 +19,13 @@ export class FIGWidgetHelper {
   public static createWindow(options?: FIGWindowOptions,
                              children: FIGWidget[] = []): FIGWindowWidget {
     const widget: FIGWindowWidget = new FIGWindowWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createCollapsingHeader(options?: FIGCollapsingHeaderOptions, children: FIGWidget[] = []): FIGCollapsingHeaderWidget {
+    const widget: FIGCollapsingHeaderWidget = new FIGCollapsingHeaderWidget(options);
 
     widget.children.push(...children);
     return widget;

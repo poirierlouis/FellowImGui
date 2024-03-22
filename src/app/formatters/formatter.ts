@@ -14,6 +14,7 @@ import {sanitizeVar, toCamelCase, toSnakeCase} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
+import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -40,6 +41,7 @@ export abstract class FIGFormatter {
   private readonly formatters: FIGFormatterItem[] = [
     // Layouts
     {type: FIGWidgetType.window, fmt: this.formatWindow.bind(this)},
+    {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
 
     // Basics
@@ -108,6 +110,10 @@ export abstract class FIGFormatter {
     this.lines += `${this.indent + this.options.indent}${line}\n`;
   }
 
+  protected removeLastNewLine(): void {
+    this.lines = this.lines.substring(0, this.lines.length - (this.indent.length + 1));
+  }
+
   protected pushIndent(): void {
     this.indent += this.options.indent;
   }
@@ -118,6 +124,7 @@ export abstract class FIGFormatter {
 
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;
+  protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatSeparator(widget: FIGSeparatorWidget): void;
 
   // Basics

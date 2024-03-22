@@ -137,9 +137,21 @@ export class EditorComponent {
         tooltip: 'Where should we go?'
       })
     ]);
+    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
+      label: 'Layouts · FIG',
+      size: {width: 320, height: 398}
+    }, [
+      FIGWidgetHelper.createCollapsingHeader({
+        label: 'Header'
+      }, [
+        FIGWidgetHelper.createText(),
+        FIGWidgetHelper.createButton(),
+      ])
+    ]);
 
     this.document.root.push(basics);
     this.document.root.push(inputs);
+    this.document.root.push(layouts);
     this.document.link();
   }
 

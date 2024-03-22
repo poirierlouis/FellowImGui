@@ -6,6 +6,7 @@ import {Vector2} from "../math";
 export enum FIGWidgetType {
   // Layouts
   window,
+  collapsingHeader,
   separator,
 
   // Basics

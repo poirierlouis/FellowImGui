@@ -14,6 +14,7 @@ import {capitalize} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
+import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -41,6 +42,29 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.formatWidget(child);
     }
     this.append('ImGui.End()');
+  }
+
+  protected override formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void {
+    let varFlags: string = '';
+
+    if (widget.flags !== 0) {
+      varFlags = ', ';
+      varFlags += FIGCollapsingHeaderWidget.flags
+        .filter((flag) => (widget.flags & flag) === flag)
+        .map((flag) => FIGCollapsingHeaderFlags[flag])
+        .map((name) => `ImGuiTreeNodeFlags.${name}`)
+        .join(' | ');
+    }
+    this.append(`if ImGui.CollapsingHeader(${this.formatString(widget.label)}${varFlags}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    if (widget.children.length > 0) {
+      this.removeLastNewLine();
+    }
+    this.popIndent();
+    this.append('end');
   }
 
   protected override formatSeparator(widget: FIGSeparatorWidget): void {

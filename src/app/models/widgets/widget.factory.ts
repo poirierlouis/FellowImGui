@@ -11,6 +11,7 @@ import {FIGInputTextWidget} from "./input-text.widget";
 import {FIGProgressBarWidget} from "./progress-bar.widget";
 import {FIGInputNumberWidget} from "./input-number.widget";
 import {FIGInputColorEditWidget} from "./input-color-edit.widget";
+import {FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -23,6 +24,7 @@ export class FIGWidgetFactory {
   public static readonly builders: FIGWidgetBuilder[] = [
     // Layouts
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget({label: `Window ${id}`})},
+    {type: FIGWidgetType.collapsingHeader, title: 'Collapsing Header', build: (id: number) => new FIGCollapsingHeaderWidget({label: `Header ${id}`})},
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics

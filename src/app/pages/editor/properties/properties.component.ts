@@ -13,6 +13,9 @@ import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {ProgressBarPropertiesComponent} from "./progress-bar-properties/progress-bar-properties.component";
 import {InputNumberPropertiesComponent} from "./input-number-properties/input-number-properties.component";
 import {InputColorEditPropertiesComponent} from "./input-color-edit-properties/input-color-edit-properties.component";
+import {
+  CollapsingHeaderPropertiesComponent
+} from "./collapsing-header-properties/collapsing-header-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -30,6 +33,7 @@ import {InputColorEditPropertiesComponent} from "./input-color-edit-properties/i
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
     InputColorEditPropertiesComponent,
+    CollapsingHeaderPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'

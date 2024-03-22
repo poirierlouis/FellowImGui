@@ -11,6 +11,11 @@
                              [widget]="widget!"
                              (update)="update.emit($event)"></fig-window-properties>
     }
+    @case (FIGWidgetType.collapsingHeader) {
+      <fig-collapsing-header-properties class="properties"
+                                        [widget]="widget!"
+                                        (update)="update.emit($event)"></fig-collapsing-header-properties>
+    }
     <!-- Basics -->
     @case (FIGWidgetType.text) {
       <fig-text-properties class="properties"
