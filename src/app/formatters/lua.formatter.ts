@@ -221,7 +221,7 @@ export class FIGLuaFormatter extends FIGFormatter {
         .join(' + ');
     }
 
-    this.append(`local ${varText} = "", ${varSelected}`);
+    this.append(`local ${varText} = ${this.formatString(widget.value)}, ${varSelected}`);
     this.append(`${varDef} = ImGui.InputTextMultiline(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize}, ${varSize}${varFlags})`);
     this.formatTooltip(widget);
   }
