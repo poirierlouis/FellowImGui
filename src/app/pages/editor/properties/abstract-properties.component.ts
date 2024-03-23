@@ -1,16 +1,23 @@
-import {Component, DestroyRef, Input, OnDestroy} from "@angular/core";
+import {Component, DestroyRef, EventEmitter, Input, OnDestroy, Output} from "@angular/core";
 import {FIGWidget} from "../../../models/widgets/widget";
 import {debounceTime, map, Observable, Subscription} from "rxjs";
 import {FormGroup} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+
+export interface FlagItem<T> {
+  readonly label: string;
+  readonly value: T;
+}
 
 @Component({
   template: ''
 })
 export abstract class AbstractPropertiesComponent<T extends FIGWidget> implements OnDestroy {
 
-  widget?: T;
+  @Output()
+  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
+  widget!: T;
   form!: FormGroup;
 
   private updateS?: Subscription;
@@ -57,9 +64,6 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
   }
 
   protected load(): void {
-    if (!this.widget) {
-      return;
-    }
     this.updateS = this.widget.update$.subscribe(this.onUpdated.bind(this));
     this.updateForm();
   }

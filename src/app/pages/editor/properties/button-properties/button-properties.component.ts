@@ -1,8 +1,7 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGButtonWidget, FIGDir} from "../../../../models/widgets/button.widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -25,9 +24,6 @@ import {MatOption, MatSelect} from "@angular/material/select";
 })
 export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGButtonWidget> {
 
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
-
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
@@ -48,9 +44,6 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   protected override updateForm() {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('isFill', this.widget.isFill);
@@ -59,7 +52,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -67,12 +60,12 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onIsFillChanged(value: boolean): void {
-    this.widget!.isFill = value;
+    this.widget.isFill = value;
     if (value) {
       this.resetIsSmall();
       this.resetArrow();
@@ -81,7 +74,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   private onIsSmallChanged(value: boolean): void {
-    this.widget!.isSmall = value;
+    this.widget.isSmall = value;
     if (value) {
       this.resetIsFill();
       this.resetArrow();
@@ -90,7 +83,7 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   private onArrowChanged(value: FIGDir): void {
-    this.widget!.arrow = value;
+    this.widget.arrow = value;
     if (value) {
       this.resetIsFill();
       this.resetIsSmall();
@@ -99,27 +92,27 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
   }
 
   private resetIsFill(): void {
-    if (!this.widget!.isFill) {
+    if (!this.widget.isFill) {
       return;
     }
     this.setProperty('isFill', false);
-    this.widget!.isFill = false;
+    this.widget.isFill = false;
   }
 
   private resetIsSmall(): void {
-    if (!this.widget!.isSmall) {
+    if (!this.widget.isSmall) {
       return;
     }
     this.setProperty('isSmall', false);
-    this.widget!.isSmall = false;
+    this.widget.isSmall = false;
   }
 
   private resetArrow(): void {
-    if (this.widget!.arrow === FIGDir.none) {
+    if (this.widget.arrow === FIGDir.none) {
       return;
     }
     this.setProperty('arrow', FIGDir.none);
-    this.widget!.arrow = FIGDir.none;
+    this.widget.arrow = FIGDir.none;
   }
 
 }

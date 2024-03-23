@@ -1,10 +1,9 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGRadioWidget} from "../../../../models/widgets/radio.widget";
 
 @Component({
@@ -21,9 +20,6 @@ import {FIGRadioWidget} from "../../../../models/widgets/radio.widget";
   styleUrl: './radio-properties.component.css'
 })
 export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRadioWidget> {
-
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
     groupId: new FormControl<string>(''),
@@ -42,9 +38,6 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('groupId', this.widget.groupId);
     this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
@@ -53,12 +46,12 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
   }
 
   private onGroupIDChanged(value: string): void {
-    this.widget!.groupId = value;
+    this.widget.groupId = value;
     this.update.emit();
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -66,12 +59,12 @@ export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRad
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onIndexChanged(value: number): void {
-    this.widget!.index = value;
+    this.widget.index = value;
     this.update.emit();
   }
 

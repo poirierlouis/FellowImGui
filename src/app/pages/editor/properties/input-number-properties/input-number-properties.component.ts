@@ -1,9 +1,8 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../../../../models/widgets/input-number.widget";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatDivider} from "@angular/material/divider";
@@ -15,20 +14,17 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
   imports: [
     MatInput,
     MatLabel,
-    MatFormField,
-    ReactiveFormsModule,
     MatSelect,
     MatOption,
     MatDivider,
-    MatSlideToggle
+    MatFormField,
+    MatSlideToggle,
+    ReactiveFormsModule
   ],
   templateUrl: './input-number-properties.component.html',
   styleUrl: './input-number-properties.component.css'
 })
 export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<FIGInputNumberWidget> {
-
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
     dataType: new FormControl<FIGInputNumberType>(FIGInputNumberType.int),
@@ -67,9 +63,6 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   protected override updateForm() {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('dataType', this.widget.dataType);
     const size: number = FIGInputNumberWidget.getArraySize(this.widget.dataType);
 
@@ -103,33 +96,33 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   private onDataTypeChanged(dataType: FIGInputNumberType): void {
-    const prevValue: number | number[] = this.widget!.value;
-    const prevSize: number = this.getArraySize(this.widget!.dataType);
+    const prevValue: number | number[] = this.widget.value;
+    const prevSize: number = this.getArraySize(this.widget.dataType);
     const size: number = this.getArraySize(dataType);
 
-    this.widget!.dataType = dataType;
+    this.widget.dataType = dataType;
     if (size === 0 && prevValue instanceof Array) {
-      this.widget!.value = prevValue[0];
-      this.setProperty('value0', this.formatNumber(this.widget!.value));
+      this.widget.value = prevValue[0];
+      this.setProperty('value0', this.formatNumber(this.widget.value));
     } else if (size > 0 && !(prevValue instanceof Array)) {
       const values: number[] = [prevValue];
 
       for (let i = 0; i < size - 1; i++) {
         values.push(0);
       }
-      this.widget!.value = values;
+      this.widget.value = values;
       for (let i = 0; i < size; i++) {
         this.setProperty(`value${i}`, this.formatNumber(values[i]));
       }
     } else if (prevSize < size) {
-      const values: number[] = this.widget!.value as number[];
+      const values: number[] = this.widget.value as number[];
 
       for (let i = prevSize; i < size; i++) {
         values.push(0);
         this.setProperty(`value${i}`, this.formatNumber(values[i]));
       }
     } else if (prevSize > size) {
-      const values: number[] = this.widget!.value as number[];
+      const values: number[] = this.widget.value as number[];
       const delta: number = prevSize - size;
       const index: number = prevSize - delta;
 
@@ -139,43 +132,43 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   private onValueChanged(value: string, index: number): void {
-    const isArray: boolean = FIGInputNumberWidget.isArray(this.widget!.dataType);
-    const prevValue: number = (isArray) ? (this.widget!.value as number[])[index] : this.widget!.value as number;
+    const isArray: boolean = FIGInputNumberWidget.isArray(this.widget.dataType);
+    const prevValue: number = (isArray) ? (this.widget.value as number[])[index] : this.widget.value as number;
     const number: number = +value;
 
-    if (FIGInputNumberWidget.isInteger(this.widget!.dataType) && !Number.isInteger(number)) {
+    if (FIGInputNumberWidget.isInteger(this.widget.dataType) && !Number.isInteger(number)) {
       this.setProperty(`value${index}`, this.formatNumber(prevValue));
       return;
     }
     if (isArray) {
-      (this.widget!.value as number[])[index] = number;
+      (this.widget.value as number[])[index] = number;
     } else {
-      this.widget!.value = number;
+      this.widget.value = number;
     }
     this.update.emit();
   }
 
   private onStepChanged(value: number): void {
-    this.widget!.step = value;
+    this.widget.step = value;
     this.update.emit();
   }
 
   private onStepFastChanged(value: number): void {
-    this.widget!.stepFast = value;
+    this.widget.stepFast = value;
     this.update.emit();
   }
 
   private onPrecisionChanged(precision: string): void {
     const format: string = `%.${precision}f`;
 
-    this.widget!.format = format;
+    this.widget.format = format;
     this.setProperty('format', format);
     this.update.emit();
   }
 
   private onScientificNotationChanged(value: boolean): void {
     if (value) {
-      this.widget!.format = '%e';
+      this.widget.format = '%e';
       this.setProperty('format', '%e');
       this.disableProperty('precision');
       this.disableProperty('format');
@@ -189,7 +182,7 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -197,12 +190,12 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private formatNumber(value: number): string {
-    if (this.isInteger(this.widget!.dataType)) {
+    if (this.isInteger(this.widget.dataType)) {
       return value.toString();
     }
     return value.toFixed(+this.getProperty<string>('precision'));

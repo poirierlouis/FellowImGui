@@ -1,10 +1,9 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGProgressBarWidget} from "../../../../models/widgets/progress-bar.widget";
 import {MatSliderModule} from "@angular/material/slider";
 
@@ -23,9 +22,6 @@ import {MatSliderModule} from "@angular/material/slider";
   styleUrl: './progress-bar-properties.component.css'
 })
 export class ProgressBarPropertiesComponent extends AbstractPropertiesComponent<FIGProgressBarWidget> {
-
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
 
   override form: FormGroup = new FormGroup<any>({
     value: new FormControl<number>(0),
@@ -47,9 +43,6 @@ export class ProgressBarPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('value', this.widget.value * 100);
     this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
@@ -57,12 +50,12 @@ export class ProgressBarPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   private onValueChanged(value: number): void {
-    this.widget!.value = value / 100;
+    this.widget.value = value / 100;
     this.update.emit();
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -70,12 +63,12 @@ export class ProgressBarPropertiesComponent extends AbstractPropertiesComponent<
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onIsFillChanged(value: boolean): void {
-    this.widget!.isFill = value;
+    this.widget.isFill = value;
     this.update.emit();
   }
 

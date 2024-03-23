@@ -1,17 +1,11 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
+import {AbstractPropertiesComponent, FlagItem} from "../abstract-properties.component";
 import {FIGInputTextFlags, FIGInputTextWidget} from "../../../../models/widgets/input-text.widget";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
-
-interface FlagItem {
-  readonly label: string;
-  readonly value: FIGInputTextFlags;
-}
 
 @Component({
   selector: 'fig-input-text-properties',
@@ -29,10 +23,7 @@ interface FlagItem {
 })
 export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FIGInputTextWidget> {
 
-  readonly flags: FlagItem[] = [];
-
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
+  readonly flags: FlagItem<FIGInputTextFlags>[] = [];
 
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
@@ -60,9 +51,6 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
   }
 
   protected override updateForm() {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     this.setProperty('hint', this.widget.hint ?? null);
     this.setProperty('value', this.widget.value);
@@ -79,7 +67,7 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -87,12 +75,12 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.hint = value ?? undefined;
+    this.widget.hint = value ?? undefined;
     this.update.emit();
   }
 
   private onValueChanged(value: string): void {
-    this.widget!.value = value;
+    this.widget.value = value;
     this.update.emit();
   }
 
@@ -100,12 +88,12 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onBufferSizeChanged(value: number): void {
-    this.widget!.bufferSize = value;
+    this.widget.bufferSize = value;
     this.update.emit();
   }
 
@@ -114,9 +102,9 @@ export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FI
       const isEnabled: boolean = value.includes(flag.value);
 
       if (isEnabled) {
-        this.widget!.flags |= flag.value;
-      } else if ((this.widget!.flags & flag.value) === flag.value) {
-        this.widget!.flags ^= flag.value;
+        this.widget.flags |= flag.value;
+      } else if ((this.widget.flags & flag.value) === flag.value) {
+        this.widget.flags ^= flag.value;
       }
     }
     this.update.emit();

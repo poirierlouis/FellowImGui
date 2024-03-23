@@ -1,9 +1,8 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGLabelWidget} from "../../../../models/widgets/label.widget";
 
 @Component({
@@ -20,9 +19,6 @@ import {FIGLabelWidget} from "../../../../models/widgets/label.widget";
 })
 export class LabelPropertiesComponent extends AbstractPropertiesComponent<FIGLabelWidget> {
 
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
-
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
     value: new FormControl<string>(''),
@@ -37,21 +33,18 @@ export class LabelPropertiesComponent extends AbstractPropertiesComponent<FIGLab
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     this.setProperty('value', this.widget.value);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
   private onValueChanged(value: string): void {
-    this.widget!.value = value;
+    this.widget.value = value;
     this.update.emit();
   }
 
@@ -59,7 +52,7 @@ export class LabelPropertiesComponent extends AbstractPropertiesComponent<FIGLab
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 

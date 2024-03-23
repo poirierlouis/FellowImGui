@@ -1,8 +1,7 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {FIGCheckboxWidget} from "../../../../models/widgets/checkbox.widget";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -22,9 +21,6 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 })
 export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIGCheckboxWidget> {
 
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
-
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
     isChecked: new FormControl<boolean>(false),
@@ -39,16 +35,13 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('isChecked', this.widget.isChecked);
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -56,12 +49,12 @@ export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIG
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onIsCheckedChanged(value: boolean): void {
-    this.widget!.isChecked = value;
+    this.widget.isChecked = value;
     this.update.emit();
   }
 

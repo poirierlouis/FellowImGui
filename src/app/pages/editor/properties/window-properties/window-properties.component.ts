@@ -1,9 +1,8 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {FIGWindowWidget} from "../../../../models/widgets/window.widget";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
@@ -20,9 +19,6 @@ import {AbstractPropertiesComponent} from "../abstract-properties.component";
 })
 export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWindowWidget> {
 
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
-
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
     width: new FormControl<number>(32, {validators: [Validators.min(32)]}),
@@ -37,16 +33,13 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     this.setProperty('width', this.widget.size.width);
     this.setProperty('height', this.widget.size.height);
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -54,7 +47,7 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     if (!this.form.get('width')!.valid) {
       return;
     }
-    this.widget!.size.width = value;
+    this.widget.size.width = value;
     this.update.emit();
   }
 
@@ -62,7 +55,7 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     if (!this.form.get('height')!.valid) {
       return;
     }
-    this.widget!.size.height = value;
+    this.widget.size.height = value;
     this.update.emit();
   }
 

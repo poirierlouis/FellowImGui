@@ -1,8 +1,7 @@
-import {Component, DestroyRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, DestroyRef, ViewChild} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {FIGWidget} from "../../../../models/widgets/widget";
 import {FIGTextWidget} from "../../../../models/widgets/text.widget";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -31,9 +30,6 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
   @ViewChild(NgxColorsTriggerDirective)
   ngxColor!: NgxColorsTriggerDirective;
 
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
-
   override form: FormGroup = new FormGroup<any>({
     text: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
@@ -57,17 +53,14 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     const $panel: PanelComponent = this.ngxColor.panelRef.instance;
 
     $panel.menu = 3;
-    if ($panel.color.length === 0 && this.widget!.color) {
-      $panel.color = stringifyRGBA(this.widget!.color);
+    if ($panel.color.length === 0 && this.widget.color) {
+      $panel.color = stringifyRGBA(this.widget.color);
     } else if ($panel.color.length === 0) {
       $panel.color = 'rgb(255, 255, 255)';
     }
   }
 
   protected override updateForm(): void {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('text', this.widget.text);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('color', this.widget.color ? stringifyHEX(this.widget.color) : '');
@@ -77,7 +70,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
   }
 
   private onTextChanged(value: string): void {
-    this.widget!.text = value;
+    this.widget.text = value;
     this.update.emit();
   }
 
@@ -85,27 +78,27 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     if (value && value.trim().length === 0) {
       value = null;
     }
-    this.widget!.tooltip = value ?? undefined;
+    this.widget.tooltip = value ?? undefined;
     this.update.emit();
   }
 
   private onColorChanged(value: string): void {
-    this.widget!.color = parseRGBA(value);
+    this.widget.color = parseRGBA(value);
     this.update.emit();
   }
 
   private onIsDisabledChanged(value: boolean): void {
-    this.widget!.isDisabled = value;
+    this.widget.isDisabled = value;
     this.update.emit();
   }
 
   private onIsWrappedChanged(value: boolean): void {
-    this.widget!.isWrapped = value;
+    this.widget.isWrapped = value;
     this.update.emit();
   }
 
   private onHasBulletChanged(value: boolean): void {
-    this.widget!.hasBullet = value;
+    this.widget.hasBullet = value;
     this.update.emit();
   }
 

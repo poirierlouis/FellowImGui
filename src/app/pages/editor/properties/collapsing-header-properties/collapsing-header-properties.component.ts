@@ -1,16 +1,10 @@
-import {Component, DestroyRef, EventEmitter, Output} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGWidget} from "../../../../models/widgets/widget";
+import {AbstractPropertiesComponent, FlagItem} from "../abstract-properties.component";
 import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../../../../models/widgets/collapsing-header.widget";
 import {MatOption, MatSelect} from "@angular/material/select";
-
-interface FlagItem {
-  readonly label: string;
-  readonly value: FIGCollapsingHeaderFlags;
-}
 
 @Component({
   selector: 'fig-collapsing-header-properties',
@@ -28,10 +22,7 @@ interface FlagItem {
 })
 export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesComponent<FIGCollapsingHeaderWidget> {
 
-  readonly flags: FlagItem[] = [];
-
-  @Output()
-  update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
+  readonly flags: FlagItem<FIGCollapsingHeaderFlags>[] = [];
 
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
@@ -51,9 +42,6 @@ export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesCompo
   }
 
   protected override updateForm() {
-    if (!this.widget) {
-      return;
-    }
     this.setProperty('label', this.widget.label);
     const flags: number[] = [];
 
@@ -66,7 +54,7 @@ export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesCompo
   }
 
   private onLabelChanged(value: string): void {
-    this.widget!.label = value;
+    this.widget.label = value;
     this.update.emit();
   }
 
@@ -75,9 +63,9 @@ export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesCompo
       const isEnabled: boolean = value.includes(flag.value);
 
       if (isEnabled) {
-        this.widget!.flags |= flag.value;
-      } else if ((this.widget!.flags & flag.value) === flag.value) {
-        this.widget!.flags ^= flag.value;
+        this.widget.flags |= flag.value;
+      } else if ((this.widget.flags & flag.value) === flag.value) {
+        this.widget.flags ^= flag.value;
       }
     }
     this.update.emit();
