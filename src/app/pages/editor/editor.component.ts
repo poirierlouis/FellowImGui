@@ -94,7 +94,7 @@ export class EditorComponent {
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',
-      size: {width: 460, height: 564}
+      size: {width: 470, height: 648}
     }, [
       FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
       FIGWidgetHelper.createSeparator(),
