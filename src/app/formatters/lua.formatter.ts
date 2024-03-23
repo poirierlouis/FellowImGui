@@ -55,7 +55,7 @@ export class FIGLuaFormatter extends FIGFormatter {
         .filter((flag) => (widget.flags & flag) === flag)
         .map((flag) => FIGCollapsingHeaderFlags[flag])
         .map((name) => `ImGuiTreeNodeFlags.${name}`)
-        .join(' | ');
+        .join(' + ');
     }
     this.append(`if ImGui.CollapsingHeader(${this.formatString(widget.label)}${varFlags}) then`);
     this.pushIndent();
@@ -193,7 +193,7 @@ export class FIGLuaFormatter extends FIGFormatter {
         .filter((flag) => (widget.flags & flag) === flag)
         .map((flag) => FIGInputTextFlags[flag])
         .map((name) => `ImGuiInputTextFlags.${name}`)
-        .join(' | ');
+        .join(' + ');
     }
 
     this.append(`local ${varText} = "", ${varSelected}`);
