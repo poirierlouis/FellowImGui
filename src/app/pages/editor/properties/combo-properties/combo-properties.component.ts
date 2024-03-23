@@ -27,6 +27,7 @@ export class ComboPropertiesComponent extends AbstractPropertiesComponent<FIGCom
     label: new FormControl<string>(''),
     tooltip: new FormControl<string | null>(null),
     items: new FormControl<string | null>(null),
+    selectedItem: new FormControl<string>({value: '', disabled: true}),
   });
 
   constructor(dr: DestroyRef) {
@@ -40,6 +41,7 @@ export class ComboPropertiesComponent extends AbstractPropertiesComponent<FIGCom
     this.setProperty('label', this.widget.label);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
     this.setProperty('items', this.widget.items.join('\n'));
+    this.setProperty('selectedItem', this.widget.items[this.widget.selectedItem]);
   }
 
   private onLabelChanged(value: string): void {
@@ -61,7 +63,8 @@ export class ComboPropertiesComponent extends AbstractPropertiesComponent<FIGCom
 
     this.widget.items.length = 0;
     this.widget.items.push(...items);
-    this.widget.selectedIndex = 0;
+    this.widget.selectedItem = 0;
+    this.setProperty('selectedItem', this.widget.items[0]);
     this.update.emit();
   }
 
