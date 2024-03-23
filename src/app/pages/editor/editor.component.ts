@@ -94,7 +94,7 @@ export class EditorComponent {
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',
-      size: {width: 470, height: 648}
+      size: {width: 498, height: 734}
     }, [
       FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
       FIGWidgetHelper.createSeparator(),
@@ -135,6 +135,16 @@ export class EditorComponent {
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputColorEdit({label: 'color', tooltip: 'Define an RGB color using inputs/picker.'}),
       FIGWidgetHelper.createInputColorEdit({label: 'color w/ alpha', withAlpha: true}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createListBox({label: 'Stars Classification', items: [
+        'M (2,600 K to 3,850 K)',
+        'K (4,000 K to 5,250 K)',
+        'G (5,500 K to 6,000 K)',
+        'F (6,000 K to 7,200 K)',
+        'A (7,500 K to 10,000 K)',
+        'B (10,500 K to 30,000 K)',
+        'O (33,000 K and more)'
+        ]}),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createCheckbox({label: 'Fig'}),
       FIGWidgetHelper.createCheckbox({label: 'Banana', isChecked: true}),

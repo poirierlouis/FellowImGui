@@ -17,6 +17,7 @@ import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget
 import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
+import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -306,6 +307,16 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else {
       this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor})`);
     }
+    this.formatTooltip(widget);
+  }
+
+  protected override formatListBox(widget: FIGListBoxWidget): void {
+    const varCurrentItem: string = this.formatVar(`${widget.label} current item`, widget.type);
+    const varClicked: string = this.formatVar(`${widget.label} clicked`, widget.type);
+    const items: string = widget.items.map((item) => this.formatString(item)).join(', ');
+
+    this.append(`local ${varCurrentItem} = ${widget.selectedItem}, ${varClicked}`);
+    this.append(`${varCurrentItem}, ${varClicked} = ImGui.ListBox(${this.formatString(widget.label)}, ${varCurrentItem}, {${items}}, ${widget.items.length})`);
     this.formatTooltip(widget);
   }
 

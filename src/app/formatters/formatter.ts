@@ -17,6 +17,7 @@ import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget
 import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
+import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -58,6 +59,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.inputTextarea, fmt: this.formatInputTextarea.bind(this)},
     {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
     {type: FIGWidgetType.inputColorEdit, fmt: this.formatInputColorEdit.bind(this)},
+    {type: FIGWidgetType.listbox, fmt: this.formatListBox.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
     {type: FIGWidgetType.radio, fmt: this.formatRadio.bind(this)},
     {type: FIGWidgetType.combo, fmt: this.formatCombo.bind(this)},
@@ -152,6 +154,7 @@ export abstract class FIGFormatter {
   protected abstract formatInputTextarea(widget: FIGInputTextareaWidget): void;
   protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
   protected abstract formatInputColorEdit(widget: FIGInputColorEditWidget): void;
+  protected abstract formatListBox(widget: FIGListBoxWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;
   protected abstract formatRadio(widget: FIGRadioWidget): void;
   protected abstract formatCombo(widget: FIGComboWidget): void;

@@ -58,6 +58,11 @@
                                        [widget]="widget!"
                                        (update)="update.emit($event)"></fig-input-color-edit-properties>
     }
+    @case (FIGWidgetType.listbox) {
+      <fig-listbox-properties class="properties"
+                              [widget]="widget!"
+                              (update)="update.emit($event)"></fig-listbox-properties>
+    }
     @case (FIGWidgetType.checkbox) {
       <fig-checkbox-properties class="properties"
                                [widget]="widget!"

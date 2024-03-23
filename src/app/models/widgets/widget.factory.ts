@@ -14,6 +14,7 @@ import {FIGInputColorEditWidget} from "./input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 import {FIGBulletWidget} from "./bullet.widget";
 import {FIGInputTextareaWidget} from "./input-textarea.widget";
+import {FIGListBoxWidget} from "./listbox.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -65,6 +66,7 @@ export class FIGWidgetFactory {
       title: 'Color Edit',
       build: (id: number) => new FIGInputColorEditWidget({label: `Color Edit ${id}`})
     },
+    {type: FIGWidgetType.listbox, title: 'ListBox', build: (id: number) => new FIGListBoxWidget({label: `ListBox ${id}`})},
     {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget({label: `Checkbox ${id}`})},
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget({label: `Radio ${id}`})},
     {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget({label: `Combo ${id}`})},

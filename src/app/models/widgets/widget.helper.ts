@@ -14,6 +14,7 @@ import {FIGInputColorEditOptions, FIGInputColorEditWidget} from "./input-color-e
 import {FIGCollapsingHeaderOptions, FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 import {FIGBulletOptions, FIGBulletWidget} from "./bullet.widget";
 import {FIGInputTextareaOptions, FIGInputTextareaWidget} from "./input-textarea.widget";
+import {FIGListBoxOptions, FIGListBoxWidget} from "./listbox.widget";
 
 export class FIGWidgetHelper {
 
@@ -41,6 +42,7 @@ export class FIGWidgetHelper {
   public static createBullet(options?: FIGBulletOptions): FIGBulletWidget {
     return new FIGBulletWidget(options);
   }
+
   public static createText(options?: FIGTextOptions): FIGTextWidget {
     return new FIGTextWidget(options);
   }
@@ -72,6 +74,10 @@ export class FIGWidgetHelper {
 
   public static createInputColorEdit(options?: FIGInputColorEditOptions): FIGInputColorEditWidget {
     return new FIGInputColorEditWidget(options);
+  }
+
+  public static createListBox(options?: FIGListBoxOptions): FIGListBoxWidget {
+    return new FIGListBoxWidget(options);
   }
 
   public static createCheckbox(options?: FIGCheckboxOptions): FIGCheckboxWidget {

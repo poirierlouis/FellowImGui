@@ -17,6 +17,7 @@ import {
   CollapsingHeaderPropertiesComponent
 } from "./collapsing-header-properties/collapsing-header-properties.component";
 import {InputTextareaPropertiesComponent} from "./input-textarea-properties/input-textarea-properties.component";
+import {ListboxPropertiesComponent} from "./listbox-properties/listbox-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -29,6 +30,7 @@ import {InputTextareaPropertiesComponent} from "./input-textarea-properties/inpu
     RadioPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
+    ListboxPropertiesComponent,
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
