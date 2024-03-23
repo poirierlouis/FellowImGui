@@ -38,6 +38,9 @@
                 "bundleName": "dark-theme"
               }
             ],
+            "allowedCommonJsDependencies": [
+              "hammerjs"
+            ],
             "scripts": []
           },
           "configurations": {
