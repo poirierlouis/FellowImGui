@@ -28,10 +28,15 @@ export class FIGListBoxWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
-    const access = (_ = this.selectedItem) => this.selectedItem = _;
     const prevSelectedItem = this.selectedItem;
 
-    ImGui.ListBox(this.label, access, this.items, this.items.length, this.itemsSize);
+    ImGui.ListBox(
+      this.label,
+      (_ = this.selectedItem) => this.selectedItem = _,
+      this.items,
+      this.items.length,
+      this.itemsSize
+    );
     super.drawTooltip();
     super.drawFocus();
     if (prevSelectedItem !== this.selectedItem) {
