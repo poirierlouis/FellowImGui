@@ -94,7 +94,15 @@ export abstract class FIGFormatter {
   }
 
   protected formatString(text: string): string {
-    return `"${text.replaceAll(/"/g, '\\"')}"`;
+    let format: string = text;
+
+    format = format.replaceAll(/\\/g, '\\\\');
+    format = format.replaceAll(/"/g, '\\"');
+    format = format.replaceAll(/\f/g, '\\f');
+    format = format.replaceAll(/\n/g, '\\n');
+    format = format.replaceAll(/\r/g, '\\r');
+    format = format.replaceAll(/\t/g, '\\t');
+    return `"${format}"`;
   }
 
   protected formatVar(name: string, type: FIGWidgetType): string {
