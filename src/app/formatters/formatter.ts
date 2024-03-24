@@ -136,6 +136,8 @@ export abstract class FIGFormatter {
     this.indent = this.indent.substring(0, this.indent.length - this.options.indent.length);
   }
 
+  protected abstract formatFlags<T>(flags: number, flagsList: T[], flagsType: any, flagName: string): string;
+
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;

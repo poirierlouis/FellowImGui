@@ -33,6 +33,20 @@ export class FIGLuaFormatter extends FIGFormatter {
     return `ImGuiDir.${capitalize(FIGDir[arrow])}`;
   }
 
+  protected override formatFlags<T>(flags: number, flagsList: T[], flagsType: any, flagName: string): string {
+    let varFlags: string = '';
+
+    if (flags !== 0) {
+      varFlags = ', ';
+      varFlags += flagsList
+        .filter((flag) => (flags & (flag as number)) === flag)
+        .map((flag) => flagsType[flag])
+        .map((name) => `${flagName}.${name}`)
+        .join(' + ');
+    }
+    return varFlags;
+  }
+
   // Layouts
   protected override formatWindow(widget: FIGWindowWidget): void {
     this.append(`ImGui.SetNextWindowSize(${widget.size.width}, ${widget.size.height})`);
@@ -48,16 +62,10 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void {
-    let varFlags: string = '';
+    const varFlags: string = this.formatFlags<FIGCollapsingHeaderFlags>(
+      widget.flags, FIGCollapsingHeaderWidget.flags, FIGCollapsingHeaderFlags, 'ImGuiTreeNodeFlags'
+    );
 
-    if (widget.flags !== 0) {
-      varFlags = ', ';
-      varFlags += FIGCollapsingHeaderWidget.flags
-        .filter((flag) => (widget.flags & flag) === flag)
-        .map((flag) => FIGCollapsingHeaderFlags[flag])
-        .map((name) => `ImGuiTreeNodeFlags.${name}`)
-        .join(' + ');
-    }
     this.append(`if ImGui.CollapsingHeader(${this.formatString(widget.label)}${varFlags}) then`);
     this.pushIndent();
     for (const child of widget.children) {
@@ -186,16 +194,9 @@ export class FIGLuaFormatter extends FIGFormatter {
     const varText: string = this.formatVar(`${widget.label} text`, widget.type);
     const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
     const varDef: string = `${varText}, ${varSelected}`;
-    let varFlags: string = '';
-
-    if (widget.flags !== 0) {
-      varFlags = ', ';
-      varFlags += FIGInputTextWidget.flags
-        .filter((flag) => (widget.flags & flag) === flag)
-        .map((flag) => FIGInputTextFlags[flag])
-        .map((name) => `ImGuiInputTextFlags.${name}`)
-        .join(' + ');
-    }
+    const varFlags: string = this.formatFlags<FIGInputTextFlags>(
+      widget.flags, FIGInputTextWidget.flags, FIGInputTextFlags, 'ImGuiInputTextFlags'
+    );
 
     this.append(`local ${varText} = "", ${varSelected}`);
     if (!widget.hint) {
@@ -211,16 +212,9 @@ export class FIGLuaFormatter extends FIGFormatter {
     const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
     const varSize: string = `-1, ${widget.linesSize} * ImGui.GetTextLineHeight()`;
     const varDef: string = `${varText}, ${varSelected}`;
-    let varFlags: string = '';
-
-    if (widget.flags !== 0) {
-      varFlags = ', ';
-      varFlags += FIGInputTextWidget.flags
-        .filter((flag) => (widget.flags & flag) === flag)
-        .map((flag) => FIGInputTextFlags[flag])
-        .map((name) => `ImGuiInputTextFlags.${name}`)
-        .join(' + ');
-    }
+    const varFlags: string = this.formatFlags<FIGInputTextFlags>(
+      widget.flags, FIGInputTextWidget.flags, FIGInputTextFlags, 'ImGuiInputTextFlags'
+    );
 
     this.append(`local ${varText} = ${this.formatString(widget.value)}, ${varSelected}`);
     this.append(`${varDef} = ImGui.InputTextMultiline(${this.formatString(widget.label)}, ${varText}, ${widget.bufferSize}, ${varSize}${varFlags})`);
