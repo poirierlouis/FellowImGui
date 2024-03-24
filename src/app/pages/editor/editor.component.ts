@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
 import {TreeComponent} from "./tree/tree.component";
 import {FIGWindowWidget} from "../../models/widgets/window.widget";
@@ -51,8 +51,15 @@ export class EditorComponent {
   @ViewChild(TreeComponent)
   tree!: TreeComponent;
 
+  @ViewChild(CanvasComponent)
+  canvas!: CanvasComponent;
+
   document: FIGDocument;
   selectedWidget?: FIGWidget;
+
+  treeWidth: string = '360px';
+  canvasWidth: string = 'calc(100% - 2 * 360px)';
+  isSliding: boolean = false;
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
@@ -228,12 +235,50 @@ export class EditorComponent {
     navigator.clipboard.writeText(output);
   }
 
+  protected onResetSliding(): void {
+    this.slideTo(360);
+  }
+
+  protected onStartSliding(event: MouseEvent): void {
+    this.isSliding = true;
+    this.slideTo(event.clientX);
+  }
+
+  @HostListener('mousemove', ['$event'])
+  protected onSliding(event: MouseEvent): void {
+    if (!this.isSliding) {
+      return;
+    }
+    this.slideTo(event.clientX);
+  }
+
+  @HostListener('mouseup', ['$event'])
+  protected onStopSliding(event: MouseEvent): void {
+    if (!this.isSliding) {
+      return;
+    }
+    this.slideTo(event.clientX);
+    this.isSliding = false;
+  }
+
   protected selectWidget(widget?: FIGWidget): void {
     this.selectedWidget = widget;
   }
 
   protected updateWidget(widget: FIGWidget): void {
     this.tree.update();
+  }
+
+  private slideTo(x: number): void {
+    let width: number = x;
+
+    width = Math.min(width, window.innerWidth / 2);
+    width = Math.max(width, 170);
+    this.treeWidth = `${width}px`;
+    this.canvasWidth = `calc(100% - (${this.treeWidth} + 360px))`;
+    setTimeout(() => {
+      this.canvas.onResize();
+    });
   }
 
 }

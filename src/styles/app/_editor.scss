@@ -6,6 +6,16 @@
   $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
 
+  fig-editor {
+    & .panels {
+      & .slider {
+        &:hover {
+          border-color: $primary;
+        }
+      }
+    }
+  }
+
   #fig-drag-placeholder {
     position: relative;
     pointer-events: none;
@@ -35,6 +45,16 @@
 @mixin editor-color($theme) {
   $primary: mat.get-theme-color($theme, primary, 500);
   $bg: mat.get-theme-color($theme, background, background);
+
+  fig-editor {
+    & .panels {
+      & .slider {
+        &:hover {
+          border-color: $primary;
+        }
+      }
+    }
+  }
 
   #fig-drag-placeholder {
     background-color: $primary;

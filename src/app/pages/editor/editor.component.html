@@ -27,11 +27,23 @@
 </div>
 
 <div class="panels">
-  <fig-tree [document]="document"
+  <fig-tree [style.width]="treeWidth"
+            [document]="document"
             (selectWidget)="selectWidget($event)"></fig-tree>
 
-  <fig-canvas [document]="document"></fig-canvas>
+  <mat-divider class="slider"
+               vertical
+               matTooltip="Double-click to restore panel's width."
+               matTooltipPosition="right"
+               [matTooltipDisabled]="isSliding"
+               (dblclick)="onResetSliding()"
+               (mousedown)="onStartSliding($event)"></mat-divider>
 
-  <fig-properties [widget]="selectedWidget"
+  <fig-canvas [style.width]="canvasWidth"
+              [document]="document"
+              [isResizing]="isSliding"></fig-canvas>
+
+  <fig-properties class="mat-app-background"
+                  [widget]="selectedWidget"
                   (update)="updateWidget($event)"></fig-properties>
 </div>

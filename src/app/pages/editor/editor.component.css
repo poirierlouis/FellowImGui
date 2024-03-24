@@ -79,8 +79,13 @@
     width: 360px;
   }
 
+  & .slider {
+    cursor: col-resize;
+    padding-left: 3px;
+  }
+
   & fig-canvas {
-    width: calc(100% - 2 * 360px);
+    background-color: #738c99;
   }
 
   & fig-properties {
