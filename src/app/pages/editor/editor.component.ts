@@ -18,6 +18,7 @@ import {FormatterService} from "../../services/formatter.service";
 import {FIGInputNumberType} from "../../models/widgets/input-number.widget";
 import {DragDirective} from "../../directives/drag.directive";
 import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
+import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -165,13 +166,49 @@ export class EditorComponent {
     ]);
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Layouts · FIG',
-      size: {width: 320, height: 398}
+      size: {width: 342, height: 398}
     }, [
       FIGWidgetHelper.createCollapsingHeader({
         label: 'Header'
       }, [
         FIGWidgetHelper.createText(),
         FIGWidgetHelper.createButton(),
+      ]),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createTabBar({
+        label: '##Trees',
+        flags: FIGTabBarFlags.Reorderable | FIGTabBarFlags.FittingPolicyScroll
+      }, [
+        FIGWidgetHelper.createTabItem({label: 'Africa'}, [
+          FIGWidgetHelper.createText({text: 'Name: El Drago Milenario', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Dracaena draco', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Icod de los Vinos, Tenerife', isWrapped: true}),
+        ]),
+        FIGWidgetHelper.createTabItem({label: 'Asia'}, [
+          FIGWidgetHelper.createText({text: 'Name: King Cypress', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Cupressus gigantea', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Bayi District, Tibet', isWrapped: true}),
+        ]),
+        FIGWidgetHelper.createTabItem({label: 'Europe'}, [
+          FIGWidgetHelper.createText({text: 'Name: Allerton Oak', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Quercus petraea', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Calderstones Park, Liverpool, UK', isWrapped: true}),
+        ]),
+        FIGWidgetHelper.createTabItem({label: 'North America'}, [
+          FIGWidgetHelper.createText({text: 'Name: Buttonball Tree', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Platanus occidentalis', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Sunderland, MA, US', isWrapped: true}),
+        ]),
+        FIGWidgetHelper.createTabItem({label: 'South America'}, [
+          FIGWidgetHelper.createText({text: 'Name: Gran Abuelo', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Fitzroya cupressoides', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Alerce Costero National Park, Chile ', isWrapped: true}),
+        ]),
+        FIGWidgetHelper.createTabItem({label: 'Oceania'}, [
+          FIGWidgetHelper.createText({text: 'Name: Centurion', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Eucalyptus regnans', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Tasmania, Australia', isWrapped: true}),
+        ]),
       ])
     ]);
 

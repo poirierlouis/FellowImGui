@@ -18,6 +18,8 @@ import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.wid
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
+import {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
+import {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -45,6 +47,8 @@ export abstract class FIGFormatter {
     // Layouts
     {type: FIGWidgetType.window, fmt: this.formatWindow.bind(this)},
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
+    {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
+    {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
     {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
 
     // Basics
@@ -141,6 +145,8 @@ export abstract class FIGFormatter {
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
+  protected abstract formatTabBar(widget: FIGTabBarWidget): void;
+  protected abstract formatTabItem(widget: FIGTabItemWidget): void;
   protected abstract formatSeparator(widget: FIGSeparatorWidget): void;
 
   // Basics

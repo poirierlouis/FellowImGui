@@ -15,6 +15,8 @@ import {FIGCollapsingHeaderWidget} from "./collapsing-header.widget";
 import {FIGBulletWidget} from "./bullet.widget";
 import {FIGInputTextareaWidget} from "./input-textarea.widget";
 import {FIGListBoxWidget} from "./listbox.widget";
+import {FIGTabBarWidget} from "./tab-bar.widget";
+import {FIGTabItemWidget} from "./tab-item.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -28,6 +30,8 @@ export class FIGWidgetFactory {
     // Layouts
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget({label: `Window ${id}`})},
     {type: FIGWidgetType.collapsingHeader, title: 'Collapsing Header', build: (id: number) => new FIGCollapsingHeaderWidget({label: `Header ${id}`})},
+    {type: FIGWidgetType.tabBar, title: 'Tab Bar', build: (id: number) => new FIGTabBarWidget({label: `##TabBar${id}`})},
+    {type: FIGWidgetType.tabItem, title: 'Tab Item', build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})},
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics
@@ -77,7 +81,9 @@ export class FIGWidgetFactory {
 
   public static isContainer(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.window ||
-      type === FIGWidgetType.collapsingHeader;
+      type === FIGWidgetType.collapsingHeader ||
+      type === FIGWidgetType.tabBar ||
+      type === FIGWidgetType.tabItem;
   }
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {

@@ -18,6 +18,8 @@ import {
 } from "./collapsing-header-properties/collapsing-header-properties.component";
 import {InputTextareaPropertiesComponent} from "./input-textarea-properties/input-textarea-properties.component";
 import {ListboxPropertiesComponent} from "./listbox-properties/listbox-properties.component";
+import {TabBarPropertiesComponent} from "./tab-bar-properties/tab-bar-properties.component";
+import {TabItemPropertiesComponent} from "./tab-item-properties/tab-item-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -30,6 +32,8 @@ import {ListboxPropertiesComponent} from "./listbox-properties/listbox-propertie
     RadioPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
+    TabBarPropertiesComponent,
+    TabItemPropertiesComponent,
     ListboxPropertiesComponent,
     CheckboxPropertiesComponent,
     InputTextPropertiesComponent,

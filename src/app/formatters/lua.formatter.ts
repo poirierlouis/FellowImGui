@@ -18,6 +18,8 @@ import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/wid
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
+import {FIGTabBarFlags, FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
+import {FIGTabItemFlags, FIGTabItemWidget} from "../models/widgets/tab-item.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -74,6 +76,46 @@ export class FIGLuaFormatter extends FIGFormatter {
     if (widget.children.length > 0) {
       this.removeLastNewLine();
     }
+    this.popIndent();
+    this.append('end');
+  }
+
+  protected override formatTabBar(widget: FIGTabBarWidget): void {
+    const varFlags: string = this.formatFlags<FIGTabBarFlags>(
+      widget.flags, FIGTabBarWidget.flags, FIGTabBarFlags, 'ImGuiTabBarFlags'
+    );
+
+    this.append(`if ImGui.BeginTabBar(${this.formatString(widget.label)}${varFlags}) then`);
+    this.pushIndent();
+    for (const tabItem of widget.children) {
+      this.formatTabItem(tabItem as FIGTabItemWidget);
+      this.append('');
+    }
+    this.append('ImGui.EndTabBar()');
+    this.popIndent();
+    this.append('end');
+  }
+
+  protected override formatTabItem(widget: FIGTabItemWidget): void {
+    const varFlags: string = this.formatFlags<FIGTabItemFlags>(
+      widget.flags, FIGTabItemWidget.flags, FIGTabItemFlags, 'ImGuiTabItemFlags'
+    );
+
+    if (varFlags.length === 0) {
+      this.append(`if ImGui.BeginTabItem(${this.formatString(widget.label)}) then`);
+    } else {
+      const varOpen: string = this.formatVar(`${widget.label} is open`, widget.type);
+      const varSelected: string = this.formatVar(`${widget.label} is selected`, widget.type);
+
+      this.append(`local ${varOpen} = true, ${varSelected}`);
+      this.append(`${varOpen}, ${varSelected} = ImGui.BeginTabItem(${this.formatString(widget.label)}, ${varOpen}${varFlags})`);
+      this.append(`if ${varSelected} then`);
+    }
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndTabItem()');
     this.popIndent();
     this.append('end');
   }

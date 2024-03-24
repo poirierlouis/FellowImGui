@@ -15,6 +15,8 @@ import {FIGCollapsingHeaderOptions, FIGCollapsingHeaderWidget} from "./collapsin
 import {FIGBulletOptions, FIGBulletWidget} from "./bullet.widget";
 import {FIGInputTextareaOptions, FIGInputTextareaWidget} from "./input-textarea.widget";
 import {FIGListBoxOptions, FIGListBoxWidget} from "./listbox.widget";
+import {FIGTabBarOptions, FIGTabBarWidget} from "./tab-bar.widget";
+import {FIGTabItemOptions, FIGTabItemWidget} from "./tab-item.widget";
 
 export class FIGWidgetHelper {
 
@@ -29,6 +31,20 @@ export class FIGWidgetHelper {
 
   public static createCollapsingHeader(options?: FIGCollapsingHeaderOptions, children: FIGWidget[] = []): FIGCollapsingHeaderWidget {
     const widget: FIGCollapsingHeaderWidget = new FIGCollapsingHeaderWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createTabBar(options?: FIGTabBarOptions, tabs: FIGTabItemWidget[] = []): FIGTabBarWidget {
+    const widget: FIGTabBarWidget = new FIGTabBarWidget(options);
+
+    widget.children.push(...tabs);
+    return widget;
+  }
+
+  public static createTabItem(options?: FIGTabItemOptions, children: FIGWidget[] = []): FIGTabItemWidget {
+    const widget: FIGTabItemWidget = new FIGTabItemWidget(options);
 
     widget.children.push(...children);
     return widget;

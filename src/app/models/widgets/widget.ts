@@ -7,6 +7,8 @@ export enum FIGWidgetType {
   // Layouts
   window,
   collapsingHeader,
+  tabBar,
+  tabItem,
   separator,
 
   // Basics

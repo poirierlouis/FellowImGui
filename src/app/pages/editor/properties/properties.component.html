@@ -16,6 +16,16 @@
                                         [widget]="widget!"
                                         (update)="update.emit($event)"></fig-collapsing-header-properties>
     }
+    @case (FIGWidgetType.tabBar) {
+      <fig-tab-bar-properties class="properties"
+                              [widget]="widget!"
+                              (update)="update.emit($event)"></fig-tab-bar-properties>
+    }
+    @case (FIGWidgetType.tabItem) {
+      <fig-tab-item-properties class="properties"
+                               [widget]="widget!"
+                               (update)="update.emit($event)"></fig-tab-item-properties>
+    }
     <!-- Basics -->
     @case (FIGWidgetType.text) {
       <fig-text-properties class="properties"
