@@ -60,14 +60,14 @@ export class FIGDocument {
       return true;
     }
     // Append widget at the end of drop container.
-    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert') {
+    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert' && drop.isChildAccepted(drag.type)) {
       drop.children.push(drag);
       drag.parent = drop;
       drag.onCreated();
       return true;
     }
     // Insert widget before/after a widget.
-    if (drag.needParent && parent) {
+    if (drag.needParent && parent && parent.isChildAccepted(drag.type)) {
       let index: number = parent.findIndex(drop);
 
       if (direction === 'after') {
@@ -122,7 +122,7 @@ export class FIGDocument {
       return false;
     }
     // Move widget at the end of drop container.
-    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert') {
+    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert' && drop.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       drop.children.push(drag);
       drag.parent = drop;
@@ -130,7 +130,7 @@ export class FIGDocument {
       return true;
     }
     // Move widget elsewhere within a container.
-    if (drag.needParent && parent) {
+    if (drag.needParent && direction !== 'insert' && parent && parent.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       let index: number = parent.findIndex(drop);
 

@@ -21,6 +21,10 @@ export class FIGWindowWidget extends FIGContainer {
     return this.label;
   }
 
+  public override isChildAccepted(type: FIGWidgetType): boolean {
+    return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem;
+  }
+
   public override draw(): void {
     if (this.isFocused) {
       ImGui.SetNextWindowFocus();

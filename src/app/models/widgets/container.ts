@@ -1,7 +1,15 @@
-import {FIGWidget} from "./widget";
+import {FIGWidget, FIGWidgetType} from "./widget";
 
 export abstract class FIGContainer extends FIGWidget {
   readonly children: FIGWidget[] = [];
+
+  /**
+   * Whether type of widget is accepted as a child of this container?
+   * @param type of widget to test.
+   */
+  public isChildAccepted(type: FIGWidgetType): boolean {
+    return true;
+  }
 
   public override trackBy(): any {
     return this.children.map((child) => child.trackBy());
