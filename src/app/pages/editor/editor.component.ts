@@ -107,10 +107,10 @@ export class EditorComponent {
       }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputTextarea({
-        value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,\n' +
-          'sed do eiusmod tempor incididunt ut labore et dolore magna\n' +
-          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation\n' +
-          'ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do \n' +
+          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut \n' +
+          'enim ad minim veniam, quis nostrud exercitation ullamco laboris \n' +
+          'nisi ut aliquip ex ea commodo consequat.',
         tooltip: 'Lorem ipsum is a classic ;)'
       }),
       FIGWidgetHelper.createSeparator(),
