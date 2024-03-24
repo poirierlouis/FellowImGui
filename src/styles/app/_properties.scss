@@ -18,6 +18,10 @@
           display: flex;
           gap: 12px;
         }
+
+        & .prefix {
+          margin-left: 15px;
+        }
       }
     }
   }
