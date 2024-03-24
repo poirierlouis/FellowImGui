@@ -131,12 +131,12 @@ export class FIGDocument {
     }
     // Move widget elsewhere within a container.
     if (drag.needParent && parent) {
+      drag.parent?.remove(drag);
       let index: number = parent.findIndex(drop);
 
       if (direction === 'after') {
         index++;
       }
-      drag.parent?.remove(drag);
       parent.insert(drag, index);
       drag.parent = parent;
       drag.onMoved();
