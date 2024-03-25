@@ -40,6 +40,10 @@
         & .prefix {
           margin-left: 15px;
         }
+
+        & mat-slide-toggle {
+          margin-right: 6px;
+        }
       }
     }
   }
