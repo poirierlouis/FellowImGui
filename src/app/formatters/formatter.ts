@@ -128,7 +128,7 @@ export abstract class FIGFormatter {
     return `"${format}"`;
   }
 
-  protected formatVar(name: string, type: FIGWidgetType): string {
+  protected formatVar(name: string, _type: FIGWidgetType): string {
     name = sanitizeVar(name);
     if (this.caseStyle === CaseStyle.snake_case) {
       return toSnakeCase(name);

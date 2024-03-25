@@ -304,7 +304,7 @@ export class EditorComponent {
     this.selectedWidget = widget;
   }
 
-  protected updateWidget(widget: FIGWidget): void {
+  protected updateWidget(_widget: FIGWidget): void {
     this.tree.update();
   }
 
