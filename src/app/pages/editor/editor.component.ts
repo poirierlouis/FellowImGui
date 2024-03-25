@@ -74,7 +74,7 @@ export class EditorComponent {
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Basics · FIG',
-      size: {width: 320, height: 624}
+      size: {width: 320, height: 584}
     }, [
       FIGWidgetHelper.createBullet(),
       FIGWidgetHelper.createText({text: ''}),
@@ -92,9 +92,11 @@ export class EditorComponent {
       }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createButton({label: 'Simple button'}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createButton({label: 'Small button', isSmall: true}),
       FIGWidgetHelper.createButton({label: 'Fill button', isFill: true}),
       FIGWidgetHelper.createButton({label: 'Arrow button', arrow: FIGDir.down}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createButton({label: 'Button w/ tooltip', tooltip: 'Can you see me?'}),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createProgressBar({value: 0.00}),
@@ -120,7 +122,7 @@ export class EditorComponent {
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',
-      size: {width: 498, height: 734}
+      size: {width: 498, height: 780}
     }, [
       FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
       FIGWidgetHelper.createSeparator(),
@@ -167,6 +169,7 @@ export class EditorComponent {
         label: '##VSliderInt',
         tooltip: false
       }),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createVerticalSlider({
         dataType: FIGVerticalSliderType.float,
         label: '##VSliderFloat',
@@ -183,11 +186,15 @@ export class EditorComponent {
         ]}),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createCheckbox({label: 'Fig'}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createCheckbox({label: 'Banana', isChecked: true}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createCheckbox({label: 'Orange', tooltip: 'Juicy :P'}),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createRadio({label: 'Galactic Funk', groupId: 'RadioChannel', index: 0}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createRadio({label: 'Space Rock', groupId: 'RadioChannel', index: 1}),
+      FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createRadio({
         label: 'Jazzy Moon',
         groupId: 'RadioChannel', index: 2, tooltip: 'Chill on moons of Wablad'

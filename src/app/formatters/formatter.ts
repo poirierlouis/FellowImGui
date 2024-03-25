@@ -22,6 +22,7 @@ import {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
 import {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
 import {FIGPlotWidget} from "../models/widgets/plot.widget";
 import {FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
+import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -53,6 +54,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
     {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
+    {type: FIGWidgetType.sameLine, fmt: this.formatSameLine.bind(this)},
     {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
 
     // Basics
@@ -162,6 +164,7 @@ export abstract class FIGFormatter {
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatTabBar(widget: FIGTabBarWidget): void;
   protected abstract formatTabItem(widget: FIGTabItemWidget): void;
+  protected abstract formatSameLine(widget: FIGSameLineWidget): void;
   protected abstract formatSeparator(widget: FIGSeparatorWidget): void;
 
   // Basics

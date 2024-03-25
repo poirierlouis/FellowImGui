@@ -9,6 +9,7 @@ export enum FIGWidgetType {
   collapsingHeader,
   tabBar,
   tabItem,
+  sameLine,
   separator,
 
   // Basics

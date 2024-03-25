@@ -19,6 +19,7 @@ import {FIGTabBarOptions, FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGTabItemOptions, FIGTabItemWidget} from "./tab-item.widget";
 import {FIGPlotOptions, FIGPlotType, FIGPlotWidget} from "./plot.widget";
 import {FIGVerticalSliderOptions, FIGVerticalSliderWidget} from "./vertical-slider.widget";
+import {FIGSameLineWidget} from "./same-line.widget";
 
 export class FIGWidgetHelper {
 
@@ -50,6 +51,10 @@ export class FIGWidgetHelper {
 
     widget.children.push(...children);
     return widget;
+  }
+
+  public static createSameLine(): FIGSameLineWidget {
+    return new FIGSameLineWidget();
   }
 
   public static createSeparator(): FIGSeparatorWidget {

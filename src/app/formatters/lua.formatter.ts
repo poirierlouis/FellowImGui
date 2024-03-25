@@ -23,6 +23,7 @@ import {FIGTabItemFlags, FIGTabItemWidget} from "../models/widgets/tab-item.widg
 import {FIGPlotWidget} from "../models/widgets/plot.widget";
 import {FIGWidgetType} from "../models/widgets/widget";
 import {FIGVerticalSliderType, FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
+import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -122,6 +123,18 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.EndTabItem()');
     this.popIndent();
     this.append('end');
+  }
+
+  protected override formatSameLine(widget: FIGSameLineWidget): void {
+    const varArgs: string[] = [];
+
+    if (widget.offsetFromStart !== undefined || widget.spacing !== undefined) {
+      varArgs.push((widget.offsetFromStart ?? 0).toString());
+    }
+    if (widget.spacing !== undefined) {
+      varArgs.push(widget.spacing.toString());
+    }
+    this.append(`ImGui.SameLine(${varArgs.join(', ')})`);
   }
 
   protected override formatSeparator(widget: FIGSeparatorWidget): void {

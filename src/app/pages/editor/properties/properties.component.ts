@@ -24,6 +24,7 @@ import {PlotPropertiesComponent} from "./plot-properties/plot-properties.compone
 import {FormatterService} from "../../../services/formatter.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/vertical-slider-properties.component";
+import {SameLinePropertiesComponent} from "./same-line-properties/same-line-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -42,6 +43,7 @@ import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/ve
     TabItemPropertiesComponent,
     ListboxPropertiesComponent,
     CheckboxPropertiesComponent,
+    SameLinePropertiesComponent,
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
