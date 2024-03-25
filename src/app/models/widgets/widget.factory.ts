@@ -29,27 +29,31 @@ export class FIGWidgetFactory {
   public static readonly builders: FIGWidgetBuilder[] = [
     // Layouts
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget({label: `Window ${id}`})},
-    {type: FIGWidgetType.collapsingHeader, title: 'Collapsing Header', build: (id: number) => new FIGCollapsingHeaderWidget({label: `Header ${id}`})},
-    {type: FIGWidgetType.tabBar, title: 'Tab Bar', build: (id: number) => new FIGTabBarWidget({label: `##TabBar${id}`})},
-    {type: FIGWidgetType.tabItem, title: 'Tab Item', build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})},
+    {
+      type: FIGWidgetType.collapsingHeader,
+      title: 'Collapsing Header',
+      build: (id: number) => new FIGCollapsingHeaderWidget({label: `Header ${id}`})
+    },
+    {
+      type: FIGWidgetType.tabBar,
+      title: 'Tab Bar',
+      build: (id: number) => new FIGTabBarWidget({label: `##TabBar${id}`})
+    },
+    {
+      type: FIGWidgetType.tabItem,
+      title: 'Tab Item',
+      build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})
+    },
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics
     {type: FIGWidgetType.bullet, title: 'Bullet', build: () => new FIGBulletWidget()},
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget()},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget()},
-    {
-      type: FIGWidgetType.progressBar,
-      title: 'Progress Bar',
-      build: () => new FIGProgressBarWidget()
-    },
+    {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget()},
 
     // Forms / Inputs
-    {
-      type: FIGWidgetType.label,
-      title: 'Label',
-      build: () => new FIGLabelWidget()
-    },
+    {type: FIGWidgetType.label, title: 'Label', build: () => new FIGLabelWidget()},
     {
       type: FIGWidgetType.inputText,
       title: 'Input Text',
@@ -70,8 +74,16 @@ export class FIGWidgetFactory {
       title: 'Color Edit',
       build: (id: number) => new FIGInputColorEditWidget({label: `Color Edit ${id}`})
     },
-    {type: FIGWidgetType.listbox, title: 'ListBox', build: (id: number) => new FIGListBoxWidget({label: `ListBox ${id}`})},
-    {type: FIGWidgetType.checkbox, title: 'Checkbox', build: (id: number) => new FIGCheckboxWidget({label: `Checkbox ${id}`})},
+    {
+      type: FIGWidgetType.listbox,
+      title: 'ListBox',
+      build: (id: number) => new FIGListBoxWidget({label: `ListBox ${id}`})
+    },
+    {
+      type: FIGWidgetType.checkbox,
+      title: 'Checkbox',
+      build: (id: number) => new FIGCheckboxWidget({label: `Checkbox ${id}`})
+    },
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget({label: `Radio ${id}`})},
     {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget({label: `Combo ${id}`})},
   ];
