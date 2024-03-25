@@ -1,3 +1,11 @@
+const formatRule: RegExp = new RegExp(/^%\.(?<precision>[0-9]+)f$/);
+
+export function getPrecision(format: string): number | undefined {
+  const match: RegExpMatchArray | null = format.match(formatRule);
+
+  return match ? +match.groups!['precision'] : undefined;
+}
+
 export function capitalize(str: string): string {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }

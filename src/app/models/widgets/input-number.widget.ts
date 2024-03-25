@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import {getPrecision} from "../string";
 
 export enum FIGInputNumberType {
   int,
@@ -25,8 +26,6 @@ export interface FIGInputNumberOptions extends FIGTooltipOption {
 }
 
 export class FIGInputNumberWidget extends FIGWithTooltip {
-  private static readonly formatRule: RegExp = new RegExp(/^%\.(?<precision>[0-9]+)f$/);
-
   label: string;
   dataType: FIGInputNumberType;
   value: number | number[];
@@ -73,9 +72,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     if (this.isInteger(widget.dataType)) {
       return 0;
     }
-    const match: RegExpMatchArray | null = widget.format.match(FIGInputNumberWidget.formatRule);
-
-    return match ? +match.groups!['precision'] : undefined;
+    return getPrecision(widget.format);
   }
 
   public override draw(): void {
