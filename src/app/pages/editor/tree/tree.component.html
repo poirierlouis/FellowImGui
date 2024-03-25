@@ -21,7 +21,7 @@
                  [figDismissibleBackground]="dismissible"
                  (figDismissibleClick)="selectWidget(node)"
                  (figDismissed)="removeWidget(node.widget)">
-    <div class="content">
+    <div class="content" [class.warning]="!isSupported(node)">
       <mat-icon [svgIcon]="node.icon"></mat-icon>
 
       <div>{{ node.name }}</div>

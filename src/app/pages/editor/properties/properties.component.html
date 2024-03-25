@@ -1,7 +1,17 @@
 @if (widget !== undefined) {
   <div class="header">
-    <mat-icon [svgIcon]="FIGWidgetType[widget.type]"></mat-icon>
-    {{ widgetTitle }}
+    <div class="title">
+      <mat-icon [svgIcon]="FIGWidgetType[widget.type]"></mat-icon>
+      {{ widgetTitle }}
+    </div>
+
+    @if (widgetWarning !== undefined) {
+      <div class="expand"></div>
+
+      <mat-icon class="warning" [matTooltip]="widgetWarning">
+        warning
+      </mat-icon>
+    }
   </div>
 
   @switch (widget.type) {

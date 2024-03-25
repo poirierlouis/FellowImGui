@@ -235,6 +235,10 @@ export class EditorComponent {
     navigator.clipboard.writeText(output);
   }
 
+  protected isSupported(type: FIGWidgetType): boolean {
+    return this.formatterService.isSupported(type);
+  }
+
   protected onResetSliding(): void {
     this.slideTo(360);
   }

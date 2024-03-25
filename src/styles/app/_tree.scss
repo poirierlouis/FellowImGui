@@ -3,6 +3,7 @@
 
 @mixin tree-theme($theme) {
   $primary: mat.get-theme-color($theme, primary, 700);
+  $warning: mat.get-color-from-palette(mat.$amber-palette, 700);
   $divider: mat.get-theme-color($theme, foreground, divider);
   $hover: grey;
 
@@ -19,15 +20,18 @@
         &.selected {
           background-color: $primary;
         }
+
+        & .content.warning {
+          & mat-icon:first-of-type {
+            color: $warning;
+          }
+        }
       }
     }
   }
 }
 
 @mixin tree-color($theme) {
-  $primary: mat.get-theme-color($theme, primary, 700);
-  $divider: mat.get-theme-color($theme, foreground, divider);
-
   fig-tree {
     mat-tree {
       background-color: transparent;

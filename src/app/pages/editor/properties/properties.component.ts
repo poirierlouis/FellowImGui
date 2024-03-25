@@ -20,12 +20,15 @@ import {InputTextareaPropertiesComponent} from "./input-textarea-properties/inpu
 import {ListboxPropertiesComponent} from "./listbox-properties/listbox-properties.component";
 import {TabBarPropertiesComponent} from "./tab-bar-properties/tab-bar-properties.component";
 import {TabItemPropertiesComponent} from "./tab-item-properties/tab-item-properties.component";
+import {FormatterService} from "../../../services/formatter.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'fig-properties',
   standalone: true,
   imports: [
     MatIcon,
+    MatTooltip,
     TextPropertiesComponent,
     ComboPropertiesComponent,
     LabelPropertiesComponent,
@@ -53,15 +56,21 @@ export class PropertiesComponent {
 
   widget?: FIGWidget;
   widgetTitle?: string;
+  widgetWarning?: string;
 
   protected readonly FIGWidgetType = FIGWidgetType;
+
+  constructor(private readonly formatterService: FormatterService) {
+  }
 
   @Input('widget')
   set _widget(value: FIGWidget | undefined) {
     const prevWidget: FIGWidget | undefined = this.widget;
+    const isSupported: boolean = (value !== undefined) ? this.formatterService.isSupported(value.type) : false;
 
     this.widget = value;
     this.widgetTitle = (value !== undefined) ? FIGWidgetFactory.getTitle(value.type) : undefined;
+    this.widgetWarning = !isSupported ? `This widget is not supported by '${this.formatterService.currentLanguage}'.` : undefined;
     if (prevWidget) {
       prevWidget.isFocused = false;
     }

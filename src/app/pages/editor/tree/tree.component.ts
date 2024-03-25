@@ -21,6 +21,7 @@ import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {DragDirective} from "../../../directives/drag.directive";
 import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
 import {DragHandleDirective} from "../../../directives/drag-handle.directive";
+import {FormatterService} from "../../../services/formatter.service";
 
 interface FlatNode {
   expandable: boolean;
@@ -84,6 +85,9 @@ export class TreeComponent {
 
   selectedWidget?: FIGWidget;
 
+  constructor(private readonly formatterService: FormatterService) {
+  }
+
   @Input('document')
   set _document(value: FIGDocument) {
     this.document = value;
@@ -97,6 +101,10 @@ export class TreeComponent {
 
   protected trackBy(_: number, node: FlatNode): any {
     return node.widget.trackBy();
+  }
+
+  protected isSupported(node: FlatNode): boolean {
+    return this.formatterService.isSupported(node.widget.type);
   }
 
   protected selectWidget(node: FlatNode): void {

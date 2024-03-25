@@ -1,12 +1,30 @@
+@use '@angular/material' as mat;
+
 @mixin properties-theme($theme) {
+  $warning: mat.get-color-from-palette(mat.$amber-palette, 700);
+
   fig-properties {
     & .header {
       display: flex;
       align-items: center;
       margin: 12px 12px 0;
 
-      & mat-icon {
-        margin-right: 12px;
+      & .title {
+        display: flex;
+        align-items: center;
+
+        & mat-icon {
+          margin-right: 12px;
+        }
+      }
+
+      & .expand {
+        display: flex;
+        flex: 1;
+      }
+
+      & .warning {
+        color: $warning;
       }
     }
 

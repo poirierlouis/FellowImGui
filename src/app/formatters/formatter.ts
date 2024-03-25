@@ -39,6 +39,8 @@ export enum CaseStyle {
 
 export abstract class FIGFormatter {
 
+  protected readonly notSupported: FIGWidgetType[] = [];
+
   protected readonly options: FIGFormatterOptions = {
     indent: ''
   };
@@ -87,11 +89,20 @@ export abstract class FIGFormatter {
     return lines;
   }
 
+  public isSupported(type: FIGWidgetType): boolean {
+    return !this.notSupported.includes(type);
+  }
+
   protected formatWidget(widget: FIGWidget): void {
     const formatter: FIGFormatterItem | undefined = this.findFormatter(widget.type);
 
     if (!formatter) {
       this.append(`-- ${FIGWidgetType[widget.type]} formatter for '${this.language}' is not implemented!`);
+      this.append('');
+      return;
+    }
+    if (!this.isSupported(widget.type)) {
+      this.append(`-- ${FIGWidgetType[widget.type]} is not supported by '${this.language}'!`);
       this.append('');
       return;
     }

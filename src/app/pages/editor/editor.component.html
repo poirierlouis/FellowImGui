@@ -4,7 +4,8 @@
     @for (category of categories; track category.title) {
       <div>
         @for (builder of category.builders; track builder.type) {
-          <mat-icon [svgIcon]="FIGWidgetType[builder.type]"
+          <mat-icon [class.warning]="!isSupported(builder.type)"
+                    [svgIcon]="FIGWidgetType[builder.type]"
                     [matTooltip]="builder.title"
                     figDrag
                     [figDragData]="FIGWidgetType[builder.type]">
