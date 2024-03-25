@@ -55,7 +55,14 @@ export class FIGTabItemWidget extends FIGContainer {
   }
 
   public override draw() {
-    if (ImGui.BeginTabItem(this.label, (_ = this.isOpen) => this.isOpen = _, this.flags)) {
+    let isOpen: boolean;
+
+    if (this.flags === 0) {
+      isOpen = ImGui.BeginTabItem(this.label);
+    } else {
+      isOpen = ImGui.BeginTabItem(this.label, (_ = this.isOpen) => this.isOpen = _, this.flags);
+    }
+    if (isOpen) {
       for (const child of this.children) {
         child.draw();
         this.growFocusRect();
