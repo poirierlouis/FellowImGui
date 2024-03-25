@@ -18,6 +18,7 @@ import {FIGListBoxOptions, FIGListBoxWidget} from "./listbox.widget";
 import {FIGTabBarOptions, FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGTabItemOptions, FIGTabItemWidget} from "./tab-item.widget";
 import {FIGPlotOptions, FIGPlotType, FIGPlotWidget} from "./plot.widget";
+import {FIGVerticalSliderOptions, FIGVerticalSliderWidget} from "./vertical-slider.widget";
 
 export class FIGWidgetHelper {
 
@@ -103,6 +104,10 @@ export class FIGWidgetHelper {
 
   public static createListBox(options?: FIGListBoxOptions): FIGListBoxWidget {
     return new FIGListBoxWidget(options);
+  }
+
+  public static createVerticalSlider(options?: FIGVerticalSliderOptions): FIGVerticalSliderWidget {
+    return new FIGVerticalSliderWidget(options);
   }
 
   public static createCheckbox(options?: FIGCheckboxOptions): FIGCheckboxWidget {

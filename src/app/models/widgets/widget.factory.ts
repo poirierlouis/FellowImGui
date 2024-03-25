@@ -18,6 +18,7 @@ import {FIGListBoxWidget} from "./listbox.widget";
 import {FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGTabItemWidget} from "./tab-item.widget";
 import {FIGPlotWidget} from "./plot.widget";
+import {FIGVerticalSliderWidget} from "./vertical-slider.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -75,6 +76,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.inputColorEdit,
       title: 'Color Edit',
       build: (id: number) => new FIGInputColorEditWidget({label: `Color Edit ${id}`})
+    },
+    {
+      type: FIGWidgetType.verticalSlider,
+      title: 'VSlider',
+      build: (id: number) => new FIGVerticalSliderWidget({label: `##VSlider${id}`})
     },
     {
       type: FIGWidgetType.listbox,

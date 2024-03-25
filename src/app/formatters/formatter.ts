@@ -21,6 +21,7 @@ import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 import {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
 import {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
 import {FIGPlotWidget} from "../models/widgets/plot.widget";
+import {FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -67,6 +68,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.inputTextarea, fmt: this.formatInputTextarea.bind(this)},
     {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
     {type: FIGWidgetType.inputColorEdit, fmt: this.formatInputColorEdit.bind(this)},
+    {type: FIGWidgetType.verticalSlider, fmt: this.formatVerticalSlider.bind(this)},
     {type: FIGWidgetType.listbox, fmt: this.formatListBox.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
     {type: FIGWidgetType.radio, fmt: this.formatRadio.bind(this)},
@@ -176,6 +178,7 @@ export abstract class FIGFormatter {
   protected abstract formatInputTextarea(widget: FIGInputTextareaWidget): void;
   protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
   protected abstract formatInputColorEdit(widget: FIGInputColorEditWidget): void;
+  protected abstract formatVerticalSlider(widget: FIGVerticalSliderWidget): void;
   protected abstract formatListBox(widget: FIGListBoxWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;
   protected abstract formatRadio(widget: FIGRadioWidget): void;

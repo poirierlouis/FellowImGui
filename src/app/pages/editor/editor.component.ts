@@ -19,6 +19,7 @@ import {FIGInputNumberType} from "../../models/widgets/input-number.widget";
 import {DragDirective} from "../../directives/drag.directive";
 import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
 import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
+import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -160,6 +161,16 @@ export class EditorComponent {
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputColorEdit({label: 'color', tooltip: 'Define an RGB color using inputs/picker.'}),
       FIGWidgetHelper.createInputColorEdit({label: 'color w/ alpha', withAlpha: true}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createVerticalSlider({
+        dataType: FIGVerticalSliderType.int,
+        label: '##VSliderInt',
+        tooltip: false
+      }),
+      FIGWidgetHelper.createVerticalSlider({
+        dataType: FIGVerticalSliderType.float,
+        label: '##VSliderFloat',
+      }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createListBox({label: 'Stars Classification', items: [
         'M (2,600 K to 3,850 K)',

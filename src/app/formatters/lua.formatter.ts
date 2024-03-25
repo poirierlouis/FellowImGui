@@ -10,7 +10,7 @@ import {FIGWindowWidget} from "../models/widgets/window.widget";
 import {CaseStyle, FIGFormatter} from "./formatter";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {Color, Vector2} from "../models/math";
-import {capitalize} from "../models/string";
+import {capitalize, formatNumber} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
@@ -22,6 +22,7 @@ import {FIGTabBarFlags, FIGTabBarWidget} from "../models/widgets/tab-bar.widget"
 import {FIGTabItemFlags, FIGTabItemWidget} from "../models/widgets/tab-item.widget";
 import {FIGPlotWidget} from "../models/widgets/plot.widget";
 import {FIGWidgetType} from "../models/widgets/widget";
+import {FIGVerticalSliderType, FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -350,6 +351,34 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor})`);
     }
     this.formatTooltip(widget);
+  }
+
+  protected override formatVerticalSlider(widget: FIGVerticalSliderWidget): void {
+    const varValue: string = this.formatVar(`${widget.label.slice(2)} value`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.label.slice(2)} used`, widget.type);
+    const varArgs: string[] = [];
+    let fn: string = '';
+
+    varArgs.push(this.formatString(widget.label));
+    varArgs.push(widget.size.width.toString());
+    varArgs.push(widget.size.height.toString());
+    varArgs.push(varValue);
+    varArgs.push(widget.valueMin.toString());
+    varArgs.push(widget.valueMax.toString());
+    varArgs.push(widget.tooltip ? '""' : this.formatString(widget.format));
+    if (widget.dataType === FIGVerticalSliderType.int) {
+      fn = 'ImGui.VSliderInt';
+    } else if (widget.dataType === FIGVerticalSliderType.float) {
+      fn = 'ImGui.VSliderFloat';
+      varArgs.push(widget.power.toString());
+    }
+    this.append(`local ${varValue} = ${formatNumber(widget.value, widget.format)}, ${varUsed}`);
+    this.append(`${varValue}, ${varUsed} = ${fn}(${varArgs.join(', ')})`);
+    if (widget.tooltip) {
+      this.append('if ImGui.IsItemActive() or ImGui.IsItemHovered() then');
+      this.appendIndent(`ImGui.SetTooltip(string.format(${this.formatString(widget.format)}, ${varValue}))`);
+      this.append('end');
+    }
   }
 
   protected override formatListBox(widget: FIGListBoxWidget): void {

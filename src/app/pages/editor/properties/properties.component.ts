@@ -23,6 +23,7 @@ import {TabItemPropertiesComponent} from "./tab-item-properties/tab-item-propert
 import {PlotPropertiesComponent} from "./plot-properties/plot-properties.component";
 import {FormatterService} from "../../../services/formatter.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/vertical-slider-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -46,6 +47,7 @@ import {MatTooltip} from "@angular/material/tooltip";
     InputNumberPropertiesComponent,
     InputTextareaPropertiesComponent,
     InputColorEditPropertiesComponent,
+    VerticalSliderPropertiesComponent,
     CollapsingHeaderPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
