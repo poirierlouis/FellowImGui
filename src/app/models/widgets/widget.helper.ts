@@ -17,6 +17,7 @@ import {FIGInputTextareaOptions, FIGInputTextareaWidget} from "./input-textarea.
 import {FIGListBoxOptions, FIGListBoxWidget} from "./listbox.widget";
 import {FIGTabBarOptions, FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGTabItemOptions, FIGTabItemWidget} from "./tab-item.widget";
+import {FIGPlotOptions, FIGPlotType, FIGPlotWidget} from "./plot.widget";
 
 export class FIGWidgetHelper {
 
@@ -69,6 +70,14 @@ export class FIGWidgetHelper {
 
   public static createProgressBar(options?: FIGProgressBarOptions): FIGProgressBarWidget {
     return new FIGProgressBarWidget(options);
+  }
+
+  public static createPlotLines(options?: FIGPlotOptions): FIGPlotWidget {
+    return new FIGPlotWidget({...options, plotType: FIGPlotType.lines});
+  }
+
+  public static createPlotHistogram(options?: FIGPlotOptions): FIGPlotWidget {
+    return new FIGPlotWidget({...options, plotType: FIGPlotType.histogram});
   }
 
   // Forms / Inputs

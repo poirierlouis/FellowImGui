@@ -20,10 +20,13 @@ import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 import {FIGTabBarFlags, FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
 import {FIGTabItemFlags, FIGTabItemWidget} from "../models/widgets/tab-item.widget";
+import {FIGPlotWidget} from "../models/widgets/plot.widget";
+import {FIGWidgetType} from "../models/widgets/widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
     super('Lua - sol2', CaseStyle.camelCase);
+    this.notSupported.push(FIGWidgetType.plot);
     this.options.indent = '  ';
   }
 
@@ -224,6 +227,9 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.appendIndent(`ImGui.SetTooltip(${this.formatString(widget.tooltip)})`);
       this.append('end');
     }
+  }
+
+  protected override formatPlot(_widget: FIGPlotWidget): void {
   }
 
   // Forms / Inputs

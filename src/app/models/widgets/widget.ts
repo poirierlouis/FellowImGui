@@ -16,6 +16,7 @@ export enum FIGWidgetType {
   text,
   button,
   progressBar,
+  plot,
 
   // Forms / Inputs
   label,

@@ -20,6 +20,7 @@ import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 import {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
 import {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
+import {FIGPlotWidget} from "../models/widgets/plot.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -58,6 +59,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.text, fmt: this.formatText.bind(this)},
     {type: FIGWidgetType.button, fmt: this.formatButton.bind(this)},
     {type: FIGWidgetType.progressBar, fmt: this.formatProgressBar.bind(this)},
+    {type: FIGWidgetType.plot, fmt: this.formatPlot.bind(this)},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
@@ -166,6 +168,7 @@ export abstract class FIGFormatter {
   protected abstract formatText(widget: FIGTextWidget): void;
   protected abstract formatButton(widget: FIGButtonWidget): void;
   protected abstract formatProgressBar(widget: FIGProgressBarWidget): void;
+  protected abstract formatPlot(widget: FIGPlotWidget): void;
 
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;

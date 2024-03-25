@@ -52,6 +52,11 @@
                                    [widget]="widget!"
                                    (update)="update.emit($event)"></fig-progress-bar-properties>
     }
+    @case (FIGWidgetType.plot) {
+      <fig-plot-properties class="properties"
+                           [widget]="widget!"
+                           (update)="update.emit($event)"></fig-plot-properties>
+    }
     <!-- Forms / Inputs -->
     @case (FIGWidgetType.label) {
       <fig-label-properties class="properties"

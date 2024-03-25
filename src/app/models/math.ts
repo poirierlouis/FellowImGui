@@ -42,3 +42,12 @@ export function parseRGBA(value: string): Color | undefined {
     a: parseFloat(match.groups!['a'] ?? '1.0'),
   };
 }
+
+export function plotSin(size: number): number[] {
+  const data: number[] = [];
+
+  for (let i: number = 0; i < size; i++) {
+    data.push(Math.sin(i * 0.2));
+  }
+  return data;
+}

@@ -11,7 +11,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
 import {FIGWidgetHelper} from '../../models/widgets/widget.helper';
-import {Color} from "../../models/math";
+import {Color, plotSin} from "../../models/math";
 import {FIGDir} from "../../models/widgets/button.widget";
 import {MatIconButton} from "@angular/material/button";
 import {FormatterService} from "../../services/formatter.service";
@@ -63,7 +63,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.progressBar)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.plot)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -73,7 +73,7 @@ export class EditorComponent {
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Basics · FIG',
-      size: {width: 320, height: 418}
+      size: {width: 320, height: 624}
     }, [
       FIGWidgetHelper.createBullet(),
       FIGWidgetHelper.createText({text: ''}),
@@ -99,6 +99,23 @@ export class EditorComponent {
       FIGWidgetHelper.createProgressBar({value: 0.00}),
       FIGWidgetHelper.createProgressBar({value: 0.42, isFill: true, tooltip: 'Fill horizontally.'}),
       FIGWidgetHelper.createProgressBar({value: 1.00, label: 'Loading'}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createPlotLines({
+        label: 'Lines',
+        values: plotSin(31),
+        overlayText: 'Sin [-2; +2]',
+        size: {width: 0, height: 96},
+        scaleMin: -2,
+        scaleMax: 2
+      }),
+      FIGWidgetHelper.createPlotHistogram({
+        label: 'Histogram',
+        values: plotSin(31),
+        overlayText: 'Sin [-2; +2]',
+        size: {width: 0, height: 96},
+        scaleMin: -2,
+        scaleMax: 2
+      })
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',

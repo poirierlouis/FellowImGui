@@ -20,6 +20,7 @@ import {InputTextareaPropertiesComponent} from "./input-textarea-properties/inpu
 import {ListboxPropertiesComponent} from "./listbox-properties/listbox-properties.component";
 import {TabBarPropertiesComponent} from "./tab-bar-properties/tab-bar-properties.component";
 import {TabItemPropertiesComponent} from "./tab-item-properties/tab-item-properties.component";
+import {PlotPropertiesComponent} from "./plot-properties/plot-properties.component";
 import {FormatterService} from "../../../services/formatter.service";
 import {MatTooltip} from "@angular/material/tooltip";
 
@@ -30,6 +31,7 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatIcon,
     MatTooltip,
     TextPropertiesComponent,
+    PlotPropertiesComponent,
     ComboPropertiesComponent,
     LabelPropertiesComponent,
     RadioPropertiesComponent,

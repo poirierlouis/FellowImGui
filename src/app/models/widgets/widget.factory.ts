@@ -17,6 +17,7 @@ import {FIGInputTextareaWidget} from "./input-textarea.widget";
 import {FIGListBoxWidget} from "./listbox.widget";
 import {FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGTabItemWidget} from "./tab-item.widget";
+import {FIGPlotWidget} from "./plot.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -51,6 +52,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget()},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget()},
     {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget()},
+    {type: FIGWidgetType.plot, title: 'Plot', build: () => new FIGPlotWidget()},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, title: 'Label', build: () => new FIGLabelWidget()},
