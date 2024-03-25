@@ -35,6 +35,8 @@ export class PlotPropertiesComponent extends AbstractPropertiesComponent<FIGPlot
     stride: new FormControl<number | null>(null, {validators: Validators.min(1)}),
   });
 
+  protected readonly FIGPlotType = FIGPlotType;
+
   constructor(dr: DestroyRef) {
     super(dr);
     this.listenProperty('plotType').subscribe(this.onPlotTypeChanged.bind(this));
@@ -122,5 +124,4 @@ export class PlotPropertiesComponent extends AbstractPropertiesComponent<FIGPlot
     this.update.emit();
   }
 
-  protected readonly FIGPlotType = FIGPlotType;
 }
