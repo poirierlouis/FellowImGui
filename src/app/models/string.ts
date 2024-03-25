@@ -6,6 +6,15 @@ export function getPrecision(format: string): number | undefined {
   return match ? +match.groups!['precision'] : undefined;
 }
 
+export function formatNumber(value: number, format: string): string {
+  const precision: number | undefined = getPrecision(format);
+
+  if (!precision) {
+    return value.toString();
+  }
+  return value.toFixed(precision);
+}
+
 export function capitalize(str: string): string {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
