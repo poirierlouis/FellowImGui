@@ -152,12 +152,16 @@ export class TreeComponent {
 
   private updateTree(): void {
     this.treeSelection.selected.forEach((uuid: string) => {
-      const node: FlatNode | undefined = this.treeControl.dataNodes.find((node: FlatNode) => node.widget.uuid === uuid);
+      const node: FlatNode | undefined = this.findNodeByUuid(uuid);
 
       if (node) {
         this.treeControl.expand(node);
       }
     });
+  }
+
+  private findNodeByUuid(uuid: string): FlatNode | undefined {
+    return this.treeControl.dataNodes.find((node) => node.widget.uuid === uuid);
   }
 
 }
