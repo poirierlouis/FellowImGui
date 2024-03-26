@@ -142,7 +142,7 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.NewLine()');
   }
 
-  protected override formatSeparator(widget: FIGSeparatorWidget): void {
+  protected override formatSeparator(_widget: FIGSeparatorWidget): void {
     this.append('ImGui.Separator()');
   }
 
