@@ -44,7 +44,7 @@ export class FIGInputTextareaWidget extends FIGWithTooltip {
     super.drawFocus();
     if (prevValue !== this.value) {
       this.bufferSize = Math.max(this.value.length, this.bufferSize);
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
   }
 }

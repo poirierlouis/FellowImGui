@@ -120,7 +120,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     }
     fn(...args);
     if (this.diffValues(this.value, prevValue)) {
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
     super.drawTooltip();
     super.drawFocus();

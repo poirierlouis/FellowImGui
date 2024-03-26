@@ -69,7 +69,7 @@ export class FIGVerticalSliderWidget extends FIGWidget {
     }
     super.drawFocus();
     if (prevValue !== this.value) {
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
   }
 }

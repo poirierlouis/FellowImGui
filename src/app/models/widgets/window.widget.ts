@@ -49,6 +49,6 @@ export class FIGWindowWidget extends FIGContainer {
     }
     this.size.width = size.x;
     this.size.height = size.y;
-    this.updateSubject.next();
+    this.triggerUpdate();
   }
 }

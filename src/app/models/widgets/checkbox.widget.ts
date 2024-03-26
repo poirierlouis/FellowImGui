@@ -27,7 +27,7 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
     super.drawTooltip();
     super.drawFocus();
     if (prevIsChecked !== this.isChecked) {
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
   }
 }

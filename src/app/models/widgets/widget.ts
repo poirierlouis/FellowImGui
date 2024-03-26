@@ -93,6 +93,10 @@ export abstract class FIGWidget {
     return [this];
   }
 
+  protected triggerUpdate(): void {
+    this.updateSubject.next();
+  }
+
   protected drawFocus(): void {
     if (this.isFocused) {
       this.growFocusRect();

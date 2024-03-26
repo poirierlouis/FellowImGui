@@ -39,7 +39,7 @@ export class FIGInputColorEditWidget extends FIGWithTooltip {
       this.color.g = values[1];
       this.color.b = values[2];
       this.color.a = values[3];
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
     super.drawTooltip();
     super.drawFocus();

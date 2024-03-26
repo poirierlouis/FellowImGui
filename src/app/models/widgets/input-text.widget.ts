@@ -69,7 +69,7 @@ export class FIGInputTextWidget extends FIGWithTooltip {
     super.drawTooltip();
     super.drawFocus();
     if (prevValue !== this.value) {
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
   }
 }
