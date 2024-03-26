@@ -93,7 +93,7 @@ export class FIGDocument {
       this.remove(drag as FIGContainer);
       this.root.push(drag as FIGContainer);
       drag.parent = undefined;
-      drag.onCreated();
+      drag.onMoved();
       return true;
     }
     // Prevent moving widget on itself.
