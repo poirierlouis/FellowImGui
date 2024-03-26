@@ -20,6 +20,7 @@ import {FIGTabItemWidget} from "./tab-item.widget";
 import {FIGPlotWidget} from "./plot.widget";
 import {FIGVerticalSliderWidget} from "./vertical-slider.widget";
 import {FIGSameLineWidget} from "./same-line.widget";
+import {FIGNewLineWidget} from "./new-line.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -48,6 +49,7 @@ export class FIGWidgetFactory {
       build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})
     },
     {type: FIGWidgetType.sameLine, title: 'SameLine', build: () => new FIGSameLineWidget()},
+    {type: FIGWidgetType.newLine, title: 'NewLine', build: () => new FIGNewLineWidget()},
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics

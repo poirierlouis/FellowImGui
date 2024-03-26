@@ -11,6 +11,7 @@ export enum FIGWidgetType {
   tabBar,
   tabItem,
   sameLine,
+  newLine,
   separator,
 
   // Basics

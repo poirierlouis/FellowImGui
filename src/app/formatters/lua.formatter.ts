@@ -24,6 +24,7 @@ import {FIGPlotWidget} from "../models/widgets/plot.widget";
 import {FIGWidgetType} from "../models/widgets/widget";
 import {FIGVerticalSliderType, FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
 import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
+import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -135,6 +136,10 @@ export class FIGLuaFormatter extends FIGFormatter {
       varArgs.push(widget.spacing.toString());
     }
     this.append(`ImGui.SameLine(${varArgs.join(', ')})`);
+  }
+
+  protected override formatNewLine(_widget: FIGNewLineWidget): void {
+    this.append('ImGui.NewLine()');
   }
 
   protected override formatSeparator(widget: FIGSeparatorWidget): void {

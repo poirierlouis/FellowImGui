@@ -222,6 +222,7 @@ export class EditorComponent {
         label: 'Header'
       }, [
         FIGWidgetHelper.createText(),
+        FIGWidgetHelper.createNewLine(),
         FIGWidgetHelper.createButton(),
       ]),
       FIGWidgetHelper.createSeparator(),
