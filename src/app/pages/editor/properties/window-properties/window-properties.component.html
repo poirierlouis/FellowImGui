@@ -15,4 +15,13 @@
       <input matInput type="number" formControlName="height" />
     </mat-form-field>
   </div>
+
+  <mat-form-field>
+    <mat-label>Flags</mat-label>
+    <mat-select multiple formControlName="flags">
+      @for (flag of flags; track flag.value) {
+        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </form>

@@ -6,7 +6,7 @@ import {FIGLabelWidget} from "../models/widgets/label.widget";
 import {FIGRadioWidget} from "../models/widgets/radio.widget";
 import {FIGSeparatorWidget} from "../models/widgets/separator.widget";
 import {FIGTextWidget} from "../models/widgets/text.widget";
-import {FIGWindowWidget} from "../models/widgets/window.widget";
+import {FIGWindowFlags, FIGWindowWidget} from "../models/widgets/window.widget";
 import {CaseStyle, FIGFormatter} from "./formatter";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {Color, Vector2} from "../models/math";
@@ -59,8 +59,14 @@ export class FIGLuaFormatter extends FIGFormatter {
 
   // Layouts
   protected override formatWindow(widget: FIGWindowWidget): void {
+    let varArgs: string = '';
+
+    if (widget.flags !== 0) {
+      varArgs = ', true';
+      varArgs += this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags');
+    }
     this.append(`ImGui.SetNextWindowSize(${widget.size.width}, ${widget.size.height})`);
-    this.append(`if not ImGui.Begin(${this.formatString(widget.label)}) then`);
+    this.append(`if not ImGui.Begin(${this.formatString(widget.label)}${varArgs}) then`);
     this.appendIndent('ImGui.End()');
     this.appendIndent('return');
     this.append('end');
