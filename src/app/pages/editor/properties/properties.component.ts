@@ -25,6 +25,7 @@ import {FormatterService} from "../../../services/formatter.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/vertical-slider-properties.component";
 import {SameLinePropertiesComponent} from "./same-line-properties/same-line-properties.component";
+import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -37,6 +38,7 @@ import {SameLinePropertiesComponent} from "./same-line-properties/same-line-prop
     ComboPropertiesComponent,
     LabelPropertiesComponent,
     RadioPropertiesComponent,
+    DummyPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     TabBarPropertiesComponent,

@@ -22,6 +22,7 @@ import {FIGVerticalSliderOptions, FIGVerticalSliderWidget} from "./vertical-slid
 import {FIGSameLineWidget} from "./same-line.widget";
 import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
+import {FIGDummyOptions, FIGDummyWidget} from "./dummy.widget";
 
 export class FIGWidgetHelper {
 
@@ -65,6 +66,10 @@ export class FIGWidgetHelper {
 
   public static createSpacing(): FIGSpacingWidget {
     return new FIGSpacingWidget();
+  }
+
+  public static createDummy(options?: FIGDummyOptions): FIGDummyWidget {
+    return new FIGDummyWidget(options);
   }
 
   public static createSeparator(): FIGSeparatorWidget {

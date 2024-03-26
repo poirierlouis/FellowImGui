@@ -41,6 +41,11 @@
                                 [widget]="widget!"
                                 (update)="update.emit($event)"></fig-same-line-properties>
     }
+    @case (FIGWidgetType.dummy) {
+      <fig-dummy-properties class="properties"
+                            [widget]="widget!"
+                            (update)="update.emit($event)"></fig-dummy-properties>
+    }
     <!-- Basics -->
     @case (FIGWidgetType.text) {
       <fig-text-properties class="properties"

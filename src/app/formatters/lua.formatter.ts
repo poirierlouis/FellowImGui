@@ -26,6 +26,7 @@ import {FIGVerticalSliderType, FIGVerticalSliderWidget} from "../models/widgets/
 import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
 import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
+import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -145,6 +146,11 @@ export class FIGLuaFormatter extends FIGFormatter {
 
   protected override formatSpacing(_widget: FIGSpacingWidget): void {
     this.append('ImGui.Spacing()');
+  }
+
+  protected override formatDummy(widget: FIGDummyWidget): void {
+    this.append(`ImGui.Dummy(${widget.width}, ${widget.height})`);
+    this.formatTooltip(widget);
   }
 
   protected override formatSeparator(_widget: FIGSeparatorWidget): void {

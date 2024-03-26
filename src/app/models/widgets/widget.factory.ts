@@ -22,6 +22,7 @@ import {FIGVerticalSliderWidget} from "./vertical-slider.widget";
 import {FIGSameLineWidget} from "./same-line.widget";
 import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
+import {FIGDummyWidget} from "./dummy.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -52,6 +53,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.sameLine, title: 'SameLine', build: () => new FIGSameLineWidget()},
     {type: FIGWidgetType.newLine, title: 'NewLine', build: () => new FIGNewLineWidget()},
     {type: FIGWidgetType.spacing, title: 'Spacing', build: () => new FIGSpacingWidget()},
+    {type: FIGWidgetType.dummy, title: 'Dummy', build: () => new FIGDummyWidget()},
     {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics

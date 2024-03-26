@@ -216,7 +216,7 @@ export class EditorComponent {
     ]);
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Layouts · FIG',
-      size: {width: 342, height: 398}
+      size: {width: 342, height: 418}
     }, [
       FIGWidgetHelper.createCollapsingHeader({
         label: 'Header'
@@ -228,6 +228,9 @@ export class EditorComponent {
         FIGWidgetHelper.createButton(),
         FIGWidgetHelper.createText({text: '(v) Spacing'}),
         FIGWidgetHelper.createSpacing(),
+        FIGWidgetHelper.createButton(),
+        FIGWidgetHelper.createText({text: '(v) Dummy (100 x 100)'}),
+        FIGWidgetHelper.createDummy({width: 100, height: 100, tooltip: 'Empty space'}),
         FIGWidgetHelper.createButton(),
       ]),
       FIGWidgetHelper.createSeparator(),

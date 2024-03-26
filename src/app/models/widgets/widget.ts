@@ -13,6 +13,7 @@ export enum FIGWidgetType {
   sameLine,
   newLine,
   spacing,
+  dummy,
   separator,
 
   // Basics
