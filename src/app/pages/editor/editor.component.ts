@@ -221,8 +221,13 @@ export class EditorComponent {
       FIGWidgetHelper.createCollapsingHeader({
         label: 'Header'
       }, [
-        FIGWidgetHelper.createText(),
+        FIGWidgetHelper.createText({text: '(v) Default'}),
+        FIGWidgetHelper.createButton(),
+        FIGWidgetHelper.createText({text: '(v) New line'}),
         FIGWidgetHelper.createNewLine(),
+        FIGWidgetHelper.createButton(),
+        FIGWidgetHelper.createText({text: '(v) Spacing'}),
+        FIGWidgetHelper.createSpacing(),
         FIGWidgetHelper.createButton(),
       ]),
       FIGWidgetHelper.createSeparator(),

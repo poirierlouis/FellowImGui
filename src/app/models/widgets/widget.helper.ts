@@ -21,6 +21,7 @@ import {FIGPlotOptions, FIGPlotType, FIGPlotWidget} from "./plot.widget";
 import {FIGVerticalSliderOptions, FIGVerticalSliderWidget} from "./vertical-slider.widget";
 import {FIGSameLineWidget} from "./same-line.widget";
 import {FIGNewLineWidget} from "./new-line.widget";
+import {FIGSpacingWidget} from "./spacing.widget";
 
 export class FIGWidgetHelper {
 
@@ -60,6 +61,10 @@ export class FIGWidgetHelper {
 
   public static createNewLine(): FIGNewLineWidget {
     return new FIGNewLineWidget();
+  }
+
+  public static createSpacing(): FIGSpacingWidget {
+    return new FIGSpacingWidget();
   }
 
   public static createSeparator(): FIGSeparatorWidget {
