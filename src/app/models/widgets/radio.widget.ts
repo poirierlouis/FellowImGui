@@ -99,6 +99,22 @@ export class FIGRadioWidget extends FIGWithTooltip {
     }
   }
 
+  public override onCreated(): void {
+    super.onCreated();
+    if (!this.parent) {
+      return;
+    }
+    const sibling: FIGRadioWidget | undefined = this.parent.findPreviousSibling(this, (widget) => {
+      return widget.type === FIGWidgetType.radio;
+    });
+
+    if (!sibling) {
+      return;
+    }
+    this.groupId = sibling.groupId;
+    this.index = sibling.index + 1;
+  }
+
   public override onDeleted() {
     if (this._access) {
       if (this._access.forgetSubject(this.updateSubject)) {

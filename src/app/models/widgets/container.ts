@@ -49,6 +49,24 @@ export abstract class FIGContainer extends FIGWidget {
     return this.children.filter(predicate) as T[];
   }
 
+  public findPreviousSibling<T extends FIGWidget>(from: FIGWidget, predicate: (widget: FIGWidget) => boolean): T | undefined {
+    let index: number = this.findIndex(from) - 1;
+
+    if (index < 0) {
+      return undefined;
+    }
+    let sibling: FIGWidget;
+
+    while (index >= 0) {
+      sibling = this.children[index];
+      if (predicate(sibling)) {
+        return sibling as T;
+      }
+      index--;
+    }
+    return undefined;
+  }
+
   public insert(widget: FIGWidget, index: number): void {
     this.children.splice(index, 0, widget);
   }
