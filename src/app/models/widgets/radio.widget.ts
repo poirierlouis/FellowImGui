@@ -8,12 +8,12 @@ export class FIGRadioAccessor {
 
   value: number = 0;
 
-  access = (_ = this.value) => this.value = _;
-
   constructor(groupId: string) {
     this.groupId = groupId;
     this.subjects = [];
   }
+
+  access = (_ = this.value) => this.value = _;
 
   update(): void {
     this.subjects.forEach((subject) => subject.next());
@@ -70,6 +70,10 @@ export class FIGRadioWidget extends FIGWithTooltip {
     return this._access ? this._access!.access() : -1;
   }
 
+  public static filterByGroupId(widget: FIGWidget, groupId: string): boolean {
+    return widget.type === FIGWidgetType.radio && (widget as FIGRadioWidget).groupId === groupId;
+  }
+
   private static registerAccessor(access: FIGRadioAccessor): void {
     FIGRadioWidget._accessors.push(access);
   }
@@ -81,10 +85,6 @@ export class FIGRadioWidget extends FIGWithTooltip {
       return;
     }
     FIGRadioWidget._accessors.splice(index, 1);
-  }
-
-  public static filterByGroupId(widget: FIGWidget, groupId: string): boolean {
-    return widget.type === FIGWidgetType.radio && (widget as FIGRadioWidget).groupId === groupId;
   }
 
   public override draw(): void {
