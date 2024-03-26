@@ -11,6 +11,7 @@
   <mat-tree-node *matTreeNodeDef="let node"
                  [class.selected]="selectedWidget === node.widget"
                  [class.container]="node.isContainer"
+                 [attr.data-uuid]="node.widget.uuid"
                  matTreeNodePadding
                  figDrag
                  [figDragData]="node.widget.uuid"

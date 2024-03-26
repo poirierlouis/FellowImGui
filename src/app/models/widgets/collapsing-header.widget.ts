@@ -52,6 +52,7 @@ export class FIGCollapsingHeaderWidget extends FIGContainer {
     if (isOpen) {
       for (const child of this.children) {
         child.draw();
+        child.listen();
         this.growFocusRect();
       }
     }

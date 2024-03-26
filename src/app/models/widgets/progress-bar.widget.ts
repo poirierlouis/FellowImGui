@@ -34,6 +34,7 @@ export class FIGProgressBarWidget extends FIGWithTooltip {
     }
     ImGui.ProgressBar(this.value, size, progression);
     this.growFocusRect();
+    this.listen();
     let showTooltip: boolean = ImGui.IsItemHovered();
 
     if (this.label && !this.isFill) {

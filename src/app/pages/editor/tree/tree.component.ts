@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {
   MatNestedTreeNode,
@@ -61,6 +61,9 @@ export class TreeComponent {
   @Output('selectWidget')
   onSelectWidget: EventEmitter<FIGWidget | undefined> = new EventEmitter<FIGWidget | undefined>();
 
+  @ViewChildren(MatTreeNode, {read: ElementRef})
+  nodes!: QueryList<ElementRef>;
+
   treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
     node => node.expandable,
@@ -99,6 +102,34 @@ export class TreeComponent {
     this.updateTree();
   }
 
+  public openWidget(widget: FIGWidget): void {
+    const node: FlatNode | undefined = this.findNodeByUuid(widget.uuid);
+
+    if (!node) {
+      return;
+    }
+    const nodes: FlatNode[] = this.collectNodes(widget);
+
+    for (const node of nodes) {
+      if (!this.treeControl.isExpanded(node)) {
+        this.treeControl.expand(node);
+      }
+    }
+    if (!this.selectWidget(node)) {
+      return;
+    }
+    setTimeout(() => {
+      const node: ElementRef | undefined = this.nodes.find((node) => node.nativeElement.dataset['uuid'] === widget.uuid);
+
+      if (!node) {
+        return;
+      }
+      const $node: HTMLElement = node.nativeElement;
+
+      $node.scrollIntoView({block: 'center'});
+    });
+  }
+
   protected trackBy(_: number, node: FlatNode): any {
     return node.widget.trackBy();
   }
@@ -107,7 +138,7 @@ export class TreeComponent {
     return this.formatterService.isSupported(node.widget.type);
   }
 
-  protected selectWidget(node: FlatNode): void {
+  protected selectWidget(node: FlatNode): boolean {
     if (node.expandable) {
       this.treeSelection.toggle(node.widget.uuid);
       if (this.treeControl.isExpanded(node)) {
@@ -116,12 +147,16 @@ export class TreeComponent {
         this.treeControl.expand(node);
       }
     }
+    let isSelected: boolean = false;
+
     if (this.selectedWidget?.uuid === node.widget.uuid && !(this.selectedWidget instanceof FIGContainer)) {
       this.selectedWidget = undefined;
     } else {
       this.selectedWidget = node.widget;
+      isSelected = true;
     }
     this.onSelectWidget.emit(this.selectedWidget);
+    return isSelected;
   }
 
   protected dropWidget(event: FIGDropEvent): void {
@@ -148,6 +183,25 @@ export class TreeComponent {
     if (this.document.removeWidget(widget)) {
       this.update();
     }
+  }
+
+  private collectNodes(widget: FIGWidget): FlatNode[] {
+    let node: FlatNode | undefined = this.findNodeByUuid(widget.uuid);
+
+    if (!node) {
+      return [];
+    }
+    const nodes: FlatNode[] = [node];
+    let parent: FIGContainer | undefined = widget.parent;
+
+    while (parent !== undefined) {
+      node = this.findNodeByUuid(parent.uuid);
+      if (node) {
+        nodes.push(node);
+      }
+      parent = parent.parent;
+    }
+    return nodes.reverse();
   }
 
   private updateTree(): void {

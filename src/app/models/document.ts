@@ -2,13 +2,40 @@ import {FIGContainer} from "./widgets/container";
 import {FIGWidget, FIGWidgetType} from "./widgets/widget";
 import {FIGDropDirection} from "../directives/drop.directive";
 import {FIGWidgetFactory} from "./widgets/widget.factory";
+import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
+import {FIGEvent} from "./events/event";
+
+interface ListenerItem {
+  readonly uuid: string;
+  readonly subscription: Subscription;
+}
 
 export class FIGDocument {
 
   readonly root: FIGContainer[] = [];
 
+  private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
+  private readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
+
+  private readonly listeners: ListenerItem[] = [];
+
   public link(): void {
     this.root.forEach((container) => container.link());
+  }
+
+  public listen(): Observable<FIGEvent[]> {
+    this.listeners.forEach((listener) => listener.subscription.unsubscribe());
+    this.listeners.length = 0;
+    const widgets: FIGWidget[] = this.root.flatMap((container) => container.flatMap());
+
+    widgets.forEach(this.addListener.bind(this));
+    return this.event$.pipe(
+      bufferTime(100),
+      map((events: (FIGEvent | undefined)[]) => {
+        return events.filter((event) => !!event) as FIGEvent[];
+      }),
+      filter((events: FIGEvent[]) => events.length > 0)
+    );
   }
 
   public findByUuid(uuid: string): FIGWidget | undefined {
@@ -41,6 +68,7 @@ export class FIGDocument {
       this.root.push(drag as FIGContainer);
       drag.parent = undefined;
       drag.onCreated();
+      this.addListener(drag);
       return true;
     }
     // Prevent window-like widgets within containers.
@@ -57,6 +85,7 @@ export class FIGDocument {
       this.insert(drag, index);
       drag.parent = undefined;
       drag.onCreated();
+      this.addListener(drag);
       return true;
     }
     // Append widget at the end of drop container.
@@ -64,6 +93,7 @@ export class FIGDocument {
       drop.children.push(drag);
       drag.parent = drop;
       drag.onCreated();
+      this.addListener(drag);
       return true;
     }
     // Insert widget before/after a widget.
@@ -76,6 +106,7 @@ export class FIGDocument {
       parent.insert(drag, index);
       drag.parent = parent;
       drag.onCreated();
+      this.addListener(drag);
       return true;
     }
     return false;
@@ -152,13 +183,37 @@ export class FIGDocument {
       if (container.uuid === widget.uuid) {
         this.root.splice(i, 1);
         widget.onDeleted();
+        this.removeListener(widget);
         return true;
       } else if (container.remove(widget)) {
         widget.onDeleted();
+        this.removeListener(widget);
         return true;
       }
     }
     return false;
+  }
+
+  private addListener(widget: FIGWidget): void {
+    const subscription: Subscription = widget.event$.subscribe((event) => this.eventSubject.next(event));
+
+    this.listeners.push({
+      uuid: widget.uuid,
+      subscription: subscription
+    });
+  }
+
+  private removeListener(widget: FIGWidget): void {
+    const index: number = this.listeners.findIndex((listener) => listener.uuid === widget.uuid);
+
+    if (index === -1) {
+      console.warn(`Failed to remove listener of widget "${widget.uuid}".`);
+      return;
+    }
+    const listener: ListenerItem = this.listeners[index];
+
+    listener.subscription.unsubscribe();
+    this.listeners.splice(index, 1);
   }
 
   private findIndex(container: FIGContainer): number {

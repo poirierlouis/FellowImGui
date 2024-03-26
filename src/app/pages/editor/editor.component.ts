@@ -20,6 +20,8 @@ import {DragDirective} from "../../directives/drag.directive";
 import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
 import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
 import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget";
+import {FIGEvent} from "../../models/events/event";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -28,6 +30,10 @@ interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
 interface FIGWidgetBuilderCategory {
   readonly title: string;
   readonly builders: FIGWidgetItemBuilder[];
+}
+
+export enum FIGShortcutType {
+  selectWidget
 }
 
 @Component({
@@ -68,6 +74,8 @@ export class EditorComponent {
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
+
+  private shortcut?: FIGShortcutType;
 
   constructor(private readonly formatterService: FormatterService) {
     this.document = new FIGDocument();
@@ -258,6 +266,7 @@ export class EditorComponent {
     this.document.root.push(inputs);
     this.document.root.push(layouts);
     this.document.link();
+    this.document.listen().pipe(takeUntilDestroyed()).subscribe(this.onWidgetEvent.bind(this));
   }
 
   public onFormat(): void {
@@ -272,6 +281,18 @@ export class EditorComponent {
 
   protected isSupported(type: FIGWidgetType): boolean {
     return this.formatterService.isSupported(type);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  protected onKeyPressed(event: KeyboardEvent): void {
+    if (event.ctrlKey || event.metaKey) {
+      this.shortcut = FIGShortcutType.selectWidget;
+    }
+  }
+
+  @HostListener('document:keyup')
+  protected onKeyReleased(): void {
+    this.shortcut = undefined;
   }
 
   protected onResetSliding(): void {
@@ -306,6 +327,15 @@ export class EditorComponent {
 
   protected updateWidget(_widget: FIGWidget): void {
     this.tree.update();
+  }
+
+  private onWidgetEvent(events: FIGEvent[]): void {
+    if (this.shortcut !== FIGShortcutType.selectWidget) {
+      return;
+    }
+    const widget: FIGWidget = events[0].target;
+
+    this.tree.openWidget(widget);
   }
 
   private slideTo(x: number): void {

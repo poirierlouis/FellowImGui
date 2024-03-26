@@ -2,6 +2,7 @@ import {v4 as uuidv4} from "uuid";
 import {BehaviorSubject, Observable} from "rxjs";
 import {FIGContainer} from "./container";
 import {Vector2} from "../math";
+import {FIGEvent, FIGEventType} from "../events/event";
 
 export enum FIGWidgetType {
   // Layouts
@@ -45,6 +46,9 @@ export abstract class FIGWidget {
   protected readonly updateSubject: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public readonly update$: Observable<void> = this.updateSubject.asObservable();
 
+  private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
+  public readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
+
   protected readonly _focusOffset: Vector2 = {x: 4, y: 4};
   private readonly _focusMin: Vector2 = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
   private readonly _focusMax: Vector2 = {x: Number.MIN_VALUE, y: Number.MIN_VALUE};
@@ -79,6 +83,12 @@ export abstract class FIGWidget {
    */
   public onDeleted(): void {
 
+  }
+
+  public listen(): void {
+    if (ImGui.IsItemClicked()) {
+      this.eventSubject.next({type: FIGEventType.click, target: this});
+    }
   }
 
   public trackBy(): any {

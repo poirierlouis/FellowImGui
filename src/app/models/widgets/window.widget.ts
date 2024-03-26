@@ -33,6 +33,7 @@ export class FIGWindowWidget extends FIGContainer {
     ImGui.Begin(this.label);
     for (const child of this.children) {
       child.draw();
+      child.listen();
     }
     this.listenSize();
     ImGui.End();
