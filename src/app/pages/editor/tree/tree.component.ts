@@ -112,6 +112,7 @@ export class TreeComponent {
 
     for (const node of nodes) {
       if (!this.treeControl.isExpanded(node)) {
+        this.treeSelection.select(node.widget.uuid);
         this.treeControl.expand(node);
       }
     }
@@ -191,7 +192,7 @@ export class TreeComponent {
     if (!node) {
       return [];
     }
-    const nodes: FlatNode[] = [node];
+    const nodes: FlatNode[] = [];
     let parent: FIGContainer | undefined = widget.parent;
 
     while (parent !== undefined) {
