@@ -204,15 +204,17 @@ export class EditorComponent {
         label: '##VSliderFloat',
       }),
       FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createListBox({label: 'Stars Classification', items: [
-        'M (2,600 K to 3,850 K)',
-        'K (4,000 K to 5,250 K)',
-        'G (5,500 K to 6,000 K)',
-        'F (6,000 K to 7,200 K)',
-        'A (7,500 K to 10,000 K)',
-        'B (10,500 K to 30,000 K)',
-        'O (33,000 K and more)'
-        ]}),
+      FIGWidgetHelper.createListBox({
+        label: 'Stars Classification', items: [
+          'M (2,600 K to 3,850 K)',
+          'K (4,000 K to 5,250 K)',
+          'G (5,500 K to 6,000 K)',
+          'F (6,000 K to 7,200 K)',
+          'A (7,500 K to 10,000 K)',
+          'B (10,500 K to 30,000 K)',
+          'O (33,000 K and more)'
+        ]
+      }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createCheckbox({label: 'Fig'}),
       FIGWidgetHelper.createSameLine(),
