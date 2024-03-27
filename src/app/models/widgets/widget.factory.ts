@@ -24,6 +24,7 @@ import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeWidget} from "./tree-node.widget";
+import {FIGSliderWidget} from "./slider.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -86,6 +87,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.inputColorEdit,
       title: 'Color Edit',
       build: (id: number) => new FIGInputColorEditWidget({label: `Color Edit ${id}`})
+    },
+    {
+      type: FIGWidgetType.slider,
+      title: 'Slider / Drag',
+      build: (id: number) => new FIGSliderWidget({label: `Slider ${id}`})
     },
     {
       type: FIGWidgetType.verticalSlider,

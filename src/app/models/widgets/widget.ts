@@ -30,6 +30,7 @@ export enum FIGWidgetType {
   inputTextarea,
   inputNumber,
   inputColorEdit,
+  slider,
   verticalSlider,
   listbox,
   checkbox,

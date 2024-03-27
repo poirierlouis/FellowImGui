@@ -23,6 +23,7 @@ import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget
 import {FIGEvent} from "../../models/events/event";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
+import {FIGSliderDataType, FIGSliderType} from "../../models/widgets/slider.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -192,6 +193,54 @@ export class EditorComponent {
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createInputColorEdit({label: 'color', tooltip: 'Define an RGB color using inputs/picker.'}),
       FIGWidgetHelper.createInputColorEdit({label: 'color w/ alpha', withAlpha: true}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createSlider({label: 'SliderInt', dataType: FIGSliderDataType.int}),
+      FIGWidgetHelper.createSlider({label: 'SliderInt2', dataType: FIGSliderDataType.int2, value: [0, 1], valueMax: 1}),
+      FIGWidgetHelper.createSlider({
+        label: 'SliderInt3',
+        dataType: FIGSliderDataType.int3,
+        value: [1, 2, 3],
+        valueMin: 1,
+        valueMax: 3
+      }),
+      FIGWidgetHelper.createSlider({
+        label: 'SliderInt4',
+        dataType: FIGSliderDataType.int4,
+        value: [5, 8, 13, 21],
+        valueMin: 5,
+        valueMax: 21
+      }),
+      FIGWidgetHelper.createSlider({
+        label: 'DragFloat',
+        sliderType: FIGSliderType.drag,
+        dataType: FIGSliderDataType.float,
+        valueMin: 0.0,
+        valueMax: 0.1
+      }),
+      FIGWidgetHelper.createSlider({
+        label: 'DragFloat2',
+        sliderType: FIGSliderType.drag,
+        dataType: FIGSliderDataType.float2,
+        value: [0.1, 1.1],
+        valueMin: 0.1,
+        valueMax: 1.1
+      }),
+      FIGWidgetHelper.createSlider({
+        label: 'DragFloat3',
+        sliderType: FIGSliderType.drag,
+        dataType: FIGSliderDataType.float3,
+        value: [1.2, 2.3, 3.5],
+        valueMin: 1.2,
+        valueMax: 3.5
+      }),
+      FIGWidgetHelper.createSlider({
+        label: 'DragFloat4',
+        sliderType: FIGSliderType.drag,
+        dataType: FIGSliderDataType.float4,
+        value: [5.8, 8.13, 13.21, 21.34],
+        valueMin: 5.8,
+        valueMax: 21.34
+      }),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createVerticalSlider({
         dataType: FIGVerticalSliderType.int,

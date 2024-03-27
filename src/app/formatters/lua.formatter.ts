@@ -28,6 +28,7 @@ import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
+import {FIGSliderType, FIGSliderWidget} from "../models/widgets/slider.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -47,6 +48,18 @@ export class FIGLuaFormatter extends FIGFormatter {
     {fn: 'ImGui.InputFloat4', args: (args) => [args.varFormat]},
 
     {fn: 'ImGui.InputDouble', args: (args) => [args.varStep, args.varStepFast, args.varFormat]}
+  ];
+  private readonly sliderFormatter: string[][] = [
+    // FIGSliderType.slider
+    [
+      'ImGui.SliderInt', 'ImGui.SliderInt2', 'ImGui.SliderInt3', 'ImGui.SliderInt4',
+      'ImGui.SliderFloat', 'ImGui.SliderFloat2', 'ImGui.SliderFloat3', 'ImGui.SliderFloat4'
+    ],
+    // FIGSliderType.drag
+    [
+      'ImGui.DragInt', 'ImGui.DragInt2', 'ImGui.DragInt3', 'ImGui.DragInt4',
+      'ImGui.DragFloat', 'ImGui.DragFloat2', 'ImGui.DragFloat3', 'ImGui.DragFloat4'
+    ]
   ];
 
   constructor() {
@@ -390,6 +403,40 @@ export class FIGLuaFormatter extends FIGFormatter {
     } else {
       this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor})`);
     }
+    this.formatTooltip(widget);
+  }
+
+  protected override formatSlider(widget: FIGSliderWidget): void {
+    const size: number = FIGSliderWidget.getArraySize(widget.dataType);
+    const varValue: string = this.formatVar(`${widget.label} value${size > 0 ? 's' : ''}`, widget.type);
+    const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
+    const precision: number | undefined = FIGSliderWidget.getPrecision(widget);
+    const isInteger: boolean = FIGSliderWidget.isInteger(widget.dataType);
+    const args: string[] = [this.formatString(widget.label), varValue];
+    const fn: string = this.sliderFormatter[widget.sliderType][widget.dataType];
+    let value: string;
+
+    if (size === 0) {
+      const number: number = widget.value as number;
+
+      value = isInteger ? number.toString() : number.toFixed(precision);
+    } else {
+      const numbers: number[] = widget.value as number[];
+
+      value = numbers.map((item) => isInteger ? item.toString() : item.toFixed(precision)).join(', ');
+      value = `{${value}}`;
+    }
+    if (widget.sliderType === FIGSliderType.drag) {
+      args.push(widget.valueSpeed.toString());
+    }
+    args.push(widget.valueMin.toString());
+    args.push(widget.valueMax.toString());
+    args.push(this.formatString(widget.format));
+    if (!FIGSliderWidget.isInteger(widget.dataType) && widget.power !== 0) {
+      args.push(widget.power.toString());
+    }
+    this.append(`local ${varValue} = ${value}, ${varUsed}`);
+    this.append(`${varValue}, ${varUsed} = ${fn}(${args.join(', ')})`);
     this.formatTooltip(widget);
   }
 

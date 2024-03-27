@@ -103,6 +103,11 @@
                                       [widget]="widget!"
                                       (update)="update.emit($event)"></fig-vertical-slider-properties>
     }
+    @case (FIGWidgetType.slider) {
+      <fig-slider-properties class="properties"
+                             [widget]="widget!"
+                             (update)="update.emit($event)"></fig-slider-properties>
+    }
     @case (FIGWidgetType.listbox) {
       <fig-listbox-properties class="properties"
                               [widget]="widget!"

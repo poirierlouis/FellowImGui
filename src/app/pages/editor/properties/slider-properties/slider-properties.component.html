@@ -1,0 +1,126 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="sliderType">
+      <mat-option [value]="FIGSliderType.slider">Slider</mat-option>
+      <mat-option [value]="FIGSliderType.drag">Drag</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Data Type</mat-label>
+    <mat-select formControlName="dataType">
+      <mat-option [value]="FIGSliderDataType.int">int</mat-option>
+      <mat-option [value]="FIGSliderDataType.int2">int2</mat-option>
+      <mat-option [value]="FIGSliderDataType.int3">int3</mat-option>
+      <mat-option [value]="FIGSliderDataType.int4">int4</mat-option>
+      <mat-divider></mat-divider>
+      <mat-option [value]="FIGSliderDataType.float">float</mat-option>
+      <mat-option [value]="FIGSliderDataType.float2">float2</mat-option>
+      <mat-option [value]="FIGSliderDataType.float3">float3</mat-option>
+      <mat-option [value]="FIGSliderDataType.float4">float4</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="row" [class.wrap]="getArraySize(widget!.dataType) === 4">
+    @switch (getArraySize(widget!.dataType)) {
+      @case (0) {
+        <mat-form-field>
+          <mat-label>Value</mat-label>
+          <input matInput type="number" [step]="step" formControlName="value0" />
+        </mat-form-field>
+      }
+      @case (2) {
+        <mat-form-field>
+          <mat-label>Values</mat-label>
+          <input matInput type="number" [step]="step" formControlName="value0" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="number" [step]="step" formControlName="value1" />
+        </mat-form-field>
+      }
+      @case (3) {
+        <mat-form-field>
+          <mat-label>Values</mat-label>
+          <input matInput type="number" [step]="step" formControlName="value0" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="number" [step]="step" formControlName="value1" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="number" [step]="step" formControlName="value2" />
+        </mat-form-field>
+      }
+      @case (4) {
+        <div class="row">
+          <mat-form-field>
+            <mat-label>Values</mat-label>
+            <input matInput type="number" [step]="step" formControlName="value0" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="number" [step]="step" formControlName="value1" />
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field>
+            <input matInput type="number" [step]="step" formControlName="value2" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="number" [step]="step" formControlName="value3" />
+          </mat-form-field>
+        </div>
+      }
+    }
+  </div>
+
+  @if (widget.sliderType === FIGSliderType.drag) {
+    <mat-form-field>
+      <mat-label>Value speed</mat-label>
+      <input matInput type="number" formControlName="valueSpeed" />
+    </mat-form-field>
+  }
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Value min</mat-label>
+      <input matInput type="number" formControlName="valueMin" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Value max</mat-label>
+      <input matInput type="number" formControlName="valueMax" />
+    </mat-form-field>
+  </div>
+
+  @if (!isInteger(widget!.dataType)) {
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Precision</mat-label>
+        <input matInput type="number" min="1" max="17" step="1" formControlName="precision" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Format</mat-label>
+        <input matInput type="text" formControlName="format" readonly />
+      </mat-form-field>
+    </div>
+  }
+
+  <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input matInput type="text" formControlName="label" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tooltip</mat-label>
+    <input matInput
+           type="text"
+           formControlName="tooltip" />
+  </mat-form-field>
+</form>

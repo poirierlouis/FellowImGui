@@ -27,6 +27,7 @@ import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
+import {FIGSliderWidget} from "../models/widgets/slider.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -78,6 +79,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.inputTextarea, fmt: this.formatInputTextarea.bind(this)},
     {type: FIGWidgetType.inputNumber, fmt: this.formatInputNumber.bind(this)},
     {type: FIGWidgetType.inputColorEdit, fmt: this.formatInputColorEdit.bind(this)},
+    {type: FIGWidgetType.slider, fmt: this.formatSlider.bind(this)},
     {type: FIGWidgetType.verticalSlider, fmt: this.formatVerticalSlider.bind(this)},
     {type: FIGWidgetType.listbox, fmt: this.formatListBox.bind(this)},
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
@@ -193,6 +195,7 @@ export abstract class FIGFormatter {
   protected abstract formatInputTextarea(widget: FIGInputTextareaWidget): void;
   protected abstract formatInputNumber(widget: FIGInputNumberWidget): void;
   protected abstract formatInputColorEdit(widget: FIGInputColorEditWidget): void;
+  protected abstract formatSlider(widget: FIGSliderWidget): void;
   protected abstract formatVerticalSlider(widget: FIGVerticalSliderWidget): void;
   protected abstract formatListBox(widget: FIGListBoxWidget): void;
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;

@@ -24,6 +24,7 @@ import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyOptions, FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeOptions, FIGTreeNodeWidget} from "./tree-node.widget";
+import {FIGSliderOptions, FIGSliderWidget} from "./slider.widget";
 
 export class FIGWidgetHelper {
 
@@ -132,6 +133,10 @@ export class FIGWidgetHelper {
 
   public static createListBox(options?: FIGListBoxOptions): FIGListBoxWidget {
     return new FIGListBoxWidget(options);
+  }
+
+  public static createSlider(options?: FIGSliderOptions): FIGSliderWidget {
+    return new FIGSliderWidget(options);
   }
 
   public static createVerticalSlider(options?: FIGVerticalSliderOptions): FIGVerticalSliderWidget {

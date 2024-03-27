@@ -27,6 +27,7 @@ import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/ve
 import {SameLinePropertiesComponent} from "./same-line-properties/same-line-properties.component";
 import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.component";
 import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-properties.component";
+import {SliderPropertiesComponent} from "./slider-properties/slider-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -43,6 +44,7 @@ import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-prop
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     TabBarPropertiesComponent,
+    SliderPropertiesComponent,
     TabItemPropertiesComponent,
     ListboxPropertiesComponent,
     CheckboxPropertiesComponent,
