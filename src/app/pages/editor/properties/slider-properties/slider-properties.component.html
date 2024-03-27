@@ -22,8 +22,8 @@
     </mat-select>
   </mat-form-field>
 
-  <div class="row" [class.wrap]="getArraySize(widget!.dataType) === 4">
-    @switch (getArraySize(widget!.dataType)) {
+  <div class="row" [class.wrap]="getArraySize(widget.dataType) === 4">
+    @switch (getArraySize(widget.dataType)) {
       @case (0) {
         <mat-form-field>
           <mat-label>Value</mat-label>
@@ -98,7 +98,7 @@
     </mat-form-field>
   </div>
 
-  @if (!isInteger(widget!.dataType)) {
+  @if (!isInteger(widget.dataType)) {
     <div class="row">
       <mat-form-field>
         <mat-label>Precision</mat-label>
