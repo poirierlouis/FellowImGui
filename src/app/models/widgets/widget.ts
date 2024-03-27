@@ -22,6 +22,7 @@ export enum FIGWidgetType {
   button,
   progressBar,
   plot,
+  treeNode,
 
   // Forms / Inputs
   label,

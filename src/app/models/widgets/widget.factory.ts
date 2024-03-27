@@ -23,6 +23,7 @@ import {FIGSameLineWidget} from "./same-line.widget";
 import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyWidget} from "./dummy.widget";
+import {FIGTreeNodeWidget} from "./tree-node.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -62,6 +63,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget()},
     {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget()},
     {type: FIGWidgetType.plot, title: 'Plot', build: () => new FIGPlotWidget()},
+    {type: FIGWidgetType.treeNode, title: 'Tree Node', build: () => new FIGTreeNodeWidget()},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, title: 'Label', build: () => new FIGLabelWidget()},
@@ -111,7 +113,8 @@ export class FIGWidgetFactory {
     return type === FIGWidgetType.window ||
       type === FIGWidgetType.collapsingHeader ||
       type === FIGWidgetType.tabBar ||
-      type === FIGWidgetType.tabItem;
+      type === FIGWidgetType.tabItem ||
+      type === FIGWidgetType.treeNode;
   }
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {

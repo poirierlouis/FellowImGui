@@ -22,6 +22,7 @@ import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
 import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget";
 import {FIGEvent} from "../../models/events/event";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -70,7 +71,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.plot)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.treeNode)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -82,7 +83,7 @@ export class EditorComponent {
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Basics · FIG',
-      size: {width: 320, height: 584}
+      size: {width: 320, height: 692}
     }, [
       FIGWidgetHelper.createBullet(),
       FIGWidgetHelper.createText({text: ''}),
@@ -126,7 +127,27 @@ export class EditorComponent {
         size: {width: 0, height: 96},
         scaleMin: -2,
         scaleMax: 2
-      })
+      }),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createTreeNode({label: 'Universe', flags: FIGTreeNodeFlags.DefaultOpen}, [
+        FIGWidgetHelper.createTreeNode({label: 'Milky Way'}, [
+          FIGWidgetHelper.createTreeNode({label: 'Solar System'}, [
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Sun'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Mercury'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Venus'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Earth'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Mars'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Jupiter'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Saturn'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Uranus'}),
+            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Neptune'})
+          ])
+        ]),
+        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Andromeda'}),
+        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Cartwheel'}),
+        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Eye of God'}),
+        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Needle'}),
+      ])
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',

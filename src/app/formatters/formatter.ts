@@ -26,6 +26,7 @@ import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
 import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
+import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -69,6 +70,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.button, fmt: this.formatButton.bind(this)},
     {type: FIGWidgetType.progressBar, fmt: this.formatProgressBar.bind(this)},
     {type: FIGWidgetType.plot, fmt: this.formatPlot.bind(this)},
+    {type: FIGWidgetType.treeNode, fmt: this.formatTreeNode.bind(this)},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
@@ -183,6 +185,7 @@ export abstract class FIGFormatter {
   protected abstract formatButton(widget: FIGButtonWidget): void;
   protected abstract formatProgressBar(widget: FIGProgressBarWidget): void;
   protected abstract formatPlot(widget: FIGPlotWidget): void;
+  protected abstract formatTreeNode(widget: FIGTreeNodeWidget): void;
 
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;

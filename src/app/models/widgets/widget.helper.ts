@@ -23,6 +23,7 @@ import {FIGSameLineWidget} from "./same-line.widget";
 import {FIGNewLineWidget} from "./new-line.widget";
 import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyOptions, FIGDummyWidget} from "./dummy.widget";
+import {FIGTreeNodeOptions, FIGTreeNodeWidget} from "./tree-node.widget";
 
 export class FIGWidgetHelper {
 
@@ -99,6 +100,13 @@ export class FIGWidgetHelper {
 
   public static createPlotHistogram(options?: FIGPlotOptions): FIGPlotWidget {
     return new FIGPlotWidget({...options, plotType: FIGPlotType.histogram});
+  }
+
+  public static createTreeNode(options?: FIGTreeNodeOptions, children: FIGWidget[] = []): FIGTreeNodeWidget {
+    const widget: FIGTreeNodeWidget = new FIGTreeNodeWidget(options);
+
+    widget.children.push(...children);
+    return widget;
   }
 
   // Forms / Inputs

@@ -27,6 +27,7 @@ import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
 import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
 import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
+import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 
 export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
@@ -266,6 +267,22 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatPlot(_widget: FIGPlotWidget): void {
+  }
+
+  protected override formatTreeNode(widget: FIGTreeNodeWidget): void {
+    const varFlags: string = this.formatFlags<FIGTreeNodeFlags>(
+      widget.flags, FIGTreeNodeWidget.flags, FIGTreeNodeFlags, 'ImGuiTreeNodeFlags'
+    );
+    const fn: string = widget.flags === 0 ? 'ImGui.TreeNode' : 'ImGui.TreeNodeEx';
+
+    this.append(`if ${fn}(${this.formatString(widget.label)}${varFlags}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.TreePop()');
+    this.popIndent();
+    this.append('end');
   }
 
   // Forms / Inputs

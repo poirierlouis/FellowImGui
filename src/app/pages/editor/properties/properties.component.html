@@ -67,6 +67,11 @@
                            [widget]="widget!"
                            (update)="update.emit($event)"></fig-plot-properties>
     }
+    @case (FIGWidgetType.treeNode) {
+      <fig-tree-node-properties class="properties"
+                                [widget]="widget!"
+                                (update)="update.emit($event)"></fig-tree-node-properties>
+    }
     <!-- Forms / Inputs -->
     @case (FIGWidgetType.label) {
       <fig-label-properties class="properties"

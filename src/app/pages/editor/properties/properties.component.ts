@@ -26,6 +26,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {VerticalSliderPropertiesComponent} from "./vertical-slider-properties/vertical-slider-properties.component";
 import {SameLinePropertiesComponent} from "./same-line-properties/same-line-properties.component";
 import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.component";
+import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -46,6 +47,7 @@ import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.comp
     ListboxPropertiesComponent,
     CheckboxPropertiesComponent,
     SameLinePropertiesComponent,
+    TreeNodePropertiesComponent,
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
