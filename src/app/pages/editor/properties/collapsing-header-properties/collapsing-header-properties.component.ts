@@ -3,8 +3,9 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {AbstractPropertiesComponent, FlagItem} from "../abstract-properties.component";
-import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../../../../models/widgets/collapsing-header.widget";
+import {FIGCollapsingHeaderWidget} from "../../../../models/widgets/collapsing-header.widget";
 import {MatOption, MatSelect} from "@angular/material/select";
+import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../../../../models/widgets/tree-node.widget";
 
 @Component({
   selector: 'fig-collapsing-header-properties',
@@ -22,7 +23,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 })
 export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesComponent<FIGCollapsingHeaderWidget> {
 
-  readonly flags: FlagItem<FIGCollapsingHeaderFlags>[] = [];
+  readonly flags: FlagItem<FIGTreeNodeFlags>[] = [];
 
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
@@ -31,9 +32,9 @@ export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesCompo
 
   constructor(dr: DestroyRef) {
     super(dr);
-    for (const flag of FIGCollapsingHeaderWidget.flags) {
+    for (const flag of FIGTreeNodeWidget.flags) {
       this.flags.push({
-        label: FIGCollapsingHeaderFlags[flag],
+        label: FIGTreeNodeFlags[flag],
         value: flag
       });
     }

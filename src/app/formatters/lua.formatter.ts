@@ -14,7 +14,7 @@ import {capitalize, formatNumber} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
-import {FIGCollapsingHeaderFlags, FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
+import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
 import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
@@ -79,8 +79,8 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void {
-    const varFlags: string = this.formatFlags<FIGCollapsingHeaderFlags>(
-      widget.flags, FIGCollapsingHeaderWidget.flags, FIGCollapsingHeaderFlags, 'ImGuiTreeNodeFlags'
+    const varFlags: string = this.formatFlags<FIGTreeNodeFlags>(
+      widget.flags, FIGTreeNodeWidget.flags, FIGTreeNodeFlags, 'ImGuiTreeNodeFlags'
     );
 
     this.append(`if ImGui.CollapsingHeader(${this.formatString(widget.label)}${varFlags}) then`);
