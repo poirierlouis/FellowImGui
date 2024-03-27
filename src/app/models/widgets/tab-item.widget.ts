@@ -38,10 +38,6 @@ export class FIGTabItemWidget extends FIGContainer {
     return this.label;
   }
 
-  public override isChildAccepted(type: FIGWidgetType): boolean {
-    return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem;
-  }
-
   public override onMoved() {
     if (!this.parent || !(this.parent instanceof FIGTabBarWidget)) {
       return;

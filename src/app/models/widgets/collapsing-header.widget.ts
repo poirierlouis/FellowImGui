@@ -41,10 +41,6 @@ export class FIGCollapsingHeaderWidget extends FIGContainer {
     return this.label;
   }
 
-  public override isChildAccepted(type: FIGWidgetType): boolean {
-    return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem;
-  }
-
   public override draw(): void {
     const isOpen: boolean = ImGui.CollapsingHeader(this.label, this.flags);
 
