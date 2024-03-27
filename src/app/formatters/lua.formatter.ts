@@ -12,7 +12,7 @@ import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {Color, Vector2} from "../models/math";
 import {capitalize, formatNumber} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
-import {FIGInputNumberType, FIGInputNumberWidget} from "../models/widgets/input-number.widget";
+import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
 import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
@@ -29,7 +29,26 @@ import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 
+interface InputNumberFormatItem {
+  readonly fn: string;
+  readonly args: (args: any) => string[];
+}
+
 export class FIGLuaFormatter extends FIGFormatter {
+  private readonly inputNumberFormatter: InputNumberFormatItem[] = [
+    {fn: 'ImGui.InputInt', args: (args) => [args.varStep, args.varStepFast]},
+    {fn: 'ImGui.InputInt2', args: () => []},
+    {fn: 'ImGui.InputInt3', args: () => []},
+    {fn: 'ImGui.InputInt4', args: () => []},
+
+    {fn: 'ImGui.InputFloat', args: (args) => [args.varStep, args.varStepFast, args.varFormat]},
+    {fn: 'ImGui.InputFloat2', args: (args) => [args.varFormat]},
+    {fn: 'ImGui.InputFloat3', args: (args) => [args.varFormat]},
+    {fn: 'ImGui.InputFloat4', args: (args) => [args.varFormat]},
+
+    {fn: 'ImGui.InputDouble', args: (args) => [args.varStep, args.varStepFast, args.varFormat]}
+  ];
+
   constructor() {
     super('Lua - sol2', CaseStyle.camelCase);
     this.notSupported.push(FIGWidgetType.plot);
@@ -326,47 +345,16 @@ export class FIGLuaFormatter extends FIGFormatter {
     const size: number = FIGInputNumberWidget.getArraySize(widget.dataType);
     const varValue: string = this.formatVar(`${widget.label} value${size > 0 ? 's' : ''}`, widget.type);
     const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
-    const varStep: string = widget.step.toString();
-    const varStepFast: string = widget.stepFast.toString();
-    const varFormat: string = this.formatString(widget.format);
     const args: string[] = [this.formatString(widget.label), varValue];
-    let fn: string;
+    const argsData: any = {
+      varStep: widget.step.toString(),
+      varStepFast: widget.stepFast.toString(),
+      varFormat: this.formatString(widget.format)
+    };
+    const format: InputNumberFormatItem = this.inputNumberFormatter[widget.dataType];
+    const fn: string = format.fn;
 
-    switch (widget.dataType) {
-      case FIGInputNumberType.int:
-        fn = 'ImGui.InputInt';
-        args.push(varStep, varStepFast);
-        break;
-      case FIGInputNumberType.int2:
-        fn = 'ImGui.InputInt2';
-        break;
-      case FIGInputNumberType.int3:
-        fn = 'ImGui.InputInt3';
-        break;
-      case FIGInputNumberType.int4:
-        fn = 'ImGui.InputInt4';
-        break;
-      case FIGInputNumberType.float:
-        fn = 'ImGui.InputFloat';
-        args.push(varStep, varStepFast, varFormat);
-        break;
-      case FIGInputNumberType.float2:
-        fn = 'ImGui.InputFloat2';
-        args.push(varFormat);
-        break;
-      case FIGInputNumberType.float3:
-        fn = 'ImGui.InputFloat3';
-        args.push(varFormat);
-        break;
-      case FIGInputNumberType.float4:
-        fn = 'ImGui.InputFloat4';
-        args.push(varFormat);
-        break;
-      case FIGInputNumberType.double:
-        fn = 'ImGui.InputDouble';
-        args.push(varStep, varStepFast, varFormat);
-        break;
-    }
+    args.push(...format.args(argsData));
     const precision: number | undefined = FIGInputNumberWidget.getPrecision(widget);
     const isInteger: boolean = FIGInputNumberWidget.isInteger(widget.dataType);
     let value: string;

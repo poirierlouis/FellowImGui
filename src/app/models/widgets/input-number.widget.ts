@@ -25,7 +25,35 @@ export interface FIGInputNumberOptions extends FIGTooltipOption {
   readonly dataType?: FIGInputNumberType;
 }
 
+interface DrawItem {
+  readonly fn: (...args: any[]) => any;
+  readonly args: (self: FIGInputNumberWidget) => any[];
+}
+
 export class FIGInputNumberWidget extends FIGWithTooltip {
+  private static readonly drawers: DrawItem[] = [
+    {
+      fn: ImGui.InputInt,
+      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast]
+    },
+    {fn: ImGui.InputInt2, args: (self: FIGInputNumberWidget) => [self.value]},
+    {fn: ImGui.InputInt3, args: (self: FIGInputNumberWidget) => [self.value]},
+    {fn: ImGui.InputInt4, args: (self: FIGInputNumberWidget) => [self.value]},
+
+    {
+      fn: ImGui.InputFloat,
+      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast, self.format]
+    },
+    {fn: ImGui.InputFloat2, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
+    {fn: ImGui.InputFloat3, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
+    {fn: ImGui.InputFloat4, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
+
+    {
+      fn: ImGui.InputDouble,
+      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast, self.format]
+    }
+  ];
+
   label: string;
   dataType: FIGInputNumberType;
   value: number | number[];
@@ -77,48 +105,11 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
 
   public override draw(): void {
     const prevValue: number | number[] = (this.value instanceof Array) ? [...this.value] : this.value;
+    const drawer: DrawItem = FIGInputNumberWidget.drawers[this.dataType];
     const args: any[] = [this.label];
-    let fn: (...args: any[]) => void;
 
-    switch (this.dataType) {
-      case FIGInputNumberType.int:
-        fn = ImGui.InputInt;
-        args.push((_ = this.value) => this.value = _, this.step, this.stepFast);
-        break;
-      case FIGInputNumberType.int2:
-        fn = ImGui.InputInt2;
-        args.push(this.value);
-        break;
-      case FIGInputNumberType.int3:
-        fn = ImGui.InputInt3;
-        args.push(this.value);
-        break;
-      case FIGInputNumberType.int4:
-        fn = ImGui.InputInt4;
-        args.push(this.value);
-        break;
-      case FIGInputNumberType.float:
-        fn = ImGui.InputFloat;
-        args.push((_ = this.value) => this.value = _, this.step, this.stepFast, this.format);
-        break;
-      case FIGInputNumberType.float2:
-        fn = ImGui.InputFloat2;
-        args.push(this.value, this.format);
-        break;
-      case FIGInputNumberType.float3:
-        fn = ImGui.InputFloat3;
-        args.push(this.value, this.format);
-        break;
-      case FIGInputNumberType.float4:
-        fn = ImGui.InputFloat4;
-        args.push(this.value, this.format);
-        break;
-      case FIGInputNumberType.double:
-        fn = ImGui.InputDouble;
-        args.push((_ = this.value) => this.value = _, this.step, this.stepFast, this.format);
-        break;
-    }
-    fn(...args);
+    args.push(...drawer.args(this));
+    drawer.fn(...args);
     if (this.diffValues(this.value, prevValue)) {
       this.triggerUpdate();
     }
