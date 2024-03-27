@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {FIGDocument} from "../../../models/document";
 
 @Component({
@@ -15,11 +15,13 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
   private isRendering: boolean = true;
   private isResizing: boolean = false;
+  private hasFocus: boolean = false;
   private lastFrame: any;
 
   private document!: FIGDocument;
 
-  constructor(private readonly el: ElementRef) {
+  constructor(private readonly el: ElementRef,
+              private readonly renderer: Renderer2) {
   }
 
   @Input('document')
@@ -56,6 +58,16 @@ export class CanvasComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.resize();
+  }
+
+  @HostListener('mouseenter')
+  onFocusEnter(): void {
+    this.hasFocus = true;
+  }
+
+  @HostListener('mouseleave')
+  onFocusLeave(): void {
+    this.hasFocus = false;
   }
 
   ngOnDestroy(): void {
@@ -104,6 +116,9 @@ export class CanvasComponent implements OnInit, OnDestroy {
     ImGui_Impl.RenderDrawData(frame);
     if (!this.isRendering) {
       return;
+    }
+    if (!this.hasFocus && document.body.style.cursor !== 'default') {
+      this.renderer.setStyle(document.body, 'cursor', 'default');
     }
     window.requestAnimationFrame(this.render.bind(this));
   }
