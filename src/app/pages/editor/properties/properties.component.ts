@@ -28,6 +28,7 @@ import {SameLinePropertiesComponent} from "./same-line-properties/same-line-prop
 import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.component";
 import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-properties.component";
 import {SliderPropertiesComponent} from "./slider-properties/slider-properties.component";
+import {ChildWindowPropertiesComponent} from "./child-window-properties/child-window-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -53,6 +54,7 @@ import {SliderPropertiesComponent} from "./slider-properties/slider-properties.c
     InputTextPropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
+    ChildWindowPropertiesComponent,
     InputTextareaPropertiesComponent,
     InputColorEditPropertiesComponent,
     VerticalSliderPropertiesComponent,

@@ -28,6 +28,7 @@ import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGSliderWidget} from "../models/widgets/slider.widget";
+import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -56,6 +57,7 @@ export abstract class FIGFormatter {
   private readonly formatters: FIGFormatterItem[] = [
     // Layouts
     {type: FIGWidgetType.window, fmt: this.formatWindow.bind(this)},
+    {type: FIGWidgetType.childWindow, fmt: this.formatChildWindow.bind(this)},
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
     {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
@@ -171,6 +173,7 @@ export abstract class FIGFormatter {
 
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;
+  protected abstract formatChildWindow(widget: FIGChildWindowWidget): void;
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatTabBar(widget: FIGTabBarWidget): void;
   protected abstract formatTabItem(widget: FIGTabItemWidget): void;

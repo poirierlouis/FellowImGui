@@ -25,6 +25,7 @@ import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyOptions, FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeOptions, FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderOptions, FIGSliderWidget} from "./slider.widget";
+import {FIGChildWindowOptions, FIGChildWindowWidget} from "./child-window.widget";
 
 export class FIGWidgetHelper {
 
@@ -32,6 +33,14 @@ export class FIGWidgetHelper {
   public static createWindow(options?: FIGWindowOptions,
                              children: FIGWidget[] = []): FIGWindowWidget {
     const widget: FIGWindowWidget = new FIGWindowWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createChildWindow(options?: FIGChildWindowOptions,
+                                  children: FIGWidget[] = []): FIGChildWindowWidget {
+    const widget: FIGChildWindowWidget = new FIGChildWindowWidget(options);
 
     widget.children.push(...children);
     return widget;

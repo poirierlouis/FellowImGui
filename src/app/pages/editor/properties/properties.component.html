@@ -21,6 +21,11 @@
                              [widget]="widget"
                              (update)="update.emit($event)"></fig-window-properties>
     }
+    @case (FIGWidgetType.childWindow) {
+      <fig-child-window-properties class="properties"
+                                   [widget]="widget"
+                                   (update)="update.emit($event)"></fig-child-window-properties>
+    }
     @case (FIGWidgetType.collapsingHeader) {
       <fig-collapsing-header-properties class="properties"
                                         [widget]="widget"

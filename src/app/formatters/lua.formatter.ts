@@ -29,6 +29,7 @@ import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
 import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGSliderType, FIGSliderWidget} from "../models/widgets/slider.widget";
+import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -108,6 +109,39 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.formatWidget(child);
     }
     this.append('ImGui.End()');
+  }
+
+  protected override formatChildWindow(widget: FIGChildWindowWidget): void {
+    const isPercentage = (value: number) => value > 0.0 && value <= 1.0;
+    const varWidth: string = this.formatVar(`${widget.label} width`, widget.type);
+    const varHeight: string = this.formatVar(`${widget.label} height`, widget.type);
+    const varArgs: string[] = [this.formatString(widget.label)];
+    let width: string = widget.size.width.toString();
+    let height: string = widget.size.height.toString();
+
+    if (isPercentage(widget.size.width) || isPercentage(widget.size.height)) {
+      this.append(`local ${varWidth}, ${varHeight} = ImGui.GetContentRegionAvail()`);
+      if (isPercentage(widget.size.width)) {
+        width += ` * ${varWidth}`;
+      }
+      if (isPercentage(widget.size.height)) {
+        height += ` * ${varHeight}`;
+      }
+    }
+    varArgs.push(width);
+    varArgs.push(height);
+    varArgs.push(widget.frameBorder.toString());
+    if (widget.flags !== 0) {
+      varArgs.push(this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags'));
+    }
+    this.append(`if ImGui.BeginChild(${varArgs.join(', ')}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndChild()');
+    this.popIndent();
+    this.append('end');
   }
 
   protected override formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void {

@@ -7,6 +7,7 @@ import {FIGEvent, FIGEventType} from "../events/event";
 export enum FIGWidgetType {
   // Layouts
   window,
+  childWindow,
   collapsingHeader,
   tabBar,
   tabItem,

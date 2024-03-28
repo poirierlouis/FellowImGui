@@ -25,6 +25,7 @@ import {FIGSpacingWidget} from "./spacing.widget";
 import {FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderWidget} from "./slider.widget";
+import {FIGChildWindowWidget} from "./child-window.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -37,6 +38,11 @@ export class FIGWidgetFactory {
   public static readonly builders: FIGWidgetBuilder[] = [
     // Layouts
     {type: FIGWidgetType.window, title: 'Window', build: (id: number) => new FIGWindowWidget({label: `Window ${id}`})},
+    {
+      type: FIGWidgetType.childWindow,
+      title: 'Child Window',
+      build: (id: number) => new FIGChildWindowWidget({label: `Child Window ${id}`})
+    },
     {
       type: FIGWidgetType.collapsingHeader,
       title: 'Collapsing Header',

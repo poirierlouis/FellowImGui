@@ -286,6 +286,13 @@ export class EditorComponent {
         tooltip: 'Where should we go?'
       })
     ]);
+    const itemsLeft: FIGWidget[] = [];
+    const itemsRight: FIGWidget[] = [];
+
+    for (let i: number = 0; i < 20; i++) {
+      itemsLeft.push(FIGWidgetHelper.createText({text: `Item ${i + 1}`}));
+      itemsRight.push(FIGWidgetHelper.createText({text: `Item ${i + 1}`}));
+    }
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Layouts · FIG',
       size: {width: 342, height: 418}
@@ -340,7 +347,19 @@ export class EditorComponent {
           FIGWidgetHelper.createText({text: 'Species: Eucalyptus regnans', isWrapped: true}),
           FIGWidgetHelper.createText({text: 'Location: Tasmania, Australia', isWrapped: true}),
         ]),
-      ])
+      ]),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createChildWindow({label: 'Left', size: {width: 0.5, height: 0.5}}, [
+        FIGWidgetHelper.createText({text: 'Left Child Window'}),
+        FIGWidgetHelper.createNewLine(),
+        ...itemsLeft
+      ]),
+      FIGWidgetHelper.createSameLine(),
+      FIGWidgetHelper.createChildWindow({label: 'Right'}, [
+        FIGWidgetHelper.createText({text: 'Right Child Window'}),
+        FIGWidgetHelper.createNewLine(),
+        ...itemsRight
+      ]),
     ]);
 
     this.document.root.push(basics);
