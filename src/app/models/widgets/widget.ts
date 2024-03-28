@@ -24,6 +24,7 @@ export enum FIGWidgetType {
   progressBar,
   plot,
   treeNode,
+  selectable,
 
   // Forms / Inputs
   label,

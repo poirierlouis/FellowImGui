@@ -29,6 +29,7 @@ import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
+import {FIGSelectableWidget} from "../models/widgets/selectable.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -74,6 +75,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.progressBar, fmt: this.formatProgressBar.bind(this)},
     {type: FIGWidgetType.plot, fmt: this.formatPlot.bind(this)},
     {type: FIGWidgetType.treeNode, fmt: this.formatTreeNode.bind(this)},
+    {type: FIGWidgetType.selectable, fmt: this.formatSelectable.bind(this)},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
@@ -191,6 +193,7 @@ export abstract class FIGFormatter {
   protected abstract formatProgressBar(widget: FIGProgressBarWidget): void;
   protected abstract formatPlot(widget: FIGPlotWidget): void;
   protected abstract formatTreeNode(widget: FIGTreeNodeWidget): void;
+  protected abstract formatSelectable(widget: FIGSelectableWidget): void;
 
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;

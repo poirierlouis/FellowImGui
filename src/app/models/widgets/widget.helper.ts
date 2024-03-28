@@ -26,6 +26,7 @@ import {FIGDummyOptions, FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeOptions, FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderOptions, FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowOptions, FIGChildWindowWidget} from "./child-window.widget";
+import {FIGSelectableOptions, FIGSelectableWidget} from "./selectable.widget";
 
 export class FIGWidgetHelper {
 
@@ -117,6 +118,10 @@ export class FIGWidgetHelper {
 
     widget.children.push(...children);
     return widget;
+  }
+
+  public static createSelectable(options?: FIGSelectableOptions): FIGSelectableWidget {
+    return new FIGSelectableWidget(options);
   }
 
   // Forms / Inputs

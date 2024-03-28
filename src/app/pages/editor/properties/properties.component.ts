@@ -29,6 +29,7 @@ import {DummyPropertiesComponent} from "./dummy-properties/dummy-properties.comp
 import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-properties.component";
 import {SliderPropertiesComponent} from "./slider-properties/slider-properties.component";
 import {ChildWindowPropertiesComponent} from "./child-window-properties/child-window-properties.component";
+import {SelectablePropertiesComponent} from "./selectable-properties/selectable-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -52,6 +53,7 @@ import {ChildWindowPropertiesComponent} from "./child-window-properties/child-wi
     SameLinePropertiesComponent,
     TreeNodePropertiesComponent,
     InputTextPropertiesComponent,
+    SelectablePropertiesComponent,
     ProgressBarPropertiesComponent,
     InputNumberPropertiesComponent,
     ChildWindowPropertiesComponent,

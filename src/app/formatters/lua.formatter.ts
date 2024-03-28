@@ -30,6 +30,7 @@ import {FIGDummyWidget} from "../models/widgets/dummy.widget";
 import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGSliderType, FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
+import {FIGSelectableFlags, FIGSelectableWidget} from "../models/widgets/selectable.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -352,6 +353,28 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.TreePop()');
     this.popIndent();
     this.append('end');
+  }
+
+  protected override formatSelectable(widget: FIGSelectableWidget): void {
+    const varSelected: string = this.formatVar(`${widget.text} selected`, widget.type);
+    const varArgs: string[] = [this.formatString(widget.text), varSelected];
+    let varFlags: string = this.formatFlags<FIGSelectableFlags>(
+      widget.flags, FIGSelectableWidget.flags, FIGSelectableFlags, 'ImGuiSelectableFlags'
+    );
+
+    varFlags = (widget.flags === 0) ? '0' : varFlags.slice(2);
+    if (widget.flags !== 0 || widget.size.width !== 0 || widget.size.height !== 0) {
+      varArgs.push(varFlags);
+      if (widget.size.width !== 0 || widget.size.height !== 0) {
+        varArgs.push(widget.size.width.toString());
+      }
+      if (widget.size.height !== 0) {
+        varArgs.push(widget.size.height.toString());
+      }
+    }
+    this.append(`local ${varSelected} = ${widget.selected}`);
+    this.append(`${varSelected} = ImGui.Selectable(${varArgs.join(', ')})`);
+    this.formatTooltip(widget);
   }
 
   // Forms / Inputs

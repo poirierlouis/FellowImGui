@@ -24,6 +24,7 @@ import {FIGEvent} from "../../models/events/event";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
 import {FIGSliderDataType, FIGSliderType} from "../../models/widgets/slider.widget";
+import {FIGSelectableFlags} from "../../models/widgets/selectable.widget";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -72,7 +73,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.treeNode)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.selectable)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -100,6 +101,13 @@ export class EditorComponent {
           'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
       }),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createText({text: 'Click to select:'}),
+      FIGWidgetHelper.createSelectable({text: 'Red'}),
+      FIGWidgetHelper.createSelectable({text: 'Blue'}),
+      FIGWidgetHelper.createSelectable({text: 'Green', tooltip: 'Smile :D'}),
+      FIGWidgetHelper.createSelectable({text: 'Alpha'}),
+      FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createButton({label: 'Simple button'}),
       FIGWidgetHelper.createSameLine(),

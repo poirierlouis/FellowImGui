@@ -26,6 +26,7 @@ import {FIGDummyWidget} from "./dummy.widget";
 import {FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowWidget} from "./child-window.widget";
+import {FIGSelectableWidget} from "./selectable.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -71,6 +72,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.progressBar, title: 'Progress Bar', build: () => new FIGProgressBarWidget()},
     {type: FIGWidgetType.plot, title: 'Plot', build: () => new FIGPlotWidget()},
     {type: FIGWidgetType.treeNode, title: 'Tree Node', build: () => new FIGTreeNodeWidget()},
+    {type: FIGWidgetType.selectable, title: 'Selectable', build: () => new FIGSelectableWidget()},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, title: 'Label', build: () => new FIGLabelWidget()},
