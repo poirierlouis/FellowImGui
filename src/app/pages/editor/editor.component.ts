@@ -95,7 +95,7 @@ export class EditorComponent {
       FIGWidgetHelper.createText({text: 'I\'m a bullet!', hasBullet: true}),
       FIGWidgetHelper.createText({text: 'I\'m one with a tooltip!', tooltip: 'Explain me!'}),
       FIGWidgetHelper.createText({
-        text: 'I\'m "complex and long". Lorem ipsum dolor sit amet, consectetur adipiscing ' +
+        text: 'I\'m "complex" and long. Lorem ipsum dolor sit amet, consectetur adipiscing ' +
           'elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
           'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
