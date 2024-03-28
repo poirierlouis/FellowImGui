@@ -245,6 +245,9 @@ export class FIGLuaFormatter extends FIGFormatter {
   }
 
   protected override formatText(widget: FIGTextWidget): void {
+    if (widget.align) {
+      this.append('ImGui.AlignTextToFramePadding()');
+    }
     if (!widget.hasBullet && !widget.isDisabled && !widget.color && !widget.isWrapped) {
       this.append(`ImGui.Text(${this.formatString(widget.text)})`);
     } else if (widget.hasBullet && !widget.isWrapped) {

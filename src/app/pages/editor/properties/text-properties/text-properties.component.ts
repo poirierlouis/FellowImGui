@@ -37,6 +37,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     isDisabled: new FormControl<boolean>(false),
     isWrapped: new FormControl<boolean>(false),
     hasBullet: new FormControl<boolean>(false),
+    align: new FormControl<boolean>(false),
   });
 
   constructor(dr: DestroyRef) {
@@ -47,6 +48,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     this.listenProperty('isDisabled').subscribe(this.onIsDisabledChanged.bind(this));
     this.listenProperty('isWrapped').subscribe(this.onIsWrappedChanged.bind(this));
     this.listenProperty('hasBullet').subscribe(this.onHasBulletChanged.bind(this));
+    this.listenProperty('align').subscribe(this.onAlignChanged.bind(this));
   }
 
   protected onColorPickerOpened(): void {
@@ -67,6 +69,7 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
     this.setProperty('isDisabled', this.widget.isDisabled);
     this.setProperty('isWrapped', this.widget.isWrapped);
     this.setProperty('hasBullet', this.widget.hasBullet);
+    this.setProperty('align', this.widget.align);
   }
 
   private onTextChanged(value: string): void {
@@ -99,6 +102,11 @@ export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGText
 
   private onHasBulletChanged(value: boolean): void {
     this.widget.hasBullet = value;
+    this.update.emit();
+  }
+
+  private onAlignChanged(value: boolean): void {
+    this.widget.align = value;
     this.update.emit();
   }
 

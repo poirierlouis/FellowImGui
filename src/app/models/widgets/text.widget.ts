@@ -8,6 +8,7 @@ export interface FIGTextOptions extends FIGTooltipOption {
   readonly isDisabled?: boolean;
   readonly isWrapped?: boolean;
   readonly hasBullet?: boolean;
+  readonly align?: boolean;
 }
 
 export class FIGTextWidget extends FIGWithTooltip {
@@ -16,6 +17,7 @@ export class FIGTextWidget extends FIGWithTooltip {
   isDisabled: boolean;
   isWrapped: boolean;
   hasBullet: boolean;
+  align: boolean;
 
   constructor(options?: FIGTextOptions) {
     super(FIGWidgetType.text, true);
@@ -24,6 +26,7 @@ export class FIGTextWidget extends FIGWithTooltip {
     this.isDisabled = options?.isDisabled ?? false;
     this.isWrapped = options?.isWrapped ?? false;
     this.hasBullet = options?.hasBullet ?? false;
+    this.align = options?.align ?? false;
     this.tooltip = options?.tooltip;
   }
 
@@ -32,6 +35,9 @@ export class FIGTextWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
+    if (this.align) {
+      ImGui.AlignTextToFramePadding();
+    }
     if (this.isDisabled) {
       ImGui.BeginDisabled(true);
     } else if (this.color) {
