@@ -326,9 +326,9 @@ export class EditorComponent {
         flags: FIGTabBarFlags.Reorderable | FIGTabBarFlags.FittingPolicyScroll
       }, [
         FIGWidgetHelper.createTabItem({label: 'Africa'}, [
-          FIGWidgetHelper.createText({text: 'Name: El Drago Milenario', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Dracaena draco', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Icod de los Vinos, Tenerife', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Name: Wonderboom', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Species: Ficus salicifolia', isWrapped: true}),
+          FIGWidgetHelper.createText({text: 'Location: Pretoria, South Africa', isWrapped: true}),
         ]),
         FIGWidgetHelper.createTabItem({label: 'Asia'}, [
           FIGWidgetHelper.createText({text: 'Name: King Cypress', isWrapped: true}),
