@@ -123,6 +123,7 @@ export class FIGWidgetFactory {
 
   public static isContainer(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.window ||
+      type === FIGWidgetType.childWindow ||
       type === FIGWidgetType.collapsingHeader ||
       type === FIGWidgetType.tabBar ||
       type === FIGWidgetType.tabItem ||
