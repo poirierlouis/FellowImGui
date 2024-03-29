@@ -27,6 +27,7 @@ export enum FIGWidgetType {
   plot,
   treeNode,
   selectable,
+  popup,
 
   // Forms / Inputs
   label,

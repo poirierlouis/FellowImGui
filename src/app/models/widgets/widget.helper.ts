@@ -29,6 +29,7 @@ import {FIGChildWindowOptions, FIGChildWindowWidget} from "./child-window.widget
 import {FIGSelectableOptions, FIGSelectableWidget} from "./selectable.widget";
 import {FIGGroupWidget} from "./group.widget";
 import {FIGModalOptions, FIGModalWidget} from "./modal.widget";
+import {FIGPopupOptions, FIGPopupWidget} from "./popup.widget";
 
 export class FIGWidgetHelper {
 
@@ -139,6 +140,13 @@ export class FIGWidgetHelper {
 
   public static createSelectable(options?: FIGSelectableOptions): FIGSelectableWidget {
     return new FIGSelectableWidget(options);
+  }
+
+  public static createPopup(options?: FIGPopupOptions, children: FIGWidget[] = []): FIGPopupWidget {
+    const widget: FIGPopupWidget = new FIGPopupWidget(options);
+
+    widget.children.push(...children);
+    return widget;
   }
 
   // Forms / Inputs

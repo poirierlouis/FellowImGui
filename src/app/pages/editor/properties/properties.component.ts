@@ -31,6 +31,7 @@ import {SliderPropertiesComponent} from "./slider-properties/slider-properties.c
 import {ChildWindowPropertiesComponent} from "./child-window-properties/child-window-properties.component";
 import {SelectablePropertiesComponent} from "./selectable-properties/selectable-properties.component";
 import {ModalPropertiesComponent} from "./modal-properties/modal-properties.component";
+import {PopupPropertiesComponent} from "./popup-properties/popup-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -45,6 +46,7 @@ import {ModalPropertiesComponent} from "./modal-properties/modal-properties.comp
     RadioPropertiesComponent,
     DummyPropertiesComponent,
     ModalPropertiesComponent,
+    PopupPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     TabBarPropertiesComponent,

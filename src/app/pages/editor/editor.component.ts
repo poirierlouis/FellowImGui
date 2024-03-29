@@ -73,7 +73,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.selectable)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.popup)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -157,6 +157,21 @@ export class EditorComponent {
       FIGWidgetHelper.createSelectable({text: 'Blue'}),
       FIGWidgetHelper.createSelectable({text: 'Alpha'}),
       FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createPopup({label: 'Popup'}, [
+        FIGWidgetHelper.createText({text: 'New'}),
+        FIGWidgetHelper.createText({text: 'Open'}),
+        FIGWidgetHelper.createText({text: 'Save'}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createText({text: 'Quit'}),
+      ]),
+      FIGWidgetHelper.createPopup({label: 'Popup Context Item', contextItem: true}, [
+        FIGWidgetHelper.createText({text: 'Right'}),
+        FIGWidgetHelper.createText({text: 'Click'}),
+        FIGWidgetHelper.createText({text: 'Achieved'}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createText({text: 'Well done!'}),
+      ]),
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',

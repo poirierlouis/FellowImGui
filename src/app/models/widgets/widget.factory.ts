@@ -29,6 +29,7 @@ import {FIGChildWindowWidget} from "./child-window.widget";
 import {FIGSelectableWidget} from "./selectable.widget";
 import {FIGGroupWidget} from "./group.widget";
 import {FIGModalWidget} from "./modal.widget";
+import {FIGPopupWidget} from "./popup.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -81,6 +82,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.plot, title: 'Plot', build: () => new FIGPlotWidget()},
     {type: FIGWidgetType.treeNode, title: 'Tree Node', build: () => new FIGTreeNodeWidget()},
     {type: FIGWidgetType.selectable, title: 'Selectable', build: () => new FIGSelectableWidget()},
+    {type: FIGWidgetType.popup, title: 'Popup', build: () => new FIGPopupWidget()},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, title: 'Label', build: () => new FIGLabelWidget()},
@@ -139,7 +141,8 @@ export class FIGWidgetFactory {
       type === FIGWidgetType.tabBar ||
       type === FIGWidgetType.tabItem ||
       type === FIGWidgetType.group ||
-      type === FIGWidgetType.treeNode;
+      type === FIGWidgetType.treeNode ||
+      type === FIGWidgetType.popup;
   }
 
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {

@@ -33,6 +33,7 @@ import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableFlags, FIGSelectableWidget} from "../models/widgets/selectable.widget";
 import {FIGGroupWidget} from "../models/widgets/group.widget";
 import {FIGModalWidget} from "../models/widgets/modal.widget";
+import {FIGPopupWidget} from "../models/widgets/popup.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -405,6 +406,34 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append(`local ${varSelected} = ${widget.selected}`);
     this.append(`${varSelected} = ImGui.Selectable(${varArgs.join(', ')})`);
     this.formatTooltip(widget);
+  }
+
+  protected override formatPopup(widget: FIGPopupWidget): void {
+    const varLabel: string = this.formatString(widget.label);
+    const fn: string = (widget.contextItem) ? 'BeginPopupContextItem' : 'BeginPopup';
+
+    if (widget.contextItem) {
+      this.append(`-- ImGui.Button(${this.formatString(widget.debugLabel)})`);
+    } else {
+      this.append('--[[');
+      this.append(`if ImGui.Button(${this.formatString(widget.debugLabel)}) then`);
+      this.appendIndent(`ImGui.OpenPopup(${varLabel})`);
+      this.append('end');
+      this.append('--]]');
+    }
+    this.append(`if ImGui.${fn}(${varLabel}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('--[[');
+    this.append('if ImGui.Button("Close") then');
+    this.appendIndent('ImGui.CloseCurrentPopup()');
+    this.append('end');
+    this.append('--]]');
+    this.append('ImGui.EndPopup()');
+    this.popIndent();
+    this.append('end');
   }
 
   // Forms / Inputs

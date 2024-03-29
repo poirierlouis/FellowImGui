@@ -32,6 +32,7 @@ import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableWidget} from "../models/widgets/selectable.widget";
 import {FIGGroupWidget} from "../models/widgets/group.widget";
 import {FIGModalWidget} from "../models/widgets/modal.widget";
+import {FIGPopupWidget} from "../models/widgets/popup.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -80,6 +81,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.plot, fmt: this.formatPlot.bind(this)},
     {type: FIGWidgetType.treeNode, fmt: this.formatTreeNode.bind(this)},
     {type: FIGWidgetType.selectable, fmt: this.formatSelectable.bind(this)},
+    {type: FIGWidgetType.popup, fmt: this.formatPopup.bind(this)},
 
     // Forms / Inputs
     {type: FIGWidgetType.label, fmt: this.formatLabel.bind(this)},
@@ -200,6 +202,7 @@ export abstract class FIGFormatter {
   protected abstract formatPlot(widget: FIGPlotWidget): void;
   protected abstract formatTreeNode(widget: FIGTreeNodeWidget): void;
   protected abstract formatSelectable(widget: FIGSelectableWidget): void;
+  protected abstract formatPopup(widget: FIGPopupWidget): void;
 
   // Forms / Inputs
   protected abstract formatLabel(widget: FIGLabelWidget): void;
