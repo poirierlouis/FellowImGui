@@ -8,6 +8,7 @@ export enum FIGWidgetType {
   // Layouts
   window,
   childWindow,
+  modal,
   collapsingHeader,
   tabBar,
   tabItem,

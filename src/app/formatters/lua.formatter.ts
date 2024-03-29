@@ -32,6 +32,7 @@ import {FIGSliderType, FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableFlags, FIGSelectableWidget} from "../models/widgets/selectable.widget";
 import {FIGGroupWidget} from "../models/widgets/group.widget";
+import {FIGModalWidget} from "../models/widgets/modal.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -142,6 +143,26 @@ export class FIGLuaFormatter extends FIGFormatter {
       this.formatWidget(child);
     }
     this.append('ImGui.EndChild()');
+    this.popIndent();
+    this.append('end');
+  }
+
+  protected override formatModal(widget: FIGModalWidget): void {
+    const varLabel: string = this.formatString(widget.label);
+
+    this.append('--[[');
+    this.append(`if ImGui.Button(${this.formatString(`Open ${widget.label}`)}) then`);
+    this.appendIndent(`ImGui.OpenPopup(${varLabel})`);
+    this.append('end');
+    this.append('--]]');
+    const varFlags: string = this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags');
+
+    this.append(`if ImGui.BeginPopupModal(${varLabel}, true${varFlags}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndPopup()');
     this.popIndent();
     this.append('end');
   }

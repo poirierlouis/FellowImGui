@@ -28,6 +28,7 @@ import {FIGSliderOptions, FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowOptions, FIGChildWindowWidget} from "./child-window.widget";
 import {FIGSelectableOptions, FIGSelectableWidget} from "./selectable.widget";
 import {FIGGroupWidget} from "./group.widget";
+import {FIGModalOptions, FIGModalWidget} from "./modal.widget";
 
 export class FIGWidgetHelper {
 
@@ -43,6 +44,14 @@ export class FIGWidgetHelper {
   public static createChildWindow(options?: FIGChildWindowOptions,
                                   children: FIGWidget[] = []): FIGChildWindowWidget {
     const widget: FIGChildWindowWidget = new FIGChildWindowWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createModal(options?: FIGModalOptions,
+                            children: FIGWidget[] = []): FIGModalWidget {
+    const widget: FIGModalWidget = new FIGModalWidget(options);
 
     widget.children.push(...children);
     return widget;

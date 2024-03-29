@@ -28,6 +28,7 @@ import {FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowWidget} from "./child-window.widget";
 import {FIGSelectableWidget} from "./selectable.widget";
 import {FIGGroupWidget} from "./group.widget";
+import {FIGModalWidget} from "./modal.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -44,6 +45,11 @@ export class FIGWidgetFactory {
       type: FIGWidgetType.childWindow,
       title: 'Child Window',
       build: (id: number) => new FIGChildWindowWidget({label: `Child Window ${id}`})
+    },
+    {
+      type: FIGWidgetType.modal,
+      title: 'Modal',
+      build: (id: number) => new FIGModalWidget({label: `Modal ${id}`})
     },
     {
       type: FIGWidgetType.collapsingHeader,
@@ -128,6 +134,7 @@ export class FIGWidgetFactory {
   public static isContainer(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.window ||
       type === FIGWidgetType.childWindow ||
+      type === FIGWidgetType.modal ||
       type === FIGWidgetType.collapsingHeader ||
       type === FIGWidgetType.tabBar ||
       type === FIGWidgetType.tabItem ||

@@ -303,7 +303,7 @@ export class EditorComponent {
     }
     const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Layouts · FIG',
-      size: {width: 342, height: 418}
+      size: {width: 364, height: 758}
     }, [
       FIGWidgetHelper.createCollapsingHeader({
         label: 'Header'
@@ -319,6 +319,13 @@ export class EditorComponent {
         FIGWidgetHelper.createText({text: '(v) Dummy (100 x 100)'}),
         FIGWidgetHelper.createDummy({width: 100, height: 100, tooltip: 'Empty space'}),
         FIGWidgetHelper.createButton(),
+      ]),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createModal({label: 'Modal'}, [
+        FIGWidgetHelper.createText({text: 'I\'m visible.'}),
+        FIGWidgetHelper.createModal({label: 'Nested modal'}, [
+          FIGWidgetHelper.createText({text: 'Modal-ception.'}),
+        ]),
       ]),
       FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createGroup([

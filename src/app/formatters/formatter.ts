@@ -31,6 +31,7 @@ import {FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableWidget} from "../models/widgets/selectable.widget";
 import {FIGGroupWidget} from "../models/widgets/group.widget";
+import {FIGModalWidget} from "../models/widgets/modal.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -60,6 +61,7 @@ export abstract class FIGFormatter {
     // Layouts
     {type: FIGWidgetType.window, fmt: this.formatWindow.bind(this)},
     {type: FIGWidgetType.childWindow, fmt: this.formatChildWindow.bind(this)},
+    {type: FIGWidgetType.modal, fmt: this.formatModal.bind(this)},
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
     {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
@@ -178,6 +180,7 @@ export abstract class FIGFormatter {
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;
   protected abstract formatChildWindow(widget: FIGChildWindowWidget): void;
+  protected abstract formatModal(widget: FIGModalWidget): void;
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatTabBar(widget: FIGTabBarWidget): void;
   protected abstract formatTabItem(widget: FIGTabItemWidget): void;

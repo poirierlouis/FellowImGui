@@ -30,6 +30,7 @@ import {TreeNodePropertiesComponent} from "./tree-node-properties/tree-node-prop
 import {SliderPropertiesComponent} from "./slider-properties/slider-properties.component";
 import {ChildWindowPropertiesComponent} from "./child-window-properties/child-window-properties.component";
 import {SelectablePropertiesComponent} from "./selectable-properties/selectable-properties.component";
+import {ModalPropertiesComponent} from "./modal-properties/modal-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -43,6 +44,7 @@ import {SelectablePropertiesComponent} from "./selectable-properties/selectable-
     LabelPropertiesComponent,
     RadioPropertiesComponent,
     DummyPropertiesComponent,
+    ModalPropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     TabBarPropertiesComponent,
