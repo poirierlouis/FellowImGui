@@ -42,8 +42,8 @@
     }
 
     &[data-direction="insert"] {
-      height: 48px;
-      margin-top: -48px;
+      height: 38px;
+      margin-top: -38px;
       box-sizing: border-box;
       border: 2px solid $primary;
       background-color: color.change($primary, $alpha: 0.10);

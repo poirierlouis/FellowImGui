@@ -12,6 +12,8 @@
       background-color: transparent;
 
       & .mat-tree-node {
+        min-height: 38px;
+
         &:hover,
         &.dragged {
           background-color: $hover;
