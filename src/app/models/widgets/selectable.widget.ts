@@ -46,7 +46,7 @@ export class FIGSelectableWidget extends FIGWithTooltip {
 
     ImGui.Selectable(this.text, (_ = this.selected) => this.selected = _, this.flags, size);
     if (prevSelected !== this.selected) {
-      this.updateSubject.next();
+      this.triggerUpdate();
     }
     super.drawTooltip();
     super.drawFocus();
