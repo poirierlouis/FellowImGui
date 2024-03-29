@@ -321,6 +321,19 @@ export class EditorComponent {
         FIGWidgetHelper.createButton(),
       ]),
       FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createGroup([
+        FIGWidgetHelper.createText({text: 'Group', align: true}),
+        FIGWidgetHelper.createSameLine(),
+        FIGWidgetHelper.createText({text: 'lock'}),
+        FIGWidgetHelper.createSameLine(),
+        FIGWidgetHelper.createGroup([
+          FIGWidgetHelper.createButton({label: 'horizontal'}),
+          FIGWidgetHelper.createButton({label: 'position'}),
+        ]),
+        FIGWidgetHelper.createSameLine(),
+        FIGWidgetHelper.createText({text: 'see?'}),
+      ]),
+      FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createTabBar({
         label: '##Trees',
         flags: FIGTabBarFlags.Reorderable | FIGTabBarFlags.FittingPolicyScroll

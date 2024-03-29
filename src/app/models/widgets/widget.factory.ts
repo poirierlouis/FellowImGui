@@ -27,6 +27,7 @@ import {FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowWidget} from "./child-window.widget";
 import {FIGSelectableWidget} from "./selectable.widget";
+import {FIGGroupWidget} from "./group.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -59,6 +60,7 @@ export class FIGWidgetFactory {
       title: 'Tab Item',
       build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})
     },
+    {type: FIGWidgetType.group, title: 'Group', build: () => new FIGGroupWidget()},
     {type: FIGWidgetType.sameLine, title: 'SameLine', build: () => new FIGSameLineWidget()},
     {type: FIGWidgetType.newLine, title: 'NewLine', build: () => new FIGNewLineWidget()},
     {type: FIGWidgetType.spacing, title: 'Spacing', build: () => new FIGSpacingWidget()},
@@ -129,6 +131,7 @@ export class FIGWidgetFactory {
       type === FIGWidgetType.collapsingHeader ||
       type === FIGWidgetType.tabBar ||
       type === FIGWidgetType.tabItem ||
+      type === FIGWidgetType.group ||
       type === FIGWidgetType.treeNode;
   }
 

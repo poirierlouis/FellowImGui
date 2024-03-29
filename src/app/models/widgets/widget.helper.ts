@@ -27,6 +27,7 @@ import {FIGTreeNodeOptions, FIGTreeNodeWidget} from "./tree-node.widget";
 import {FIGSliderOptions, FIGSliderWidget} from "./slider.widget";
 import {FIGChildWindowOptions, FIGChildWindowWidget} from "./child-window.widget";
 import {FIGSelectableOptions, FIGSelectableWidget} from "./selectable.widget";
+import {FIGGroupWidget} from "./group.widget";
 
 export class FIGWidgetHelper {
 
@@ -63,6 +64,13 @@ export class FIGWidgetHelper {
 
   public static createTabItem(options?: FIGTabItemOptions, children: FIGWidget[] = []): FIGTabItemWidget {
     const widget: FIGTabItemWidget = new FIGTabItemWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createGroup(children: FIGWidget[] = []): FIGGroupWidget {
+    const widget: FIGGroupWidget = new FIGGroupWidget();
 
     widget.children.push(...children);
     return widget;

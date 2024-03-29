@@ -31,6 +31,7 @@ import {FIGTreeNodeFlags, FIGTreeNodeWidget} from "../models/widgets/tree-node.w
 import {FIGSliderType, FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableFlags, FIGSelectableWidget} from "../models/widgets/selectable.widget";
+import {FIGGroupWidget} from "../models/widgets/group.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -200,6 +201,14 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.EndTabItem()');
     this.popIndent();
     this.append('end');
+  }
+
+  protected override formatGroup(widget: FIGGroupWidget): void {
+    this.append('ImGui.BeginGroup()');
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndGroup()');
   }
 
   protected override formatSameLine(widget: FIGSameLineWidget): void {

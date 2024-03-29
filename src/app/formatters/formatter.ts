@@ -30,6 +30,7 @@ import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGSliderWidget} from "../models/widgets/slider.widget";
 import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
 import {FIGSelectableWidget} from "../models/widgets/selectable.widget";
+import {FIGGroupWidget} from "../models/widgets/group.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -62,6 +63,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
     {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
+    {type: FIGWidgetType.group, fmt: this.formatGroup.bind(this)},
     {type: FIGWidgetType.sameLine, fmt: this.formatSameLine.bind(this)},
     {type: FIGWidgetType.newLine, fmt: this.formatNewLine.bind(this)},
     {type: FIGWidgetType.spacing, fmt: this.formatSpacing.bind(this)},
@@ -179,6 +181,7 @@ export abstract class FIGFormatter {
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatTabBar(widget: FIGTabBarWidget): void;
   protected abstract formatTabItem(widget: FIGTabItemWidget): void;
+  protected abstract formatGroup(widget: FIGGroupWidget): void;
   protected abstract formatSameLine(widget: FIGSameLineWidget): void;
   protected abstract formatNewLine(widget: FIGNewLineWidget): void;
   protected abstract formatSpacing(widget: FIGSpacingWidget): void;

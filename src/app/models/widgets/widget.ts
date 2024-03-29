@@ -11,6 +11,7 @@ export enum FIGWidgetType {
   collapsingHeader,
   tabBar,
   tabItem,
+  group,
   sameLine,
   newLine,
   spacing,
