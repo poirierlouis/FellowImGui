@@ -102,13 +102,6 @@ export class EditorComponent {
         color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
       }),
       FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createText({text: 'Click to select:'}),
-      FIGWidgetHelper.createSelectable({text: 'Red'}),
-      FIGWidgetHelper.createSelectable({text: 'Green', tooltip: 'Smile :D'}),
-      FIGWidgetHelper.createSelectable({text: 'Blue'}),
-      FIGWidgetHelper.createSelectable({text: 'Alpha'}),
-      FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
-      FIGWidgetHelper.createSeparator(),
       FIGWidgetHelper.createButton({label: 'Simple button'}),
       FIGWidgetHelper.createSameLine(),
       FIGWidgetHelper.createButton({label: 'Small button', isSmall: true}),
@@ -156,7 +149,14 @@ export class EditorComponent {
         FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Cartwheel'}),
         FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Eye of God'}),
         FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Needle'}),
-      ])
+      ]),
+      FIGWidgetHelper.createSeparator(),
+      FIGWidgetHelper.createText({text: 'Click to select:'}),
+      FIGWidgetHelper.createSelectable({text: 'Red'}),
+      FIGWidgetHelper.createSelectable({text: 'Green', tooltip: 'Smile :D'}),
+      FIGWidgetHelper.createSelectable({text: 'Blue'}),
+      FIGWidgetHelper.createSelectable({text: 'Alpha'}),
+      FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
       label: 'Forms / Inputs · FIG',
