@@ -20,6 +20,7 @@ export class FormatterService {
   }
 
   public format(document: FIGDocument): string | undefined {
+    // TODO: create a deep copy of document to prevent formatter from mutating widgets.
     return this.formatter?.format(document);
   }
 
