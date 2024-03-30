@@ -30,6 +30,7 @@ import {FIGSelectableOptions, FIGSelectableWidget} from "./selectable.widget";
 import {FIGGroupWidget} from "./group.widget";
 import {FIGModalOptions, FIGModalWidget} from "./modal.widget";
 import {FIGPopupOptions, FIGPopupWidget} from "./popup.widget";
+import {FIGMenuItemOptions, FIGMenuItemWidget} from "./menu-item.widget";
 
 export class FIGWidgetHelper {
 
@@ -147,6 +148,10 @@ export class FIGWidgetHelper {
 
     widget.children.push(...children);
     return widget;
+  }
+
+  public static createMenuItem(options?: FIGMenuItemOptions): FIGMenuItemWidget {
+    return new FIGMenuItemWidget(options);
   }
 
   // Forms / Inputs

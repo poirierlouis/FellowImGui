@@ -32,6 +32,7 @@ import {ChildWindowPropertiesComponent} from "./child-window-properties/child-wi
 import {SelectablePropertiesComponent} from "./selectable-properties/selectable-properties.component";
 import {ModalPropertiesComponent} from "./modal-properties/modal-properties.component";
 import {PopupPropertiesComponent} from "./popup-properties/popup-properties.component";
+import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -56,6 +57,7 @@ import {PopupPropertiesComponent} from "./popup-properties/popup-properties.comp
     CheckboxPropertiesComponent,
     SameLinePropertiesComponent,
     TreeNodePropertiesComponent,
+    MenuItemPropertiesComponent,
     InputTextPropertiesComponent,
     SelectablePropertiesComponent,
     ProgressBarPropertiesComponent,

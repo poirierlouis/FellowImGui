@@ -92,6 +92,11 @@
                             [widget]="widget"
                             (update)="update.emit($event)"></fig-popup-properties>
     }
+    @case (FIGWidgetType.menuItem) {
+      <fig-menu-item-properties class="properties"
+                                [widget]="widget"
+                                (update)="update.emit($event)"></fig-menu-item-properties>
+    }
     <!-- Forms / Inputs -->
     @case (FIGWidgetType.label) {
       <fig-label-properties class="properties"

@@ -34,6 +34,7 @@ import {FIGSelectableFlags, FIGSelectableWidget} from "../models/widgets/selecta
 import {FIGGroupWidget} from "../models/widgets/group.widget";
 import {FIGModalWidget} from "../models/widgets/modal.widget";
 import {FIGPopupWidget} from "../models/widgets/popup.widget";
+import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -434,6 +435,31 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.EndPopup()');
     this.popIndent();
     this.append('end');
+  }
+
+  protected override formatMenuItem(widget: FIGMenuItemWidget): void {
+    const varActivated: string = this.formatVar(`${widget.label} activated`, widget.type);
+    const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
+    const args: string[] = [this.formatString(widget.label)];
+    let varDef: string = '';
+
+    if (widget.shortcut || widget.isSelectable || !widget.enabled) {
+      args.push(this.formatString(widget.shortcut ?? ''));
+    }
+    if (widget.isSelectable || !widget.enabled) {
+      this.append(`local ${varSelected} = false`);
+      args.push(varSelected);
+    }
+    if (!widget.enabled) {
+      args.push('false');
+    }
+    if (args.length <= 2) {
+      varDef = `local ${varActivated} = `;
+    } else {
+      this.append(`local ${varActivated}`);
+      varDef = `${varSelected}, ${varActivated} = `;
+    }
+    this.append(`${varDef}ImGui.MenuItem(${args.join(', ')})`);
   }
 
   // Forms / Inputs

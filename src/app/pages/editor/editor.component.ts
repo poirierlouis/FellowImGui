@@ -73,7 +73,7 @@ export class EditorComponent {
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.popup)},
+    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.menuItem)},
     {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
@@ -158,19 +158,21 @@ export class EditorComponent {
       FIGWidgetHelper.createSelectable({text: 'Alpha'}),
       FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
       FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createPopup({label: 'Popup'}, [
-        FIGWidgetHelper.createText({text: 'New'}),
-        FIGWidgetHelper.createText({text: 'Open'}),
-        FIGWidgetHelper.createText({text: 'Save'}),
+      FIGWidgetHelper.createPopup({label: '##Popup'}, [
+        FIGWidgetHelper.createMenuItem({label: 'New'}),
+        FIGWidgetHelper.createMenuItem({label: 'Open', shortcut: 'CTRL+O'}),
+        FIGWidgetHelper.createMenuItem({label: 'Save', enabled: false}),
         FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createText({text: 'Quit'}),
+        FIGWidgetHelper.createMenuItem({label: 'Debug mode', isSelectable: true, isSelected: true}),
+        FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createMenuItem({label: 'Quit', shortcut: 'ALT+F4'}),
       ]),
-      FIGWidgetHelper.createPopup({label: 'Popup Context Item', contextItem: true}, [
-        FIGWidgetHelper.createText({text: 'Right'}),
-        FIGWidgetHelper.createText({text: 'Click'}),
-        FIGWidgetHelper.createText({text: 'Achieved'}),
+      FIGWidgetHelper.createPopup({label: '##PopupContextItem', contextItem: true}, [
+        FIGWidgetHelper.createMenuItem({label: 'Copy'}),
+        FIGWidgetHelper.createMenuItem({label: 'Cut'}),
+        FIGWidgetHelper.createMenuItem({label: 'Paste'}),
         FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createText({text: 'Well done!'}),
+        FIGWidgetHelper.createMenuItem({label: 'Print', shortcut: 'CTRL+P', enabled: false}),
       ]),
     ]);
     const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
