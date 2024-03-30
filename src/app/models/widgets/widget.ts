@@ -72,6 +72,19 @@ export abstract class FIGWidget {
     this.needParent = needParent;
   }
 
+  public static isContainer(type: FIGWidgetType): boolean {
+    return type === FIGWidgetType.window ||
+      type === FIGWidgetType.childWindow ||
+      type === FIGWidgetType.modal ||
+      type === FIGWidgetType.collapsingHeader ||
+      type === FIGWidgetType.tabBar ||
+      type === FIGWidgetType.tabItem ||
+      type === FIGWidgetType.group ||
+      type === FIGWidgetType.treeNode ||
+      type === FIGWidgetType.popup ||
+      type === FIGWidgetType.menu;
+  }
+
   public abstract get name(): string;
 
   public abstract draw(): void;

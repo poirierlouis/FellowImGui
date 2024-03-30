@@ -137,18 +137,6 @@ export class FIGWidgetFactory {
 
   private static id: number = 0;
 
-  public static isContainer(type: FIGWidgetType): boolean {
-    return type === FIGWidgetType.window ||
-      type === FIGWidgetType.childWindow ||
-      type === FIGWidgetType.modal ||
-      type === FIGWidgetType.collapsingHeader ||
-      type === FIGWidgetType.tabBar ||
-      type === FIGWidgetType.tabItem ||
-      type === FIGWidgetType.group ||
-      type === FIGWidgetType.treeNode ||
-      type === FIGWidgetType.popup;
-  }
-
   public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
     const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
 

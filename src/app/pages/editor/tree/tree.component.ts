@@ -17,7 +17,6 @@ import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";
 import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
-import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {DragDirective} from "../../../directives/drag.directive";
 import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
 import {DragHandleDirective} from "../../../directives/drag-handle.directive";
@@ -75,7 +74,7 @@ export class TreeComponent {
         level: level,
         name: widget.name,
         icon: FIGWidgetType[widget.type],
-        isContainer: FIGWidgetFactory.isContainer(widget.type),
+        isContainer: FIGWidget.isContainer(widget.type),
         widget: widget
       };
     },
