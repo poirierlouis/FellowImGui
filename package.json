@@ -33,6 +33,7 @@
     "@angular/compiler-cli": "^17.2.0",
     "@types/hammerjs": "^2.0.45",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^20.12.2",
     "@types/uuid": "^9.0.8",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
