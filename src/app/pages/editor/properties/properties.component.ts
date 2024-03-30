@@ -33,6 +33,7 @@ import {SelectablePropertiesComponent} from "./selectable-properties/selectable-
 import {ModalPropertiesComponent} from "./modal-properties/modal-properties.component";
 import {PopupPropertiesComponent} from "./popup-properties/popup-properties.component";
 import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-properties.component";
+import {MenuPropertiesComponent} from "./menu-properties/menu-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -42,6 +43,7 @@ import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-prop
     MatTooltip,
     TextPropertiesComponent,
     PlotPropertiesComponent,
+    MenuPropertiesComponent,
     ComboPropertiesComponent,
     LabelPropertiesComponent,
     RadioPropertiesComponent,

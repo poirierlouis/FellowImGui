@@ -31,6 +31,7 @@ import {FIGGroupWidget} from "./group.widget";
 import {FIGModalOptions, FIGModalWidget} from "./modal.widget";
 import {FIGPopupOptions, FIGPopupWidget} from "./popup.widget";
 import {FIGMenuItemOptions, FIGMenuItemWidget} from "./menu-item.widget";
+import {FIGMenuOptions, FIGMenuWidget} from "./menu.widget";
 
 export class FIGWidgetHelper {
 
@@ -145,6 +146,13 @@ export class FIGWidgetHelper {
 
   public static createPopup(options?: FIGPopupOptions, children: FIGWidget[] = []): FIGPopupWidget {
     const widget: FIGPopupWidget = new FIGPopupWidget(options);
+
+    widget.children.push(...children);
+    return widget;
+  }
+
+  public static createMenu(options?: FIGMenuOptions, children: FIGWidget[] = []): FIGMenuWidget {
+    const widget: FIGMenuWidget = new FIGMenuWidget(options);
 
     widget.children.push(...children);
     return widget;

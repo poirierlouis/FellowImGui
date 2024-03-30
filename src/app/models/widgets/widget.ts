@@ -28,6 +28,7 @@ export enum FIGWidgetType {
   treeNode,
   selectable,
   popup,
+  menu,
   menuItem,
 
   // Forms / Inputs

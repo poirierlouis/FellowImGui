@@ -31,6 +31,7 @@ import {FIGGroupWidget} from "./group.widget";
 import {FIGModalWidget} from "./modal.widget";
 import {FIGPopupWidget} from "./popup.widget";
 import {FIGMenuItemWidget} from "./menu-item.widget";
+import {FIGMenuWidget} from "./menu.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -84,6 +85,7 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.treeNode, title: 'Tree Node', build: () => new FIGTreeNodeWidget()},
     {type: FIGWidgetType.selectable, title: 'Selectable', build: () => new FIGSelectableWidget()},
     {type: FIGWidgetType.popup, title: 'Popup', build: () => new FIGPopupWidget()},
+    {type: FIGWidgetType.menu, title: 'Menu', build: () => new FIGMenuWidget()},
     {type: FIGWidgetType.menuItem, title: 'Menu Item', build: () => new FIGMenuItemWidget()},
 
     // Forms / Inputs

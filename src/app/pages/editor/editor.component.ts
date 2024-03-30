@@ -165,6 +165,11 @@ export class EditorComponent {
         FIGWidgetHelper.createSeparator(),
         FIGWidgetHelper.createMenuItem({label: 'Debug mode', isSelectable: true, isSelected: true}),
         FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createMenu({label: 'Help'}, [
+          FIGWidgetHelper.createMenuItem({label: 'Getting started', enabled: false}),
+          FIGWidgetHelper.createMenuItem({label: 'License'}),
+          FIGWidgetHelper.createMenuItem({label: 'About', shortcut: 'F1'}),
+        ]),
         FIGWidgetHelper.createMenuItem({label: 'Quit', shortcut: 'ALT+F4'}),
       ]),
       FIGWidgetHelper.createPopup({label: '##PopupContextItem', contextItem: true}, [
@@ -172,6 +177,10 @@ export class EditorComponent {
         FIGWidgetHelper.createMenuItem({label: 'Cut'}),
         FIGWidgetHelper.createMenuItem({label: 'Paste'}),
         FIGWidgetHelper.createSeparator(),
+        FIGWidgetHelper.createMenu({label: 'Find'}, [
+          FIGWidgetHelper.createMenuItem({label: 'Find...', shortcut: 'CTRL+F'}),
+          FIGWidgetHelper.createMenuItem({label: 'Replace...', shortcut: 'CTRL+R'}),
+        ]),
         FIGWidgetHelper.createMenuItem({label: 'Print', shortcut: 'CTRL+P', enabled: false}),
       ]),
     ]);

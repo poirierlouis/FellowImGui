@@ -34,6 +34,7 @@ import {FIGGroupWidget} from "../models/widgets/group.widget";
 import {FIGModalWidget} from "../models/widgets/modal.widget";
 import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
+import {FIGMenuWidget} from "../models/widgets/menu.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -83,6 +84,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.treeNode, fmt: this.formatTreeNode.bind(this)},
     {type: FIGWidgetType.selectable, fmt: this.formatSelectable.bind(this)},
     {type: FIGWidgetType.popup, fmt: this.formatPopup.bind(this)},
+    {type: FIGWidgetType.menu, fmt: this.formatMenu.bind(this)},
     {type: FIGWidgetType.menuItem, fmt: this.formatMenuItem.bind(this)},
 
     // Forms / Inputs
@@ -205,6 +207,7 @@ export abstract class FIGFormatter {
   protected abstract formatTreeNode(widget: FIGTreeNodeWidget): void;
   protected abstract formatSelectable(widget: FIGSelectableWidget): void;
   protected abstract formatPopup(widget: FIGPopupWidget): void;
+  protected abstract formatMenu(widget: FIGMenuWidget): void;
   protected abstract formatMenuItem(widget: FIGMenuItemWidget): void;
 
   // Forms / Inputs

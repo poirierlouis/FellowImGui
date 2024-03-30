@@ -35,6 +35,7 @@ import {FIGGroupWidget} from "../models/widgets/group.widget";
 import {FIGModalWidget} from "../models/widgets/modal.widget";
 import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
+import {FIGMenuWidget} from "../models/widgets/menu.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -433,6 +434,19 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('end');
     this.append('--]]');
     this.append('ImGui.EndPopup()');
+    this.popIndent();
+    this.append('end');
+  }
+
+  protected override formatMenu(widget: FIGMenuWidget): void {
+    const varDisabled: string = !widget.enabled ? ', false' : '';
+
+    this.append(`if ImGui.BeginMenu(${this.formatString(widget.label)}${varDisabled}) then`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndMenu()');
     this.popIndent();
     this.append('end');
   }
