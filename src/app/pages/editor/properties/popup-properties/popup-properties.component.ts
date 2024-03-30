@@ -1,6 +1,6 @@
 import {Component, DestroyRef} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
@@ -12,6 +12,7 @@ import {FIGPopupWidget} from "../../../../models/widgets/popup.widget";
   imports: [
     MatInput,
     MatLabel,
+    MatPrefix,
     MatFormField,
     MatSlideToggle,
     ReactiveFormsModule
@@ -22,7 +23,7 @@ import {FIGPopupWidget} from "../../../../models/widgets/popup.widget";
 export class PopupPropertiesComponent extends AbstractPropertiesComponent<FIGPopupWidget> {
 
   override form: FormGroup = new FormGroup<any>({
-    label: new FormControl<string>(''),
+    label: new FormControl<string>('##'),
     contextItem: new FormControl<boolean>(false),
     debugLabel: new FormControl<string | null>('Open \'\''),
     debug: new FormControl<boolean>(true),
@@ -37,14 +38,18 @@ export class PopupPropertiesComponent extends AbstractPropertiesComponent<FIGPop
   }
 
   protected override updateForm() {
-    this.setProperty('label', this.widget.label);
+    this.setProperty('label', this.widget.label.slice(2));
     this.setProperty('contextItem', this.widget.contextItem);
     this.setProperty('debugLabel', this.widget.debugLabel);
     this.setProperty('debug', this.widget.debug);
   }
 
   private onLabelChanged(value: string): void {
-    this.widget.label = value;
+    value = value.trim();
+    if (value.startsWith('##')) {
+      value = value.slice(2);
+    }
+    this.widget.label = `##${value}`;
     this.update.emit();
   }
 

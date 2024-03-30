@@ -15,15 +15,15 @@ export class FIGPopupWidget extends FIGContainer {
 
   constructor(options?: FIGPopupOptions) {
     super(FIGWidgetType.popup, true);
-    this.label = options?.label ?? 'Popup';
+    this.label = options?.label ?? '##Popup';
     this.contextItem = options?.contextItem ?? false;
     this.isOpen = false;
-    this.debugLabel = `Open '${this.label}'`;
+    this.debugLabel = `Open '${this.label.slice(2)}'`;
     this.debug = true;
   }
 
   public get name(): string {
-    return this.label;
+    return this.label.slice(2);
   }
 
   public override draw(): void {
