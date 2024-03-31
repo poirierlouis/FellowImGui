@@ -33,7 +33,7 @@ export class FIGPlotWidget extends FIGWidget {
     super(FIGWidgetType.plot, true);
     this.plotType = options?.plotType ?? FIGPlotType.lines;
     this.label = options?.label ?? 'Lines';
-    this.values = options?.values ?? plotSin(216);
+    this.values = options?.values ?? plotSin(31);
     this.valueOffset = options?.valueOffset;
     this.overlayText = options?.overlayText;
     this.scaleMin = options?.scaleMin;
