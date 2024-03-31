@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGMenuOptions {
   readonly label?: string;
@@ -7,6 +8,11 @@ export interface FIGMenuOptions {
 }
 
 export class FIGMenuWidget extends FIGContainer {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'enabled', optional: true, default: true}
+  ];
+
   label: string;
   enabled: boolean;
 

@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Vector2} from "../math";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGProgressBarOptions extends FIGTooltipOption {
   readonly value?: number;
@@ -9,6 +10,13 @@ export interface FIGProgressBarOptions extends FIGTooltipOption {
 }
 
 export class FIGProgressBarWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'value', optional: true, default: 0.0},
+    {name: 'label', optional: true, default: undefined},
+    {name: 'isFill', optional: true, default: false},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   value: number;
   label?: string;
   isFill: boolean;

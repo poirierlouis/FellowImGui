@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {getEnumValues} from "../enum";
 import {FIGContainer} from "./container";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGTreeNodeFlags {
   Selected = 1,
@@ -26,6 +27,10 @@ export interface FIGTreeNodeOptions {
 
 export class FIGTreeNodeWidget extends FIGContainer {
   public static readonly flags: FIGTreeNodeFlags[] = getEnumValues(FIGTreeNodeFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   flags: number;

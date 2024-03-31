@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
 import {getEnumValues} from "../enum";
 import {FIGTabBarFlags, FIGTabBarWidget} from "./tab-bar.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGTabItemFlags {
   UnsavedDocument = 1,
@@ -21,6 +22,10 @@ export interface FIGTabItemOptions {
 
 export class FIGTabItemWidget extends FIGContainer {
   public static readonly flags: FIGTabItemFlags[] = getEnumValues(FIGTabItemFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   flags: number;

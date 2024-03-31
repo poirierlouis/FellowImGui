@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Color} from "../math";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGInputColorEditOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -9,6 +10,13 @@ export interface FIGInputColorEditOptions extends FIGTooltipOption {
 }
 
 export class FIGInputColorEditWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'color', type: 'object', innerType: [{name: 'r'}, {name: 'g'}, {name: 'b'}, {name: 'a'}]},
+    {name: 'withAlpha', optional: true, default: false},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   label: string;
   color: Color;
   withAlpha: boolean;

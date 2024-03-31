@@ -1,6 +1,7 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
 import {BehaviorSubject} from "rxjs";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export class FIGRadioAccessor {
   readonly groupId: string;
@@ -46,6 +47,13 @@ export interface FIGRadioOptions extends FIGTooltipOption {
 }
 
 export class FIGRadioWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'groupId'},
+    {name: 'label'},
+    {name: 'tooltip', optional: true, default: undefined},
+    {name: 'index', optional: true, default: 0}
+  ];
+
   private static readonly _accessors: FIGRadioAccessor[] = [];
 
   groupId: string;

@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {Color} from "../math";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGTextOptions extends FIGTooltipOption {
   readonly text?: string;
@@ -12,6 +13,22 @@ export interface FIGTextOptions extends FIGTooltipOption {
 }
 
 export class FIGTextWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'text'},
+    {
+      name: 'color',
+      optional: true,
+      default: undefined,
+      type: 'object',
+      innerType: [{name: 'r'}, {name: 'g'}, {name: 'b'}, {name: 'a'}]
+    },
+    {name: 'isDisabled', optional: true, default: false},
+    {name: 'isWrapped', optional: true, default: false},
+    {name: 'hasBullet', optional: true, default: false},
+    {name: 'align', optional: true, default: false},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   text: string;
   color?: Color;
   isDisabled: boolean;

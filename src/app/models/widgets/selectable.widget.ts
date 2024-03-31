@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Size, Vector2} from "../math";
 import {getEnumValues} from "../enum";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGSelectableFlags {
   DontClosePopups = 1,
@@ -20,6 +21,18 @@ export interface FIGSelectableOptions extends FIGTooltipOption {
 
 export class FIGSelectableWidget extends FIGWithTooltip {
   public static readonly flags: FIGSelectableFlags[] = getEnumValues(FIGSelectableFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'text'},
+    {name: 'selected', optional: true, default: false},
+    {name: 'flags', optional: true, default: 0},
+    {
+      name: 'size', type: 'object', innerType: [
+        {name: 'width'},
+        {name: 'height'}
+      ]
+    },
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
 
   text: string;
   selected: boolean;

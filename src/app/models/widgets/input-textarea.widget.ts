@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {FIGInputTextFlags} from "./input-text.widget";
 import {Vector2} from "../math";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGInputTextareaOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -12,6 +13,14 @@ export interface FIGInputTextareaOptions extends FIGTooltipOption {
 }
 
 export class FIGInputTextareaWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'value', optional: true, default: ''},
+    {name: 'tooltip', optional: true, default: undefined},
+    {name: 'linesSize', optional: true, default: 6},
+    {name: 'bufferSize', optional: true, default: 256},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   value: string;

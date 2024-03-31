@@ -1,5 +1,6 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
 import {plotSin, Size, Vector2} from "../math";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGPlotType {
   lines,
@@ -19,6 +20,23 @@ export interface FIGPlotOptions {
 }
 
 export class FIGPlotWidget extends FIGWidget {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'plotType', optional: true, default: FIGPlotType.lines},
+    {name: 'label'},
+    {name: 'valueOffset', optional: true, default: undefined},
+    {name: 'overlayText', optional: true, default: undefined},
+    {name: 'scaleMin', optional: true, default: undefined},
+    {name: 'scaleMax', optional: true, default: undefined},
+    {
+      name: 'size',
+      optional: true,
+      default: undefined,
+      type: 'object',
+      innerType: [{name: 'width'}, {name: 'height'}]
+    },
+    {name: 'stride', optional: true, default: undefined}
+  ];
+
   plotType: FIGPlotType;
   label: string;
   values: number[];

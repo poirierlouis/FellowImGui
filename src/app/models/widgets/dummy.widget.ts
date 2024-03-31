@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGDummyOptions extends FIGTooltipOption {
   readonly width?: number;
@@ -7,6 +8,12 @@ export interface FIGDummyOptions extends FIGTooltipOption {
 }
 
 export class FIGDummyWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'width', optional: true, default: 100},
+    {name: 'height', optional: true, default: 100},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   width: number;
   height: number;
 

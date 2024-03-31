@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Vector2} from "../math";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGDir {
   left,
@@ -18,6 +19,14 @@ export interface FIGButtonOptions extends FIGTooltipOption {
 }
 
 export class FIGButtonWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'isFill', optional: true, default: false},
+    {name: 'isSmall', optional: true, default: false},
+    {name: 'arrow', optional: true, default: FIGDir.none},
+    {name: 'tooltip', optional: true, default: undefined},
+  ];
+
   label: string;
   isFill: boolean;
   isSmall: boolean;
@@ -49,4 +58,5 @@ export class FIGButtonWidget extends FIGWithTooltip {
     super.drawTooltip();
     super.drawFocus();
   }
+
 }

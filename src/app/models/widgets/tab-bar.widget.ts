@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
 import {getEnumValues} from "../enum";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGTabBarFlags {
   Reorderable = 1,
@@ -20,6 +21,11 @@ export interface FIGTabBarOptions {
 
 export class FIGTabBarWidget extends FIGContainer {
   public static readonly flags: FIGTabBarFlags[] = getEnumValues(FIGTabBarFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'flags', optional: true, default: 0},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
 
   label: string;
   flags: number;

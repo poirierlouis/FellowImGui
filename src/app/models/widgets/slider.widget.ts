@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {getPrecision} from "../string";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGSliderType {
   slider,
@@ -37,6 +38,19 @@ interface DrawItem {
 }
 
 export class FIGSliderWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'sliderType', optional: true, default: FIGSliderType.slider},
+    {name: 'dataType'},
+    {name: 'value'},
+    {name: 'valueSpeed', optional: true, default: 0.01},
+    {name: 'valueMin'},
+    {name: 'valueMax'},
+    {name: 'format'},
+    {name: 'power', optional: true, default: 0},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   private static readonly drawSliderInt = (self: FIGSliderWidget) => [
     (_ = self.value) => self.value = _, self.valueMin, self.valueMax, self.format
   ];

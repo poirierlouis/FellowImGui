@@ -2,6 +2,7 @@ import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
 import {Size} from "../math";
 import {getEnumValues} from "../enum";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGWindowFlags {
   NoTitleBar = 1,
@@ -38,6 +39,11 @@ export interface FIGWindowOptions {
 
 export class FIGWindowWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'size', type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   size: Size;

@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGComboOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -7,6 +8,12 @@ export interface FIGComboOptions extends FIGTooltipOption {
 }
 
 export class FIGComboWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'items', optional: true, default: []},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   label: string;
   readonly items: string[];
 

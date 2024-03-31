@@ -1,5 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGCollapsingHeaderOptions {
   readonly label?: string;
@@ -7,6 +8,11 @@ export interface FIGCollapsingHeaderOptions {
 }
 
 export class FIGCollapsingHeaderWidget extends FIGContainer {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'flags', optional: true, default: 0},
+  ];
+
   label: string;
   flags: number;
 

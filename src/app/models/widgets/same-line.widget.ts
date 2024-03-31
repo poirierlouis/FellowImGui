@@ -1,4 +1,5 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGSameLineOptions {
   readonly offsetFromStart?: number;
@@ -6,6 +7,11 @@ export interface FIGSameLineOptions {
 }
 
 export class FIGSameLineWidget extends FIGWidget {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'offsetFromStart', optional: true, default: undefined},
+    {name: 'spacing', optional: true, default: undefined}
+  ];
+
   offsetFromStart?: number;
   spacing?: number;
 

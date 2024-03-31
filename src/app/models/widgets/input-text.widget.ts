@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {getEnumValues} from "../enum";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGInputTextFlags {
   CharsDecimal = 1,
@@ -36,6 +37,14 @@ export interface FIGInputTextOptions extends FIGTooltipOption {
 
 export class FIGInputTextWidget extends FIGWithTooltip {
   public static readonly flags: FIGInputTextFlags[] = getEnumValues(FIGInputTextFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'value', optional: true, default: ''},
+    {name: 'hint', optional: true, default: undefined},
+    {name: 'tooltip', optional: true, default: undefined},
+    {name: 'bufferSize', optional: true, default: 256},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   value: string;

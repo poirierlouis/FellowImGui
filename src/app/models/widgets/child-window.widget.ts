@@ -3,6 +3,7 @@ import {FIGWidgetType} from "./widget";
 import {Size, Vector2} from "../math";
 import {getEnumValues} from "../enum";
 import {FIGWindowFlags} from "./window.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGChildWindowOptions {
   readonly label?: string;
@@ -13,6 +14,12 @@ export interface FIGChildWindowOptions {
 
 export class FIGChildWindowWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'size', type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
+    {name: 'frameBorder', optional: true, default: true},
+    {name: 'flags', optional: true, default: 0},
+  ];
 
   label: string;
   size: Size;
@@ -50,4 +57,5 @@ export class FIGChildWindowWidget extends FIGContainer {
     }
     super.drawFocus();
   }
+
 }

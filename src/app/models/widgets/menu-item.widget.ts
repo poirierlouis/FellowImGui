@@ -1,4 +1,5 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGMenuItemOptions {
   readonly label?: string;
@@ -9,6 +10,14 @@ export interface FIGMenuItemOptions {
 }
 
 export class FIGMenuItemWidget extends FIGWidget {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'shortcut', optional: true, default: undefined},
+    {name: 'isSelectable', optional: true, default: false},
+    {name: 'isSelected', optional: true, default: false},
+    {name: 'enabled', optional: true, default: true}
+  ];
+
   label: string;
   shortcut?: string;
   isSelectable: boolean;

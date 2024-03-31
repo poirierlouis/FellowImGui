@@ -2,6 +2,7 @@ import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
 import {getEnumValues} from "../enum";
 import {FIGWindowFlags} from "./window.widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGModalOptions {
   readonly label?: string;
@@ -11,6 +12,10 @@ export interface FIGModalOptions {
 
 export class FIGModalWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'flags', optional: true, default: 0}
+  ];
 
   label: string;
   isOpen: boolean;

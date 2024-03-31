@@ -1,5 +1,6 @@
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGPopupOptions {
   readonly label?: string;
@@ -7,6 +8,11 @@ export interface FIGPopupOptions {
 }
 
 export class FIGPopupWidget extends FIGContainer {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'contextItem', optional: true, default: false}
+  ];
+
   label: string;
   contextItem: boolean;
   isOpen: boolean;

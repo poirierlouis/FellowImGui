@@ -1,6 +1,7 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
 import {Size, Vector2} from "../math";
 import {getPrecision} from "../string";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGVerticalSliderType {
   int,
@@ -20,6 +21,18 @@ export interface FIGVerticalSliderOptions {
 }
 
 export class FIGVerticalSliderWidget extends FIGWidget {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'dataType'},
+    {name: 'label'},
+    {name: 'size', type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
+    {name: 'value', optional: true, default: 0},
+    {name: 'valueMin'},
+    {name: 'valueMax'},
+    {name: 'format'},
+    {name: 'power', optional: true, default: 0},
+    {name: 'tooltip', optional: true, default: true}
+  ];
+
   dataType: FIGVerticalSliderType;
   label: string;
   size: Size;

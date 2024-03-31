@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {getPrecision} from "../string";
+import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export enum FIGInputNumberType {
   int,
@@ -31,6 +32,16 @@ interface DrawItem {
 }
 
 export class FIGInputNumberWidget extends FIGWithTooltip {
+  public static readonly serializers: FIGSerializeProperty[] = [
+    {name: 'label'},
+    {name: 'dataType'},
+    {name: 'value', optional: true, default: 0},
+    {name: 'step'},
+    {name: 'stepFast'},
+    {name: 'format'},
+    {name: 'tooltip', optional: true, default: undefined}
+  ];
+
   private static readonly drawers: DrawItem[] = [
     {
       fn: ImGui.InputInt,
