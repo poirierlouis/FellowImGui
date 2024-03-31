@@ -1,4 +1,4 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
 import {TreeComponent} from "./tree/tree.component";
 import {FIGWindowWidget} from "../../models/widgets/window.widget";
@@ -21,10 +21,13 @@ import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
 import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
 import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget";
 import {FIGEvent} from "../../models/events/event";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
 import {FIGSliderDataType, FIGSliderType} from "../../models/widgets/slider.widget";
 import {FIGSelectableFlags} from "../../models/widgets/selectable.widget";
+import {DocumentService} from "../../services/document.service";
+import {FIGDocumentReaderError} from "../../parsers/document.reader";
+import {Subscription} from "rxjs";
+import {FIGDocumentWriterError} from "../../parsers/document.writer";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -56,7 +59,10 @@ export enum FIGShortcutType {
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
-export class EditorComponent {
+export class EditorComponent implements OnDestroy {
+
+  @ViewChild('openPicker')
+  openPicker!: ElementRef;
 
   @ViewChild(TreeComponent)
   tree!: TreeComponent;
@@ -78,9 +84,15 @@ export class EditorComponent {
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
+  private listenerS?: Subscription;
+  private readS?: Subscription;
+  private writeS?: Subscription;
+
   private shortcut?: FIGShortcutType;
 
-  constructor(private readonly formatterService: FormatterService) {
+  constructor(private readonly formatterService: FormatterService,
+              private readonly documentService: DocumentService,
+              private readonly renderer: Renderer2) {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
     const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
@@ -420,7 +432,13 @@ export class EditorComponent {
     this.document.root.push(inputs);
     this.document.root.push(layouts);
     this.document.link();
-    this.document.listen().pipe(takeUntilDestroyed()).subscribe(this.onWidgetEvent.bind(this));
+    this.listenerS = this.document.listen().subscribe(this.onWidgetEvent.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.listenerS?.unsubscribe();
+    this.readS?.unsubscribe();
+    this.writeS?.unsubscribe();
   }
 
   public onFormat(): void {
@@ -431,6 +449,56 @@ export class EditorComponent {
       return;
     }
     navigator.clipboard.writeText(output);
+  }
+
+  public async onOpen(): Promise<void> {
+    this.openPicker.nativeElement.click();
+  }
+
+  public async open(event: Event): Promise<void> {
+    // @ts-ignore
+    const files: FileList = event.target!.files;
+
+    if (files.length !== 1) {
+      // TODO: show toast.
+      return;
+    }
+    const file: File = files[0];
+
+    this.readS?.unsubscribe();
+    this.readS = this.documentService.read(file).subscribe({
+      next: (document: FIGDocument) => {
+        this.document = document;
+        this.document.link();
+        this.listenerS?.unsubscribe();
+        this.listenerS = this.document.listen().subscribe(this.onWidgetEvent.bind(this));
+      },
+      error: (error: FIGDocumentReaderError) => {
+        // TODO: show toast.
+        console.error(error);
+      }
+    });
+  }
+
+  public onSave(): void {
+    this.writeS?.unsubscribe();
+    this.writeS = this.documentService.write(this.document).subscribe({
+      next: (file: File) => {
+        const $savePicker: HTMLAnchorElement = this.renderer.createElement('a');
+        const url: string = URL.createObjectURL(file);
+
+        $savePicker.href = url;
+        $savePicker.download = file.name;
+        this.renderer.appendChild(document.body, $savePicker);
+        $savePicker.click();
+        this.renderer.removeChild(document.body, $savePicker);
+        URL.revokeObjectURL(url);
+      },
+      error: (error: FIGDocumentWriterError) => {
+        // TODO: show toast.
+        console.error(error);
+      }
+    });
   }
 
   protected isSupported(type: FIGWidgetType): boolean {

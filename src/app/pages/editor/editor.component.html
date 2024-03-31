@@ -1,5 +1,32 @@
 <div id="fig-tree-factory"
      class="widget-bar">
+  <div class="actions">
+    <button mat-icon-button
+            matTooltip="Open"
+            (click)="onOpen()">
+      <mat-icon>folder</mat-icon>
+      <input #openPicker
+             type="file"
+             accept=".mj.fig"
+             hidden
+             (change)="open($event)" />
+    </button>
+
+    <button mat-icon-button
+            matTooltip="Save"
+            (click)="onSave()">
+      <mat-icon>save</mat-icon>
+    </button>
+
+    <button mat-icon-button
+            matTooltip="Generate code"
+            (click)="onFormat()">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+
+  <div class="expand"></div>
+
   <div class="widgets">
     @for (category of categories; track category.title) {
       <div>
@@ -16,14 +43,6 @@
         <mat-divider vertical></mat-divider>
       }
     }
-  </div>
-
-  <div class="expand"></div>
-
-  <div class="actions">
-    <button mat-icon-button (click)="onFormat()">
-      <mat-icon>content_copy</mat-icon>
-    </button>
   </div>
 </div>
 
