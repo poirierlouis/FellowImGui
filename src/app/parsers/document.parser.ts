@@ -39,6 +39,7 @@ import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 
 export interface FIGSerializeProperty {
   readonly name: string;
+  readonly version?: number;
   readonly optional?: true;
   readonly default?: any;
   readonly type?: 'object' | 'array';
@@ -55,6 +56,10 @@ export interface FIGDocumentParser {
   read(file: File): Promise<FIGDocument>;
   write(document: FIGDocument): Promise<File>;
 
+}
+
+export interface Versioning {
+  [key: string]: number;
 }
 
 export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W extends FIGDocumentWriter> implements FIGDocumentParser {
@@ -101,6 +106,12 @@ export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W exten
     // Blocs
     {type: FIGWidgetType.blocFor, constructor: FIGBlocForWidget}
   ];
+
+  // NOTE: sync version number with FIGDocument.
+  public static readonly versioning: Versioning = {
+    '0.0.0': 0,
+    '0.1.0': 1
+  };
 
   protected readonly reader: R;
   protected readonly writer: W;

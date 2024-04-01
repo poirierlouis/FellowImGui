@@ -25,7 +25,7 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
     const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
     const data: any = {};
 
-    data[keygen.next()] = '0.0.0'; // file format version
+    data[keygen.next()] = document.version;
     data[keygen.next()] = document.root.map((container) => this.serializeWidget(container));
     return data;
   }

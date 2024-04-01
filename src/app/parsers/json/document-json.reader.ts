@@ -3,10 +3,11 @@ import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
 import {FIGDocumentReader, FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../document.reader";
 import {FIGContainer} from "../../models/widgets/container";
 import {FIGDocumentJsonKeyGenerator} from "./document-json.parser";
-import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty} from "../document.parser";
+import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty, Versioning} from "../document.parser";
 
 export class FIGDocumentJsonReader extends FIGDocumentReader {
   private readonly readers: FIGSerializeBind[] = FIGBaseDocumentParser.binders;
+  private readonly versions: Versioning = FIGBaseDocumentParser.versioning;
 
   public override async read(file: File): Promise<FIGDocument> {
     const data: string = await file.text();
@@ -27,9 +28,10 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
     const document: FIGDocument = new FIGDocument();
     const jsonVersion: string = data[keygen.next()];
     const jsonRoot: any[] = data[keygen.next()];
+    const version: number = this.versions[jsonVersion];
 
     for (const jsonContainer of jsonRoot) {
-      const container: FIGWidget = this.readWidget(jsonContainer);
+      const container: FIGWidget = this.readWidget(jsonContainer, version);
 
       if (!(container instanceof FIGContainer)) {
         throw {code: FIGDocumentReaderErrorCode.ExpectContainer, type: container.type};
@@ -39,7 +41,7 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
     return document;
   }
 
-  private readWidget(json: any): FIGWidget {
+  private readWidget(json: any, version: number): FIGWidget {
     const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
     const type: FIGWidgetType = json[keygen.next()];
     const reader: FIGSerializeBind | undefined = this.readers.find((reader) => reader.type === type);
@@ -48,7 +50,9 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       throw {code: FIGDocumentReaderErrorCode.TypeNotImplemented, type: type};
     }
     //keygen.next(); // skip uuid
-    const serializers: FIGSerializeProperty[] = reader.constructor['serializers'] ?? [];
+    let serializers: FIGSerializeProperty[] = reader.constructor['serializers'] ?? [];
+
+    serializers = serializers.filter((serializer) => (serializer.version ?? 0) <= version);
     const options: any = {};
 
     for (const serializer of serializers) {
@@ -64,7 +68,7 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
     if (widget instanceof FIGContainer) {
       const children: any[] = json[keygen.next()];
 
-      widget.children.push(...children.map((child) => this.readWidget(child)));
+      widget.children.push(...children.map((child) => this.readWidget(child, version)));
     }
     return widget;
   }
