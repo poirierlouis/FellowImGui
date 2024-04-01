@@ -1,7 +1,6 @@
-import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {CanvasComponent} from "./canvas/canvas.component";
 import {TreeComponent} from "./tree/tree.component";
-import {FIGWindowWidget} from "../../models/widgets/window.widget";
 import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
@@ -10,25 +9,16 @@ import {NgTemplateOutlet} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
-import {FIGWidgetHelper} from '../../models/widgets/widget.helper';
-import {Color, plotSin} from "../../models/math";
-import {FIGDir} from "../../models/widgets/button.widget";
 import {MatIconButton} from "@angular/material/button";
 import {FormatterService} from "../../services/formatter.service";
-import {FIGInputNumberType} from "../../models/widgets/input-number.widget";
 import {DragDirective} from "../../directives/drag.directive";
-import {FIGInputTextFlags} from "../../models/widgets/input-text.widget";
-import {FIGTabBarFlags} from "../../models/widgets/tab-bar.widget";
-import {FIGVerticalSliderType} from "../../models/widgets/vertical-slider.widget";
 import {FIGEvent} from "../../models/events/event";
-import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
-import {FIGSliderDataType, FIGSliderType} from "../../models/widgets/slider.widget";
-import {FIGSelectableFlags} from "../../models/widgets/selectable.widget";
 import {DocumentService} from "../../services/document.service";
 import {FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../../parsers/document.reader";
 import {Subscription} from "rxjs";
 import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {HttpClient} from "@angular/common/http";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -60,7 +50,7 @@ export enum FIGShortcutType {
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
-export class EditorComponent implements OnDestroy {
+export class EditorComponent implements OnInit, OnDestroy {
 
   @ViewChild('openPicker')
   openPicker!: ElementRef;
@@ -88,359 +78,27 @@ export class EditorComponent implements OnDestroy {
   private listenerS?: Subscription;
   private readS?: Subscription;
   private writeS?: Subscription;
+  private requestS?: Subscription;
 
   private shortcut?: FIGShortcutType;
 
   constructor(private readonly formatterService: FormatterService,
               private readonly documentService: DocumentService,
               private readonly toast: MatSnackBar,
+              private readonly http: HttpClient,
               private readonly renderer: Renderer2) {
     this.document = new FIGDocument();
-    const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
-    const basics: FIGWindowWidget = FIGWidgetHelper.createWindow({
-      label: 'Basics · FIG',
-      size: {width: 320, height: 692}
-    }, [
-      FIGWidgetHelper.createBullet(),
-      FIGWidgetHelper.createText({text: ''}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createText({text: 'Hello world!'}),
-      FIGWidgetHelper.createText({text: 'I\'m colorful!', color: color}),
-      FIGWidgetHelper.createText({text: 'I\'m disabled!', isDisabled: true}),
-      FIGWidgetHelper.createText({text: 'I\'m a bullet!', hasBullet: true}),
-      FIGWidgetHelper.createText({text: 'I\'m one with a tooltip!', tooltip: 'Explain me!'}),
-      FIGWidgetHelper.createText({
-        text: 'I\'m "complex" and long. Lorem ipsum dolor sit amet, consectetur adipiscing ' +
-          'elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-          'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        color: color, isWrapped: true, hasBullet: true, tooltip: 'Wow O.O'
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createButton({label: 'Simple button'}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createButton({label: 'Small button', isSmall: true}),
-      FIGWidgetHelper.createButton({label: 'Fill button', isFill: true}),
-      FIGWidgetHelper.createButton({label: 'Arrow button', arrow: FIGDir.down}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createButton({label: 'Button w/ tooltip', tooltip: 'Can you see me?'}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createProgressBar({value: 0.00}),
-      FIGWidgetHelper.createProgressBar({value: 0.42, isFill: true, tooltip: 'Fill horizontally.'}),
-      FIGWidgetHelper.createProgressBar({value: 1.00, label: 'Loading'}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createPlotLines({
-        label: 'Lines',
-        values: plotSin(31),
-        overlayText: 'Sin [-2; +2]',
-        size: {width: 0, height: 96},
-        scaleMin: -2,
-        scaleMax: 2
-      }),
-      FIGWidgetHelper.createPlotHistogram({
-        label: 'Histogram',
-        values: plotSin(31),
-        overlayText: 'Sin [-2; +2]',
-        size: {width: 0, height: 96},
-        scaleMin: -2,
-        scaleMax: 2
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createTreeNode({label: 'Universe', flags: FIGTreeNodeFlags.DefaultOpen}, [
-        FIGWidgetHelper.createTreeNode({label: 'Milky Way'}, [
-          FIGWidgetHelper.createTreeNode({label: 'Solar System'}, [
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Sun'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Mercury'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Venus'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Earth'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Mars'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Jupiter'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Saturn'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Uranus'}),
-            FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Bullet, label: 'Neptune'})
-          ])
-        ]),
-        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Andromeda'}),
-        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Cartwheel'}),
-        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Eye of God'}),
-        FIGWidgetHelper.createTreeNode({flags: FIGTreeNodeFlags.Leaf, label: 'Needle'}),
-      ]),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createText({text: 'Click to select:'}),
-      FIGWidgetHelper.createSelectable({text: 'Red'}),
-      FIGWidgetHelper.createSelectable({text: 'Green', tooltip: 'Smile :D'}),
-      FIGWidgetHelper.createSelectable({text: 'Blue'}),
-      FIGWidgetHelper.createSelectable({text: 'Alpha'}),
-      FIGWidgetHelper.createSelectable({text: 'Disabled', flags: FIGSelectableFlags.Disabled}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createPopup({label: '##Popup'}, [
-        FIGWidgetHelper.createMenuItem({label: 'New'}),
-        FIGWidgetHelper.createMenuItem({label: 'Open', shortcut: 'CTRL+O'}),
-        FIGWidgetHelper.createMenuItem({label: 'Save', enabled: false}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createMenuItem({label: 'Debug mode', isSelectable: true, isSelected: true}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createMenu({label: 'Help'}, [
-          FIGWidgetHelper.createMenuItem({label: 'Getting started', enabled: false}),
-          FIGWidgetHelper.createMenuItem({label: 'License'}),
-          FIGWidgetHelper.createMenuItem({label: 'About', shortcut: 'F1'}),
-        ]),
-        FIGWidgetHelper.createMenuItem({label: 'Quit', shortcut: 'ALT+F4'}),
-      ]),
-      FIGWidgetHelper.createPopup({label: '##PopupContextItem', contextItem: true}, [
-        FIGWidgetHelper.createMenuItem({label: 'Copy'}),
-        FIGWidgetHelper.createMenuItem({label: 'Cut'}),
-        FIGWidgetHelper.createMenuItem({label: 'Paste'}),
-        FIGWidgetHelper.createSeparator(),
-        FIGWidgetHelper.createMenu({label: 'Find'}, [
-          FIGWidgetHelper.createMenuItem({label: 'Find...', shortcut: 'CTRL+F'}),
-          FIGWidgetHelper.createMenuItem({label: 'Replace...', shortcut: 'CTRL+R'}),
-        ]),
-        FIGWidgetHelper.createMenuItem({label: 'Print', shortcut: 'CTRL+P', enabled: false}),
-      ]),
-    ]);
-    const inputs: FIGWindowWidget = FIGWidgetHelper.createWindow({
-      label: 'Forms / Inputs · FIG',
-      size: {width: 498, height: 780}
-    }, [
-      FIGWidgetHelper.createLabel({label: 'Label', value: 'Input'}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createInputText({label: 'Username'}),
-      FIGWidgetHelper.createInputText({label: 'Username w/ hint', hint: 'e.g. Fig'}),
-      FIGWidgetHelper.createInputText({
-        label: 'Password w/ tooltip',
-        tooltip: 'Be anonymous',
-        flags: FIGInputTextFlags.Password
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createInputTextarea({
-        value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do \n' +
-          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut \n' +
-          'enim ad minim veniam, quis nostrud exercitation ullamco laboris \n' +
-          'nisi ut aliquip ex ea commodo consequat.',
-        tooltip: 'Lorem ipsum is a classic ;)'
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createInputNumber({label: 'int', tooltip: 'Hold CTRL to fast increment/decrement.'}),
-      FIGWidgetHelper.createInputNumber({label: 'int2', value: [0, 1], dataType: FIGInputNumberType.int2}),
-      FIGWidgetHelper.createInputNumber({label: 'int3', value: [1, 2, 3], dataType: FIGInputNumberType.int3}),
-      FIGWidgetHelper.createInputNumber({label: 'int4', value: [5, 8, 13, 21], dataType: FIGInputNumberType.int4}),
-      FIGWidgetHelper.createInputNumber({label: 'float', dataType: FIGInputNumberType.float}),
-      FIGWidgetHelper.createInputNumber({label: 'float2', value: [0.1, 1.1], dataType: FIGInputNumberType.float2}),
-      FIGWidgetHelper.createInputNumber({label: 'float3', value: [1.2, 2.3, 3.5], dataType: FIGInputNumberType.float3}),
-      FIGWidgetHelper.createInputNumber({
-        label: 'float4',
-        value: [5.8, 8.13, 13.21, 21.34],
-        dataType: FIGInputNumberType.float4
-      }),
-      FIGWidgetHelper.createInputNumber({
-        label: 'double',
-        step: 0.001,
-        stepFast: 0.5,
-        dataType: FIGInputNumberType.double
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createInputColorEdit({label: 'color', tooltip: 'Define an RGB color using inputs/picker.'}),
-      FIGWidgetHelper.createInputColorEdit({label: 'color w/ alpha', withAlpha: true}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createSlider({label: 'SliderInt', dataType: FIGSliderDataType.int}),
-      FIGWidgetHelper.createSlider({label: 'SliderInt2', dataType: FIGSliderDataType.int2, value: [0, 1], valueMax: 1}),
-      FIGWidgetHelper.createSlider({
-        label: 'SliderInt3',
-        dataType: FIGSliderDataType.int3,
-        value: [1, 2, 3],
-        valueMin: 1,
-        valueMax: 3
-      }),
-      FIGWidgetHelper.createSlider({
-        label: 'SliderInt4',
-        dataType: FIGSliderDataType.int4,
-        value: [5, 8, 13, 21],
-        valueMin: 5,
-        valueMax: 21
-      }),
-      FIGWidgetHelper.createSlider({
-        label: 'DragFloat',
-        sliderType: FIGSliderType.drag,
-        dataType: FIGSliderDataType.float,
-        valueMin: 0.0,
-        valueMax: 0.1
-      }),
-      FIGWidgetHelper.createSlider({
-        label: 'DragFloat2',
-        sliderType: FIGSliderType.drag,
-        dataType: FIGSliderDataType.float2,
-        value: [0.1, 1.1],
-        valueMin: 0.1,
-        valueMax: 1.1
-      }),
-      FIGWidgetHelper.createSlider({
-        label: 'DragFloat3',
-        sliderType: FIGSliderType.drag,
-        dataType: FIGSliderDataType.float3,
-        value: [1.2, 2.3, 3.5],
-        valueMin: 1.2,
-        valueMax: 3.5
-      }),
-      FIGWidgetHelper.createSlider({
-        label: 'DragFloat4',
-        sliderType: FIGSliderType.drag,
-        dataType: FIGSliderDataType.float4,
-        value: [5.8, 8.13, 13.21, 21.34],
-        valueMin: 5.8,
-        valueMax: 21.34
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createVerticalSlider({
-        dataType: FIGVerticalSliderType.int,
-        label: '##VSliderInt',
-        tooltip: false
-      }),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createVerticalSlider({
-        dataType: FIGVerticalSliderType.float,
-        label: '##VSliderFloat',
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createListBox({
-        label: 'Stars Classification', items: [
-          'M (2,600 K to 3,850 K)',
-          'K (4,000 K to 5,250 K)',
-          'G (5,500 K to 6,000 K)',
-          'F (6,000 K to 7,200 K)',
-          'A (7,500 K to 10,000 K)',
-          'B (10,500 K to 30,000 K)',
-          'O (33,000 K and more)'
-        ]
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createCheckbox({label: 'Fig'}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createCheckbox({label: 'Banana', isChecked: true}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createCheckbox({label: 'Orange', tooltip: 'Juicy :P'}),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createRadio({label: 'Galactic Funk', groupId: 'RadioChannel', index: 0}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createRadio({label: 'Space Rock', groupId: 'RadioChannel', index: 1}),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createRadio({
-        label: 'Jazzy Moon',
-        groupId: 'RadioChannel', index: 2, tooltip: 'Chill on moons of Wablad'
-      }),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createCombo({
-        label: 'Jump Destination',
-        items: ['Earth', 'Mars', 'Jupiter', 'Europa', 'Saturn', 'Titan'],
-        tooltip: 'Where should we go?'
-      })
-    ]);
-    const itemsLeft: FIGWidget[] = [];
-    const itemsRight: FIGWidget[] = [];
+  }
 
-    for (let i: number = 0; i < 20; i++) {
-      itemsLeft.push(FIGWidgetHelper.createText({text: `Item ${i + 1}`}));
-      itemsRight.push(FIGWidgetHelper.createText({text: `Item ${i + 1}`}));
-    }
-    const layouts: FIGWindowWidget = FIGWidgetHelper.createWindow({
-      label: 'Layouts · FIG',
-      size: {width: 364, height: 758}
-    }, [
-      FIGWidgetHelper.createCollapsingHeader({
-        label: 'Header'
-      }, [
-        FIGWidgetHelper.createText({text: '(v) Default'}),
-        FIGWidgetHelper.createButton(),
-        FIGWidgetHelper.createText({text: '(v) New line'}),
-        FIGWidgetHelper.createNewLine(),
-        FIGWidgetHelper.createButton(),
-        FIGWidgetHelper.createText({text: '(v) Spacing'}),
-        FIGWidgetHelper.createSpacing(),
-        FIGWidgetHelper.createButton(),
-        FIGWidgetHelper.createText({text: '(v) Dummy (100 x 100)'}),
-        FIGWidgetHelper.createDummy({width: 100, height: 100, tooltip: 'Empty space'}),
-        FIGWidgetHelper.createButton(),
-      ]),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createModal({label: 'Modal'}, [
-        FIGWidgetHelper.createText({text: 'I\'m visible.'}),
-        FIGWidgetHelper.createModal({label: 'Nested modal'}, [
-          FIGWidgetHelper.createText({text: 'Modal-ception.'}),
-        ]),
-      ]),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createGroup([
-        FIGWidgetHelper.createText({text: 'Group', align: true}),
-        FIGWidgetHelper.createSameLine(),
-        FIGWidgetHelper.createText({text: 'lock'}),
-        FIGWidgetHelper.createSameLine(),
-        FIGWidgetHelper.createGroup([
-          FIGWidgetHelper.createButton({label: 'horizontal'}),
-          FIGWidgetHelper.createButton({label: 'position'}),
-        ]),
-        FIGWidgetHelper.createSameLine(),
-        FIGWidgetHelper.createText({text: 'see?'}),
-      ]),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createTabBar({
-        label: '##Trees',
-        flags: FIGTabBarFlags.Reorderable | FIGTabBarFlags.FittingPolicyScroll
-      }, [
-        FIGWidgetHelper.createTabItem({label: 'Africa'}, [
-          FIGWidgetHelper.createText({text: 'Name: Wonderboom', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Ficus salicifolia', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Pretoria, South Africa', isWrapped: true}),
-        ]),
-        FIGWidgetHelper.createTabItem({label: 'Asia'}, [
-          FIGWidgetHelper.createText({text: 'Name: King Cypress', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Cupressus gigantea', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Bayi District, Tibet', isWrapped: true}),
-        ]),
-        FIGWidgetHelper.createTabItem({label: 'Europe'}, [
-          FIGWidgetHelper.createText({text: 'Name: Allerton Oak', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Quercus petraea', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Calderstones Park, Liverpool, UK', isWrapped: true}),
-        ]),
-        FIGWidgetHelper.createTabItem({label: 'North America'}, [
-          FIGWidgetHelper.createText({text: 'Name: Buttonball Tree', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Platanus occidentalis', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Sunderland, MA, US', isWrapped: true}),
-        ]),
-        FIGWidgetHelper.createTabItem({label: 'South America'}, [
-          FIGWidgetHelper.createText({text: 'Name: Gran Abuelo', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Fitzroya cupressoides', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Alerce Costero National Park, Chile ', isWrapped: true}),
-        ]),
-        FIGWidgetHelper.createTabItem({label: 'Oceania'}, [
-          FIGWidgetHelper.createText({text: 'Name: Centurion', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Species: Eucalyptus regnans', isWrapped: true}),
-          FIGWidgetHelper.createText({text: 'Location: Tasmania, Australia', isWrapped: true}),
-        ]),
-      ]),
-      FIGWidgetHelper.createSeparator(),
-      FIGWidgetHelper.createChildWindow({label: 'Left', size: {width: 0.5, height: 0.5}}, [
-        FIGWidgetHelper.createText({text: 'Left Child Window'}),
-        FIGWidgetHelper.createNewLine(),
-        ...itemsLeft
-      ]),
-      FIGWidgetHelper.createSameLine(),
-      FIGWidgetHelper.createChildWindow({label: 'Right'}, [
-        FIGWidgetHelper.createText({text: 'Right Child Window'}),
-        FIGWidgetHelper.createNewLine(),
-        ...itemsRight
-      ]),
-    ]);
-
-    this.document.root.push(basics);
-    this.document.root.push(inputs);
-    this.document.root.push(layouts);
-    this.document.link();
-    this.listenerS = this.document.listen().subscribe(this.onWidgetEvent.bind(this));
+  ngOnInit(): void {
+    this.loadDemo();
   }
 
   ngOnDestroy(): void {
     this.listenerS?.unsubscribe();
     this.readS?.unsubscribe();
     this.writeS?.unsubscribe();
+    this.requestS?.unsubscribe();
   }
 
   public onFormat(): void {
@@ -467,11 +125,7 @@ export class EditorComponent implements OnDestroy {
     }
     const file: File = files[0];
 
-    this.readS?.unsubscribe();
-    this.readS = this.documentService.read(file).subscribe({
-      next: this.openDocument.bind(this),
-      error: this.openDocumentFailed.bind(this)
-    });
+    this.readFile(file);
   }
 
   public onSave(): void {
@@ -532,6 +186,14 @@ export class EditorComponent implements OnDestroy {
     this.tree.update();
   }
 
+  private readFile(file: File): void {
+    this.readS?.unsubscribe();
+    this.readS = this.documentService.read(file).subscribe({
+      next: this.openDocument.bind(this),
+      error: this.openDocumentFailed.bind(this)
+    });
+  }
+
   private openDocument(document: FIGDocument): void {
     this.selectWidget(undefined);
     this.document = document;
@@ -575,6 +237,16 @@ export class EditorComponent implements OnDestroy {
         break;
     }
     this.toast.open(message);
+  }
+
+  private loadDemo(): void {
+    this.requestS?.unsubscribe();
+    this.requestS = this.http.get('./assets/demo.mj.fig', {responseType: 'text'})
+      .subscribe((response: string) => {
+        const file: File = new File([response], 'document.mj.fig');
+
+        this.readFile(file);
+      });
   }
 
   private onWidgetEvent(events: FIGEvent[]): void {
