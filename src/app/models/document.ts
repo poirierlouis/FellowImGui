@@ -13,7 +13,7 @@ interface ListenerItem {
 export class FIGDocument {
 
   // NOTE: sync version number with FIGBaseDocumentParser.
-  readonly version: string = '0.1.0';
+  readonly version: string = '0.0.0';
   readonly root: FIGContainer[] = [];
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);

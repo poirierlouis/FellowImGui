@@ -31,29 +31,53 @@ export enum FIGWindowFlags {
   NavFlattened = 8388608
 }
 
+export enum FIGWindowStyleVar {
+  WindowPadding = 2,
+  WindowRounding = 3,
+  WindowBorderSize = 4,
+  WindowMinSize = 5,
+  WindowTitleAlign = 6
+}
+
+export enum FIGCondFlags {
+  Always = 1,
+  Once = 2,
+  FirstUseEver = 4,
+  Appearing = 8
+}
+
 export interface FIGWindowOptions {
   readonly label?: string;
   readonly size?: Size;
   readonly flags?: number;
+  readonly sizeFlags?: number;
+  readonly minSize?: Size;
 }
 
 export class FIGWindowWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
+  public static readonly condFlags: FIGCondFlags[] = getEnumValues(FIGCondFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
     {name: 'label'},
-    {name: 'size', type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
-    {name: 'flags', optional: true, default: 0}
+    {name: 'size', optional: true, default: undefined, type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
+    {name: 'flags', optional: true, default: 0},
+    {name: 'sizeFlags', optional: true, default: 0},
+    {name: 'minSize', optional: true, default: undefined, type: 'object', innerType: [{name: 'width'}, {name: 'height'}]}
   ];
 
   label: string;
-  size: Size;
+  size?: Size;
   flags: number;
+  sizeFlags: number;
+  minSize?: Size;
 
   constructor(options?: FIGWindowOptions) {
     super(FIGWidgetType.window, false);
     this.label = options?.label ?? 'Window';
-    this.size = options?.size ?? {width: 320, height: 240};
+    this.size = options?.size;
     this.flags = options?.flags ?? 0;
+    this.sizeFlags = options?.sizeFlags ?? 0;
+    this.minSize = options?.minSize;
   }
 
   public get name(): string {
@@ -64,7 +88,12 @@ export class FIGWindowWidget extends FIGContainer {
     if (this.isFocused) {
       ImGui.SetNextWindowFocus();
     }
-    ImGui.SetNextWindowSize(new ImGui.Vec2(this.size.width, this.size.height));
+    if (this.minSize) {
+      ImGui.PushStyleVar(FIGWindowStyleVar.WindowMinSize, {x: this.minSize.width, y: this.minSize.height});
+    }
+    if (this.size) {
+      ImGui.SetNextWindowSize(new ImGui.Vec2(this.size.width, this.size.height), this.sizeFlags);
+    }
     let open: boolean = true;
 
     ImGui.Begin(this.label, (_ = open) => open = _, this.flags);
@@ -77,7 +106,7 @@ export class FIGWindowWidget extends FIGContainer {
   }
 
   private listenSize(): void {
-    if (ImGui.IsWindowCollapsed()) {
+    if (ImGui.IsWindowCollapsed() || !this.size) {
       return;
     }
     const size = ImGui.GetWindowSize();

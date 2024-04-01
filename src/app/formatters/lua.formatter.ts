@@ -6,7 +6,7 @@ import {FIGLabelWidget} from "../models/widgets/label.widget";
 import {FIGRadioWidget} from "../models/widgets/radio.widget";
 import {FIGSeparatorWidget} from "../models/widgets/separator.widget";
 import {FIGTextWidget} from "../models/widgets/text.widget";
-import {FIGWindowFlags, FIGWindowWidget} from "../models/widgets/window.widget";
+import {FIGCondFlags, FIGWindowFlags, FIGWindowWidget} from "../models/widgets/window.widget";
 import {CaseStyle, FIGFormatter} from "./formatter";
 import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {Color, Vector2} from "../models/math";
@@ -106,7 +106,17 @@ export class FIGLuaFormatter extends FIGFormatter {
       varArgs = ', true';
       varArgs += this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags');
     }
-    this.append(`ImGui.SetNextWindowSize(${widget.size.width}, ${widget.size.height})`);
+    if (widget.minSize) {
+      this.append(`ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, ${widget.minSize.width}, ${widget.minSize.height})`);
+    }
+    if (widget.size) {
+      let varCondFlag: string = '';
+
+      if (widget.sizeFlags !== 0) {
+        varCondFlag = this.formatFlags(widget.sizeFlags, FIGWindowWidget.condFlags, FIGCondFlags, 'ImGuiCond');
+      }
+      this.append(`ImGui.SetNextWindowSize(${widget.size.width}, ${widget.size.height}${varCondFlag})`);
+    }
     this.append(`if not ImGui.Begin(${this.formatString(widget.label)}${varArgs}) then`);
     this.appendIndent('ImGui.End()');
     this.appendIndent('return');

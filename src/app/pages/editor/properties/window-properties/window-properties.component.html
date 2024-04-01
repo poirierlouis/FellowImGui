@@ -6,6 +6,23 @@
 
   <div class="row">
     <mat-form-field>
+      <mat-label>Min width</mat-label>
+      <input matInput type="number" formControlName="minWidth" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Min height</mat-label>
+      <input matInput type="number" formControlName="minHeight" />
+    </mat-form-field>
+  </div>
+
+  <div class="mat-form-field">
+    <mat-label>Force size</mat-label>
+    <mat-slide-toggle color="primary" formControlName="forceSize"></mat-slide-toggle>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
       <mat-label>Width</mat-label>
       <input matInput type="number" formControlName="width" />
     </mat-form-field>
@@ -15,6 +32,15 @@
       <input matInput type="number" formControlName="height" />
     </mat-form-field>
   </div>
+
+  <mat-form-field>
+    <mat-label>Size flags</mat-label>
+    <mat-select multiple formControlName="sizeFlags">
+      @for (flag of sizeFlags; track flag.value) {
+        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 
   <mat-form-field>
     <mat-label>Flags</mat-label>
