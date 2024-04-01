@@ -25,9 +25,10 @@ import {FIGTreeNodeFlags} from "../../models/widgets/tree-node.widget";
 import {FIGSliderDataType, FIGSliderType} from "../../models/widgets/slider.widget";
 import {FIGSelectableFlags} from "../../models/widgets/selectable.widget";
 import {DocumentService} from "../../services/document.service";
-import {FIGDocumentReaderError} from "../../parsers/document.reader";
+import {FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../../parsers/document.reader";
 import {Subscription} from "rxjs";
-import {FIGDocumentWriterError} from "../../parsers/document.writer";
+import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
   cloneTemporarily?: true;
@@ -92,6 +93,7 @@ export class EditorComponent implements OnDestroy {
 
   constructor(private readonly formatterService: FormatterService,
               private readonly documentService: DocumentService,
+              private readonly toast: MatSnackBar,
               private readonly renderer: Renderer2) {
     this.document = new FIGDocument();
     const color: Color = {r: 0.88, g: 0.66, b: 0.1, a: 1.0};
@@ -539,8 +541,17 @@ export class EditorComponent implements OnDestroy {
   }
 
   private openDocumentFailed(error: FIGDocumentReaderError): void {
-    // TODO: show toast.
-    console.error(error);
+    let message: string = 'Failed to read document. Please report this issue.';
+
+    switch (error.code) {
+      case FIGDocumentReaderErrorCode.ExpectContainer:
+        message = `Failed to read the root of document. Widget '${FIGWidgetType[error.type!]}' is unexpected here.`;
+        break;
+      case FIGDocumentReaderErrorCode.TypeNotImplemented:
+        message = `Failed to read a widget in document. Widget '${FIGWidgetType[error.type!]}' is not implemented.`;
+        break;
+    }
+    this.toast.open(message);
   }
 
   private saveDocument(file: File): void {
@@ -556,8 +567,14 @@ export class EditorComponent implements OnDestroy {
   }
 
   private saveDocumentFailed(error: FIGDocumentWriterError): void {
-    // TODO: show toast.
-    console.error(error);
+    let message: string = 'Failed to save document. Please report this issue.';
+
+    switch (error.code) {
+      case FIGDocumentWriterErrorCode.TypeNotImplemented:
+        message = `Failed to save a widget in document. Widget '${FIGWidgetType[error.type!]}' is not implemented.`;
+        break;
+    }
+    this.toast.open(message);
   }
 
   private onWidgetEvent(events: FIGEvent[]): void {
