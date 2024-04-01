@@ -35,6 +35,7 @@ import {FIGModalWidget} from "../models/widgets/modal.widget";
 import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
 import {FIGMenuWidget} from "../models/widgets/menu.widget";
+import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -99,6 +100,9 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.checkbox, fmt: this.formatCheckbox.bind(this)},
     {type: FIGWidgetType.radio, fmt: this.formatRadio.bind(this)},
     {type: FIGWidgetType.combo, fmt: this.formatCombo.bind(this)},
+
+    // Blocs
+    {type: FIGWidgetType.blocFor, fmt: this.formatBlocFor.bind(this)}
   ];
 
   private indent: string = '';
@@ -222,6 +226,9 @@ export abstract class FIGFormatter {
   protected abstract formatCheckbox(widget: FIGCheckboxWidget): void;
   protected abstract formatRadio(widget: FIGRadioWidget): void;
   protected abstract formatCombo(widget: FIGComboWidget): void;
+
+  // Blocs
+  protected abstract formatBlocFor(widget: FIGBlocForWidget): void;
 
   private findFormatter(type: FIGWidgetType): FIGFormatterItem | undefined {
     return this.formatters.find((item) => item.type === type);

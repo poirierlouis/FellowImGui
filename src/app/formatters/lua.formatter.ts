@@ -36,6 +36,7 @@ import {FIGModalWidget} from "../models/widgets/modal.widget";
 import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
 import {FIGMenuWidget} from "../models/widgets/menu.widget";
+import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -668,6 +669,20 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append(`local ${varCurrentItem} = 0, ${varClicked}`);
     this.append(`${varCurrentItem}, ${varClicked} = ImGui.Combo(${this.formatString(widget.label)}, ${varCurrentItem}, {${items}}, ${widget.items.length})`);
     this.formatTooltip(widget);
+  }
+
+  // Blocs
+  protected override formatBlocFor(widget: FIGBlocForWidget): void {
+    this.append(`for i=1,${widget.size} do`);
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    if (widget.children.length > 0) {
+      this.removeLastNewLine();
+    }
+    this.popIndent();
+    this.append('end');
   }
 
 }
