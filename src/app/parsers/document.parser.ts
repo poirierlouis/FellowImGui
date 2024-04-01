@@ -58,45 +58,45 @@ export interface FIGDocumentParser {
 
 export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W extends FIGDocumentWriter> implements FIGDocumentParser {
   public static readonly binders: FIGSerializeBind[] = [
-  // Layouts
-  {type: FIGWidgetType.window, constructor: FIGWindowWidget},
-  {type: FIGWidgetType.childWindow, constructor: FIGChildWindowWidget},
-  {type: FIGWidgetType.modal, constructor: FIGModalWidget},
-  {type: FIGWidgetType.collapsingHeader, constructor: FIGCollapsingHeaderWidget},
-  {type: FIGWidgetType.tabBar, constructor: FIGTabBarWidget},
-  {type: FIGWidgetType.tabItem, constructor: FIGTabItemWidget},
-  {type: FIGWidgetType.group, constructor: FIGGroupWidget},
-  {type: FIGWidgetType.sameLine, constructor: FIGSameLineWidget},
-  {type: FIGWidgetType.newLine, constructor: FIGNewLineWidget},
-  {type: FIGWidgetType.spacing, constructor: FIGSpacingWidget},
-  {type: FIGWidgetType.dummy, constructor: FIGDummyWidget},
-  {type: FIGWidgetType.separator, constructor: FIGSeparatorWidget},
+    // Layouts
+    {type: FIGWidgetType.window, constructor: FIGWindowWidget},
+    {type: FIGWidgetType.childWindow, constructor: FIGChildWindowWidget},
+    {type: FIGWidgetType.modal, constructor: FIGModalWidget},
+    {type: FIGWidgetType.collapsingHeader, constructor: FIGCollapsingHeaderWidget},
+    {type: FIGWidgetType.tabBar, constructor: FIGTabBarWidget},
+    {type: FIGWidgetType.tabItem, constructor: FIGTabItemWidget},
+    {type: FIGWidgetType.group, constructor: FIGGroupWidget},
+    {type: FIGWidgetType.sameLine, constructor: FIGSameLineWidget},
+    {type: FIGWidgetType.newLine, constructor: FIGNewLineWidget},
+    {type: FIGWidgetType.spacing, constructor: FIGSpacingWidget},
+    {type: FIGWidgetType.dummy, constructor: FIGDummyWidget},
+    {type: FIGWidgetType.separator, constructor: FIGSeparatorWidget},
 
-  // Basics
-  {type: FIGWidgetType.bullet, constructor: FIGBulletWidget},
-  {type: FIGWidgetType.text, constructor: FIGTextWidget},
-  {type: FIGWidgetType.button, constructor: FIGButtonWidget},
-  {type: FIGWidgetType.progressBar, constructor: FIGProgressBarWidget},
-  {type: FIGWidgetType.plot, constructor: FIGPlotWidget},
-  {type: FIGWidgetType.treeNode, constructor: FIGTreeNodeWidget},
-  {type: FIGWidgetType.selectable, constructor: FIGSelectableWidget},
-  {type: FIGWidgetType.popup, constructor: FIGPopupWidget},
-  {type: FIGWidgetType.menu, constructor: FIGMenuWidget},
-  {type: FIGWidgetType.menuItem, constructor: FIGMenuItemWidget},
+    // Basics
+    {type: FIGWidgetType.bullet, constructor: FIGBulletWidget},
+    {type: FIGWidgetType.text, constructor: FIGTextWidget},
+    {type: FIGWidgetType.button, constructor: FIGButtonWidget},
+    {type: FIGWidgetType.progressBar, constructor: FIGProgressBarWidget},
+    {type: FIGWidgetType.plot, constructor: FIGPlotWidget},
+    {type: FIGWidgetType.treeNode, constructor: FIGTreeNodeWidget},
+    {type: FIGWidgetType.selectable, constructor: FIGSelectableWidget},
+    {type: FIGWidgetType.popup, constructor: FIGPopupWidget},
+    {type: FIGWidgetType.menu, constructor: FIGMenuWidget},
+    {type: FIGWidgetType.menuItem, constructor: FIGMenuItemWidget},
 
-  // Forms / Inputs
-  {type: FIGWidgetType.label, constructor: FIGLabelWidget},
-  {type: FIGWidgetType.inputText, constructor: FIGInputTextWidget},
-  {type: FIGWidgetType.inputTextarea, constructor: FIGInputTextareaWidget},
-  {type: FIGWidgetType.inputNumber, constructor: FIGInputNumberWidget},
-  {type: FIGWidgetType.inputColorEdit, constructor: FIGInputColorEditWidget},
-  {type: FIGWidgetType.slider, constructor: FIGSliderWidget},
-  {type: FIGWidgetType.verticalSlider, constructor: FIGVerticalSliderWidget},
-  {type: FIGWidgetType.listbox, constructor: FIGListBoxWidget},
-  {type: FIGWidgetType.checkbox, constructor: FIGCheckboxWidget},
-  {type: FIGWidgetType.radio, constructor: FIGRadioWidget},
-  {type: FIGWidgetType.combo, constructor: FIGComboWidget},
-];
+    // Forms / Inputs
+    {type: FIGWidgetType.label, constructor: FIGLabelWidget},
+    {type: FIGWidgetType.inputText, constructor: FIGInputTextWidget},
+    {type: FIGWidgetType.inputTextarea, constructor: FIGInputTextareaWidget},
+    {type: FIGWidgetType.inputNumber, constructor: FIGInputNumberWidget},
+    {type: FIGWidgetType.inputColorEdit, constructor: FIGInputColorEditWidget},
+    {type: FIGWidgetType.slider, constructor: FIGSliderWidget},
+    {type: FIGWidgetType.verticalSlider, constructor: FIGVerticalSliderWidget},
+    {type: FIGWidgetType.listbox, constructor: FIGListBoxWidget},
+    {type: FIGWidgetType.checkbox, constructor: FIGCheckboxWidget},
+    {type: FIGWidgetType.radio, constructor: FIGRadioWidget},
+    {type: FIGWidgetType.combo, constructor: FIGComboWidget},
+  ];
 
   protected readonly reader: R;
   protected readonly writer: W;
