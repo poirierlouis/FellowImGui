@@ -8,8 +8,6 @@
   display: flex;
   padding: 0 24px;
 
-  border-bottom: 1px solid var(--mat-divider-color);
-
   & .widgets {
     display: flex;
 
@@ -76,11 +74,15 @@
     display: flex;
     flex-flow: column;
     width: 360px;
+
+    border-top: 1px solid var(--mat-divider-color);
   }
 
   & .slider {
     cursor: col-resize;
     padding-left: 3px;
+
+    border-top: 1px solid var(--mat-divider-color);
   }
 
   & fig-canvas {
@@ -91,5 +93,7 @@
     overflow-y: auto;
     width: 360px;
     height: 100%;
+
+    border-top: 1px solid var(--mat-divider-color);
   }
 }

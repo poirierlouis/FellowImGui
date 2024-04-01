@@ -19,7 +19,7 @@
     & .panels {
       & .slider {
         &:hover {
-          border-color: $primary;
+          border-right-color: $primary;
         }
       }
     }
@@ -59,7 +59,7 @@
     & .panels {
       & .slider {
         &:hover {
-          border-color: $primary;
+          border-right-color: $primary;
         }
       }
     }
