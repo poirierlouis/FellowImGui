@@ -467,37 +467,16 @@ export class EditorComponent implements OnDestroy {
 
     this.readS?.unsubscribe();
     this.readS = this.documentService.read(file).subscribe({
-      next: (document: FIGDocument) => {
-        this.document = document;
-        this.document.link();
-        this.listenerS?.unsubscribe();
-        this.listenerS = this.document.listen().subscribe(this.onWidgetEvent.bind(this));
-      },
-      error: (error: FIGDocumentReaderError) => {
-        // TODO: show toast.
-        console.error(error);
-      }
+      next: this.openDocument.bind(this),
+      error: this.openDocumentFailed.bind(this)
     });
   }
 
   public onSave(): void {
     this.writeS?.unsubscribe();
     this.writeS = this.documentService.write(this.document).subscribe({
-      next: (file: File) => {
-        const $savePicker: HTMLAnchorElement = this.renderer.createElement('a');
-        const url: string = URL.createObjectURL(file);
-
-        $savePicker.href = url;
-        $savePicker.download = file.name;
-        this.renderer.appendChild(document.body, $savePicker);
-        $savePicker.click();
-        this.renderer.removeChild(document.body, $savePicker);
-        URL.revokeObjectURL(url);
-      },
-      error: (error: FIGDocumentWriterError) => {
-        // TODO: show toast.
-        console.error(error);
-      }
+      next: this.saveDocument.bind(this),
+      error: this.saveDocumentFailed.bind(this)
     });
   }
 
@@ -549,6 +528,35 @@ export class EditorComponent implements OnDestroy {
 
   protected updateWidget(_widget: FIGWidget): void {
     this.tree.update();
+  }
+
+  private openDocument(document: FIGDocument): void {
+    this.document = document;
+    this.document.link();
+    this.listenerS?.unsubscribe();
+    this.listenerS = this.document.listen().subscribe(this.onWidgetEvent.bind(this));
+  }
+
+  private openDocumentFailed(error: FIGDocumentReaderError): void {
+    // TODO: show toast.
+    console.error(error);
+  }
+
+  private saveDocument(file: File): void {
+    const $savePicker: HTMLAnchorElement = this.renderer.createElement('a');
+    const url: string = URL.createObjectURL(file);
+
+    $savePicker.href = url;
+    $savePicker.download = file.name;
+    this.renderer.appendChild(document.body, $savePicker);
+    $savePicker.click();
+    this.renderer.removeChild(document.body, $savePicker);
+    URL.revokeObjectURL(url);
+  }
+
+  private saveDocumentFailed(error: FIGDocumentWriterError): void {
+    // TODO: show toast.
+    console.error(error);
   }
 
   private onWidgetEvent(events: FIGEvent[]): void {
