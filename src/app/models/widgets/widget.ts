@@ -43,6 +43,9 @@ export enum FIGWidgetType {
   checkbox,
   radio,
   combo,
+
+  // Blocs
+  blocFor
 }
 
 export abstract class FIGWidget {
@@ -82,7 +85,8 @@ export abstract class FIGWidget {
       type === FIGWidgetType.group ||
       type === FIGWidgetType.treeNode ||
       type === FIGWidgetType.popup ||
-      type === FIGWidgetType.menu;
+      type === FIGWidgetType.menu ||
+      type === FIGWidgetType.blocFor;
   }
 
   public abstract get name(): string;

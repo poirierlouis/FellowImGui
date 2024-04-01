@@ -32,6 +32,7 @@ import {FIGModalWidget} from "./modal.widget";
 import {FIGPopupWidget} from "./popup.widget";
 import {FIGMenuItemWidget} from "./menu-item.widget";
 import {FIGMenuWidget} from "./menu.widget";
+import {FIGBlocForWidget} from "./bloc-for.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -132,6 +133,9 @@ export class FIGWidgetFactory {
     },
     {type: FIGWidgetType.radio, title: 'Radio', build: (id: number) => new FIGRadioWidget({label: `Radio ${id}`})},
     {type: FIGWidgetType.combo, title: 'Combo', build: (id: number) => new FIGComboWidget({label: `Combo ${id}`})},
+
+    // Blocs
+    {type: FIGWidgetType.blocFor, title: '@repeat N times', build: () => new FIGBlocForWidget()}
   ];
   public static readonly icons: string[] = FIGWidgetFactory.builders.map((builder) => FIGWidgetType[builder.type]);
 

@@ -158,5 +158,11 @@
                             [widget]="widget"
                             (update)="update.emit($event)"></fig-combo-properties>
     }
+    <!-- Blocs -->
+    @case (FIGWidgetType.blocFor) {
+      <fig-bloc-for-properties class="properties"
+                               [widget]="widget"
+                               (update)="update.emit($event)"></fig-bloc-for-properties>
+    }
   }
 }

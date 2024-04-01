@@ -34,6 +34,7 @@ import {ModalPropertiesComponent} from "./modal-properties/modal-properties.comp
 import {PopupPropertiesComponent} from "./popup-properties/popup-properties.component";
 import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-properties.component";
 import {MenuPropertiesComponent} from "./menu-properties/menu-properties.component";
+import {BlocForPropertiesComponent} from "./bloc-for-properties/bloc-for-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -69,6 +70,7 @@ import {MenuPropertiesComponent} from "./menu-properties/menu-properties.compone
     InputColorEditPropertiesComponent,
     VerticalSliderPropertiesComponent,
     CollapsingHeaderPropertiesComponent,
+    BlocForPropertiesComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.css'

@@ -35,6 +35,7 @@ import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
 import {FIGCheckboxWidget} from "../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../models/widgets/radio.widget";
 import {FIGComboWidget} from "../models/widgets/combo.widget";
+import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 
 export interface FIGSerializeProperty {
   readonly name: string;
@@ -96,6 +97,9 @@ export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W exten
     {type: FIGWidgetType.checkbox, constructor: FIGCheckboxWidget},
     {type: FIGWidgetType.radio, constructor: FIGRadioWidget},
     {type: FIGWidgetType.combo, constructor: FIGComboWidget},
+
+    // Blocs
+    {type: FIGWidgetType.blocFor, constructor: FIGBlocForWidget}
   ];
 
   protected readonly reader: R;

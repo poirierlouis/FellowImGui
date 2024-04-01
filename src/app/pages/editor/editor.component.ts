@@ -71,7 +71,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   protected readonly categories: FIGWidgetBuilderCategory[] = [
     {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.separator)},
     {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.bullet, FIGWidgetType.menuItem)},
-    {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label)},
+    {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label, FIGWidgetType.combo)},
+    {title: 'Blocs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.blocFor)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
