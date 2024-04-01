@@ -110,6 +110,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       return;
     }
     navigator.clipboard.writeText(output);
+    this.toast.open(`'${this.formatterService.currentLanguage}' code generated in clipboard.`);
   }
 
   public async onOpen(): Promise<void> {
