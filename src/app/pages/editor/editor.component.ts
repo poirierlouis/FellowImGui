@@ -531,6 +531,7 @@ export class EditorComponent implements OnDestroy {
   }
 
   private openDocument(document: FIGDocument): void {
+    this.selectWidget(undefined);
     this.document = document;
     this.document.link();
     this.listenerS?.unsubscribe();
