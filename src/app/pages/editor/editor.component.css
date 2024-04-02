@@ -19,15 +19,31 @@
 
     & mat-divider {
       height: 100%;
-      margin: 0 12px;
+      margin: 0 8px;
+
+      @media (max-width: 1605px) {
+        margin: 0 6px;
+      }
+
+      @media (max-width: 1460px) {
+        margin: 0 4px;
+      }
     }
 
     & mat-icon {
       cursor: grab;
 
-      margin: 0 12px;
+      margin: 0 8px;
 
       transform: none!important;
+
+      @media (max-width: 1605px) {
+        margin: 0 6px;
+      }
+
+      @media (max-width: 1460px) {
+        margin: 0 4px;
+      }
     }
   }
 
