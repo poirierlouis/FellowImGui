@@ -20,13 +20,9 @@ import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 
-interface FIGWidgetItemBuilder extends FIGWidgetBuilder {
-  cloneTemporarily?: true;
-}
-
 interface FIGWidgetBuilderCategory {
   readonly title: string;
-  readonly builders: FIGWidgetItemBuilder[];
+  readonly builders: FIGWidgetBuilder[];
 }
 
 export enum FIGShortcutType {
