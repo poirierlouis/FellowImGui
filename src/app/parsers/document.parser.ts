@@ -36,6 +36,9 @@ import {FIGCheckboxWidget} from "../models/widgets/checkbox.widget";
 import {FIGRadioWidget} from "../models/widgets/radio.widget";
 import {FIGComboWidget} from "../models/widgets/combo.widget";
 import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
+import {FIGTableWidget} from "../models/widgets/table.widget";
+import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
+import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
 
 export interface FIGSerializeProperty {
   readonly name: string;
@@ -71,6 +74,9 @@ export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W exten
     {type: FIGWidgetType.collapsingHeader, constructor: FIGCollapsingHeaderWidget},
     {type: FIGWidgetType.tabBar, constructor: FIGTabBarWidget},
     {type: FIGWidgetType.tabItem, constructor: FIGTabItemWidget},
+    {type: FIGWidgetType.table, constructor: FIGTableWidget},
+    {type: FIGWidgetType.tableRow, constructor: FIGTableRowWidget},
+    {type: FIGWidgetType.tableColumn, constructor: FIGTableColumnWidget},
     {type: FIGWidgetType.group, constructor: FIGGroupWidget},
     {type: FIGWidgetType.sameLine, constructor: FIGSameLineWidget},
     {type: FIGWidgetType.newLine, constructor: FIGNewLineWidget},

@@ -15,7 +15,10 @@ export enum FIGWidgetType {
   collapsingHeader,
   tabBar,
   tabItem,
-  group,
+  table = 34,
+  tableRow = 35,
+  tableColumn = 36,
+  group = 6,
   sameLine,
   newLine,
   spacing,
@@ -85,6 +88,9 @@ export abstract class FIGWidget {
       type === FIGWidgetType.collapsingHeader ||
       type === FIGWidgetType.tabBar ||
       type === FIGWidgetType.tabItem ||
+      type === FIGWidgetType.table ||
+      type === FIGWidgetType.tableRow ||
+      type === FIGWidgetType.tableColumn ||
       type === FIGWidgetType.group ||
       type === FIGWidgetType.treeNode ||
       type === FIGWidgetType.popup ||

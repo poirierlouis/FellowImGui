@@ -33,6 +33,9 @@ import {FIGPopupWidget} from "./popup.widget";
 import {FIGMenuItemWidget} from "./menu-item.widget";
 import {FIGMenuWidget} from "./menu.widget";
 import {FIGBlocForWidget} from "./bloc-for.widget";
+import {FIGTableWidget} from "./table.widget";
+import {FIGTableRowWidget} from "./table-row.widget";
+import {FIGTableColumnWidget} from "./table-column.widget";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -70,6 +73,9 @@ export class FIGWidgetFactory {
       title: 'Tab Item',
       build: (id: number) => new FIGTabItemWidget({label: `Tab Item ${id}`})
     },
+    {type: FIGWidgetType.table, title: 'Table', build: () => new FIGTableWidget()},
+    {type: FIGWidgetType.tableRow, title: 'Table Row', build: () => new FIGTableRowWidget()},
+    {type: FIGWidgetType.tableColumn, title: 'Table Column', build: () => new FIGTableColumnWidget()},
     {type: FIGWidgetType.group, title: 'Group', build: () => new FIGGroupWidget()},
     {type: FIGWidgetType.sameLine, title: 'SameLine', build: () => new FIGSameLineWidget()},
     {type: FIGWidgetType.newLine, title: 'NewLine', build: () => new FIGNewLineWidget()},

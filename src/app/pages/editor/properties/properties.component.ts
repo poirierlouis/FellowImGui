@@ -35,6 +35,7 @@ import {PopupPropertiesComponent} from "./popup-properties/popup-properties.comp
 import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-properties.component";
 import {MenuPropertiesComponent} from "./menu-properties/menu-properties.component";
 import {BlocForPropertiesComponent} from "./bloc-for-properties/bloc-for-properties.component";
+import {TablePropertiesComponent} from "./table-properties/table-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -51,6 +52,7 @@ import {BlocForPropertiesComponent} from "./bloc-for-properties/bloc-for-propert
     DummyPropertiesComponent,
     ModalPropertiesComponent,
     PopupPropertiesComponent,
+    TablePropertiesComponent,
     ButtonPropertiesComponent,
     WindowPropertiesComponent,
     TabBarPropertiesComponent,

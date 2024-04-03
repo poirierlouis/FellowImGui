@@ -36,6 +36,9 @@ import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
 import {FIGMenuWidget} from "../models/widgets/menu.widget";
 import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
+import {FIGTableWidget} from "../models/widgets/table.widget";
+import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
+import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -69,6 +72,9 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.collapsingHeader, fmt: this.formatCollapsingHeader.bind(this)},
     {type: FIGWidgetType.tabBar, fmt: this.formatTabBar.bind(this)},
     {type: FIGWidgetType.tabItem, fmt: this.formatTabItem.bind(this)},
+    {type: FIGWidgetType.table, fmt: this.formatTable.bind(this)},
+    {type: FIGWidgetType.tableRow, fmt: this.formatTableRow.bind(this)},
+    {type: FIGWidgetType.tableColumn, fmt: this.formatTableColumn.bind(this)},
     {type: FIGWidgetType.group, fmt: this.formatGroup.bind(this)},
     {type: FIGWidgetType.sameLine, fmt: this.formatSameLine.bind(this)},
     {type: FIGWidgetType.newLine, fmt: this.formatNewLine.bind(this)},
@@ -194,6 +200,9 @@ export abstract class FIGFormatter {
   protected abstract formatCollapsingHeader(widget: FIGCollapsingHeaderWidget): void;
   protected abstract formatTabBar(widget: FIGTabBarWidget): void;
   protected abstract formatTabItem(widget: FIGTabItemWidget): void;
+  protected abstract formatTable(widget: FIGTableWidget): void;
+  protected abstract formatTableRow(widget: FIGTableRowWidget): void;
+  protected abstract formatTableColumn(widget: FIGTableColumnWidget): void;
   protected abstract formatGroup(widget: FIGGroupWidget): void;
   protected abstract formatSameLine(widget: FIGSameLineWidget): void;
   protected abstract formatNewLine(widget: FIGNewLineWidget): void;

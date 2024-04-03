@@ -37,6 +37,9 @@ import {FIGPopupWidget} from "../models/widgets/popup.widget";
 import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
 import {FIGMenuWidget} from "../models/widgets/menu.widget";
 import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
+import {FIGTableWidget} from "../models/widgets/table.widget";
+import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
+import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -236,6 +239,41 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append('ImGui.EndTabItem()');
     this.popIndent();
     this.append('end');
+  }
+
+  protected override formatTable(widget: FIGTableWidget): void {
+    this.append(`-- '${this.language}' only support the old legacy Columns API.`);
+    this.append(`-- Code generated below attempt to draw the table like in FIG preview.`);
+    this.append('');
+    this.append(`-- ${widget.label}`);
+    this.append(`ImGui.Columns(${widget.columns}, ${this.formatString(widget.label)})`);
+    this.append(`ImGui.Separator()`);
+    for (const row of widget.children) {
+      this.formatWidget(row);
+    }
+    if (widget.children.length > 0) {
+      this.removeLastNewLine();
+    }
+    this.append(`ImGui.Columns(1)`);
+    this.append(`ImGui.Separator()`);
+    this.append(`-- ${widget.label}`);
+  }
+
+  protected override formatTableRow(widget: FIGTableRowWidget): void {
+    for (const column of widget.children) {
+      this.formatWidget(column);
+    }
+    this.append('ImGui.Separator()');
+  }
+
+  protected override formatTableColumn(widget: FIGTableColumnWidget): void {
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    if (widget.children.length > 0) {
+      this.removeLastNewLine();
+    }
+    this.append('ImGui.NextColumn()');
   }
 
   protected override formatGroup(widget: FIGGroupWidget): void {
