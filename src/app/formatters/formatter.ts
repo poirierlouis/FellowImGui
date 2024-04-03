@@ -59,6 +59,7 @@ export enum CaseStyle {
 export abstract class FIGFormatter {
 
   protected readonly notSupported: FIGWidgetType[] = [];
+  protected readonly legacyFallback: FIGWidgetType[] = [];
 
   protected readonly options: FIGFormatterOptions = {
     indent: ''
@@ -131,6 +132,10 @@ export abstract class FIGFormatter {
 
   public isSupported(type: FIGWidgetType): boolean {
     return !this.notSupported.includes(type);
+  }
+
+  public useLegacyFallback(type: FIGWidgetType): boolean {
+    return this.legacyFallback.includes(type);
   }
 
   protected formatWidget(widget: FIGWidget): void {

@@ -28,4 +28,8 @@ export class FormatterService {
     return this.formatter?.isSupported(type) ?? false;
   }
 
+  public useLegacyFallback(type: FIGWidgetType): boolean {
+    return this.formatter?.useLegacyFallback(type) ?? false;
+  }
+
 }

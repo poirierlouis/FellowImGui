@@ -138,6 +138,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     return this.formatterService.isSupported(type);
   }
 
+  protected useLegacyFallback(type: FIGWidgetType): boolean {
+    return this.formatterService.useLegacyFallback(type);
+  }
+
   @HostListener('document:keydown', ['$event'])
   protected onKeyPressed(event: KeyboardEvent): void {
     if (event.ctrlKey || event.metaKey) {

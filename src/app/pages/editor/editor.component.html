@@ -32,6 +32,7 @@
       <div>
         @for (builder of category.builders; track builder.type) {
           <mat-icon [class.warning]="!isSupported(builder.type)"
+                    [class.fallback]="useLegacyFallback(builder.type)"
                     [svgIcon]="FIGWidgetType[builder.type]"
                     [matTooltip]="builder.title"
                     figDrag

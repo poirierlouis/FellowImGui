@@ -5,6 +5,7 @@
 @mixin editor-theme($theme) {
   $primary: mat.get-theme-color($theme, primary, 500);
   $warning: mat.get-color-from-palette(mat.$amber-palette, 700);
+  $fallback: mat.get-color-from-palette(mat.$amber-palette, 500);
   $bg: mat.get-theme-color($theme, background, background);
 
   fig-editor {
@@ -12,6 +13,10 @@
       & mat-icon {
         &.warning {
           color: $warning;
+        }
+
+        &.fallback {
+          color: $fallback;
         }
       }
     }

@@ -3,6 +3,7 @@
 @mixin properties-theme($theme) {
   $info: mat.get-color-from-palette(mat.$blue-palette, 500);
   $warning: mat.get-color-from-palette(mat.$amber-palette, 700);
+  $fallback: mat.get-color-from-palette(mat.$amber-palette, 500);
 
   fig-properties {
     & .header {
@@ -26,6 +27,10 @@
 
       & .warning {
         color: $warning;
+      }
+
+      & .fallback {
+        color: $fallback;
       }
     }
 

@@ -84,7 +84,8 @@ export class PropertiesComponent {
 
   widget?: FIGWidget;
   widgetTitle?: string;
-  widgetWarning?: string;
+  widgetWarning?: 'warning' | 'fallback';
+  widgetTooltip: string = '';
 
   protected readonly FIGWidgetType = FIGWidgetType;
 
@@ -95,10 +96,20 @@ export class PropertiesComponent {
   set _widget(value: FIGWidget | undefined) {
     const prevWidget: FIGWidget | undefined = this.widget;
     const isSupported: boolean = (value !== undefined) ? this.formatterService.isSupported(value.type) : false;
+    const useLegacyFallback: boolean = (value !== undefined) ? this.formatterService.useLegacyFallback(value.type) : false;
 
     this.widget = value;
     this.widgetTitle = (value !== undefined) ? FIGWidgetFactory.getTitle(value.type) : undefined;
-    this.widgetWarning = !isSupported ? `This widget is not supported by '${this.formatterService.currentLanguage}'.` : undefined;
+    this.widgetWarning = undefined;
+    this.widgetTooltip = '';
+    if (!isSupported) {
+      this.widgetWarning = 'warning';
+      this.widgetTooltip = `'${this.formatterService.currentLanguage}' does not support this widget.`;
+    }
+    if (useLegacyFallback) {
+      this.widgetWarning = 'fallback';
+      this.widgetTooltip = `'${this.formatterService.currentLanguage}' fallback to a legacy API for this widget.`;
+    }
     if (prevWidget) {
       prevWidget.isFocused = false;
     }

@@ -8,7 +8,7 @@
     @if (widgetWarning !== undefined) {
       <div class="expand"></div>
 
-      <mat-icon class="warning" [matTooltip]="widgetWarning">
+      <mat-icon [class]="widgetWarning" [matTooltip]="widgetTooltip">
         warning
       </mat-icon>
     }

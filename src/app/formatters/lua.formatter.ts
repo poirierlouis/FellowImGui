@@ -76,6 +76,9 @@ export class FIGLuaFormatter extends FIGFormatter {
   constructor() {
     super('Lua - sol2', CaseStyle.camelCase);
     this.notSupported.push(FIGWidgetType.plot);
+    this.legacyFallback.push(FIGWidgetType.table);
+    this.legacyFallback.push(FIGWidgetType.tableRow);
+    this.legacyFallback.push(FIGWidgetType.tableColumn);
     this.options.indent = '  ';
   }
 

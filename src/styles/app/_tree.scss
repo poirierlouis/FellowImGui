@@ -4,6 +4,7 @@
 @mixin tree-theme($theme) {
   $primary: mat.get-theme-color($theme, primary, 700);
   $warning: mat.get-color-from-palette(mat.$amber-palette, 700);
+  $fallback: mat.get-color-from-palette(mat.$amber-palette, 500);
   $divider: mat.get-theme-color($theme, foreground, divider);
   $hover: grey;
 
@@ -23,9 +24,17 @@
           background-color: $primary;
         }
 
-        & .content.warning {
-          & mat-icon:first-of-type {
-            color: $warning;
+        & .content {
+          &.warning {
+            & mat-icon:first-of-type {
+              color: $warning;
+            }
+          }
+
+          &.fallback {
+            & mat-icon:first-of-type {
+              color: $fallback;
+            }
           }
         }
       }

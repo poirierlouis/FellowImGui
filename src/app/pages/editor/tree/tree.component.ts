@@ -138,6 +138,10 @@ export class TreeComponent {
     return this.formatterService.isSupported(node.widget.type);
   }
 
+  protected useLegacyFallback(node: FlatNode): boolean {
+    return this.formatterService.useLegacyFallback(node.widget.type);
+  }
+
   protected selectWidget(node: FlatNode): boolean {
     if (node.expandable) {
       this.treeSelection.toggle(node.widget.uuid);
