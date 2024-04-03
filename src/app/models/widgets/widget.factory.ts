@@ -160,9 +160,22 @@ export class FIGWidgetFactory {
   }
 
   public static filterBetween(from: FIGWidgetType, to?: FIGWidgetType): FIGWidgetBuilder[] {
-    return this.builders.filter((builder) => {
-      return (to !== undefined) ? builder.type >= from && builder.type <= to : builder.type >= from;
-    });
+    // Use custom in-range filter as FIGWidgetType values are out-of-order.
+    const builders: FIGWidgetBuilder[] = [];
+    let inRange: boolean = false;
+
+    for (const builder of this.builders) {
+      if (builder.type === from) {
+        inRange = true;
+      }
+      if (inRange) {
+        builders.push(builder);
+      }
+      if (builder.type === to) {
+        inRange = false;
+      }
+    }
+    return builders;
   }
 
   private static findBuilder(type: FIGWidgetType): FIGWidgetBuilder | undefined {

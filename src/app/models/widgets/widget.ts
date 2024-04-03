@@ -5,6 +5,9 @@ import {Vector2} from "../math";
 import {FIGEvent, FIGEventType} from "../events/event";
 
 export enum FIGWidgetType {
+  // NOTE: order types per category. Manually increment type's value for
+  // serializing purpose.
+
   // Layouts
   window,
   childWindow,
