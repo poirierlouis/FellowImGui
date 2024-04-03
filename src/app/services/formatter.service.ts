@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {FIGFormatter, FIGFormatterLanguage} from "../formatters/formatter";
-import {FIGLuaFormatter} from "../formatters/lua.formatter";
+import {FIGLuaSol2Formatter} from "../formatters/lua-sol2.formatter";
 import {FIGDocument} from "../models/document";
 import {FIGWidgetType} from "../models/widgets/widget";
 
@@ -12,7 +12,7 @@ export class FormatterService {
   private formatter?: FIGFormatter;
 
   constructor() {
-    this.formatter = new FIGLuaFormatter();
+    this.formatter = new FIGLuaSol2Formatter();
   }
 
   public get currentLanguage(): FIGFormatterLanguage | undefined {

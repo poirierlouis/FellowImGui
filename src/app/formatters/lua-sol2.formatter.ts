@@ -46,7 +46,7 @@ interface InputNumberFormatItem {
   readonly args: (args: any) => string[];
 }
 
-export class FIGLuaFormatter extends FIGFormatter {
+export class FIGLuaSol2Formatter extends FIGFormatter {
   private readonly inputNumberFormatter: InputNumberFormatItem[] = [
     {fn: 'ImGui.InputInt', args: (args) => [args.varStep, args.varStepFast]},
     {fn: 'ImGui.InputInt2', args: () => []},
@@ -344,23 +344,23 @@ export class FIGLuaFormatter extends FIGFormatter {
         this.append('ImGui.PopStyleColor()');
         this.append(`ImGui.TextDisabled(${this.formatString(widget.text)})`);
       } else if (widget.color) {
-        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaFormatter.formatColor(widget.color)})`);
+        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaSol2Formatter.formatColor(widget.color)})`);
         this.append('ImGui.Bullet()');
         this.append('ImGui.PopStyleColor()');
-        this.append(`ImGui.TextColored(${FIGLuaFormatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
+        this.append(`ImGui.TextColored(${FIGLuaSol2Formatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
       } else {
         this.append(`ImGui.BulletText(${this.formatString(widget.text)})`);
       }
     } else if (widget.isDisabled && !widget.isWrapped) {
       this.append(`ImGui.TextDisabled(${this.formatString(widget.text)})`);
     } else if (widget.color && !widget.isWrapped) {
-      this.append(`ImGui.TextColored(${FIGLuaFormatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
+      this.append(`ImGui.TextColored(${FIGLuaSol2Formatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
     } else {
       if (widget.isDisabled) {
         this.append('local color = ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)');
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, color[1], color[2], color[3], color[4])`);
       } else if (widget.color) {
-        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaFormatter.formatColor(widget.color)})`);
+        this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaSol2Formatter.formatColor(widget.color)})`);
       }
       if (widget.hasBullet) {
         this.append('ImGui.Bullet()');
@@ -380,7 +380,7 @@ export class FIGLuaFormatter extends FIGFormatter {
     if (widget.isSmall) {
       this.append(`${varDef}ImGui.SmallButton(${this.formatString(widget.label)})`);
     } else if (widget.arrow !== FIGDir.none) {
-      this.append(`${varDef}ImGui.ArrowButton(${this.formatString(widget.label)}, ${FIGLuaFormatter.formatDir(widget.arrow)})`);
+      this.append(`${varDef}ImGui.ArrowButton(${this.formatString(widget.label)}, ${FIGLuaSol2Formatter.formatDir(widget.arrow)})`);
     } else {
       let size: string = '';
 
