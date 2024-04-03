@@ -20,9 +20,9 @@ export enum FIGWidgetType {
   newLine,
   spacing,
   dummy,
-  separator,
 
   // Basics
+  separator,
   bullet,
   text,
   button,

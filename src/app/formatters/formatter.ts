@@ -74,9 +74,9 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.newLine, fmt: this.formatNewLine.bind(this)},
     {type: FIGWidgetType.spacing, fmt: this.formatSpacing.bind(this)},
     {type: FIGWidgetType.dummy, fmt: this.formatDummy.bind(this)},
-    {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
 
     // Basics
+    {type: FIGWidgetType.separator, fmt: this.formatSeparator.bind(this)},
     {type: FIGWidgetType.bullet, fmt: this.formatBullet.bind(this)},
     {type: FIGWidgetType.text, fmt: this.formatText.bind(this)},
     {type: FIGWidgetType.button, fmt: this.formatButton.bind(this)},
@@ -199,9 +199,9 @@ export abstract class FIGFormatter {
   protected abstract formatNewLine(widget: FIGNewLineWidget): void;
   protected abstract formatSpacing(widget: FIGSpacingWidget): void;
   protected abstract formatDummy(widget: FIGDummyWidget): void;
-  protected abstract formatSeparator(widget: FIGSeparatorWidget): void;
 
   // Basics
+  protected abstract formatSeparator(widget: FIGSeparatorWidget): void;
   protected abstract formatTooltip(widget: FIGWithTooltip): void;
   protected abstract formatBullet(widget: FIGBulletWidget): void;
   protected abstract formatText(widget: FIGTextWidget): void;

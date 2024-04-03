@@ -271,10 +271,6 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.formatTooltip(widget);
   }
 
-  protected override formatSeparator(_widget: FIGSeparatorWidget): void {
-    this.append('ImGui.Separator()');
-  }
-
   // Basics
   protected formatTooltip(widget: FIGWithTooltip): void {
     if (!widget.tooltip) {
@@ -283,6 +279,10 @@ export class FIGLuaFormatter extends FIGFormatter {
     this.append(`if ImGui.IsItemHovered() then`);
     this.appendIndent(`ImGui.SetTooltip(${this.formatString(widget.tooltip)})`);
     this.append(`end`);
+  }
+
+  protected override formatSeparator(_widget: FIGSeparatorWidget): void {
+    this.append('ImGui.Separator()');
   }
 
   protected override formatBullet(_widget: FIGBulletWidget): void {

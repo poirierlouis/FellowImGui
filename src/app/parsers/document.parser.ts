@@ -76,9 +76,9 @@ export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W exten
     {type: FIGWidgetType.newLine, constructor: FIGNewLineWidget},
     {type: FIGWidgetType.spacing, constructor: FIGSpacingWidget},
     {type: FIGWidgetType.dummy, constructor: FIGDummyWidget},
-    {type: FIGWidgetType.separator, constructor: FIGSeparatorWidget},
 
     // Basics
+    {type: FIGWidgetType.separator, constructor: FIGSeparatorWidget},
     {type: FIGWidgetType.bullet, constructor: FIGBulletWidget},
     {type: FIGWidgetType.text, constructor: FIGTextWidget},
     {type: FIGWidgetType.button, constructor: FIGButtonWidget},

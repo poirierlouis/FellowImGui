@@ -75,9 +75,9 @@ export class FIGWidgetFactory {
     {type: FIGWidgetType.newLine, title: 'NewLine', build: () => new FIGNewLineWidget()},
     {type: FIGWidgetType.spacing, title: 'Spacing', build: () => new FIGSpacingWidget()},
     {type: FIGWidgetType.dummy, title: 'Dummy', build: () => new FIGDummyWidget()},
-    {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
 
     // Basics
+    {type: FIGWidgetType.separator, title: 'Separator', build: () => new FIGSeparatorWidget()},
     {type: FIGWidgetType.bullet, title: 'Bullet', build: () => new FIGBulletWidget()},
     {type: FIGWidgetType.text, title: 'Text', build: () => new FIGTextWidget()},
     {type: FIGWidgetType.button, title: 'Button', build: () => new FIGButtonWidget()},
