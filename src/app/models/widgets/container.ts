@@ -41,6 +41,10 @@ export abstract class FIGContainer extends FIGWidget {
     return undefined;
   }
 
+  public findByType<T>(type: FIGWidgetType): T | undefined {
+    return this.children.find((child) => child.type === type) as T;
+  }
+
   public findIndex(widget: FIGWidget): number {
     return this.children.findIndex((child) => child.uuid === widget.uuid);
   }
