@@ -9,7 +9,7 @@
              type="file"
              accept=".mj.fig"
              hidden
-             (change)="open($event)" />
+             (change)="open($event)"/>
     </button>
 
     <button mat-icon-button
@@ -48,9 +48,16 @@
 </div>
 
 <div class="panels">
-  <fig-tree [style.width]="treeWidth"
-            [document]="document"
-            (selectWidget)="selectWidget($event)"></fig-tree>
+  <mat-tab-group [style.width]="tabsWidth" >
+    <mat-tab label="Tree">
+      <fig-tree [document]="document"
+                (selectWidget)="selectWidget($event)"></fig-tree>
+    </mat-tab>
+
+    <mat-tab label="Styles">
+
+    </mat-tab>
+  </mat-tab-group>
 
   <mat-divider class="slider"
                vertical

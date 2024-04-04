@@ -19,6 +19,7 @@ import {Subscription} from "rxjs";
 import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
@@ -37,6 +38,8 @@ export enum FIGShortcutType {
     MatTooltip,
     MatDivider,
     MatIconButton,
+    MatTab,
+    MatTabGroup,
     NgTemplateOutlet,
     DragDirective,
     TreeComponent,
@@ -51,6 +54,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   @ViewChild('openPicker')
   openPicker!: ElementRef;
 
+  @ViewChild(MatTabGroup)
+  tabs!: MatTabGroup;
+
   @ViewChild(TreeComponent)
   tree!: TreeComponent;
 
@@ -60,7 +66,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   document: FIGDocument;
   selectedWidget?: FIGWidget;
 
-  treeWidth: string = '360px';
+  tabsWidth: string = '360px';
   canvasWidth: string = 'calc(100% - 2 * 360px)';
   isSliding: boolean = false;
 
@@ -265,8 +271,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     width = Math.min(width, window.innerWidth / 2);
     width = Math.max(width, 170);
-    this.treeWidth = `${width}px`;
-    this.canvasWidth = `calc(100% - (${this.treeWidth} + 360px))`;
+    this.tabsWidth = `${width}px`;
+    this.canvasWidth = `calc(100% - (${this.tabsWidth} + 360px))`;
     setTimeout(() => {
       this.canvas.onResize();
     });

@@ -85,13 +85,14 @@
   flex: 1;
   height: calc(100% - 64px);
 
+  & mat-tab-group {
+    border-top: 1px solid var(--mat-divider-color);
+  }
+
   & fig-tree {
     overflow-y: auto;
     display: flex;
     flex-flow: column;
-    width: 360px;
-
-    border-top: 1px solid var(--mat-divider-color);
   }
 
   & .slider {
