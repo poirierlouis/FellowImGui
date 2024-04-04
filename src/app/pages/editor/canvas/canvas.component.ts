@@ -13,7 +13,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
   @ViewChild('imgui')
   canvas!: ElementRef;
 
-  private isRendering: boolean = true;
+  private isRendering: boolean = false;
   private isResizing: boolean = false;
   private hasFocus: boolean = false;
   private lastFrame: any;
@@ -27,6 +27,9 @@ export class CanvasComponent implements OnInit, OnDestroy {
   @Input('document')
   set _document(value: FIGDocument) {
     this.document = value;
+    if (this.isRendering) {
+      this.updateStyles();
+    }
   }
 
   @Input('isResizing')
@@ -48,10 +51,11 @@ export class CanvasComponent implements OnInit, OnDestroy {
     ImGui.CreateContext();
     const io = ImGui.GetIO();
 
-    ImGui.StyleColorsDark();
+    this.updateStyles();
     io.Fonts.AddFontDefault();
     ImGui_Impl.Init(this.$canvas);
     this.resize();
+    this.isRendering = true;
     requestAnimationFrame(this.render.bind(this));
   }
 
@@ -74,6 +78,20 @@ export class CanvasComponent implements OnInit, OnDestroy {
     this.isRendering = false;
     ImGui_Impl.Shutdown();
     ImGui.DestroyContext();
+  }
+
+  public updateStyles(): void {
+    this.updateThemeColors();
+  }
+
+  private updateThemeColors(): void {
+    if (this.document.styles.theme === 'dark') {
+      ImGui.StyleColorsDark();
+    } else if (this.document.styles.theme === 'light') {
+      ImGui.StyleColorsLight();
+    } else if (this.document.styles.theme === 'classic') {
+      ImGui.StyleColorsClassic();
+    }
   }
 
   private resize(): void {

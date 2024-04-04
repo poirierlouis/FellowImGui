@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  margin-top: 18px;
+  padding: 0 12px;
+}
+
+form {
+  width: 100%;
+}

@@ -20,6 +20,7 @@ import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {ConfigComponent} from "./config/config.component";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
@@ -43,6 +44,7 @@ export enum FIGShortcutType {
     NgTemplateOutlet,
     DragDirective,
     TreeComponent,
+    ConfigComponent,
     CanvasComponent,
     PropertiesComponent,
   ],
@@ -146,6 +148,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   protected useLegacyFallback(type: FIGWidgetType): boolean {
     return this.formatterService.useLegacyFallback(type);
+  }
+
+  protected onStylesUpdated(): void {
+    this.canvas.updateStyles();
   }
 
   @HostListener('document:keydown', ['$event'])

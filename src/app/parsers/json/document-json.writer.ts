@@ -4,6 +4,7 @@ import {FIGContainer} from "../../models/widgets/container";
 import {FIGDocument} from "../../models/document";
 import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty} from "../document.parser";
 import {FIGDocumentJsonKeyGenerator} from "./document-json.parser";
+import {FIGStylesSerializers} from "../../models/document-styles";
 
 export class FIGDocumentJsonWriter extends FIGDocumentWriter {
   private readonly writers: FIGSerializeBind[] = FIGBaseDocumentParser.binders;
@@ -27,7 +28,23 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
 
     data[keygen.next()] = document.version;
     data[keygen.next()] = document.root.map((container) => this.serializeWidget(container));
+    data[keygen.next()] = this.serializeObject(document.styles, FIGStylesSerializers);
     return data;
+  }
+
+  private serializeObject(object: any, serializers: FIGSerializeProperty[]): any {
+    const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
+    const json: any = {};
+
+    for (const serialize of serializers) {
+      const value: any | undefined = this.serializeProperty(object, serialize);
+      const key: string = keygen.next();
+
+      if (value !== undefined) {
+        json[key] = value;
+      }
+    }
+    return json;
   }
 
   private serializeWidget(widget: FIGWidget): any | undefined {

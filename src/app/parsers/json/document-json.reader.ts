@@ -4,6 +4,7 @@ import {FIGDocumentReader, FIGDocumentReaderError, FIGDocumentReaderErrorCode} f
 import {FIGContainer} from "../../models/widgets/container";
 import {FIGDocumentJsonKeyGenerator} from "./document-json.parser";
 import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty, Versioning} from "../document.parser";
+import {FIGStyles, FIGStylesSerializers} from "../../models/document-styles";
 
 export class FIGDocumentJsonReader extends FIGDocumentReader {
   private readonly readers: FIGSerializeBind[] = FIGBaseDocumentParser.binders;
@@ -38,7 +39,31 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       }
       document.root.push(container);
     }
+    const jsonStyles: FIGStyles | undefined = this.readObject(data[keygen.next()], FIGStylesSerializers, version);
+
+    if (jsonStyles) {
+      document.styles = jsonStyles;
+    }
     return document;
+  }
+
+  private readObject(json: any, serializers: FIGSerializeProperty[], version: number): any | undefined {
+    if (json === undefined) {
+      return undefined;
+    }
+    const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
+    const object: any = {};
+
+    serializers = serializers.filter((serializer) => (serializer.version ?? 0) <= version);
+    for (const serializer of serializers) {
+      const key: string = keygen.next();
+      const value: any | undefined = this.readProperty(key, json, serializer);
+
+      if (value !== undefined) {
+        object[serializer.name] = value;
+      }
+    }
+    return object;
   }
 
   private readWidget(json: any, version: number): FIGWidget {

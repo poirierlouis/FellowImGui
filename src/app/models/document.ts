@@ -4,6 +4,7 @@ import {FIGDropDirection} from "../directives/drop.directive";
 import {FIGWidgetFactory} from "./widgets/widget.factory";
 import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
 import {FIGEvent} from "./events/event";
+import {FIGStyles} from "./document-styles";
 
 interface ListenerItem {
   readonly uuid: string;
@@ -15,6 +16,10 @@ export class FIGDocument {
   // NOTE: sync version number with FIGBaseDocumentParser.
   readonly version: string = '0.0.0';
   readonly root: FIGContainer[] = [];
+
+  styles: FIGStyles = {
+    theme: 'dark'
+  };
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
   private readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();

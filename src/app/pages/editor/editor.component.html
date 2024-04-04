@@ -55,7 +55,8 @@
     </mat-tab>
 
     <mat-tab label="Styles">
-
+      <fig-config [document]="document"
+                  (update)="onStylesUpdated()"></fig-config>
     </mat-tab>
   </mat-tab-group>
 
