@@ -34,7 +34,8 @@ export enum FIGWidgetType {
   treeNode,
   selectable,
   popup,
-  menu,
+  menuBar = 37,
+  menu = 20,
   menuItem,
 
   // Forms / Inputs
@@ -94,6 +95,7 @@ export abstract class FIGWidget {
       type === FIGWidgetType.group ||
       type === FIGWidgetType.treeNode ||
       type === FIGWidgetType.popup ||
+      type === FIGWidgetType.menuBar ||
       type === FIGWidgetType.menu ||
       type === FIGWidgetType.blocFor;
   }
@@ -141,7 +143,7 @@ export abstract class FIGWidget {
     return [this];
   }
 
-  protected triggerUpdate(): void {
+  public triggerUpdate(): void {
     this.updateSubject.next();
   }
 

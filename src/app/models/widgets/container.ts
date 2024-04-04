@@ -8,7 +8,7 @@ export abstract class FIGContainer extends FIGWidget {
    * @param type of widget to test.
    */
   public isChildAccepted(type: FIGWidgetType): boolean {
-    return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem;
+    return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem && type !== FIGWidgetType.menuBar;
   }
 
   public override trackBy(): any {

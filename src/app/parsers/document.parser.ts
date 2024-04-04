@@ -39,6 +39,7 @@ import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 import {FIGTableWidget} from "../models/widgets/table.widget";
 import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
+import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
 
 export interface FIGSerializeProperty {
   readonly name: string;
@@ -93,6 +94,7 @@ export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W exten
     {type: FIGWidgetType.treeNode, constructor: FIGTreeNodeWidget},
     {type: FIGWidgetType.selectable, constructor: FIGSelectableWidget},
     {type: FIGWidgetType.popup, constructor: FIGPopupWidget},
+    {type: FIGWidgetType.menuBar, constructor: FIGMenuBarWidget},
     {type: FIGWidgetType.menu, constructor: FIGMenuWidget},
     {type: FIGWidgetType.menuItem, constructor: FIGMenuItemWidget},
 

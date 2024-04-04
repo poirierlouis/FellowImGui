@@ -40,6 +40,7 @@ import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 import {FIGTableWidget} from "../models/widgets/table.widget";
 import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
+import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -486,6 +487,17 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     this.append('end');
     this.append('--]]');
     this.append('ImGui.EndPopup()');
+    this.popIndent();
+    this.append('end');
+  }
+
+  protected override formatMenuBar(widget: FIGMenuBarWidget): void {
+    this.append('if ImGui.BeginMenuBar() then');
+    this.pushIndent();
+    for (const child of widget.children) {
+      this.formatWidget(child);
+    }
+    this.append('ImGui.EndMenuBar()');
     this.popIndent();
     this.append('end');
   }

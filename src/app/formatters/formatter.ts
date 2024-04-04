@@ -39,6 +39,7 @@ import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
 import {FIGTableWidget} from "../models/widgets/table.widget";
 import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
+import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
 
 interface FIGFormatterItem {
   readonly type: FIGWidgetType;
@@ -92,6 +93,7 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.treeNode, fmt: this.formatTreeNode.bind(this)},
     {type: FIGWidgetType.selectable, fmt: this.formatSelectable.bind(this)},
     {type: FIGWidgetType.popup, fmt: this.formatPopup.bind(this)},
+    {type: FIGWidgetType.menuBar, fmt: this.formatMenuBar.bind(this)},
     {type: FIGWidgetType.menu, fmt: this.formatMenu.bind(this)},
     {type: FIGWidgetType.menuItem, fmt: this.formatMenuItem.bind(this)},
 
@@ -225,6 +227,7 @@ export abstract class FIGFormatter {
   protected abstract formatTreeNode(widget: FIGTreeNodeWidget): void;
   protected abstract formatSelectable(widget: FIGSelectableWidget): void;
   protected abstract formatPopup(widget: FIGPopupWidget): void;
+  protected abstract formatMenuBar(widget: FIGMenuBarWidget): void;
   protected abstract formatMenu(widget: FIGMenuWidget): void;
   protected abstract formatMenuItem(widget: FIGMenuItemWidget): void;
 
