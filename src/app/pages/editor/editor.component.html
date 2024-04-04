@@ -48,7 +48,7 @@
 </div>
 
 <div class="panels">
-  <mat-tab-group [style.width]="tabsWidth" >
+  <mat-tab-group [style.width]="tabsWidth" animationDuration="0ms">
     <mat-tab label="Tree">
       <fig-tree [document]="document"
                 (selectWidget)="selectWidget($event)"></fig-tree>
