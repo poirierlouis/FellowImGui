@@ -1,0 +1,13 @@
+<form [formGroup]="form">
+  <div class="mat-form-field">
+    <mat-label>Header</mat-label>
+    <mat-slide-toggle color="primary" formControlName="header"></mat-slide-toggle>
+  </div>
+
+  @if (this.getProperty('header')) {
+    <p class="message info">
+      Define a Text widget per Table Column to use it as a header title.
+      The first Text widget found in Table Column will be used.
+    </p>
+  }
+</form>

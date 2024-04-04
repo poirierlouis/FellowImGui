@@ -36,6 +36,7 @@ import {MenuItemPropertiesComponent} from "./menu-item-properties/menu-item-prop
 import {MenuPropertiesComponent} from "./menu-properties/menu-properties.component";
 import {BlocForPropertiesComponent} from "./bloc-for-properties/bloc-for-properties.component";
 import {TablePropertiesComponent} from "./table-properties/table-properties.component";
+import {TableRowPropertiesComponent} from "./table-row-properties/table-row-properties.component";
 
 @Component({
   selector: 'fig-properties',
@@ -63,6 +64,7 @@ import {TablePropertiesComponent} from "./table-properties/table-properties.comp
     SameLinePropertiesComponent,
     TreeNodePropertiesComponent,
     MenuItemPropertiesComponent,
+    TableRowPropertiesComponent,
     InputTextPropertiesComponent,
     SelectablePropertiesComponent,
     ProgressBarPropertiesComponent,
