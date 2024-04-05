@@ -267,6 +267,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.shortcut !== FIGShortcutType.selectWidget) {
       return;
     }
+    this.tabs.selectedIndex = 0;
     const widget: FIGWidget = events[0].target;
 
     this.tree.openWidget(widget);
