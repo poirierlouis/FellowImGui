@@ -38,3 +38,15 @@ export function toCamelCase(str: string): string {
 
   return words.map((word, i) => (i > 0) ? capitalize(word) : deCapitalize(word)).join('');
 }
+
+export function buffer_to_base64(buffer: Uint8Array): string {
+  const binary: string = Array.from(buffer, (byte) => String.fromCodePoint(byte)).join('');
+
+  return btoa(binary);
+}
+
+export function base64_to_buffer(str: string): Uint8Array {
+  const binary: string = atob(str);
+
+  return Uint8Array.from(binary, (value: any) => value.codePointAt(0));
+}
