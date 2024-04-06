@@ -60,7 +60,7 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       const value: any | undefined = this.readProperty(key, json, serializer);
 
       if (value !== undefined) {
-        object[serializer.name] = value;
+        object[serializer.name] = serializer.read?.(value) ?? value;
       }
     }
     return object;
@@ -85,7 +85,7 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       const value: any | undefined = this.readProperty(key, json, serializer);
 
       if (value !== undefined) {
-        options[serializer.name] = value;
+        options[serializer.name] = serializer.read?.(value) ?? value;
       }
     }
     const widget: FIGWidget = new reader.constructor(options);
@@ -112,12 +112,34 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
         const innerProperty: any | undefined = this.readProperty(innerKey, innerJson, innerSerializer);
 
         if (innerProperty !== undefined) {
-          innerValue[innerSerializer.name] = innerProperty;
+          innerValue[innerSerializer.name] = innerSerializer.read?.(innerProperty) ?? innerProperty;
         }
       }
-      return innerValue;
+      return serializer.read?.(innerValue) ?? innerValue;
     }
-    return json[key];
+    if (serializer.type === 'array' && serializer.innerType) {
+      const innerJson: any = json[key];
+      const innerValue: any = [];
+
+      for (const itemJson of innerJson) {
+        const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
+        const innerItem: any = {};
+
+        for (const innerSerializer of serializer.innerType) {
+          const innerKey: string = keygen.next();
+          const innerProperty: any | undefined = this.readProperty(innerKey, itemJson, innerSerializer);
+
+          if (innerProperty !== undefined) {
+            innerItem[innerSerializer.name] = innerProperty;
+          }
+        }
+        innerValue.push(innerItem);
+      }
+      return serializer.read?.(innerValue) ?? innerValue;
+    }
+    const value: any = json[key];
+
+    return serializer.read?.(value) ?? value;
   }
 
 }

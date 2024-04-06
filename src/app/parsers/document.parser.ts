@@ -46,6 +46,8 @@ export interface FIGSerializeProperty {
   readonly version?: number;
   readonly optional?: true;
   readonly default?: any;
+  readonly read?: (value: any) => any;
+  readonly write?: (value: any) => any;
   readonly type?: 'object' | 'array';
   readonly innerType?: FIGSerializeProperty[];
 }

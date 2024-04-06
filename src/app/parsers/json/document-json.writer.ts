@@ -36,12 +36,12 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
     const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
     const json: any = {};
 
-    for (const serialize of serializers) {
-      const value: any | undefined = this.serializeProperty(object, serialize);
+    for (const serializer of serializers) {
+      const value: any | undefined = this.serializeProperty(object, serializer);
       const key: string = keygen.next();
 
       if (value !== undefined) {
-        json[key] = value;
+        json[key] = serializer.write?.(value) ?? value;
       }
     }
     return json;
@@ -64,7 +64,7 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
       const key: string = keygen.next();
 
       if (value !== undefined) {
-        data[key] = value;
+        data[key] = serializer.write?.(value) ?? value;
       }
     }
     if (widget instanceof FIGContainer) {
@@ -92,12 +92,31 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
         const key: string = keygen.next();
 
         if (innerProperty !== undefined) {
-          innerValue[key] = innerProperty;
+          innerValue[key] = innerSerializer.write?.(innerProperty) ?? innerProperty;
         }
       }
-      return innerValue;
+      return serializer.write?.(innerValue) ?? innerValue;
     }
-    return value;
+    if (serializer.type === 'array' && serializer.innerType) {
+      const innerValue: any = [];
+
+      for (const item of value) {
+        const keygen: FIGDocumentJsonKeyGenerator = new FIGDocumentJsonKeyGenerator();
+        const innerItem: any = {};
+
+        for (const innerSerializer of serializer.innerType) {
+          const innerProperty: any | undefined = this.serializeProperty(item, innerSerializer);
+          const key: string = keygen.next();
+
+          if (innerProperty !== undefined) {
+            innerItem[key] = innerProperty;
+          }
+        }
+        innerValue.push(innerItem);
+      }
+      return serializer.write?.(innerValue) ?? innerValue;
+    }
+    return serializer.write?.(value) ?? value;
   }
 
 }
