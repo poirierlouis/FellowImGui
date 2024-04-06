@@ -65,7 +65,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   @ViewChild(CanvasComponent)
   canvas!: CanvasComponent;
 
-  document: FIGDocument;
+  document?: FIGDocument;
   selectedWidget?: FIGWidget;
 
   tabsWidth: string = '360px';
@@ -92,7 +92,6 @@ export class EditorComponent implements OnInit, OnDestroy {
               private readonly toast: MatSnackBar,
               private readonly http: HttpClient,
               private readonly renderer: Renderer2) {
-    this.document = new FIGDocument();
   }
 
   ngOnInit(): void {
@@ -107,6 +106,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   public onFormat(): void {
+    if (!this.document) {
+      return;
+    }
     const output: string | undefined = this.formatterService.format(this.document);
 
     if (!output) {
@@ -135,6 +137,9 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   public onSave(): void {
+    if (!this.document) {
+      return;
+    }
     this.writeS?.unsubscribe();
     this.writeS = this.documentService.write(this.document).subscribe({
       next: this.saveDocument.bind(this),
@@ -150,8 +155,8 @@ export class EditorComponent implements OnInit, OnDestroy {
     return this.formatterService.useLegacyFallback(type);
   }
 
-  protected onStylesUpdated(): void {
-    this.canvas.updateStyles();
+  protected async onStylesUpdated(): Promise<void> {
+    await this.canvas.updateStyles();
   }
 
   @HostListener('document:keydown', ['$event'])

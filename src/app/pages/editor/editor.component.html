@@ -47,32 +47,34 @@
   </div>
 </div>
 
-<div class="panels">
-  <mat-tab-group [style.width]="tabsWidth" animationDuration="0ms">
-    <mat-tab label="Tree">
-      <fig-tree [document]="document"
-                (selectWidget)="selectWidget($event)"></fig-tree>
-    </mat-tab>
+@if (document) {
+  <div class="panels">
+    <mat-tab-group [style.width]="tabsWidth" animationDuration="0ms">
+      <mat-tab label="Tree">
+        <fig-tree [document]="document"
+                  (selectWidget)="selectWidget($event)"></fig-tree>
+      </mat-tab>
 
-    <mat-tab label="Styles">
-      <fig-config [document]="document"
-                  (update)="onStylesUpdated()"></fig-config>
-    </mat-tab>
-  </mat-tab-group>
+      <mat-tab label="Styles">
+        <fig-config [document]="document"
+                    (update)="onStylesUpdated()"></fig-config>
+      </mat-tab>
+    </mat-tab-group>
 
-  <mat-divider class="slider"
-               vertical
-               matTooltip="Double-click to restore panel's width."
-               matTooltipPosition="right"
-               [matTooltipDisabled]="isSliding"
-               (dblclick)="onResetSliding()"
-               (mousedown)="onStartSliding($event)"></mat-divider>
+    <mat-divider class="slider"
+                 vertical
+                 matTooltip="Double-click to restore panel's width."
+                 matTooltipPosition="right"
+                 [matTooltipDisabled]="isSliding"
+                 (dblclick)="onResetSliding()"
+                 (mousedown)="onStartSliding($event)"></mat-divider>
 
-  <fig-canvas [style.width]="canvasWidth"
-              [document]="document"
-              [isResizing]="isSliding"></fig-canvas>
+    <fig-canvas [style.width]="canvasWidth"
+                [document]="document"
+                [isResizing]="isSliding"></fig-canvas>
 
-  <fig-properties class="mat-app-background"
-                  [widget]="selectedWidget"
-                  (update)="updateWidget($event)"></fig-properties>
-</div>
+    <fig-properties class="mat-app-background"
+                    [widget]="selectedWidget"
+                    (update)="updateWidget($event)"></fig-properties>
+  </div>
+}
