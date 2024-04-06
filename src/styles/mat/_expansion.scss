@@ -1,0 +1,14 @@
+@mixin expansion-theme($theme) {
+  .mat-expansion-panel {
+    box-shadow: none!important;
+
+    & .mat-expansion-panel-body {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+}
+
+@mixin expansion-color($theme) {
+
+}

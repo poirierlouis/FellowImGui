@@ -10,6 +10,12 @@ import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 
 @Component({
   selector: 'fig-config',
@@ -25,6 +31,10 @@ import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/doc
     MatOptgroup,
     MatFormField,
     MatIconButton,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
     ReactiveFormsModule
   ],
   templateUrl: './config.component.html',

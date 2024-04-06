@@ -1,73 +1,95 @@
 <form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Theme</mat-label>
-    <mat-select formControlName="theme">
-      <mat-option value="dark">Dark</mat-option>
-      <mat-option value="light">Light</mat-option>
-      <mat-option value="classic">Classic</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Fonts</mat-panel-title>
+      </mat-expansion-panel-header>
 
-  <div class="mat-form-field">
-    <mat-form-field>
-      <mat-label>Font</mat-label>
-      <mat-select formControlName="font">
-        <mat-optgroup label="Default fonts">
-          @for (font of fonts; track font.name) {
-            <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
-          }
-        </mat-optgroup>
+      <div class="mat-form-field">
+        <mat-form-field>
+          <mat-label>Font</mat-label>
+          <mat-select formControlName="font">
+            <mat-optgroup label="Default fonts">
+              @for (font of fonts; track font.name) {
+                <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+              }
+            </mat-optgroup>
 
-        @if (embeddedFonts.length > 0) {
-          <mat-optgroup label="Embedded fonts">
-            @for (font of embeddedFonts; track font.name) {
-              <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+            @if (embeddedFonts.length > 0) {
+              <mat-optgroup label="Embedded fonts">
+                @for (font of embeddedFonts; track font.name) {
+                  <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+                }
+              </mat-optgroup>
             }
-          </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+
+        @if (canDeleteFont) {
+          <button mat-icon-button
+                  color="warn"
+                  matTooltip="Remove font from document"
+                  (click)="onDeleteFont()">
+            <mat-icon>delete</mat-icon>
+          </button>
         }
-      </mat-select>
-    </mat-form-field>
+      </div>
 
-    @if (canDeleteFont) {
-      <button mat-icon-button
-              color="warn"
-              matTooltip="Remove font from document"
-              (click)="onDeleteFont()">
-        <mat-icon>delete</mat-icon>
-      </button>
-    }
-  </div>
+      <div class="mat-form-field">
+        <mat-form-field>
+          <mat-label>Font path</mat-label>
+          <input matInput type="text" formControlName="fontPath" placeholder="Open a font file" readonly />
+        </mat-form-field>
 
-  <div class="mat-form-field">
-    <mat-form-field>
-      <mat-label>Font path</mat-label>
-      <input matInput type="text" formControlName="fontPath" placeholder="Open a font file" readonly />
-    </mat-form-field>
+        <button mat-icon-button
+                matTooltip="Select a font file"
+                (click)="openFontPicker()">
+          <mat-icon>folder</mat-icon>
+        </button>
 
-    <button mat-icon-button
-            matTooltip="Select a font file"
-            (click)="openFontPicker()">
-      <mat-icon>folder</mat-icon>
-    </button>
+        <input #fontPicker
+               type="file"
+               accept=".ttf,.otf"
+               (change)="onFontPicked($event)"
+               hidden />
+      </div>
 
-    <input #fontPicker
-           type="file"
-           accept=".ttf,.otf"
-           (change)="onFontPicked($event)"
-           hidden />
-  </div>
+      <div class="mat-form-field">
+        <mat-form-field>
+          <mat-label>Font size</mat-label>
+          <input matInput type="number" formControlName="fontSize" step="1" />
+        </mat-form-field>
 
-  <div class="mat-form-field">
-    <mat-form-field>
-      <mat-label>Font size</mat-label>
-      <input matInput type="number" formControlName="fontSize" step="1" />
-    </mat-form-field>
+        <button mat-icon-button
+                matTooltip="Import font in document"
+                (click)="onImportFont()"
+                [disabled]="!canImportFont">
+          <mat-icon>done</mat-icon>
+        </button>
+      </div>
+    </mat-expansion-panel>
 
-    <button mat-icon-button
-            matTooltip="Import font in document"
-            (click)="onImportFont()"
-            [disabled]="!canImportFont">
-      <mat-icon>done</mat-icon>
-    </button>
-  </div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Sizes</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <p>to be done</p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Colors</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>Theme</mat-label>
+        <mat-select formControlName="theme">
+          <mat-option value="dark">Dark</mat-option>
+          <mat-option value="light">Light</mat-option>
+          <mat-option value="classic">Classic</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
 </form>
