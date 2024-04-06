@@ -1,6 +1,7 @@
 @mixin form-field-theme($theme) {
   mat-form-field {
     width: 100%;
+    margin: 12px 0;
   }
 
   .mat-form-field {

@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     ]),
 
     {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 4000}}
   ]
 };
