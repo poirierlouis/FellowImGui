@@ -5,6 +5,7 @@ import {FIGWidgetFactory} from "./widgets/widget.factory";
 import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
 import {FIGEvent} from "./events/event";
 import {FIGStyles} from "./document-styles";
+import {FIGFont, formatImGuiFontName} from "./document-fonts";
 
 interface ListenerItem {
   readonly uuid: string;
@@ -18,13 +19,28 @@ export class FIGDocument {
   readonly root: FIGContainer[] = [];
 
   styles: FIGStyles = {
-    theme: 'dark'
+    theme: 'dark',
+    font: undefined,
+    embeddedFonts: []
   };
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
   private readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
 
   private readonly listeners: ListenerItem[] = [];
+
+  public addFont(font: FIGFont): void {
+    const duplicate: FIGFont | undefined = this.findFont(font);
+
+    if (duplicate) {
+      return;
+    }
+    this.styles.embeddedFonts.push(font);
+  }
+
+  public findFontByName(imguiFontName: string): FIGFont | undefined {
+    return this.styles.embeddedFonts.find((item: FIGFont) => formatImGuiFontName(item) === imguiFontName);
+  }
 
   public link(): void {
     this.root.forEach((container) => container.link());
@@ -238,6 +254,12 @@ export class FIGDocument {
       return;
     }
     this.root.splice(index, 1);
+  }
+
+  private findFont(font: FIGFont): FIGFont | undefined {
+    return this.styles.embeddedFonts.find((item: FIGFont) => {
+      return item.name === font.name && item.size === font.size;
+    });
   }
 
 }

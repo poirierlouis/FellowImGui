@@ -7,3 +7,12 @@
 form {
   width: 100%;
 }
+
+.mat-form-field {
+  align-items: baseline;
+  padding-top: 12px;
+
+  & button {
+    margin-left: 12px;
+  }
+}

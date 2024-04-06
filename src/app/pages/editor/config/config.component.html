@@ -7,4 +7,54 @@
       <mat-option value="classic">Classic</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Fonts</mat-label>
+    <mat-select formControlName="font">
+      <mat-optgroup label="Default fonts">
+        @for (font of fonts; track font.name) {
+          <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+        }
+      </mat-optgroup>
+
+      <mat-optgroup label="Embedded fonts">
+        @for (font of embeddedFonts; track font.name) {
+          <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+        }
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="mat-form-field">
+    <mat-form-field>
+      <mat-label>Font path</mat-label>
+      <input matInput type="text" formControlName="fontPath" placeholder="Open a font file" readonly />
+    </mat-form-field>
+
+    <button mat-icon-button
+            matTooltip="Select a font file"
+            (click)="openFontPicker()">
+      <mat-icon>folder</mat-icon>
+    </button>
+
+    <input #fontPicker
+           type="file"
+           accept=".ttf,.otf"
+           (change)="onFontPicked($event)"
+           hidden />
+  </div>
+
+  <div class="mat-form-field">
+    <mat-form-field>
+      <mat-label>Font size</mat-label>
+      <input matInput type="number" formControlName="fontSize" step="1" />
+    </mat-form-field>
+
+    <button mat-icon-button
+            matTooltip="Import font in document"
+            (click)="onImportFont()"
+            [disabled]="!canImportFont">
+      <mat-icon>done</mat-icon>
+    </button>
+  </div>
 </form>

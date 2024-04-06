@@ -1,5 +1,8 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {FIGDocument} from "../../../models/document";
+import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
+import {FIGThemeColors} from "../../../models/document-styles";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'fig-canvas',
@@ -8,28 +11,34 @@ import {FIGDocument} from "../../../models/document";
   templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.css'
 })
-export class CanvasComponent implements OnInit, OnDestroy {
+export class CanvasComponent implements OnDestroy {
 
   @ViewChild('imgui')
   canvas!: ElementRef;
 
+  private isFirstLoad: boolean = true;
   private isRendering: boolean = false;
+  private restart: boolean = false;
+
   private isResizing: boolean = false;
   private hasFocus: boolean = false;
   private lastFrame: any;
 
   private document!: FIGDocument;
+  private fonts: FIGFont[] = FIGFontDefaults;
+
+  private currentTheme?: FIGThemeColors;
+  private currentFont?: string;
 
   constructor(private readonly el: ElementRef,
+              private readonly toast: MatSnackBar,
               private readonly renderer: Renderer2) {
   }
 
   @Input('document')
   set _document(value: FIGDocument) {
     this.document = value;
-    if (this.isRendering) {
-      this.updateStyles();
-    }
+    this.requestRestart();
   }
 
   @Input('isResizing')
@@ -45,18 +54,16 @@ export class CanvasComponent implements OnInit, OnDestroy {
     return this.canvas.nativeElement;
   }
 
-  async ngOnInit(): Promise<void> {
-    await ImGui.default();
-
-    ImGui.CreateContext();
+  private get imguiFonts(): any[] {
     const io = ImGui.GetIO();
+    const fonts: any[] = [];
 
-    this.updateStyles();
-    io.Fonts.AddFontDefault();
-    ImGui_Impl.Init(this.$canvas);
-    this.resize();
-    this.isRendering = true;
-    requestAnimationFrame(this.render.bind(this));
+    for (let i: number = 0; i < io.Fonts.Fonts.Size; i++) {
+      const font: any = io.Fonts.Fonts[i];
+
+      fonts.push(font);
+    }
+    return fonts;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -76,15 +83,17 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isRendering = false;
-    ImGui_Impl.Shutdown();
-    ImGui.DestroyContext();
   }
 
-  public updateStyles(): void {
+  public async updateStyles(): Promise<void> {
     this.updateThemeColors();
+    await this.updateFont();
   }
 
   private updateThemeColors(): void {
+    if (this.currentTheme === this.document.styles.theme) {
+      return;
+    }
     if (this.document.styles.theme === 'dark') {
       ImGui.StyleColorsDark();
     } else if (this.document.styles.theme === 'light') {
@@ -92,6 +101,64 @@ export class CanvasComponent implements OnInit, OnDestroy {
     } else if (this.document.styles.theme === 'classic') {
       ImGui.StyleColorsClassic();
     }
+    this.currentTheme = this.document.styles.theme;
+  }
+
+  private async updateFont(): Promise<void> {
+    if (this.currentFont === this.document.styles.font) {
+      return;
+    }
+    const imguiFontName: string = this.document.styles.font ?? formatImGuiFontName(FIGFontDefaults[0]);
+    const imguiFont: any | undefined = this.imguiFonts.find((font: any) => font.GetDebugName() === imguiFontName);
+
+    if (imguiFont) {
+      const io = ImGui.GetIO();
+
+      io.FontDefault = imguiFont;
+      this.currentFont = this.document.styles.font;
+      return;
+    }
+    const font: FIGFont | undefined = this.document.findFontByName(imguiFontName);
+
+    if (!font) {
+      this.toast.open(`Could not find the font "${imguiFontName}".`);
+      return;
+    }
+    this.toast.open('ImGui restarts to load a new font...');
+    this.requestRestart();
+  }
+
+  private async loadFonts(): Promise<void> {
+    const defaultFonts: FIGFont[] = this.fonts.slice(1).filter((font) => !font.buffer);
+    const embeddedFonts: FIGFont[] = this.document.styles.embeddedFonts;
+    const io = ImGui.GetIO();
+
+    io.Fonts.AddFontDefault();
+    for (const font of defaultFonts) {
+      await this.loadAssetFont(font);
+    }
+    for (const font of embeddedFonts) {
+      this.loadEmbeddedFont(font);
+    }
+    io.Fonts.Build();
+  }
+
+  private async loadAssetFont(font: FIGFont): Promise<any> {
+    const url: string = `./assets/fonts/${font.name}`;
+    const config: any = new ImGui.FontConfig();
+
+    config.Name = formatImGuiFontName(font);
+    const response: Response = await fetch(url);
+    const buffer: ArrayBuffer = await response.arrayBuffer();
+
+    return ImGui.GetIO().Fonts.AddFontFromMemoryTTF(buffer, font.size, config, null);
+  }
+
+  private loadEmbeddedFont(font: FIGFont): any {
+    const config: any = new ImGui.FontConfig();
+
+    config.Name = formatImGuiFontName(font);
+    return ImGui.GetIO().Fonts.AddFontFromMemoryTTF(font.buffer, font.size, config, null);
   }
 
   private resize(): void {
@@ -99,6 +166,38 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
     this.$canvas.width = this.$host.clientWidth * devicePixelRatio;
     this.$canvas.height = this.$host.clientHeight * devicePixelRatio;
+  }
+
+  private async startImGui(): Promise<void> {
+    if (this.isRendering) {
+      return;
+    }
+    if (this.isFirstLoad) {
+      await ImGui.default();
+      this.isFirstLoad = false;
+    }
+    ImGui.CreateContext();
+    await this.loadFonts();
+    await this.updateStyles();
+    ImGui_Impl.Init(this.$canvas);
+    this.resize();
+    this.isRendering = true;
+    requestAnimationFrame(this.render.bind(this));
+  }
+
+  private stopImGui(): void {
+    this.isRendering = false;
+    ImGui_Impl.Shutdown();
+    ImGui.DestroyContext();
+  }
+
+  private requestRestart(): void {
+    this.restart = true;
+    this.isRendering = false;
+    if (this.isFirstLoad) {
+      this.restart = false;
+      this.startImGui();
+    }
   }
 
   private render(timestamp: number): void {
@@ -133,12 +232,16 @@ export class CanvasComponent implements OnInit, OnDestroy {
     //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
     ImGui_Impl.RenderDrawData(frame);
     if (!this.isRendering) {
+      this.stopImGui();
+      if (this.restart) {
+        this.startImGui();
+      }
       return;
     }
     if (!this.hasFocus && document.body.style.cursor !== 'default') {
       this.renderer.setStyle(document.body, 'cursor', 'default');
     }
-    window.requestAnimationFrame(this.render.bind(this));
+    requestAnimationFrame(this.render.bind(this));
   }
 
 }
