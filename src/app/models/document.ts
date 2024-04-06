@@ -38,6 +38,15 @@ export class FIGDocument {
     this.styles.embeddedFonts.push(font);
   }
 
+  public removeFont(font: FIGFont): void {
+    const index: number = this.styles.embeddedFonts.findIndex((item) => formatImGuiFontName(item) === formatImGuiFontName(font));
+
+    if (index === -1) {
+      return;
+    }
+    this.styles.embeddedFonts.splice(index, 1);
+  }
+
   public findFontByName(imguiFontName: string): FIGFont | undefined {
     return this.styles.embeddedFonts.find((item: FIGFont) => formatImGuiFontName(item) === imguiFontName);
   }

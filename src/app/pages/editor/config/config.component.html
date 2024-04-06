@@ -8,22 +8,35 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Fonts</mat-label>
-    <mat-select formControlName="font">
-      <mat-optgroup label="Default fonts">
-        @for (font of fonts; track font.name) {
-          <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
-        }
-      </mat-optgroup>
+  <div class="mat-form-field">
+    <mat-form-field>
+      <mat-label>Font</mat-label>
+      <mat-select formControlName="font">
+        <mat-optgroup label="Default fonts">
+          @for (font of fonts; track font.name) {
+            <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+          }
+        </mat-optgroup>
 
-      <mat-optgroup label="Embedded fonts">
-        @for (font of embeddedFonts; track font.name) {
-          <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+        @if (embeddedFonts.length > 0) {
+          <mat-optgroup label="Embedded fonts">
+            @for (font of embeddedFonts; track font.name) {
+              <mat-option [value]="font">{{font.name}}, {{font.size.toFixed(0)}}px</mat-option>
+            }
+          </mat-optgroup>
         }
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
+      </mat-select>
+    </mat-form-field>
+
+    @if (canDeleteFont) {
+      <button mat-icon-button
+              color="warn"
+              matTooltip="Remove font from document"
+              (click)="onDeleteFont()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+  </div>
 
   <div class="mat-form-field">
     <mat-form-field>

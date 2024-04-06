@@ -47,6 +47,7 @@ export class ConfigComponent {
 
   fonts: FIGFont[] = FIGFontDefaults;
   embeddedFonts: FIGFont[] = [];
+  canDeleteFont: boolean = false;
 
   private document!: FIGDocument;
   private fontFile?: File;
@@ -60,6 +61,7 @@ export class ConfigComponent {
   public set _document(value: FIGDocument) {
     this.document = value;
     this.embeddedFonts = this.document.styles.embeddedFonts;
+    this.canDeleteFont = this.isFontEmbedded();
     this.updateForm();
   }
 
@@ -86,6 +88,24 @@ export class ConfigComponent {
 
   public openFontPicker(): void {
     this.fontPicker.nativeElement.click();
+  }
+
+  protected onDeleteFont(): void {
+    if (!this.canDeleteFont) {
+      return;
+    }
+    const imguiFontName: string = this.document.styles.font!;
+    const index: number = this.embeddedFonts.findIndex((font) => formatImGuiFontName(font) === imguiFontName);
+
+    if (index === -1) {
+      // TODO: show a toast?
+      return;
+    }
+    const [font]: FIGFont[] = this.embeddedFonts.splice(index, 1);
+
+    this.document.removeFont(font);
+    this.onFontChanged(this.fonts[0]);
+    this.form.get('font')!.setValue(this.fonts[0], {emitEvent: false});
   }
 
   protected onFontPicked(event: Event): void {
@@ -132,6 +152,7 @@ export class ConfigComponent {
 
   private onFontChanged(value: FIGFont): void {
     this.document.styles.font = formatImGuiFontName(value);
+    this.canDeleteFont = this.isFontEmbedded();
     this.update.emit();
   }
 
@@ -139,6 +160,18 @@ export class ConfigComponent {
     this.fontFile = undefined;
     this.form.get('fontPath')!.setValue('', {emitEvent: false});
     this.form.get('fontSize')!.disable({emitEvent: false});
+  }
+
+  private isFontEmbedded(): boolean {
+    const imguiFontName: string | undefined = this.document.styles.font;
+
+    if (!imguiFontName) {
+      return false;
+    }
+    const font: FIGFont | undefined = this.document.styles.embeddedFonts.find((font) => formatImGuiFontName(font) === imguiFontName);
+
+    return !!font;
+
   }
 
 }
