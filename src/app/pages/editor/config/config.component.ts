@@ -119,7 +119,7 @@ export class ConfigComponent {
       buffer: buffer
     };
 
-    this.fonts.push(font);
+    this.embeddedFonts.push(font);
     this.document.addFont(font);
     this.update.emit();
     this.resetImportFont();
