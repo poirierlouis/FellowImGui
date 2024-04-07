@@ -3,7 +3,7 @@ import {FIGDocument} from "../../../models/document";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FIGThemeColors} from "../../../models/document-styles";
+import {FIGSizes, FIGSizesSerializers, FIGThemeColors} from "../../../models/document-config";
 import {MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -70,18 +70,18 @@ export class ConfigComponent {
   @Input('document')
   public set _document(value: FIGDocument) {
     this.document = value;
-    this.embeddedFonts = this.document.styles.embeddedFonts;
+    this.embeddedFonts = this.document.config.embeddedFonts;
     this.canDeleteFont = this.isFontEmbedded();
     this.updateForm();
   }
 
   protected get currentFont(): FIGFont {
-    if (!this.document.styles.font) {
+    if (!this.document.config.font) {
       return FIGFontDefaults[0];
     }
-    let font: FIGFont | undefined = this.document.findFontByName(this.document.styles.font);
+    let font: FIGFont | undefined = this.document.findFontByName(this.document.config.font);
 
-    font ??= this.fonts.find((item) => formatImGuiFontName(item) === this.document.styles.font);
+    font ??= this.fonts.find((item) => formatImGuiFontName(item) === this.document.config.font);
     return font ?? FIGFontDefaults[0];
   }
 
@@ -90,7 +90,7 @@ export class ConfigComponent {
   }
 
   public updateForm(): void {
-    this.form.get('theme')!.setValue(this.document.styles.theme, {emitEvent: false});
+    this.form.get('theme')!.setValue(this.document.config.theme, {emitEvent: false});
     setTimeout(() => {
       this.form.get('font')!.setValue(this.currentFont, {emitEvent: false});
     });
@@ -106,7 +106,7 @@ export class ConfigComponent {
     if (!this.canDeleteFont) {
       return;
     }
-    const imguiFontName: string = this.document.styles.font!;
+    const imguiFontName: string = this.document.config.font!;
     const index: number = this.embeddedFonts.findIndex((font) => formatImGuiFontName(font) === imguiFontName);
 
     if (index === -1) {
@@ -158,12 +158,12 @@ export class ConfigComponent {
   }
 
   private onThemeChanged(value: FIGThemeColors): void {
-    this.document.styles.theme = value;
+    this.document.config.theme = value;
     this.update.emit();
   }
 
   private onFontChanged(value: FIGFont): void {
-    this.document.styles.font = formatImGuiFontName(value);
+    this.document.config.font = formatImGuiFontName(value);
     this.canDeleteFont = this.isFontEmbedded();
     this.update.emit();
   }
@@ -175,12 +175,12 @@ export class ConfigComponent {
   }
 
   private isFontEmbedded(): boolean {
-    const imguiFontName: string | undefined = this.document.styles.font;
+    const imguiFontName: string | undefined = this.document.config.font;
 
     if (!imguiFontName) {
       return false;
     }
-    const font: FIGFont | undefined = this.document.styles.embeddedFonts.find((font) => formatImGuiFontName(font) === imguiFontName);
+    const font: FIGFont | undefined = this.document.config.embeddedFonts.find((font) => formatImGuiFontName(font) === imguiFontName);
 
     return !!font;
 

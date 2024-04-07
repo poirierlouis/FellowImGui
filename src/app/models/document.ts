@@ -4,7 +4,7 @@ import {FIGDropDirection} from "../directives/drop.directive";
 import {FIGWidgetFactory} from "./widgets/widget.factory";
 import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
 import {FIGEvent} from "./events/event";
-import {FIGStyles} from "./document-styles";
+import {FIGConfig} from "./document-config";
 import {FIGFont, formatImGuiFontName} from "./document-fonts";
 
 interface ListenerItem {
@@ -18,7 +18,7 @@ export class FIGDocument {
   readonly version: string = '0.0.0';
   readonly root: FIGContainer[] = [];
 
-  styles: FIGStyles = {
+  config: FIGConfig = {
     theme: 'dark',
     font: undefined,
     embeddedFonts: []
@@ -35,20 +35,20 @@ export class FIGDocument {
     if (duplicate) {
       return;
     }
-    this.styles.embeddedFonts.push(font);
+    this.config.embeddedFonts.push(font);
   }
 
   public removeFont(font: FIGFont): void {
-    const index: number = this.styles.embeddedFonts.findIndex((item) => formatImGuiFontName(item) === formatImGuiFontName(font));
+    const index: number = this.config.embeddedFonts.findIndex((item) => formatImGuiFontName(item) === formatImGuiFontName(font));
 
     if (index === -1) {
       return;
     }
-    this.styles.embeddedFonts.splice(index, 1);
+    this.config.embeddedFonts.splice(index, 1);
   }
 
   public findFontByName(imguiFontName: string): FIGFont | undefined {
-    return this.styles.embeddedFonts.find((item: FIGFont) => formatImGuiFontName(item) === imguiFontName);
+    return this.config.embeddedFonts.find((item: FIGFont) => formatImGuiFontName(item) === imguiFontName);
   }
 
   public link(): void {
@@ -266,7 +266,7 @@ export class FIGDocument {
   }
 
   private findFont(font: FIGFont): FIGFont | undefined {
-    return this.styles.embeddedFonts.find((item: FIGFont) => {
+    return this.config.embeddedFonts.find((item: FIGFont) => {
       return item.name === font.name && item.size === font.size;
     });
   }

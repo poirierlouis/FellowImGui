@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {FIGDocument} from "../../../models/document";
 import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
-import {FIGThemeColors} from "../../../models/document-styles";
+import {FIGSizes, FIGSizesSerializers, FIGThemeColors} from "../../../models/document-config";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -85,37 +85,37 @@ export class CanvasComponent implements OnDestroy {
     this.isRendering = false;
   }
 
-  public async updateStyles(): Promise<void> {
+  public async updateConfig(): Promise<void> {
     this.updateThemeColors();
     await this.updateFont();
   }
 
   private updateThemeColors(): void {
-    if (this.currentTheme === this.document.styles.theme) {
+    if (this.currentTheme === this.document.config.theme) {
       return;
     }
-    if (this.document.styles.theme === 'dark') {
+    if (this.document.config.theme === 'dark') {
       ImGui.StyleColorsDark();
-    } else if (this.document.styles.theme === 'light') {
+    } else if (this.document.config.theme === 'light') {
       ImGui.StyleColorsLight();
-    } else if (this.document.styles.theme === 'classic') {
+    } else if (this.document.config.theme === 'classic') {
       ImGui.StyleColorsClassic();
     }
-    this.currentTheme = this.document.styles.theme;
+    this.currentTheme = this.document.config.theme;
   }
 
   private async updateFont(): Promise<void> {
-    if (this.currentFont === this.document.styles.font) {
+    if (this.currentFont === this.document.config.font) {
       return;
     }
-    const imguiFontName: string = this.document.styles.font ?? formatImGuiFontName(FIGFontDefaults[0]);
+    const imguiFontName: string = this.document.config.font ?? formatImGuiFontName(FIGFontDefaults[0]);
     const imguiFont: any | undefined = this.imguiFonts.find((font: any) => font.GetDebugName() === imguiFontName);
 
     if (imguiFont) {
       const io = ImGui.GetIO();
 
       io.FontDefault = imguiFont;
-      this.currentFont = this.document.styles.font;
+      this.currentFont = this.document.config.font;
       return;
     }
     const font: FIGFont | undefined = this.document.findFontByName(imguiFontName);
@@ -130,7 +130,7 @@ export class CanvasComponent implements OnDestroy {
 
   private async loadFonts(): Promise<void> {
     const defaultFonts: FIGFont[] = this.fonts.slice(1).filter((font) => !font.buffer);
-    const embeddedFonts: FIGFont[] = this.document.styles.embeddedFonts;
+    const embeddedFonts: FIGFont[] = this.document.config.embeddedFonts;
     const io = ImGui.GetIO();
 
     io.Fonts.AddFontDefault();
@@ -178,7 +178,7 @@ export class CanvasComponent implements OnDestroy {
     }
     ImGui.CreateContext();
     await this.loadFonts();
-    await this.updateStyles();
+    await this.updateConfig();
     ImGui_Impl.Init(this.$canvas);
     this.resize();
     this.isRendering = true;

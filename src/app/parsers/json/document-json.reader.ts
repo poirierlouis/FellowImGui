@@ -4,7 +4,7 @@ import {FIGDocumentReader, FIGDocumentReaderError, FIGDocumentReaderErrorCode} f
 import {FIGContainer} from "../../models/widgets/container";
 import {FIGDocumentJsonKeyGenerator} from "./document-json.parser";
 import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty, Versioning} from "../document.parser";
-import {FIGStyles, FIGStylesSerializers} from "../../models/document-styles";
+import {FIGConfig, FIGConfigSerializers} from "../../models/document-config";
 
 export class FIGDocumentJsonReader extends FIGDocumentReader {
   private readonly readers: FIGSerializeBind[] = FIGBaseDocumentParser.binders;
@@ -39,10 +39,10 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       }
       document.root.push(container);
     }
-    const jsonStyles: FIGStyles | undefined = this.readObject(data[keygen.next()], FIGStylesSerializers, version);
+    const jsonStyles: FIGConfig | undefined = this.readObject(data[keygen.next()], FIGConfigSerializers, version);
 
     if (jsonStyles) {
-      document.styles = jsonStyles;
+      document.config = jsonStyles;
     }
     return document;
   }

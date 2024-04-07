@@ -156,7 +156,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   protected async onStylesUpdated(): Promise<void> {
-    await this.canvas.updateStyles();
+    await this.canvas.updateConfig();
   }
 
   @HostListener('document:keydown', ['$event'])
