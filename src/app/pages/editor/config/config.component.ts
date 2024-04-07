@@ -3,7 +3,7 @@ import {FIGDocument} from "../../../models/document";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FIGSizes, FIGSizesSerializers, FIGThemeColors} from "../../../models/document-config";
+import {FIGThemeColors} from "../../../models/document-config";
 import {MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -17,6 +17,7 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {FIGSerializeProperty} from "../../../parsers/document.parser";
+import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
 
 export interface FIGFormField extends FIGSerializeProperty {
   fieldType?: 'select';

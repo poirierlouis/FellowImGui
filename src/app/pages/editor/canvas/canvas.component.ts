@@ -1,8 +1,9 @@
 import {Component, ElementRef, HostListener, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {FIGDocument} from "../../../models/document";
 import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
-import {FIGSizes, FIGSizesSerializers, FIGThemeColors} from "../../../models/document-config";
+import {FIGThemeColors} from "../../../models/document-config";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
 
 @Component({
   selector: 'fig-canvas',
