@@ -93,6 +93,7 @@
     overflow-y: auto;
     display: flex;
     flex-flow: column;
+    height: inherit;
   }
 
   & .slider {

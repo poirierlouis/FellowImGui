@@ -28,6 +28,10 @@
         }
       }
     }
+
+    & .mat-mdc-tab-body-wrapper {
+      height: 100%;
+    }
   }
 
   #fig-drag-placeholder {
