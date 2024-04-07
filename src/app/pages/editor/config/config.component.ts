@@ -91,7 +91,9 @@ export class ConfigComponent {
 
   public updateForm(): void {
     this.form.get('theme')!.setValue(this.document.styles.theme, {emitEvent: false});
-    this.form.get('font')!.setValue(this.currentFont, {emitEvent: false});
+    setTimeout(() => {
+      this.form.get('font')!.setValue(this.currentFont, {emitEvent: false});
+    });
     this.form.get('fontPath')!.setValue('', {emitEvent: false});
     this.form.get('fontSize')!.setValue({value: 13, disabled: true}, {emitEvent: false});
   }
