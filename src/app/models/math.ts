@@ -20,11 +20,15 @@ export function stringifyRGBA(value: Color): string {
 }
 
 export function stringifyHEX(value: Color): string {
-  const r: string = Math.floor(value.r * 255).toString(16);
-  const g: string = Math.floor(value.g * 255).toString(16);
-  const b: string = Math.floor(value.b * 255).toString(16);
-  const a: string = Math.floor(value.a * 255).toString(16);
+  let r: number | string = Math.floor(value.r * 255);
+  let g: number | string = Math.floor(value.g * 255);
+  let b: number | string = Math.floor(value.b * 255);
+  let a: number | string = Math.floor(value.a * 255);
 
+  r = (r <= 15) ? `0${r.toString(16)}` : `${r.toString(16)}`;
+  g = (g <= 15) ? `0${g.toString(16)}` : `${g.toString(16)}`;
+  b = (b <= 15) ? `0${b.toString(16)}` : `${b.toString(16)}`;
+  a = (a <= 15) ? `0${a.toString(16)}` : `${a.toString(16)}`;
   return `#${r}${g}${b}${a}`;
 }
 
