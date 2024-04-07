@@ -194,6 +194,8 @@ export class CanvasComponent implements OnDestroy {
   private requestRestart(): void {
     this.restart = true;
     this.isRendering = false;
+    this.currentTheme = undefined;
+    this.currentFont = undefined;
     if (this.isFirstLoad) {
       this.restart = false;
       this.startImGui();
