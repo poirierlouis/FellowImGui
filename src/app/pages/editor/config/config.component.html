@@ -132,6 +132,17 @@
           <mat-option value="classic">Classic</mat-option>
         </mat-select>
       </mat-form-field>
+
+      @for (field of colorsFields; track field.name) {
+        <div class="mat-form-field">
+          <mat-label>{{field.name}}</mat-label>
+          <ngx-colors [formControlName]="field.name"
+                      ngx-colors-trigger
+                      format="rgba"
+                      [palette]="[]"
+                      (open)="onColorPickerOpened($index)"></ngx-colors>
+        </div>
+      }
     </mat-expansion-panel>
   </mat-accordion>
 </form>

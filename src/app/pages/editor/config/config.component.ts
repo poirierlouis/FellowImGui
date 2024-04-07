@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {FIGDocument} from "../../../models/document";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
@@ -18,6 +18,10 @@ import {
 } from "@angular/material/expansion";
 import {FIGSerializeProperty} from "../../../parsers/document.parser";
 import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
+import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
+import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
+import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
+import {Color, parseRGBA, stringifyHEX, stringifyRGBA, Vector4} from "../../../models/math";
 
 export interface FIGFormField extends FIGSerializeProperty {
   fieldType?: 'select';
@@ -45,7 +49,8 @@ export interface FIGFormField extends FIGSerializeProperty {
     MatExpansionPanel,
     MatExpansionPanelTitle,
     MatExpansionPanelHeader,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxColorsModule
   ],
   templateUrl: './config.component.html',
   styleUrl: './config.component.css'
@@ -54,6 +59,9 @@ export class ConfigComponent {
 
   @ViewChild('fontPicker')
   fontPicker!: ElementRef;
+
+  @ViewChildren(NgxColorsTriggerDirective)
+  colorPickers!: QueryList<NgxColorsTriggerDirective>;
 
   @Output()
   readonly update: EventEmitter<void> = new EventEmitter<void>();
@@ -70,6 +78,7 @@ export class ConfigComponent {
   canDeleteFont: boolean = false;
 
   sizesFields: FIGFormField[] = FIGSizesSerializers;
+  colorsFields: FIGSerializeProperty[] = FIGColorsSerializers;
 
   private document!: FIGDocument;
   private fontFile?: File;
@@ -88,6 +97,10 @@ export class ConfigComponent {
         this.form.addControl(field.name, new FormControl());
         this.form.get(field.name)!.valueChanges.subscribe((value) => this.onSizeFieldChanged(field, value));
       }
+    }
+    for (const field of this.colorsFields) {
+      this.form.addControl(field.name, new FormControl());
+      this.form.get(field.name)!.valueChanges.subscribe((value) => this.onColorFieldChanged(field, value));
     }
   }
 
@@ -130,6 +143,18 @@ export class ConfigComponent {
         this.form.get(field.name)!.setValue(sizes?.[field.name] ?? field.default, {emitEvent: false});
       }
     }
+    setTimeout(() => {
+      const imguiColors: Vector4[] = ImGui.GetStyle().Colors;
+      const colors: FIGColors | undefined = this.document.config.colors;
+
+      for (const field of this.colorsFields) {
+        const index: number = FIGCol[field.name as keyof typeof FIGCol];
+        const vector: Vector4 = imguiColors[index];
+        const color: Color = {r: vector.x, g: vector.y, b: vector.z, a: vector.w};
+
+        this.form.get(field.name)!.setValue(stringifyHEX(colors?.[field.name] ?? color), {emitEvent: false});
+      }
+    }, 1000);
   }
 
   public openFontPicker(): void {
@@ -191,9 +216,34 @@ export class ConfigComponent {
     this.resetImportFont();
   }
 
+  protected onColorPickerOpened(index: number): void {
+    const $panel: PanelComponent = this.colorPickers.get(index)!.panelRef.instance;
+    const vector: Vector4 = ImGui.GetStyle().Colors[index];
+    const color: Color = {r: vector.x, g: vector.y, b: vector.z, a: vector.w};
+
+    $panel.menu = 3;
+    if ($panel.color.length === 0) {
+      $panel.color = stringifyRGBA(color);
+    } else if ($panel.color.length === 0) {
+      $panel.color = 'rgb(255, 255, 255)';
+    }
+  }
+
   private onThemeChanged(value: FIGThemeColors): void {
     this.document.config.theme = value;
+    this.document.config.colors = undefined;
     this.update.emit();
+    setTimeout(() => {
+      const imguiColors: Vector4[] = ImGui.GetStyle().Colors;
+
+      for (const field of this.colorsFields) {
+        const index: number = FIGCol[field.name as keyof typeof FIGCol];
+        const vector: Vector4 = imguiColors[index];
+        const color: Color = {r: vector.x, g: vector.y, b: vector.z, a: vector.w};
+
+        this.form.get(field.name)!.setValue(stringifyHEX(color), {emitEvent: false});
+      }
+    });
   }
 
   private onFontChanged(value: FIGFont): void {
@@ -240,6 +290,20 @@ export class ConfigComponent {
       currentValue = value;
     }
     sizes[field.name] = currentValue;
+    this.update.emit();
+  }
+
+  private onColorFieldChanged(field: FIGSerializeProperty, value: any): void {
+    const color: Color | undefined = parseRGBA(value);
+
+    if (!color) {
+      return;
+    }
+    const index: number = FIGCol[field.name as keyof typeof FIGCol];
+
+    ImGui.GetStyle().Colors[index] = {x: color.r, y: color.g, z: color.b, w: color.a};
+    this.document.config.colors ??= {};
+    this.document.config.colors[field.name] = color;
     this.update.emit();
   }
 

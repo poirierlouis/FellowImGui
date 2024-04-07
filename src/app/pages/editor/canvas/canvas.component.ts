@@ -4,6 +4,8 @@ import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/doc
 import {FIGThemeColors} from "../../../models/document-config";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
+import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
+import {Color, Vector4} from "../../../models/math";
 
 @Component({
   selector: 'fig-canvas',
@@ -89,6 +91,7 @@ export class CanvasComponent implements OnDestroy {
   public async updateConfig(): Promise<void> {
     this.updateThemeColors();
     this.updateStyles();
+    this.updateColors();
     await this.updateFont();
   }
 
@@ -104,6 +107,21 @@ export class CanvasComponent implements OnDestroy {
       ImGui.StyleColorsClassic();
     }
     this.currentTheme = this.document.config.theme;
+  }
+
+  private updateColors(): void {
+    const colors: FIGColors | undefined = this.document.config.colors;
+    const imguiColors: Vector4[] = ImGui.GetStyle().Colors;
+
+    for (const property of FIGColorsSerializers) {
+      const color: Color | undefined = colors?.[property.name];
+
+      if (color !== undefined) {
+        const index: number = FIGCol[property.name as keyof typeof FIGCol];
+
+        imguiColors[index] = {x: color.r, y: color.g, z: color.b, w: color.a};
+      }
+    }
   }
 
   private updateStyles(): void {

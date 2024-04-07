@@ -13,7 +13,7 @@ form {
   gap: 12px;
 }
 
-.mat-form-field {
+mat-form-field.mat-form-field {
   align-items: baseline;
   padding-top: 12px;
 

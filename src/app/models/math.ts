@@ -1,6 +1,15 @@
+import {FIGSerializeProperty} from "../parsers/document.parser";
+
 export interface Vector2 {
   x: number;
   y: number;
+}
+
+export interface Vector4 {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
 }
 
 export interface Size {
@@ -14,6 +23,8 @@ export interface Color {
   b: number;
   a: number;
 }
+
+export const ColorSerializers: FIGSerializeProperty[] = [{name: 'r'}, {name: 'g'}, {name: 'b'}, {name: 'a'}];
 
 export function stringifyRGBA(value: Color): string {
   return `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a})`;
