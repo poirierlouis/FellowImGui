@@ -107,6 +107,9 @@ export class FIGWindowWidget extends FIGContainer {
     }
     this.listenSize();
     ImGui.End();
+    if (this.minSize) {
+      ImGui.PopStyleVar();
+    }
   }
 
   private listenSize(): void {
