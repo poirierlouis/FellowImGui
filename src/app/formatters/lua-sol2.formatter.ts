@@ -13,7 +13,11 @@ import {Color, Vector2} from "../models/math";
 import {capitalize, formatNumber} from "../models/string";
 import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
 import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
-import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
+import {
+  FIGInputColorEditFlags,
+  FIGInputColorEditMasks,
+  FIGInputColorEditWidget
+} from "../models/widgets/input-color-edit.widget";
 import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
 import {FIGBulletWidget} from "../models/widgets/bullet.widget";
 import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
@@ -101,6 +105,9 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
         .map((flag) => flagsType[flag])
         .map((name) => `${flagName}.${name}`)
         .join(' + ');
+      if (varFlags === ', ') {
+        varFlags = '';
+      }
     }
     return varFlags;
   }
@@ -615,16 +622,20 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const varColor: string = this.formatVar(`${widget.label} color`, widget.type);
     const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
     let value: string = `${widget.color.r}, ${widget.color.g}, ${widget.color.b}`;
+    let varFlags: string = '';
 
     if (widget.withAlpha) {
       value += `, ${widget.color.a}`;
     }
+    if (widget.flags !== 0 && widget.flags !== FIGInputColorEditMasks.DefaultOptions_) {
+      varFlags = this.formatFlags<FIGInputColorEditFlags>(widget.flags, FIGInputColorEditWidget.flags, FIGInputColorEditFlags, 'ImGuiColorEditFlags');
+    }
     value = `{${value}}`;
     this.append(`local ${varColor} = ${value}, ${varUsed}`);
     if (!widget.withAlpha) {
-      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit3(${text}, ${varColor})`);
+      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit3(${text}, ${varColor}${varFlags})`);
     } else {
-      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor})`);
+      this.append(`${varColor}, ${varUsed} = ImGui.ColorEdit4(${text}, ${varColor}${varFlags})`);
     }
     this.formatTooltip(widget);
   }

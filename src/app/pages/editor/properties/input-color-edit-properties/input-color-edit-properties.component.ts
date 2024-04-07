@@ -4,10 +4,12 @@ import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
+import {AbstractPropertiesComponent, FlagItem} from "../abstract-properties.component";
 import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
 import {Color, parseRGBA, stringifyHEX, stringifyRGBA} from "../../../../models/math";
-import {FIGInputColorEditWidget} from "../../../../models/widgets/input-color-edit.widget";
+import {FIGInputColorEditFlags, FIGInputColorEditWidget} from "../../../../models/widgets/input-color-edit.widget";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'fig-input-color-edit-properties',
@@ -15,6 +17,8 @@ import {FIGInputColorEditWidget} from "../../../../models/widgets/input-color-ed
   imports: [
     MatInput,
     MatLabel,
+    MatSelect,
+    MatOption,
     MatFormField,
     MatSlideToggle,
     NgxColorsModule,
@@ -28,19 +32,29 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
   @ViewChild(NgxColorsTriggerDirective)
   ngxColor!: NgxColorsTriggerDirective;
 
+  readonly flags: FlagItem<FIGInputColorEditFlags>[] = [];
+
   override form: FormGroup = new FormGroup<any>({
     label: new FormControl<string>(''),
     color: new FormControl<string>(''),
     withAlpha: new FormControl<boolean>(false),
     tooltip: new FormControl<string | null>(null),
+    flags: new FormControl<string[]>([]),
   });
 
   constructor(dr: DestroyRef) {
     super(dr);
+    for (const flag of FIGInputColorEditWidget.flags) {
+      this.flags.push({
+        label: FIGInputColorEditFlags[flag],
+        value: flag
+      });
+    }
     this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
     this.listenProperty('color').subscribe(this.onColorChanged.bind(this));
     this.listenProperty('withAlpha').subscribe(this.onWithAlphaChanged.bind(this));
     this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
+    this.listenProperty('flags').subscribe(this.onFlagsChanged.bind(this));
   }
 
   protected onColorPickerOpened(): void {
@@ -64,6 +78,14 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
     this.setProperty('color', stringifyHEX(color));
     this.setProperty('withAlpha', this.widget.withAlpha);
     this.setProperty('tooltip', this.widget.tooltip ?? null);
+    const flags: number[] = [];
+
+    for (const flag of this.flags) {
+      if ((this.widget.flags & flag.value) === flag.value) {
+        flags.push(flag.value);
+      }
+    }
+    this.setProperty('flags', flags);
   }
 
   private onLabelChanged(value: string): void {
@@ -88,6 +110,19 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
       value = null;
     }
     this.widget.tooltip = value ?? undefined;
+    this.update.emit();
+  }
+
+  private onFlagsChanged(value: number[]): void {
+    for (const flag of this.flags) {
+      const isEnabled: boolean = value.includes(flag.value);
+
+      if (isEnabled) {
+        this.widget.flags |= flag.value;
+      } else if ((this.widget.flags & flag.value) === flag.value) {
+        this.widget.flags ^= flag.value;
+      }
+    }
     this.update.emit();
   }
 

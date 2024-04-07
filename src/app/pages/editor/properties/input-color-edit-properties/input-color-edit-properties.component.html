@@ -27,4 +27,13 @@
            type="text"
            formControlName="tooltip" />
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Flags</mat-label>
+    <mat-select multiple formControlName="flags">
+      @for (flag of flags; track flag.value) {
+        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </form>
