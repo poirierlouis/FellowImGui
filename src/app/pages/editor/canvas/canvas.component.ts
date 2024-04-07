@@ -87,6 +87,7 @@ export class CanvasComponent implements OnDestroy {
 
   public async updateConfig(): Promise<void> {
     this.updateThemeColors();
+    this.updateStyles();
     await this.updateFont();
   }
 
@@ -102,6 +103,20 @@ export class CanvasComponent implements OnDestroy {
       ImGui.StyleColorsClassic();
     }
     this.currentTheme = this.document.config.theme;
+  }
+
+  private updateStyles(): void {
+    const sizes: FIGSizes | undefined = this.document.config.sizes;
+    const style: any = ImGui.GetStyle();
+
+    for (const property of FIGSizesSerializers) {
+      if (property.type === 'array' && sizes?.[property.name] !== undefined) {
+        style[property.name].x = sizes![property.name][0];
+        style[property.name].y = sizes![property.name][1];
+      } else if (sizes?.[property.name] !== undefined) {
+        style[property.name] = sizes![property.name];
+      }
+    }
   }
 
   private async updateFont(): Promise<void> {

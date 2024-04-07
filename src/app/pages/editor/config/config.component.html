@@ -74,7 +74,49 @@
         <mat-panel-title>Sizes</mat-panel-title>
       </mat-expansion-panel-header>
 
-      <p>to be done</p>
+      @for (field of sizesFields; track field.name) {
+        @if (field.type === 'array') {
+          <div class="row">
+            <mat-form-field>
+              <mat-label>{{field.name}}</mat-label>
+              <input matInput
+                     type="number"
+                     formControlName="{{field.name}}0"
+                     [min]="field.min ?? null"
+                     [max]="field.max ?? null"
+                     [step]="field.step ?? null" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput
+                     type="number"
+                     formControlName="{{field.name}}1"
+                     [min]="field.min ?? null"
+                     [max]="field.max ?? null"
+                     [step]="field.step ?? null" />
+            </mat-form-field>
+          </div>
+        } @else if (field.fieldType === 'select') {
+          <mat-form-field>
+            <mat-label>{{field.name}}</mat-label>
+            <mat-select [formControlName]="field.name">
+              @for (option of field.options; track option.value) {
+                <mat-option [value]="option.value">{{option.label}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        } @else {
+          <mat-form-field>
+            <mat-label>{{field.name}}</mat-label>
+            <input matInput
+                   type="number"
+                   [formControlName]="field.name"
+                   [min]="field.min ?? null"
+                   [max]="field.max ?? null"
+                   [step]="field.step ?? null" />
+          </mat-form-field>
+        }
+      }
     </mat-expansion-panel>
 
     <mat-expansion-panel>

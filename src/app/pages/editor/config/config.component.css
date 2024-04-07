@@ -8,6 +8,11 @@ form {
   width: 100%;
 }
 
+.row {
+  display: flex;
+  gap: 12px;
+}
+
 .mat-form-field {
   align-items: baseline;
   padding-top: 12px;

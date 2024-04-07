@@ -16,6 +16,15 @@ import {
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
+import {FIGSerializeProperty} from "../../../parsers/document.parser";
+
+export interface FIGFormField extends FIGSerializeProperty {
+  fieldType?: 'select';
+  min?: number;
+  max?: number;
+  step?: number;
+  options?: {label: string, value: any}[];
+}
 
 @Component({
   selector: 'fig-config',
@@ -59,12 +68,26 @@ export class ConfigComponent {
   embeddedFonts: FIGFont[] = [];
   canDeleteFont: boolean = false;
 
+  sizesFields: FIGFormField[] = FIGSizesSerializers;
+
   private document!: FIGDocument;
   private fontFile?: File;
 
   constructor(private readonly toast: MatSnackBar) {
     this.form.get('theme')!.valueChanges.subscribe(this.onThemeChanged.bind(this));
     this.form.get('font')!.valueChanges.subscribe(this.onFontChanged.bind(this));
+
+    for (const field of this.sizesFields) {
+      if (field.type === 'array') {
+        this.form.addControl(`${field.name}0`, new FormControl(null));
+        this.form.addControl(`${field.name}1`, new FormControl(null));
+        this.form.get(`${field.name}0`)!.valueChanges.subscribe((value) => this.onSizeFieldChanged(field, value, 0));
+        this.form.get(`${field.name}1`)!.valueChanges.subscribe((value) => this.onSizeFieldChanged(field, value, 1));
+      } else {
+        this.form.addControl(field.name, new FormControl());
+        this.form.get(field.name)!.valueChanges.subscribe((value) => this.onSizeFieldChanged(field, value));
+      }
+    }
   }
 
   @Input('document')
@@ -96,6 +119,16 @@ export class ConfigComponent {
     });
     this.form.get('fontPath')!.setValue('', {emitEvent: false});
     this.form.get('fontSize')!.setValue({value: 13, disabled: true}, {emitEvent: false});
+    const sizes: FIGSizes | undefined = this.document.config.sizes;
+
+    for (const field of this.sizesFields) {
+      if (field.type === 'array') {
+        this.form.get(`${field.name}0`)!.setValue(sizes?.[field.name]?.[0] ?? field.default[0], {emitEvent: false});
+        this.form.get(`${field.name}1`)!.setValue(sizes?.[field.name]?.[1] ?? field.default[1], {emitEvent: false});
+      } else {
+        this.form.get(field.name)!.setValue(sizes?.[field.name] ?? field.default, {emitEvent: false});
+      }
+    }
   }
 
   public openFontPicker(): void {
@@ -184,6 +217,29 @@ export class ConfigComponent {
 
     return !!font;
 
+  }
+
+  private onSizeFieldChanged(field: FIGFormField, value: any, index?: number): void {
+    if (value === null) {
+      return;
+    }
+    if (field.min !== undefined && value < field.min) {
+      return;
+    }
+    if (field.max !== undefined && value > field.max) {
+      return;
+    }
+    this.document.config.sizes ??= {};
+    const sizes: FIGSizes | undefined = this.document.config.sizes;
+    let currentValue: any | undefined = sizes[field.name] ?? field.default;
+
+    if (field.type === 'array' && index !== undefined) {
+      currentValue[index] = value;
+    } else {
+      currentValue = value;
+    }
+    sizes[field.name] = currentValue;
+    this.update.emit();
   }
 
 }

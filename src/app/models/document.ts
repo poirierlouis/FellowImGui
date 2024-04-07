@@ -21,7 +21,8 @@ export class FIGDocument {
   config: FIGConfig = {
     theme: 'dark',
     font: undefined,
-    embeddedFonts: []
+    embeddedFonts: [],
+    sizes: undefined
   };
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
