@@ -19,10 +19,11 @@ export class FIGDocument {
   readonly root: FIGContainer[] = [];
 
   config: FIGConfig = {
-    theme: 'dark',
     font: undefined,
     embeddedFonts: [],
-    sizes: undefined
+    sizes: undefined,
+    theme: 'dark',
+    colors: undefined
   };
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
