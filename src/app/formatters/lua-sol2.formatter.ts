@@ -382,21 +382,20 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatButton(widget: FIGButtonWidget): void {
-    const varClicked: string = this.formatVar(`${widget.label} clicked`, widget.type);
-    const varDef: string = `local ${varClicked} = `;
-
     if (widget.isSmall) {
-      this.append(`${varDef}ImGui.SmallButton(${this.formatString(widget.label)})`);
+      this.append(`if ImGui.SmallButton(${this.formatString(widget.label)}) then`);
     } else if (widget.arrow !== FIGDir.none) {
-      this.append(`${varDef}ImGui.ArrowButton(${this.formatString(widget.label)}, ${FIGLuaSol2Formatter.formatDir(widget.arrow)})`);
+      this.append(`if ImGui.ArrowButton(${this.formatString(widget.label)}, ${FIGLuaSol2Formatter.formatDir(widget.arrow)}) then`);
     } else {
       let size: string = '';
 
       if (widget.isFill) {
         size = ', -1, 0';
       }
-      this.append(`${varDef}ImGui.Button(${this.formatString(widget.label)}${size})`);
+      this.append(`if ImGui.Button(${this.formatString(widget.label)}${size}) then`);
     }
+    this.appendIndent('-- TODO');
+    this.append('end');
     this.formatTooltip(widget);
   }
 
