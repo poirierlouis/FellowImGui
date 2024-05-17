@@ -53,6 +53,6 @@ export class FIGProgressBarWidget extends FIGWithTooltip {
     if (this.tooltip && showTooltip) {
       ImGui.SetTooltip(this.tooltip);
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

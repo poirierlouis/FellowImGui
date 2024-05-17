@@ -71,7 +71,7 @@ export class FIGTabItemWidget extends FIGContainer {
       }
       ImGui.EndTabItem();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 
 }

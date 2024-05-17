@@ -52,6 +52,6 @@ export class FIGMenuBarWidget extends FIGContainer {
       }
       ImGui.EndMenuBar();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

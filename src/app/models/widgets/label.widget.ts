@@ -30,7 +30,7 @@ export class FIGLabelWidget extends FIGWithTooltip {
 
   public override draw(): void {
     ImGui.LabelText(this.label, this.value);
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
   }
 }

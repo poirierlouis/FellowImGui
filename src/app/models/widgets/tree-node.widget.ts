@@ -62,6 +62,6 @@ export class FIGTreeNodeWidget extends FIGContainer {
       }
       ImGui.TreePop();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

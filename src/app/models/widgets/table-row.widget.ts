@@ -64,6 +64,6 @@ export class FIGTableRowWidget extends FIGContainer {
         this.growFocusRect();
       }
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

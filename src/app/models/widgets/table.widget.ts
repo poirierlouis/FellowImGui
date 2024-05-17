@@ -85,6 +85,6 @@ export class FIGTableWidget extends FIGContainer {
       }
       ImGui.EndTable();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

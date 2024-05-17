@@ -55,8 +55,8 @@ export class FIGButtonWidget extends FIGWithTooltip {
 
       ImGui.Button(this.label, size);
     }
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
   }
 
 }

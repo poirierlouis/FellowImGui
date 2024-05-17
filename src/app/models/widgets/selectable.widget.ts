@@ -61,7 +61,7 @@ export class FIGSelectableWidget extends FIGWithTooltip {
     if (prevSelected !== this.selected) {
       this.triggerUpdate();
     }
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
   }
 }

@@ -45,8 +45,8 @@ export class FIGListBoxWidget extends FIGWithTooltip {
       this.items.length,
       this.itemsSize
     );
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
     if (prevSelectedItem !== this.selectedItem) {
       this.triggerUpdate();
     }

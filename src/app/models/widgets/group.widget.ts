@@ -18,6 +18,6 @@ export class FIGGroupWidget extends FIGContainer {
       child.listen();
     }
     ImGui.EndGroup();
-    super.drawFocus();
+    this.drawFocus();
   }
 }

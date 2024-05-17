@@ -15,6 +15,6 @@ export class FIGBulletWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.Bullet();
-    super.drawFocus();
+    this.drawFocus();
   }
 }

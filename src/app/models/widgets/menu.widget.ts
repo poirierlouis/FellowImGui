@@ -36,6 +36,6 @@ export class FIGMenuWidget extends FIGContainer {
       }
       ImGui.EndMenu();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

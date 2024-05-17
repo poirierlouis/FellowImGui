@@ -80,7 +80,7 @@ export class FIGVerticalSliderWidget extends FIGWidget {
         ImGui.SetTooltip(this.value.toFixed(precision));
       }
     }
-    super.drawFocus();
+    this.drawFocus();
     if (prevValue !== this.value) {
       this.triggerUpdate();
     }

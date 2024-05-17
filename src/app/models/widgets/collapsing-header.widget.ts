@@ -38,6 +38,6 @@ export class FIGCollapsingHeaderWidget extends FIGContainer {
         this.growFocusRect();
       }
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

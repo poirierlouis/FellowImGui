@@ -30,7 +30,7 @@ export class FIGDummyWidget extends FIGWithTooltip {
 
   public override draw(): void {
     ImGui.Dummy({x: this.width, y: this.height});
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
   }
 }

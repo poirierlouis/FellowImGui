@@ -49,6 +49,6 @@ export class FIGTableColumnWidget extends FIGContainer {
       child.listen();
       this.growFocusRect();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

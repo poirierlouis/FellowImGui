@@ -82,6 +82,6 @@ export class FIGPlotWidget extends FIGWidget {
         size, this.stride
       );
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

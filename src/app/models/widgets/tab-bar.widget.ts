@@ -53,6 +53,6 @@ export class FIGTabBarWidget extends FIGContainer {
       }
       ImGui.EndTabBar();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 }

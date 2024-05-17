@@ -55,7 +55,7 @@ export class FIGChildWindowWidget extends FIGContainer {
       }
       ImGui.EndChild();
     }
-    super.drawFocus();
+    this.drawFocus();
   }
 
 }

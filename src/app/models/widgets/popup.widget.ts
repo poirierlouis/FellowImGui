@@ -50,7 +50,7 @@ export class FIGPopupWidget extends FIGContainer {
       ImGui.EndPopup();
     }
     if (this.debug) {
-      super.drawFocus();
+      this.drawFocus();
     }
     if (prevOpen !== this.isOpen) {
       this.triggerUpdate();

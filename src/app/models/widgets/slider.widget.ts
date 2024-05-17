@@ -155,8 +155,8 @@ export class FIGSliderWidget extends FIGWithTooltip {
     if (this.diffValues(this.value, prevValue)) {
       this.triggerUpdate();
     }
-    super.drawTooltip();
-    super.drawFocus();
+    this.drawTooltip();
+    this.drawFocus();
   }
 
   private diffValues(values: number | number[], prevValues: number | number[]): boolean {

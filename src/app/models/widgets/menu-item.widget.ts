@@ -53,7 +53,7 @@ export class FIGMenuItemWidget extends FIGWidget {
       args.push(false);
     }
     ImGui.MenuItem(...args);
-    super.drawFocus();
+    this.drawFocus();
     if (prevSelected !== this.isSelected) {
       this.triggerUpdate();
     }
