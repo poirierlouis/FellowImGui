@@ -266,7 +266,6 @@ export class CanvasComponent implements OnDestroy {
     gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
     gl && gl.clearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     gl && gl.clear(gl.COLOR_BUFFER_BIT);
-    //gl.useProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
     ImGui_Impl.RenderDrawData(frame);
     if (!this.isRendering) {
       this.stopImGui();
