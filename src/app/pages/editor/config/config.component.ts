@@ -22,6 +22,8 @@ import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
 import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
 import {Color, parseRGBA, stringifyHEX, stringifyRGBA, Vector4} from "../../../models/math";
+import {TemplateListComponent} from "../template/template-list/template-list.component";
+import {FIGTemplateEntity} from "../../../entities/template.entity";
 
 export interface FIGFormField extends FIGSerializeProperty {
   fieldType?: 'select';
@@ -50,7 +52,8 @@ export interface FIGFormField extends FIGSerializeProperty {
     MatExpansionPanelTitle,
     MatExpansionPanelHeader,
     ReactiveFormsModule,
-    NgxColorsModule
+    NgxColorsModule,
+    TemplateListComponent
   ],
   templateUrl: './config.component.html',
   styleUrl: './config.component.css'
@@ -80,7 +83,7 @@ export class ConfigComponent {
   sizesFields: FIGFormField[] = FIGSizesSerializers;
   colorsFields: FIGSerializeProperty[] = FIGColorsSerializers;
 
-  private document!: FIGDocument;
+  protected document!: FIGDocument;
   private fontFile?: File;
 
   constructor(private readonly toast: MatSnackBar) {
@@ -159,6 +162,15 @@ export class ConfigComponent {
 
   public openFontPicker(): void {
     this.fontPicker.nativeElement.click();
+  }
+
+  public loadTemplate(template: FIGTemplateEntity): void {
+    this.document.config.font = template.font;
+    this.document.config.embeddedFonts = template.embeddedFonts;
+    this.document.config.sizes = template.sizes;
+    this.document.config.theme = template.theme;
+    this.document.config.colors = template.colors;
+    this.update.emit();
   }
 
   protected onDeleteFont(): void {

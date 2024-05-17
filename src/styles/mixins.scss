@@ -31,6 +31,7 @@
   @include mat.snack-bar-theme($theme);
   @include mat.tabs-theme($theme);
   @include mat.expansion-theme($theme);
+  @include mat.dialog-theme($theme);
 
   @include list-theme($theme);
   @include form-field-theme($theme);
@@ -57,6 +58,7 @@
   @include mat.snack-bar-color($theme);
   @include mat.tabs-color($theme);
   @include mat.expansion-color($theme);
+  @include mat.dialog-color($theme);
 
   @include list-color($theme);
   @include form-field-color($theme);

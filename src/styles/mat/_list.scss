@@ -2,13 +2,11 @@
 @use '@angular/material' as mat;
 
 @mixin list-theme($theme) {
-  $hover: grey;
-
   mat-list-item {
     &:hover {
       cursor: pointer;
 
-      background-color: $hover;
+      background-color: mat.get-theme-color($theme, background, card);
     }
   }
 }
@@ -16,7 +14,7 @@
 @mixin list-color($theme) {
   mat-list-item {
     &:hover {
-      cursor: pointer;
+      background-color: mat.get-theme-color($theme, background, card);
     }
   }
 }

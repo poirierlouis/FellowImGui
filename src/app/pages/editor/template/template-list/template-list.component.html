@@ -1,0 +1,59 @@
+@if (templates$ | async; as templates) {
+  @if (templates.length === 0) {
+    <p>You have no templates stored in your browser.</p>
+
+    <p>
+      A template contains ImGui styles to mimic the appearance of your ImGui project. You can use a template to
+      bootstrap a new document. You can share templates with other users to maintain a consistent workflow.
+    </p>
+  } @else {
+    <ng-template #dismissible>
+      <div class="dismissible">
+        <mat-icon>delete</mat-icon>
+      </div>
+    </ng-template>
+
+    <mat-list>
+      @for (template of templates; track template.title) {
+        <mat-list-item disableRipple
+                       figDismissible
+                       [figDismissibleBackground]="dismissible"
+                       (figDismissed)="onDeleteTemplate(template.entity)">
+          <span matListItemTitle>{{template.title}}</span>
+          <span matListItemLine>{{template.theme}} &middot; {{template.fonts}} fonts</span>
+
+          <div matListItemMeta>
+            <button mat-icon-button
+                    color="accent"
+                    matTooltip="Load"
+                    (click)="onLoadTemplate(template.entity)">
+              <mat-icon>folder</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    color="accent"
+                    matTooltip="Save"
+                    (click)="onSaveTemplate(template.entity)">
+              <mat-icon>upload</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+}
+
+<div class="actions">
+  <button mat-flat-button
+          color="primary"
+          (click)="onImportTemplate()">Import</button>
+  <input #openPicker
+         type="file"
+         accept=".figt"
+         hidden
+         (change)="importTemplate($event)"/>
+
+  <button mat-flat-button
+          color="primary"
+          (click)="onCreateTemplate()">Create</button>
+</div>

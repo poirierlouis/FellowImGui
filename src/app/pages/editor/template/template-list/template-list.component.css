@@ -1,0 +1,29 @@
+p {
+  text-align: justify;
+}
+
+.dismissible {
+  z-index: 0;
+}
+
+mat-list-item {
+  &:hover {
+    cursor: grab;
+  }
+
+  &.dragged {
+    cursor: grabbing;
+  }
+
+  & .mat-mdc-list-item-meta {
+    display: flex;
+    align-items: center;
+    height: inherit;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  gap: 12px;
+}

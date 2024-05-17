@@ -2,6 +2,14 @@
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
+        <mat-panel-title>Templates</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <fig-template-list [config]="document.config" (load)="loadTemplate($event)"></fig-template-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
         <mat-panel-title>Fonts</mat-panel-title>
       </mat-expansion-panel-header>
 
