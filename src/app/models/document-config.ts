@@ -16,7 +16,7 @@ export interface FIGConfig {
 export const FIGConfigSerializers: FIGSerializeProperty[] = [
   {name: 'font', optional: true, default: undefined},
   {name: 'embeddedFonts', type: 'array', innerType: FIGFontsSerializers},
-  {name: 'sizes', optional: true, default: undefined, innerType: FIGSizesSerializers},
+  {name: 'sizes', optional: true, default: undefined, type: 'object', innerType: FIGSizesSerializers},
   {name: 'theme'},
-  {name: 'colors', optional: true, default: undefined, innerType: FIGColorsSerializers},
+  {name: 'colors', optional: true, default: undefined, type: 'object', innerType: FIGColorsSerializers},
 ];
