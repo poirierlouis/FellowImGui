@@ -346,7 +346,7 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
       this.append(`ImGui.Text(${this.formatString(widget.text)})`);
     } else if (widget.hasBullet && !widget.isWrapped) {
       if (widget.isDisabled) {
-        this.append('local color = ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)');
+        this.append('local color = {ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)}');
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, color[1], color[2], color[3], color[4])`);
         this.append('ImGui.Bullet()');
         this.append('ImGui.PopStyleColor()');
@@ -365,7 +365,7 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
       this.append(`ImGui.TextColored(${FIGLuaSol2Formatter.formatColor(widget.color)}, ${this.formatString(widget.text)})`);
     } else {
       if (widget.isDisabled) {
-        this.append('local color = ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)');
+        this.append('local color = {ImGui.GetStyleColorVec4(ImGuiCol.TextDisabled)}');
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, color[1], color[2], color[3], color[4])`);
       } else if (widget.color) {
         this.append(`ImGui.PushStyleColor(ImGuiCol.Text, ${FIGLuaSol2Formatter.formatColor(widget.color)})`);
