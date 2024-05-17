@@ -247,10 +247,11 @@ export class CanvasComponent implements OnDestroy {
           container.draw();
         }
       } catch (e) {
-        ImGui.TextColored(new ImGui.ImVec4(1.0, 0.0, 0.0, 1.0), "error: ");
+        const error: Error = e as Error;
+
+        ImGui.TextColored(new ImGui.ImVec4(1.0, 0.0, 0.0, 1.0), "Error: ");
         ImGui.SameLine();
-        // @ts-ignore
-        ImGui.Text(e.message);
+        ImGui.Text(error.message);
       }
       ImGui.EndFrame();
       ImGui.Render();
