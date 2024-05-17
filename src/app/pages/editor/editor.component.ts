@@ -260,9 +260,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private loadDemo(): void {
     this.requestS?.unsubscribe();
-    this.requestS = this.http.get('./assets/demo.mj.fig', {responseType: 'text'})
+    this.requestS = this.http.get('./assets/demo.fig', {responseType: 'text'})
       .subscribe((response: string) => {
-        const file: File = new File([response], 'document.mj.fig');
+        const file: File = new File([response], 'demo.fig');
 
         this.readFile(file);
       });
