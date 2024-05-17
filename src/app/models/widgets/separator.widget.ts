@@ -14,5 +14,6 @@ export class FIGSeparatorWidget extends FIGWidget {
   public override draw(): void {
     ImGui.Separator();
     this.drawFocus();
+    this.scrollTo();
   }
 }

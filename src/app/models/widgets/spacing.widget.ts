@@ -12,5 +12,6 @@ export class FIGSpacingWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.Spacing();
+    this.scrollTo();
   }
 }

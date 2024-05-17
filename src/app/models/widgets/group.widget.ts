@@ -19,5 +19,6 @@ export class FIGGroupWidget extends FIGContainer {
     }
     ImGui.EndGroup();
     this.drawFocus();
+    this.scrollTo();
   }
 }

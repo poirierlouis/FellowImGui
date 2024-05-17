@@ -65,5 +65,6 @@ export class FIGTableRowWidget extends FIGContainer {
       }
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

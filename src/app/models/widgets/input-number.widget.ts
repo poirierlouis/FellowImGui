@@ -126,6 +126,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 
   private diffValues(values: number | number[], prevValues: number | number[]): boolean {

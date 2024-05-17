@@ -32,5 +32,6 @@ export class FIGDummyWidget extends FIGWithTooltip {
     ImGui.Dummy({x: this.width, y: this.height});
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 }

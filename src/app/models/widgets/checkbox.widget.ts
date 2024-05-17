@@ -34,6 +34,7 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
     ImGui.Checkbox(this.label, (_ = this.isChecked) => this.isChecked = _);
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
     if (prevIsChecked !== this.isChecked) {
       this.triggerUpdate();
     }

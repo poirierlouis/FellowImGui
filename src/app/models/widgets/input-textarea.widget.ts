@@ -51,6 +51,7 @@ export class FIGInputTextareaWidget extends FIGWithTooltip {
     ImGui.InputTextMultiline(this.label, access, this.bufferSize, size, this.flags);
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
     if (prevValue !== this.value) {
       this.bufferSize = Math.max(this.value.length, this.bufferSize);
       this.triggerUpdate();

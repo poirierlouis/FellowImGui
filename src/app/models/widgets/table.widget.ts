@@ -86,5 +86,6 @@ export class FIGTableWidget extends FIGContainer {
       ImGui.EndTable();
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

@@ -39,5 +39,6 @@ export class FIGCollapsingHeaderWidget extends FIGContainer {
       }
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

@@ -75,6 +75,8 @@ export abstract class FIGWidget {
   private readonly _focusMin: Vector2 = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
   private readonly _focusMax: Vector2 = {x: Number.MIN_VALUE, y: Number.MIN_VALUE};
 
+  private _isSelected: boolean = false;
+
   protected constructor(type: FIGWidgetType,
                         needParent: boolean) {
     this.uuid = uuidv4();
@@ -147,6 +149,10 @@ export abstract class FIGWidget {
     this.updateSubject.next();
   }
 
+  public select(): void {
+    this._isSelected = true;
+  }
+
   protected drawFocus(): void {
     if (this.isFocused) {
       this.growFocusRect();
@@ -162,6 +168,14 @@ export abstract class FIGWidget {
       this._focusMax.x = Number.MIN_VALUE;
       this._focusMax.y = Number.MIN_VALUE;
     }
+  }
+
+  protected scrollTo(): void {
+    if (!this._isSelected) {
+      return;
+    }
+    ImGui.SetScrollHereY();
+    this._isSelected = false;
   }
 
   protected growFocusRect(): void {

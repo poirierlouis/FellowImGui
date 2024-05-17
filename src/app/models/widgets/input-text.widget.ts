@@ -77,6 +77,7 @@ export class FIGInputTextWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
     if (prevValue !== this.value) {
       this.triggerUpdate();
     }

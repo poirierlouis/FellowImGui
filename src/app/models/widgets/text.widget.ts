@@ -76,5 +76,6 @@ export class FIGTextWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 }

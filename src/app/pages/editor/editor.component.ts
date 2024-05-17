@@ -199,6 +199,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   protected selectWidget(widget?: FIGWidget): void {
     this.selectedWidget = widget;
+    if (this.shortcut === FIGShortcutType.selectWidget) {
+      this.selectedWidget?.select();
+    }
   }
 
   protected updateWidget(_widget: FIGWidget): void {

@@ -89,6 +89,7 @@ export class FIGInputColorEditWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 
   private diffColor(prevColor: number[], color: number[]): boolean {

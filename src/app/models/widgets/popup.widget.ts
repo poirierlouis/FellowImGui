@@ -51,6 +51,7 @@ export class FIGPopupWidget extends FIGContainer {
     }
     if (this.debug) {
       this.drawFocus();
+      this.scrollTo();
     }
     if (prevOpen !== this.isOpen) {
       this.triggerUpdate();

@@ -83,5 +83,6 @@ export class FIGPlotWidget extends FIGWidget {
       );
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

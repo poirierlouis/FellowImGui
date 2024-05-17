@@ -32,5 +32,6 @@ export class FIGLabelWidget extends FIGWithTooltip {
     ImGui.LabelText(this.label, this.value);
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 }

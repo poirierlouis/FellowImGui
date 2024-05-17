@@ -16,5 +16,6 @@ export class FIGBulletWidget extends FIGWidget {
   public override draw(): void {
     ImGui.Bullet();
     this.drawFocus();
+    this.scrollTo();
   }
 }

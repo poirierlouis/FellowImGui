@@ -102,6 +102,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
     ImGui.RadioButton(this.label, this._access!.access, this.index);
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
     if (prevValue !== this.value) {
       accessor.update();
     }

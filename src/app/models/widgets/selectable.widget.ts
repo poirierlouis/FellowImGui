@@ -63,5 +63,6 @@ export class FIGSelectableWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 }

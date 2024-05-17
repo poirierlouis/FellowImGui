@@ -54,5 +54,6 @@ export class FIGTabBarWidget extends FIGContainer {
       ImGui.EndTabBar();
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

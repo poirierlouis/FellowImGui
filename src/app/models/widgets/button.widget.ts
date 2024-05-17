@@ -57,6 +57,7 @@ export class FIGButtonWidget extends FIGWithTooltip {
     }
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
   }
 
 }

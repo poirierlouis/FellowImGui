@@ -27,5 +27,6 @@ export class FIGSameLineWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.SameLine(this.offsetFromStart, this.spacing);
+    this.scrollTo();
   }
 }

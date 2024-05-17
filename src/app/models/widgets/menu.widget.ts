@@ -37,5 +37,6 @@ export class FIGMenuWidget extends FIGContainer {
       ImGui.EndMenu();
     }
     this.drawFocus();
+    this.scrollTo();
   }
 }

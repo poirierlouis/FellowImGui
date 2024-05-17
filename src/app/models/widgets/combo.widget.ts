@@ -42,6 +42,7 @@ export class FIGComboWidget extends FIGWithTooltip {
     );
     this.drawTooltip();
     this.drawFocus();
+    this.scrollTo();
     if (prevSelectedItem !== this.selectedItem) {
       this.triggerUpdate();
     }

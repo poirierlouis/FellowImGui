@@ -81,6 +81,7 @@ export class FIGVerticalSliderWidget extends FIGWidget {
       }
     }
     this.drawFocus();
+    this.scrollTo();
     if (prevValue !== this.value) {
       this.triggerUpdate();
     }

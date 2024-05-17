@@ -12,5 +12,6 @@ export class FIGNewLineWidget extends FIGWidget {
 
   public override draw(): void {
     ImGui.NewLine();
+    this.scrollTo();
   }
 }
