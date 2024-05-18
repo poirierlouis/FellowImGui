@@ -31,14 +31,14 @@
 
       <div>{{ node.name }}</div>
     </div>
-
-    <div class="fig-context-menu"
-         [style.left]="contextMenuPosition.x"
-         [style.top]="contextMenuPosition.y"
-         [matMenuTriggerFor]="contextMenu">
-    </div>
   </mat-tree-node>
 </mat-tree>
+
+<div class="fig-context-menu"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>
 
 <mat-menu #contextMenu="matMenu">
   <ng-template matMenuContent let-widget="widget">
