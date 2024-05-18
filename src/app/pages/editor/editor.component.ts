@@ -21,6 +21,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {ConfigComponent} from "./config/config.component";
+import {FIGWidgetAction, FIGWidgetActionType} from "../../models/actions/action";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
@@ -195,6 +196,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
     this.slideTo(event.clientX);
     this.isSliding = false;
+  }
+
+  protected onWidgetAction(action: FIGWidgetAction): void {
+    if (action.type === FIGWidgetActionType.select) {
+      this.selectWidget(action.widget);
+    }
   }
 
   protected selectWidget(widget?: FIGWidget): void {

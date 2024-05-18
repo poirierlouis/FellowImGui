@@ -23,6 +23,7 @@ import {DragHandleDirective} from "../../../directives/drag-handle.directive";
 import {FormatterService} from "../../../services/formatter.service";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FIGWidgetAction} from "../../../models/actions/action";
 
 interface FlatNode {
   expandable: boolean;
@@ -66,8 +67,8 @@ export class TreeComponent {
   @Input()
   document!: FIGDocument;
 
-  @Output('selectWidget')
-  onSelectWidget: EventEmitter<FIGWidget | undefined> = new EventEmitter<FIGWidget | undefined>();
+  @Output()
+  action: EventEmitter<FIGWidgetAction> = new EventEmitter<FIGWidgetAction>();
 
   @ViewChildren(MatTreeNode, {read: ElementRef})
   nodes!: QueryList<ElementRef>;
@@ -171,7 +172,7 @@ export class TreeComponent {
       this.selectedWidget = node.widget;
       isSelected = true;
     }
-    this.onSelectWidget.emit(this.selectedWidget);
+    this.action.emit(FIGWidgetAction.select(this.selectedWidget));
     return isSelected;
   }
 
@@ -182,7 +183,7 @@ export class TreeComponent {
     let needUpdate: boolean = false;
 
     if (type !== undefined) {
-      needUpdate = this.document.createWidget(type, drop, event.direction);
+      needUpdate = this.document.createWidget(type, drop, event.direction) !== undefined;
     } else if (drag) {
       needUpdate = this.document.moveWidget(drag, drop, event.direction);
     }
@@ -194,9 +195,10 @@ export class TreeComponent {
   protected removeWidget(widget: FIGWidget): void {
     if (this.selectedWidget?.uuid === widget.uuid) {
       this.selectedWidget = undefined;
-      this.onSelectWidget.emit(undefined);
+      this.action.emit(FIGWidgetAction.select());
     }
     if (this.document.removeWidget(widget)) {
+      this.action.emit(FIGWidgetAction.remove(widget));
       this.update();
     }
   }
