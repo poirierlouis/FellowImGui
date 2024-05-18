@@ -257,7 +257,7 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
 
   private restore(): void {
     this.isDismissed = false;
-    this.backgroundView!.destroy();
+    this.backgroundView?.destroy();
     this.backgroundView = undefined;
     this.renderer.removeStyle(this.$el, 'transform');
     this.renderer.removeStyle(this.$el, 'margin-top');
