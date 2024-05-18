@@ -51,6 +51,10 @@ export class DragDirective implements AfterViewInit {
     if (this.$el.dataset['figSwipe'] === 'true') {
       return;
     }
+    if (event.clientX < this.$el.clientWidth / 4) {
+      event.preventDefault();
+      return;
+    }
     const $placeholder: HTMLElement = this.createPlaceholder();
     const $empty: HTMLElement = this.renderer.createElement('div');
 

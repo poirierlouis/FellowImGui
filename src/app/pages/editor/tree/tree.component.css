@@ -23,10 +23,6 @@ mat-tree {
       }
     }
 
-    & .draggable {
-      cursor: move;
-    }
-
     &:hover {
       cursor: pointer!important;
     }
