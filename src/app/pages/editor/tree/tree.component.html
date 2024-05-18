@@ -22,7 +22,8 @@
                  figDismissible
                  [figDismissibleBackground]="dismissible"
                  (figDismissibleClick)="selectWidget(node)"
-                 (figDismissed)="removeWidget(node.widget)">
+                 (figDismissed)="removeWidget(node.widget)"
+                 (contextmenu)="onContextMenu($event, node.widget)">
     <div class="content"
          [class.warning]="!isSupported(node)"
          [class.fallback]="useLegacyFallback(node)">
@@ -30,8 +31,23 @@
 
       <div>{{ node.name }}</div>
     </div>
+
+    <div class="fig-context-menu"
+         [style.left]="contextMenuPosition.x"
+         [style.top]="contextMenuPosition.y"
+         [matMenuTriggerFor]="contextMenu">
+    </div>
   </mat-tree-node>
 </mat-tree>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-widget="widget">
+    <button mat-menu-item (click)="generateCode(widget)">
+      <mat-icon>content_copy</mat-icon>
+      Generate code
+    </button>
+  </ng-template>
+</mat-menu>
 
 <div id="fig-drop"
      figDrop

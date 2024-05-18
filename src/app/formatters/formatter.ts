@@ -121,10 +121,14 @@ export abstract class FIGFormatter {
                         protected readonly caseStyle: CaseStyle) {
   }
 
-  public format(document: FIGDocument): string {
+  public format(element: FIGDocument | FIGWidget): string {
     this.lines = '';
-    for (const container of document.root) {
-      this.formatWidget(container);
+    if (element instanceof FIGDocument) {
+      for (const container of element.root) {
+        this.formatWidget(container);
+      }
+    } else {
+      this.formatWidget(element);
     }
     const lines: string = this.lines;
 

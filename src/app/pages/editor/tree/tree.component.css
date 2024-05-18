@@ -33,6 +33,11 @@ mat-tree {
   }
 }
 
+.fig-context-menu {
+  visibility: hidden;
+  position: fixed;
+}
+
 #fig-drop {
   display: flex;
   flex: 1;

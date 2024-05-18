@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {
   MatNestedTreeNode,
@@ -21,6 +21,8 @@ import {DragDirective} from "../../../directives/drag.directive";
 import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
 import {DragHandleDirective} from "../../../directives/drag-handle.directive";
 import {FormatterService} from "../../../services/formatter.service";
+import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 interface FlatNode {
   expandable: boolean;
@@ -44,6 +46,10 @@ interface FlatNode {
     MatTreeNodeToggle,
     MatNestedTreeNode,
     MatTreeNodePadding,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatMenuContent,
     DragDirective,
     DropDirective,
     DragHandleDirective,
@@ -54,6 +60,9 @@ interface FlatNode {
 })
 export class TreeComponent {
 
+  @ViewChild(MatMenuTrigger)
+  trigger!: MatMenuTrigger;
+
   @Input()
   document!: FIGDocument;
 
@@ -62,6 +71,8 @@ export class TreeComponent {
 
   @ViewChildren(MatTreeNode, {read: ElementRef})
   nodes!: QueryList<ElementRef>;
+
+  contextMenuPosition: {x: string, y: string} = {x: '0', y: '0'};
 
   treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
@@ -87,7 +98,8 @@ export class TreeComponent {
 
   selectedWidget?: FIGWidget;
 
-  constructor(private readonly formatterService: FormatterService) {
+  constructor(private readonly formatterService: FormatterService,
+              private readonly toast: MatSnackBar) {
   }
 
   @Input('document')
@@ -187,6 +199,25 @@ export class TreeComponent {
     if (this.document.removeWidget(widget)) {
       this.update();
     }
+  }
+
+  protected onContextMenu(event: MouseEvent, widget: FIGWidget): void {
+    event.preventDefault();
+    this.contextMenuPosition.x = `${event.clientX}px`;
+    this.contextMenuPosition.y = `${event.clientY}px`;
+    this.trigger.menuData = {'widget': widget};
+    this.trigger.openMenu();
+  }
+
+  protected generateCode(widget: FIGWidget): void {
+    const code: string | undefined = this.formatterService.formatWidget(widget);
+
+    if (!code) {
+      // TODO: show toast "You must select a language to format to."
+      return;
+    }
+    navigator.clipboard.writeText(code);
+    this.toast.open(`'${this.formatterService.currentLanguage}' code generated in clipboard.`);
   }
 
   private collectNodes(widget: FIGWidget): FlatNode[] {
