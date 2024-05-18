@@ -8,7 +8,8 @@ import {FIGWidgetFactory} from "../models/widgets/widget.factory";
 })
 export class IconService {
 
-  private readonly widgets: string[] = FIGWidgetFactory.icons;
+  private readonly widgetIcons: string[] = FIGWidgetFactory.icons;
+  private readonly uiIcons: string[] = ['code'];
 
   constructor(private readonly sanitizer: DomSanitizer,
               private readonly iconRegistry: MatIconRegistry) {
@@ -16,10 +17,16 @@ export class IconService {
   }
 
   public load(): void {
-    for (const icon of this.widgets) {
+    for (const icon of this.widgetIcons) {
       this.iconRegistry.addSvgIcon(
         icon,
         this.sanitizer.bypassSecurityTrustResourceUrl(`./assets/icons/widget-${icon}.svg`)
+      );
+    }
+    for (const icon of this.uiIcons) {
+      this.iconRegistry.addSvgIcon(
+        icon,
+        this.sanitizer.bypassSecurityTrustResourceUrl(`./assets/icons/${icon}.svg`)
       );
     }
   }
