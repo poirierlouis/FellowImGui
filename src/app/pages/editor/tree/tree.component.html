@@ -43,6 +43,7 @@
 <mat-menu #contextMenu="matMenu">
   <ng-template matMenuContent let-widget="widget">
     <button mat-menu-item
+            class="hint"
             (click)="duplicateWidget(widget)">
       <mat-icon>content_copy</mat-icon>
       <span>Duplicate</span>
@@ -50,6 +51,7 @@
     </button>
 
     <button mat-menu-item
+            class="hint"
             [disabled]="!isSupported(widget)"
             (click)="generateCode(widget)">
       <mat-icon svgIcon="code"></mat-icon>

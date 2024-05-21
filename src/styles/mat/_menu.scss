@@ -1,0 +1,45 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin menu-theme($theme) {
+  $hint: mat.get-theme-color($theme, foreground, hint-text);
+
+  .mat-mdc-menu-content {
+    & .mat-mdc-menu-item {
+      & .mat-mdc-menu-item-text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      &.action {
+        & button:last-child {
+          margin-left: 32px;
+        }
+      }
+
+      &.hint {
+        & span:last-child {
+          margin-left: 32px;
+
+          font-size: .9rem;
+          color: $hint;
+        }
+      }
+    }
+  }
+}
+
+@mixin menu-color($theme) {
+  $hint: mat.get-theme-color($theme, foreground, hint-text);
+
+  .mat-mdc-menu-content {
+    & .mat-mdc-menu-item {
+      &.hint {
+        & span:last-child {
+          color: $hint;
+        }
+      }
+    }
+  }
+}

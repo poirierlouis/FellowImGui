@@ -4,6 +4,7 @@
 @use './mat/list' as *;
 @use './mat/form-field' as *;
 @use './mat/expansion' as *;
+@use './mat/menu' as *;
 
 // App components
 @use './app/tree' as *;
@@ -37,6 +38,7 @@
   @include list-theme($theme);
   @include form-field-theme($theme);
   @include expansion-theme($theme);
+  @include menu-theme($theme);
 }
 
 @mixin mat-component-colors($theme) {
@@ -65,6 +67,7 @@
   @include list-color($theme);
   @include form-field-color($theme);
   @include expansion-color($theme);
+  @include menu-color($theme);
 }
 
 @mixin fig-component-themes($theme) {
