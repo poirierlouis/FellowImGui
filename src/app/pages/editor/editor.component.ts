@@ -22,14 +22,11 @@ import {HttpClient} from "@angular/common/http";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {ConfigComponent} from "./config/config.component";
 import {FIGWidgetAction, FIGWidgetActionType} from "../../models/actions/action";
+import {FIGShortcut} from "../../models/actions/shortcut";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
   readonly builders: FIGWidgetBuilder[];
-}
-
-export enum FIGShortcutType {
-  selectWidget
 }
 
 @Component({
@@ -86,7 +83,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   private writeS?: Subscription;
   private requestS?: Subscription;
 
-  private shortcut?: FIGShortcutType;
+  private shortcut: FIGShortcut = new FIGShortcut();
 
   constructor(private readonly formatterService: FormatterService,
               private readonly documentService: DocumentService,
@@ -162,14 +159,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   protected onKeyPressed(event: KeyboardEvent): void {
-    if (event.ctrlKey || event.metaKey) {
-      this.shortcut = FIGShortcutType.selectWidget;
-    }
+    this.shortcut.ctrl = event.ctrlKey || event.metaKey;
+    this.shortcut.key = event.key;
   }
 
-  @HostListener('document:keyup')
-  protected onKeyReleased(): void {
-    this.shortcut = undefined;
+  @HostListener('document:keyup', ['$event'])
+  protected onKeyReleased(event: KeyboardEvent): void {
+    this.shortcut.ctrl = event.ctrlKey || event.metaKey;
+    this.shortcut.key = undefined;
   }
 
   protected onResetSliding(): void {
@@ -210,7 +207,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   protected selectWidget(widget?: FIGWidget): void {
     this.selectedWidget = widget;
-    if (this.shortcut === FIGShortcutType.selectWidget) {
+    if (this.shortcut.canSelect()) {
       this.selectedWidget?.select();
     }
   }
@@ -297,7 +294,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   private onWidgetEvent(events: FIGEvent[]): void {
-    if (this.shortcut !== FIGShortcutType.selectWidget) {
+    if (!this.shortcut.canSelect()) {
       return;
     }
     this.tabs.selectedIndex = 0;
