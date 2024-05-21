@@ -24,6 +24,7 @@ import {FormatterService} from "../../../services/formatter.service";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FIGWidgetAction} from "../../../models/actions/action";
+import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 
 interface FlatNode {
   expandable: boolean;
@@ -183,7 +184,9 @@ export class TreeComponent {
     let needUpdate: boolean = false;
 
     if (type !== undefined) {
-      needUpdate = this.document.createWidget(type, drop, event.direction) !== undefined;
+      const widget: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
+
+      needUpdate = this.document.insertWidget(widget, drop, event.direction);
     } else if (drag) {
       needUpdate = this.document.moveWidget(drag, drop, event.direction);
     }

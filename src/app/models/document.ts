@@ -1,7 +1,6 @@
 import {FIGContainer} from "./widgets/container";
-import {FIGWidget, FIGWidgetType} from "./widgets/widget";
+import {FIGWidget} from "./widgets/widget";
 import {FIGDropDirection} from "../directives/drop.directive";
-import {FIGWidgetFactory} from "./widgets/widget.factory";
 import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
 import {FIGEvent} from "./events/event";
 import {FIGConfig} from "./document-config";
@@ -86,9 +85,8 @@ export class FIGDocument {
     return undefined;
   }
 
-  public createWidget(type: FIGWidgetType, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
-    const drag: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
-    let parent: FIGContainer | undefined = drop?.parent;
+  public insertWidget(drag: FIGWidget | undefined, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
+    const parent: FIGContainer | undefined = drop?.parent;
 
     if (!drag) {
       return false;
