@@ -5,7 +5,7 @@ import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
 import {MatIcon} from "@angular/material/icon";
-import {NgTemplateOutlet} from "@angular/common";
+import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
@@ -15,7 +15,7 @@ import {DragDirective} from "../../directives/drag.directive";
 import {FIGEvent} from "../../models/events/event";
 import {DocumentService} from "../../services/document.service";
 import {FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../../parsers/document.reader";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
@@ -33,6 +33,7 @@ interface FIGWidgetBuilderCategory {
   selector: 'fig-editor',
   standalone: true,
   imports: [
+    AsyncPipe,
     MatIcon,
     MatTooltip,
     MatDivider,
@@ -145,11 +146,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected isSupported(type: FIGWidgetType): boolean {
+  protected isSupported(type: FIGWidgetType): Observable<boolean> {
     return this.formatterService.isSupported(type);
   }
 
-  protected useLegacyFallback(type: FIGWidgetType): boolean {
+  protected useLegacyFallback(type: FIGWidgetType): Observable<boolean> {
     return this.formatterService.useLegacyFallback(type);
   }
 

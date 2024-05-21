@@ -25,6 +25,8 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/mat
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FIGWidgetAction} from "../../../models/actions/action";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
+import {Observable} from "rxjs";
+import {AsyncPipe} from "@angular/common";
 
 interface FlatNode {
   expandable: boolean;
@@ -40,6 +42,7 @@ interface FlatNode {
   selector: 'fig-tree',
   standalone: true,
   imports: [
+    AsyncPipe,
     MatIcon,
     MatTree,
     MatTreeNode,
@@ -148,11 +151,11 @@ export class TreeComponent {
     return node.widget.trackBy();
   }
 
-  protected isSupported(widget: FIGWidget): boolean {
+  protected isSupported(widget: FIGWidget): Observable<boolean> {
     return this.formatterService.isSupported(widget.type);
   }
 
-  protected useLegacyFallback(node: FlatNode): boolean {
+  protected useLegacyFallback(node: FlatNode): Observable<boolean> {
     return this.formatterService.useLegacyFallback(node.widget.type);
   }
 

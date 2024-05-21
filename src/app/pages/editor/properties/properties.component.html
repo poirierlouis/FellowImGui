@@ -5,12 +5,15 @@
       {{ widgetTitle }}
     </div>
 
-    @if (widgetWarning !== undefined) {
-      <div class="expand"></div>
+    @if (widgetInfo | async; as info) {
+      @if (info.warning !== undefined) {
+        <div class="expand"></div>
 
-      <mat-icon [class]="widgetWarning" [matTooltip]="widgetTooltip">
-        warning
-      </mat-icon>
+        <mat-icon [class]="info.warning"
+                  [matTooltip]="info.tooltip">
+          warning
+        </mat-icon>
+      }
     }
   </div>
 

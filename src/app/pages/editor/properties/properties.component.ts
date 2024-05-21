@@ -37,11 +37,19 @@ import {MenuPropertiesComponent} from "./menu-properties/menu-properties.compone
 import {BlocForPropertiesComponent} from "./bloc-for-properties/bloc-for-properties.component";
 import {TablePropertiesComponent} from "./table-properties/table-properties.component";
 import {TableRowPropertiesComponent} from "./table-row-properties/table-row-properties.component";
+import {combineLatestWith, map, Observable, of} from "rxjs";
+import {AsyncPipe} from "@angular/common";
+
+interface WidgetInfo {
+  warning?: 'warning' | 'fallback';
+  tooltip: string;
+}
 
 @Component({
   selector: 'fig-properties',
   standalone: true,
   imports: [
+    AsyncPipe,
     MatIcon,
     MatTooltip,
     TextPropertiesComponent,
@@ -86,8 +94,7 @@ export class PropertiesComponent {
 
   widget?: FIGWidget;
   widgetTitle?: string;
-  widgetWarning?: 'warning' | 'fallback';
-  widgetTooltip: string = '';
+  widgetInfo: Observable<WidgetInfo> = of({tooltip: ''});
 
   protected readonly FIGWidgetType = FIGWidgetType;
 
@@ -97,27 +104,38 @@ export class PropertiesComponent {
   @Input('widget')
   set _widget(value: FIGWidget | undefined) {
     const prevWidget: FIGWidget | undefined = this.widget;
-    const isSupported: boolean = (value !== undefined) ? this.formatterService.isSupported(value.type) : false;
-    const useLegacyFallback: boolean = (value !== undefined) ? this.formatterService.useLegacyFallback(value.type) : false;
 
     this.widget = value;
     this.widgetTitle = (value !== undefined) ? FIGWidgetFactory.getTitle(value.type) : undefined;
-    this.widgetWarning = undefined;
-    this.widgetTooltip = '';
-    if (!isSupported) {
-      this.widgetWarning = 'warning';
-      this.widgetTooltip = `'${this.formatterService.currentLanguage}' does not support this widget.`;
-    }
-    if (useLegacyFallback) {
-      this.widgetWarning = 'fallback';
-      this.widgetTooltip = `'${this.formatterService.currentLanguage}' fallback to a legacy API for this widget.`;
-    }
+    this.widgetInfo = this.getInfo(value);
     if (prevWidget) {
       prevWidget.isFocused = false;
     }
     if (this.widget) {
       this.widget.isFocused = true;
     }
+  }
+
+  private getInfo(widget?: FIGWidget): Observable<WidgetInfo> {
+    if (!widget) {
+      return of({tooltip: ''});
+    }
+    return this.formatterService.isSupported(widget.type).pipe(
+      combineLatestWith(this.formatterService.useLegacyFallback(widget.type)),
+      map(([isSupported, useLegacyFallback]: [boolean, boolean]) => {
+        const info: WidgetInfo = {tooltip: ''};
+
+        if (!isSupported) {
+          info.warning = 'warning';
+          info.tooltip = `'${this.formatterService.currentLanguage}' does not support this widget.`;
+        }
+        if (useLegacyFallback) {
+          info.warning = 'fallback';
+          info.tooltip = `'${this.formatterService.currentLanguage}' fallback to a legacy API for this widget.`;
+        }
+        return info;
+      })
+    );
   }
 
 }
