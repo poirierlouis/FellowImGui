@@ -214,14 +214,15 @@ export class TreeComponent {
     this.trigger.openMenu();
   }
 
-  protected generateCode(widget: FIGWidget): void {
-    const code: string | undefined = this.formatterService.formatWidget(widget);
+  public async generateCode(widget: FIGWidget): Promise<void> {
+    let code: string | undefined = this.formatterService.formatWidget(widget);
 
     if (!code) {
       // TODO: show toast "You must select a language to format to."
       return;
     }
-    navigator.clipboard.writeText(code);
+    code = code.trim();
+    await navigator.clipboard.writeText(code);
     this.toast.open(`'${this.formatterService.currentLanguage}' code generated in clipboard.`);
   }
 
