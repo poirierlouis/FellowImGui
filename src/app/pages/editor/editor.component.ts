@@ -158,9 +158,13 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
-  protected onKeyPressed(event: KeyboardEvent): void {
+  protected async onKeyPressed(event: KeyboardEvent): Promise<void> {
     this.shortcut.ctrl = event.ctrlKey || event.metaKey;
     this.shortcut.key = event.key;
+    if (this.shortcut.canGenerate() && this.selectedWidget) {
+      event.preventDefault();
+      await this.tree.generateCode(this.selectedWidget);
+    }
   }
 
   @HostListener('document:keyup', ['$event'])

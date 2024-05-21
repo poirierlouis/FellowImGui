@@ -44,7 +44,8 @@
   <ng-template matMenuContent let-widget="widget">
     <button mat-menu-item (click)="generateCode(widget)">
       <mat-icon svgIcon="code"></mat-icon>
-      Generate code
+      <span>Generate code</span>
+      <span class="shortcut">CTRL+G</span>
     </button>
   </ng-template>
 </mat-menu>

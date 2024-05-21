@@ -40,12 +40,32 @@
       }
     }
   }
+
+  .mat-mdc-menu-item-text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mat-mdc-menu-content {
+    & span.shortcut {
+      margin-left: 32px;
+
+      font-size: .9rem;
+      color: mat.get-theme-color($theme, foreground, hint-text);
+    }
+  }
 }
 
 @mixin tree-color($theme) {
   fig-tree {
     mat-tree {
       background-color: transparent;
+    }
+  }
+
+  .mat-mdc-menu-content {
+    & span.shortcut {
+      color: mat.get-theme-color($theme, foreground, hint-text);
     }
   }
 }

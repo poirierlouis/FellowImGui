@@ -14,4 +14,8 @@ export class FIGShortcut {
   public isDuplicate(): boolean {
     return this.ctrl && this.key === 'd';
   }
+
+  public canGenerate(): boolean {
+    return this.ctrl && this.key === 'g';
+  }
 }
