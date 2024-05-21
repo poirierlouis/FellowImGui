@@ -522,28 +522,24 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatMenuItem(widget: FIGMenuItemWidget): void {
-    const varActivated: string = this.formatVar(`${widget.label} activated`, widget.type);
     const varSelected: string = this.formatVar(`${widget.label} selected`, widget.type);
     const args: string[] = [this.formatString(widget.label)];
-    let varDef: string = '';
 
     if (widget.shortcut || widget.isSelectable || !widget.enabled) {
       args.push(this.formatString(widget.shortcut ?? ''));
     }
-    if (widget.isSelectable || !widget.enabled) {
-      this.append(`local ${varSelected} = false`);
+    if (widget.isSelectable) {
+      this.append(`local ${varSelected} = ${widget.isSelected}`);
       args.push(varSelected);
+    } else if (!widget.enabled) {
+      args.push('false');
     }
     if (!widget.enabled) {
       args.push('false');
     }
-    if (args.length <= 2) {
-      varDef = `local ${varActivated} = `;
-    } else {
-      this.append(`local ${varActivated}`);
-      varDef = `${varSelected}, ${varActivated} = `;
-    }
-    this.append(`${varDef}ImGui.MenuItem(${args.join(', ')})`);
+    this.append(`if ImGui.MenuItem(${args.join(', ')}) then`);
+    this.appendIndent('  -- TODO');
+    this.append('end');
   }
 
   // Forms / Inputs
