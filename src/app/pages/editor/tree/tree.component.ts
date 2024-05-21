@@ -148,8 +148,8 @@ export class TreeComponent {
     return node.widget.trackBy();
   }
 
-  protected isSupported(node: FlatNode): boolean {
-    return this.formatterService.isSupported(node.widget.type);
+  protected isSupported(widget: FIGWidget): boolean {
+    return this.formatterService.isSupported(widget.type);
   }
 
   protected useLegacyFallback(node: FlatNode): boolean {
