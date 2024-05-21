@@ -23,6 +23,7 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {ConfigComponent} from "./config/config.component";
 import {FIGWidgetAction, FIGWidgetActionType} from "../../models/actions/action";
 import {FIGShortcut} from "../../models/actions/shortcut";
+import {LanguagePickerComponent} from "./language-picker/language-picker.component";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
@@ -46,6 +47,7 @@ interface FIGWidgetBuilderCategory {
     ConfigComponent,
     CanvasComponent,
     PropertiesComponent,
+    LanguagePickerComponent,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'

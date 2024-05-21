@@ -1,0 +1,26 @@
+<button mat-icon-button
+        matTooltip="Select language"
+        [matMenuTriggerFor]="menu">
+  <mat-icon>settings</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu" class="language-menu">
+  @for (language of languages; track language.value) {
+    <button mat-menu-item
+            class="action"
+            (click)="selectLanguage(language)">
+      @if (isSelected(language.value)) {
+        <mat-icon>radio_button_checked</mat-icon>
+      } @else {
+        <mat-icon>radio_button_unchecked</mat-icon>
+      }
+
+      {{language.label}}
+
+      <button mat-icon-button
+              (click)="followLink(language.link)">
+        <mat-icon>link</mat-icon>
+      </button>
+    </button>
+  }
+</mat-menu>
