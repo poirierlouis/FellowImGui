@@ -233,6 +233,12 @@ export class FIGDocument {
       uuid: widget.uuid,
       subscription: subscription
     });
+    if (!(widget instanceof FIGContainer)) {
+      return;
+    }
+    for (const child of widget.children) {
+      this.addListener(child);
+    }
   }
 
   private removeListener(widget: FIGWidget): void {

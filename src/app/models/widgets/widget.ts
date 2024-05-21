@@ -56,6 +56,11 @@ export enum FIGWidgetType {
 }
 
 export abstract class FIGWidget {
+  private static readonly excludeKeys: string[] = [
+    'uuid', 'type', 'needParent', 'parent', 'isFocused', 'children',
+    'updateSubject', 'update$', 'eventSubject', 'eventSubject', 'event$',
+    '_focusOffset', '_focusMin', '_focusMax', '_isSelected'
+  ];
 
   public readonly uuid: string;
   public readonly type: FIGWidgetType;
@@ -145,6 +150,25 @@ export abstract class FIGWidget {
     return [this];
   }
 
+  public clone(parent?: FIGContainer): FIGWidget {
+    const prototype: any = Object.getPrototypeOf(this);
+    const options: any = this.copyOptions();
+    const copy: FIGWidget = new prototype.constructor(options);
+
+    copy.parent = parent;
+    if (copy instanceof FIGContainer) {
+      const container: FIGContainer = this as unknown as FIGContainer;
+
+      for (const child of container.children) {
+        const childCopy: FIGWidget = child.clone(copy);
+
+        copy.children.push(childCopy);
+        childCopy.onCreated();
+      }
+    }
+    return copy;
+  }
+
   public triggerUpdate(): void {
     this.updateSubject.next();
   }
@@ -191,4 +215,31 @@ export abstract class FIGWidget {
     this._focusMax.y = Math.max(this._focusMax.y, max.y);
   }
 
+  private copyOptions(): any {
+    const keys: string[] = Object.keys(this).filter((key) => !FIGWidget.excludeKeys.includes(key));
+    const options: any = {};
+
+    for (const key of keys) {
+      const value: any = (this as any)[key];
+
+      if (value instanceof Array) {
+        const innerValue: any[] = [];
+
+        for (const item of value) {
+          innerValue.push(item);
+        }
+        options[key] = innerValue;
+      } else if (value instanceof Object) {
+        const innerValue: any = {};
+
+        for (const innerKey of Object.keys(value)) {
+          innerValue[innerKey] = value[innerKey];
+        }
+        options[key] = innerValue;
+      } else {
+        options[key] = value;
+      }
+    }
+    return options;
+  }
 }

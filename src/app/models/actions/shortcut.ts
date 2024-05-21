@@ -11,7 +11,7 @@ export class FIGShortcut {
     return this.ctrl;
   }
 
-  public isDuplicate(): boolean {
+  public canDuplicate(): boolean {
     return this.ctrl && this.key === 'd';
   }
 

@@ -161,6 +161,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   protected async onKeyPressed(event: KeyboardEvent): Promise<void> {
     this.shortcut.ctrl = event.ctrlKey || event.metaKey;
     this.shortcut.key = event.key;
+    if (this.shortcut.canDuplicate() && this.selectedWidget) {
+      event.preventDefault();
+      this.tree.duplicateWidget(this.selectedWidget);
+    }
     if (this.shortcut.canGenerate() && this.selectedWidget) {
       event.preventDefault();
       await this.tree.generateCode(this.selectedWidget);

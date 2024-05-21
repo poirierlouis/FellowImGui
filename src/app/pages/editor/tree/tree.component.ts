@@ -183,9 +183,14 @@ export class TreeComponent {
     const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
     let needUpdate: boolean = false;
 
-    if (type !== undefined) {
-      const widget: FIGWidget | undefined = FIGWidgetFactory.createWidget(type);
+    if (type !== undefined || event.duplicate) {
+      let widget: FIGWidget | undefined;
 
+      if (event.duplicate && drag) {
+        widget = drag.clone();
+      } else if (type !== undefined) {
+        widget = FIGWidgetFactory.createWidget(type);
+      }
       needUpdate = this.document.insertWidget(widget, drop, event.direction);
     } else if (drag) {
       needUpdate = this.document.moveWidget(drag, drop, event.direction);
@@ -212,6 +217,18 @@ export class TreeComponent {
     this.contextMenuPosition.y = `${event.clientY}px`;
     this.trigger.menuData = {'widget': widget};
     this.trigger.openMenu();
+  }
+
+  public duplicateWidget(widget: FIGWidget): void {
+    const clone: FIGWidget | undefined = widget.clone(undefined);
+    const needUpdate: boolean = this.document.insertWidget(clone, widget, 'after');
+
+    if (!needUpdate) {
+      console.error('Failed to duplicate this widget.');
+      return;
+    }
+    this.update();
+    this.action.emit(FIGWidgetAction.duplicate(widget));
   }
 
   public async generateCode(widget: FIGWidget): Promise<void> {

@@ -4,6 +4,7 @@ export interface FIGDropEvent {
   readonly drag?: string;
   readonly drop?: string;
   readonly direction: FIGDropDirection;
+  readonly duplicate: boolean;
 }
 
 export type FIGDropDirection = 'before' | 'insert' | 'after';
@@ -93,7 +94,8 @@ export class DropDirective implements AfterViewInit {
     this.dropped.emit({
       drag: data,
       drop: this.data,
-      direction: direction
+      direction: direction,
+      duplicate: event.ctrlKey || event.metaKey
     });
   }
 
