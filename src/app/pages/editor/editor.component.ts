@@ -201,6 +201,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   protected onWidgetAction(action: FIGWidgetAction): void {
     if (action.type === FIGWidgetActionType.select) {
       this.selectWidget(action.widget);
+    } else if (action.type === FIGWidgetActionType.duplicate) {
+      this.duplicateWidget(action);
+    } else if (action.type === FIGWidgetActionType.remove) {
+      this.removeWidget(action);
     }
   }
 
@@ -209,6 +213,20 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.shortcut === FIGShortcutType.selectWidget) {
       this.selectedWidget?.select();
     }
+  }
+
+  protected duplicateWidget(action: FIGWidgetAction): void {
+    if (!action.widget || !this.document) {
+      return;
+    }
+    // TODO: undo/redo?
+  }
+
+  protected removeWidget(action: FIGWidgetAction): void {
+    if (!action.widget || !this.document) {
+      return;
+    }
+    // TODO: undo/redo?
   }
 
   protected updateWidget(_widget: FIGWidget): void {
