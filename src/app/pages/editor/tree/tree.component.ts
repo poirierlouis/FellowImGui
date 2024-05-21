@@ -215,6 +215,10 @@ export class TreeComponent {
   }
 
   public async generateCode(widget: FIGWidget): Promise<void> {
+    if (!this.isSupported(widget)) {
+      this.toast.open(`'${this.formatterService.currentLanguage}' does not support this widget.`);
+      return;
+    }
     let code: string | undefined = this.formatterService.formatWidget(widget);
 
     if (!code) {
