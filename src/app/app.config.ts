@@ -1,13 +1,13 @@
 import {ApplicationConfig, importProvidersFrom} from '@angular/core';
-import {provideRouter} from '@angular/router';
-
-import {routes} from './app.routes';
-import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideHttpClient} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from "@angular/platform-browser";
-import {NgxColorsModule} from "ngx-colors";
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {provideRouter} from '@angular/router';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
+import {NgxColorsModule} from "ngx-colors";
+
+import {routes} from './app.routes';
 import {Database, db} from "./repositories/database";
 
 export const appConfig: ApplicationConfig = {
