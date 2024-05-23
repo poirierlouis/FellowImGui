@@ -37,6 +37,7 @@ import {FIGTableWidget} from "./table.widget";
 import {FIGTableRowWidget} from "./table-row.widget";
 import {FIGTableColumnWidget} from "./table-column.widget";
 import {FIGMenuBarWidget} from "./menu-bar.widget";
+import {FIGContainer} from "./container";
 
 export interface FIGWidgetBuilder {
   readonly type: FIGWidgetType;
@@ -158,6 +159,23 @@ export class FIGWidgetFactory {
     return builder.build(++FIGWidgetFactory.id);
   }
 
+  public static clone(widget: FIGWidget, parent?: FIGContainer): FIGWidget {
+    const prototype: any = Object.getPrototypeOf(widget);
+    const options: any = FIGWidgetFactory.getOptions(widget);
+    const copy: FIGWidget = new prototype.constructor(options);
+
+    copy.parent = parent;
+    if (copy instanceof FIGContainer && widget instanceof FIGContainer) {
+      for (const child of widget.children) {
+        const childCopy: FIGWidget = FIGWidgetFactory.clone(child, copy);
+
+        copy.children.push(childCopy);
+        childCopy.onCreated();
+      }
+    }
+    return copy;
+  }
+
   public static getTitle(type: FIGWidgetType): string | undefined {
     const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
 
@@ -190,4 +208,31 @@ export class FIGWidgetFactory {
     return this.builders.find((item) => item.type === type);
   }
 
+  private static getOptions(widget: FIGWidget): any {
+    const keys: string[] = Object.keys(widget).filter((key) => !FIGWidget.excludeKeys.includes(key));
+    const options: any = {};
+
+    for (const key of keys) {
+      const value: any = (widget as any)[key];
+
+      if (value instanceof Array) {
+        const innerValue: any[] = [];
+
+        for (const item of value) {
+          innerValue.push(item);
+        }
+        options[key] = innerValue;
+      } else if (value instanceof Object) {
+        const innerValue: any = {};
+
+        for (const innerKey of Object.keys(value)) {
+          innerValue[innerKey] = value[innerKey];
+        }
+        options[key] = innerValue;
+      } else {
+        options[key] = value;
+      }
+    }
+    return options;
+  }
 }

@@ -190,7 +190,7 @@ export class TreeComponent {
       let widget: FIGWidget | undefined;
 
       if (event.duplicate && drag) {
-        widget = drag.clone();
+        widget = FIGWidgetFactory.clone(drag);
       } else if (type !== undefined) {
         widget = FIGWidgetFactory.create(type);
       }
@@ -223,7 +223,7 @@ export class TreeComponent {
   }
 
   public duplicateWidget(widget: FIGWidget): void {
-    const clone: FIGWidget | undefined = widget.clone(undefined);
+    const clone: FIGWidget | undefined = FIGWidgetFactory.clone(widget);
     const needUpdate: boolean = this.document.insertWidget(clone, widget, 'after');
 
     if (!needUpdate) {
