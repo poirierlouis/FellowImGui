@@ -192,7 +192,7 @@ export class TreeComponent {
       if (event.duplicate && drag) {
         widget = drag.clone();
       } else if (type !== undefined) {
-        widget = FIGWidgetFactory.createWidget(type);
+        widget = FIGWidgetFactory.create(type);
       }
       needUpdate = this.document.insertWidget(widget, drop, event.direction);
     } else if (drag) {

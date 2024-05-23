@@ -149,7 +149,7 @@ export class FIGWidgetFactory {
 
   private static id: number = 0;
 
-  public static createWidget(type: FIGWidgetType): FIGWidget | undefined {
+  public static create(type: FIGWidgetType): FIGWidget | undefined {
     const builder: FIGWidgetBuilder | undefined = this.findBuilder(type);
 
     if (!builder) {
