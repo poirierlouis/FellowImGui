@@ -58,7 +58,7 @@ export enum FIGWidgetType {
 export abstract class FIGWidget {
   public static readonly excludeKeys: string[] = [
     'uuid', 'type', 'needParent', 'parent', 'isFocused', 'children',
-    'updateSubject', 'update$', 'eventSubject', 'eventSubject', 'event$',
+    'updateSubject', 'update$', 'eventSubject',
     '_focusOffset', '_focusMin', '_focusMax', '_isSelected'
   ];
 
@@ -73,8 +73,7 @@ export abstract class FIGWidget {
   protected readonly updateSubject: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
   public readonly update$: Observable<void> = this.updateSubject.asObservable();
 
-  private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
-  public readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
+  private eventSubject?: BehaviorSubject<FIGEvent | undefined>;
 
   protected readonly _focusOffset: Vector2 = {x: 4, y: 4};
   private readonly _focusMin: Vector2 = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
@@ -133,6 +132,9 @@ export abstract class FIGWidget {
   }
 
   public listen(): void {
+    if (!this.eventSubject) {
+      return;
+    }
     if (ImGui.IsItemClicked()) {
       this.eventSubject.next({type: FIGEventType.click, target: this});
     }
@@ -142,7 +144,8 @@ export abstract class FIGWidget {
     return this.uuid;
   }
 
-  public link(parent?: FIGContainer): void {
+  public link(eventSubject: BehaviorSubject<FIGEvent | undefined>, parent?: FIGContainer): void {
+    this.eventSubject = eventSubject;
     this.parent = parent;
   }
 

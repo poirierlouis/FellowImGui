@@ -1,4 +1,6 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
+import {BehaviorSubject} from "rxjs";
+import {FIGEvent} from "../events/event";
 
 export abstract class FIGContainer extends FIGWidget {
   readonly children: FIGWidget[] = [];
@@ -15,9 +17,9 @@ export abstract class FIGContainer extends FIGWidget {
     return this.children.map((child) => child.trackBy());
   }
 
-  public override link(parent?: FIGContainer) {
-    this.parent = parent;
-    this.children.forEach((child) => child.link(this));
+  public override link(eventSubject: BehaviorSubject<FIGEvent | undefined>, parent?: FIGContainer) {
+    super.link(eventSubject, parent);
+    this.children.forEach((child) => child.link(eventSubject, this));
   }
 
   public override flatMap(): FIGWidget[] {

@@ -1,15 +1,10 @@
 import {FIGContainer} from "./widgets/container";
 import {FIGWidget} from "./widgets/widget";
 import {FIGDropDirection} from "../directives/drop.directive";
-import {BehaviorSubject, bufferTime, filter, map, Observable, Subscription} from "rxjs";
+import {BehaviorSubject, bufferTime, filter, map, Observable} from "rxjs";
 import {FIGEvent} from "./events/event";
 import {FIGConfig} from "./document-config";
 import {FIGFont, formatImGuiFontName} from "./document-fonts";
-
-interface ListenerItem {
-  readonly uuid: string;
-  readonly subscription: Subscription;
-}
 
 export class FIGDocument {
 
@@ -27,8 +22,6 @@ export class FIGDocument {
 
   private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
   private readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
-
-  private readonly listeners: ListenerItem[] = [];
 
   public addFont(font: FIGFont): void {
     const duplicate: FIGFont | undefined = this.findFont(font);
@@ -53,15 +46,10 @@ export class FIGDocument {
   }
 
   public link(): void {
-    this.root.forEach((container) => container.link());
+    this.root.forEach((container) => container.link(this.eventSubject));
   }
 
   public listen(): Observable<FIGEvent[]> {
-    this.listeners.forEach((listener) => listener.subscription.unsubscribe());
-    this.listeners.length = 0;
-    const widgets: FIGWidget[] = this.root.flatMap((container) => container.flatMap());
-
-    widgets.forEach(this.addListener.bind(this));
     return this.event$.pipe(
       bufferTime(100),
       map((events: (FIGEvent | undefined)[]) => {
@@ -99,8 +87,8 @@ export class FIGDocument {
     if (!drop) {
       this.root.push(drag as FIGContainer);
       drag.parent = undefined;
+      drag.link(this.eventSubject);
       drag.onCreated();
-      this.addListener(drag);
       return true;
     }
     // Prevent window-like widgets within containers.
@@ -115,17 +103,15 @@ export class FIGDocument {
         index++;
       }
       this.insert(drag, index);
-      drag.parent = undefined;
+      drag.link(this.eventSubject);
       drag.onCreated();
-      this.addListener(drag);
       return true;
     }
     // Append widget at the end of drop container.
     if (drag.needParent && drop instanceof FIGContainer && direction === 'insert' && drop.isChildAccepted(drag.type)) {
       drop.children.push(drag);
-      drag.parent = drop;
+      drag.link(this.eventSubject, drop);
       drag.onCreated();
-      this.addListener(drag);
       return true;
     }
     // Insert widget before/after a widget.
@@ -136,9 +122,8 @@ export class FIGDocument {
         index++;
       }
       parent.insert(drag, index);
-      drag.parent = parent;
+      drag.link(this.eventSubject, parent);
       drag.onCreated();
-      this.addListener(drag);
       return true;
     }
     return false;
@@ -215,43 +200,13 @@ export class FIGDocument {
       if (container.uuid === widget.uuid) {
         this.root.splice(i, 1);
         widget.onDeleted();
-        this.removeListener(widget);
         return true;
       } else if (container.remove(widget)) {
         widget.onDeleted();
-        this.removeListener(widget);
         return true;
       }
     }
     return false;
-  }
-
-  private addListener(widget: FIGWidget): void {
-    const subscription: Subscription = widget.event$.subscribe((event) => this.eventSubject.next(event));
-
-    this.listeners.push({
-      uuid: widget.uuid,
-      subscription: subscription
-    });
-    if (!(widget instanceof FIGContainer)) {
-      return;
-    }
-    for (const child of widget.children) {
-      this.addListener(child);
-    }
-  }
-
-  private removeListener(widget: FIGWidget): void {
-    const index: number = this.listeners.findIndex((listener) => listener.uuid === widget.uuid);
-
-    if (index === -1) {
-      console.warn(`Failed to remove listener of widget "${widget.uuid}".`);
-      return;
-    }
-    const listener: ListenerItem = this.listeners[index];
-
-    listener.subscription.unsubscribe();
-    this.listeners.splice(index, 1);
   }
 
   private findIndex(container: FIGContainer): number {
