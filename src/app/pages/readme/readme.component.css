@@ -1,0 +1,57 @@
+:host {
+  overflow-y: auto;
+  display: block;
+  height: inherit;
+
+  scroll-snap-type: y mandatory;
+  scroll-snap-stop: always;
+}
+
+svg {
+  z-index: -1;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+article {
+  display: flex;
+  align-items: center;
+  height: inherit;
+  margin: 0 25%;
+
+  & .banner {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    gap: 48px;
+
+    scroll-snap-align: center;
+
+    & div:not(.description) {
+      display: flex;
+      justify-content: center;
+      min-width: 522px;
+    }
+  }
+
+  & h1 {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+
+    & mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  & p {
+    text-align: justify;
+    font-size: 1.1rem;
+  }
+
+  & video {
+    border: 2px solid #734c76;
+    border-radius: 8px;
+  }
+}

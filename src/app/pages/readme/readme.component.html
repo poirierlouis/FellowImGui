@@ -1,5 +1,95 @@
-<h1>Fellow ImGui</h1>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <circle r="60%" style="fill: #c7abcc;"></circle>
+  <circle r="33%" cy="100vh" style="fill: #734c76"></circle>
+  <circle r="60%" cx="100vw" style="fill: #752b5b"></circle>
+  <circle r="33%" cx="100vw" cy="100vh" style="fill: #c7abcc;"></circle>
+  <circle r="42%" cx="50vw" cy="50vh" style="fill: #303030;"></circle>
+</svg>
 
 <article>
-  <p>This webapp is a tool layout user interface using ImGui.</p>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>drag_indicator</mat-icon>
+        Drag and Drop
+      </h1>
+
+      <p>
+        Create widgets in your document using drag and drop. Drag a widget from the toolbar and drop it in the tree.
+        Insert widgets above and below widgets, or inside container widgets. You can move widgets around to reorder
+        them.
+      </p>
+    </div>
+
+    <div>
+      <video #step01 autoplay muted loop playsinline preload="auto">
+        <source src="./assets/readme/step01.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>menu_open</mat-icon>
+        More actions
+      </h1>
+
+      <p>
+        Swipe a widget to the right to remove it. Right-click on a widget to show more actions. It includes duplicating
+        a widget. You can use shortcuts to quickly execute an action on a selected widget.
+      </p>
+    </div>
+
+    <div>
+      <video #step02 muted loop playsinline preload="none" poster="./assets/readme/step02-placeholder.png">
+        <source src="./assets/readme/step02.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>navigation</mat-icon>
+        Navigation and focus
+      </h1>
+
+      <p>
+        Click on a widget in the tree to focus it in the preview, and vice-versa. Use CTRL + click on a widget in the
+        tree to scroll to in the preview, and vice-versa.
+      </p>
+    </div>
+
+    <div>
+      <video #step03 muted loop playsinline preload="none" poster="./assets/readme/step03-placeholder.png">
+        <source src="./assets/readme/step03.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>data_object</mat-icon>
+        Properties
+      </h1>
+
+      <p>
+        Live update of properties of widgets. Select a widget in the tree or in the preview to edit its properties.
+      </p>
+    </div>
+
+    <div>
+      <video #step04 muted loop playsinline preload="none" poster="./assets/readme/step04-placeholder.png">
+        <source src="./assets/readme/step04.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
 </article>
