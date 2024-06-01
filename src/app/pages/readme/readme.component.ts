@@ -27,10 +27,15 @@ export class ReadmeComponent implements AfterViewInit {
   @ViewChild('step04')
   step04!: ElementRef;
 
+  @ViewChild('step05')
+  step05!: ElementRef;
+
   private $currentStep?: HTMLMediaElement;
 
   private get $steps(): HTMLMediaElement[] {
-    return [this.step01, this.step02, this.step03, this.step04].map((step) => step.nativeElement as HTMLMediaElement);
+    return [
+      this.step01, this.step02, this.step03, this.step04, this.step05
+    ].map((step) => step.nativeElement as HTMLMediaElement);
   }
 
   public ngAfterViewInit(): void {
