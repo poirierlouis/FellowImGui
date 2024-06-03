@@ -50,7 +50,7 @@ article {
     font-size: 1.1rem;
   }
 
-  & video {
+  & .feature-preview {
     border: 2px solid #734c76;
     border-radius: 8px;
   }
