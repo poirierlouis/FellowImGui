@@ -11,6 +11,7 @@
 @use './app/properties' as *;
 @use './app/dismissible' as *;
 @use './app/editor' as *;
+@use './app/readme' as *;
 
 @mixin mat-component-themes($theme) {
   //@include mat.all-component-themes($theme);
@@ -75,6 +76,7 @@
   @include properties-theme($theme);
   @include dismissible-theme($theme);
   @include editor-theme($theme);
+  @include readme-theme($theme);
 }
 
 @mixin fig-component-colors($theme) {
@@ -82,4 +84,5 @@
   @include properties-color($theme);
   @include dismissible-color($theme);
   @include editor-color($theme);
+  @include readme-color($theme);
 }

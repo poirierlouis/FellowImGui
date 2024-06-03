@@ -2,12 +2,16 @@ import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@an
 import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 import {DOMUtils} from "../../components/dom.utils";
+import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
+import {FIGWidgetType} from "../../models/widgets/widget";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'fig-readme',
   standalone: true,
   imports: [
     MatIcon,
+    MatTooltip,
     MatFabButton
   ],
   templateUrl: './readme.component.html',
@@ -29,6 +33,10 @@ export class ReadmeComponent implements AfterViewInit {
 
   @ViewChild('step05')
   step05!: ElementRef;
+
+  readonly widgets: FIGWidgetBuilder[] = FIGWidgetFactory.builders;
+
+  protected readonly FIGWidgetType = FIGWidgetType;
 
   private $currentStep?: HTMLMediaElement;
 

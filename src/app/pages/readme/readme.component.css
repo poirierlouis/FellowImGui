@@ -28,10 +28,11 @@ article {
 
     scroll-snap-align: center;
 
-    & div:not(.description) {
+    & div:not(.description):not(.grid) {
       display: flex;
       justify-content: center;
       min-width: 522px;
+      max-width: 522px;
     }
   }
 
@@ -53,5 +54,13 @@ article {
   & .feature-preview {
     border: 2px solid #734c76;
     border-radius: 8px;
+  }
+
+  & .grid {
+    display: grid;
+    padding: 24px;
+    max-height: 280px;
+    grid-template-columns: repeat(8, 24px);
+    grid-gap: 24px;
   }
 }

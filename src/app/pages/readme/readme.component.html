@@ -131,3 +131,77 @@
     </div>
   </div>
 </article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>widgets</mat-icon>
+        Widgets
+      </h1>
+
+      <p>
+        Includes support for almost all ImGui widgets. It provides custom bloc widgets to quickly prototype a layout.
+        For example, you can repeat widgets using a for-bloc widget. Bloc widgets are also generated in code.
+      </p>
+    </div>
+
+    <div>
+      <div class="feature-preview grid">
+        @for (widget of widgets; track widget.type) {
+          <mat-icon [svgIcon]="FIGWidgetType[widget.type]"
+                    [matTooltip]="widget.title"></mat-icon>
+        }
+      </div>
+    </div>
+  </div>
+</article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>language</mat-icon>
+        Languages
+      </h1>
+
+      <p>
+        Generate ready-to-use code based on the language binding you're using. You can generate code from a widget with
+        a right-click. You can also use CTRL + G on a selected widget.
+      </p>
+
+      <p>
+        Widgets not supported by a language binding are <span class="not-supported">highlighted</span>. There is also
+        partially supported widgets which <span class="legacy-fallback">fallback to a legacy</span> API.
+      </p>
+    </div>
+
+    <div>
+      <video #step06
+             class="feature-preview"
+             muted loop playsinline
+             preload="none" poster="./assets/readme/step06-placeholder.png">
+        <source src="./assets/readme/step06.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon>new_releases</mat-icon>
+        Compatibility
+      </h1>
+
+      <p>
+        Fellow ImGui supports Dear ImGui v1.86 thanks to <a href="https://github.com/flyover/imgui-js">imgui-js</a>,
+        for now. Not all properties nor all widgets are implemented.
+      </p>
+    </div>
+
+    <div>
+    </div>
+  </div>
+</article>

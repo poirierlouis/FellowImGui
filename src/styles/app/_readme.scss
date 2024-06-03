@@ -1,0 +1,22 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin readme-theme($theme) {
+  $warning: mat.get-theme-color($theme, warn, 500);
+  $fallback: mat.m2-get-color-from-palette(mat.$m2-amber-palette, 700);
+
+  .not-supported {
+    color: $warning;
+  }
+
+  .legacy-fallback {
+    color: $fallback;
+  }
+}
+
+@mixin readme-color($theme) {
+  $warning: mat.get-theme-color($theme, warn, 500);
+  $fallback: mat.m2-get-color-from-palette(mat.$m2-amber-palette, 700);
+
+}
