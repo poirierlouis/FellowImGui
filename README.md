@@ -1,6 +1,8 @@
 # Fellow ImGui
 
-A webapp tool to layout user interface and generate instructions for [Dear ImGui].
+**pre-alpha release**
+
+A webapp tool to layout user interface and generate code for [Dear ImGui].
 
 You can play with this tool at [Fellow ImGui]. You can have a preview of the 
 tool with this presentation:
@@ -14,8 +16,7 @@ tool with this presentation:
 - real-time preview
 - drag-n-drop to add widgets
 - tree of widgets to organize the layout
-- generate ImGui instructions on the fly:
-  - C++
+- generate ImGui code on the fly:
   - Lua
 - import / export FIG files
 
