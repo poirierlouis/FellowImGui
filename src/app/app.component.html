@@ -1,5 +1,15 @@
 <mat-toolbar>
   <span>Fellow ImGui</span>
+
+  <mat-chip class="version">0.1.0</mat-chip>
+
+  <div class="space"></div>
+
+  <button mat-icon-button
+          (click)="openGitHub()"
+          matTooltip="Repository">
+    <mat-icon svgIcon="logo-github"></mat-icon>
+  </button>
 </mat-toolbar>
 
 <router-outlet />
