@@ -178,12 +178,19 @@
     </div>
 
     <div>
+      <div class="feature-preview grid">
+        <mat-icon class="logo"
+                  svgIcon="logo-lua"
+                  matTooltip="Lua"></mat-icon>
+      </div>
+      <!--
       <video #step06
              class="feature-preview"
              muted loop playsinline
              preload="none" poster="./assets/readme/step06-placeholder.png">
         <source src="./assets/readme/step06.mp4" type="video/mp4" />
       </video>
+      -->
     </div>
   </div>
 </article>
@@ -207,3 +214,37 @@
     </div>
   </div>
 </article>
+
+<article>
+  <div class="banner">
+    <div class="description">
+      <h1>
+        <mat-icon svgIcon="license"></mat-icon>
+        License
+      </h1>
+
+      <p>
+        This project is open-source and is licensed under the
+        <a href="https://github.com/poirierlouis/FellowImGui/blob/master/LICENSE" target="_blank">MIT license</a>.
+      </p>
+
+      <p>
+        The icons are sourced from <a href="https://pictogrammers.com/" target="_blank">Pictoprogrammers</a> and are
+        licensed under the <a href="https://pictogrammers.com/docs/general/license/" target="_blank">
+        Apache License 2.0</a>. Some icons were custom-made, inspired by those from Pictoprogrammers, and are also
+        licensed under the same terms.
+      </p>
+    </div>
+
+    <div>
+    </div>
+  </div>
+</article>
+
+<button mat-fab
+        class="btn-editor"
+        color="primary"
+        routerLink="/editor"
+        matTooltip="Open editor">
+  <mat-icon>edit</mat-icon>
+</button>

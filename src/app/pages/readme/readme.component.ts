@@ -1,17 +1,20 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import {MatFabButton} from "@angular/material/button";
+import {MatButton, MatFabButton} from "@angular/material/button";
 import {DOMUtils} from "../../components/dom.utils";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {FIGWidgetType} from "../../models/widgets/widget";
 import {MatTooltip} from "@angular/material/tooltip";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'fig-readme',
   standalone: true,
   imports: [
+    RouterLink,
     MatIcon,
     MatTooltip,
+    MatButton,
     MatFabButton
   ],
   templateUrl: './readme.component.html',

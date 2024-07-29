@@ -9,7 +9,7 @@ import {FIGWidgetFactory} from "../models/widgets/widget.factory";
 export class IconService {
 
   private readonly widgetIcons: string[] = FIGWidgetFactory.icons;
-  private readonly uiIcons: string[] = ['code'];
+  private readonly uiIcons: string[] = ['code', 'license', 'logo-lua'];
 
   constructor(private readonly sanitizer: DomSanitizer,
               private readonly iconRegistry: MatIconRegistry) {

@@ -35,6 +35,7 @@
   @include mat.expansion-theme($theme);
   @include mat.dialog-theme($theme);
   @include mat.menu-theme($theme);
+  @include mat.fab-theme($theme);
 
   @include list-theme($theme);
   @include form-field-theme($theme);
@@ -64,6 +65,7 @@
   @include mat.expansion-color($theme);
   @include mat.dialog-color($theme);
   @include mat.menu-color($theme);
+  @include mat.fab-color($theme);
 
   @include list-color($theme);
   @include form-field-color($theme);

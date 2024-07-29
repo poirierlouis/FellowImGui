@@ -64,3 +64,14 @@ article {
     grid-gap: 24px;
   }
 }
+
+.logo {
+  width: 48px;
+  height: 48px;
+}
+
+.btn-editor {
+  position: fixed;
+  right: 48px;
+  bottom: 24px;
+}
