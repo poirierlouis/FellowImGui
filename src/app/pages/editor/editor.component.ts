@@ -120,6 +120,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.toast.open(`'${this.formatterService.currentLanguage}' code generated in clipboard.`);
   }
 
+  public onNew(): void {
+    const document: FIGDocument = new FIGDocument();
+
+    this.openDocument(document);
+  }
+
   public async onOpen(): Promise<void> {
     this.openPicker.nativeElement.click();
   }

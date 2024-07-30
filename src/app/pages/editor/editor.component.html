@@ -2,6 +2,12 @@
      class="widget-bar">
   <div class="actions">
     <button mat-icon-button
+            matTooltip="New"
+            (click)="onNew()">
+      <mat-icon>insert_drive_file</mat-icon>
+    </button>
+
+    <button mat-icon-button
             matTooltip="Open"
             (click)="onOpen()">
       <mat-icon>folder</mat-icon>
