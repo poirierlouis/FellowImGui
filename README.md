@@ -1,11 +1,11 @@
 # Fellow ImGui
 
-**pre-alpha release**
+**alpha release**
 
 A webapp tool to layout user interface and generate code for [Dear ImGui].
+It is currently powered by [imgui-js].
 
-You can play with this tool at [Fellow ImGui]. You can have a preview of the 
-tool with this presentation:
+You can play with this tool at [Fellow ImGui].
 
 <!-- Insert GIF -->
 
@@ -16,48 +16,16 @@ tool with this presentation:
 - real-time preview
 - drag-n-drop to add widgets
 - tree of widgets to organize the layout
-- generate ImGui code on the fly:
+- generate ImGui code on the fly for:
   - Lua
 - import / export FIG files
-
-## Requests
-- ...
-
-## Issues
-- ...
+- import / export FIGT template files
 
 # Development
 
-## Live server
-
-Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. 
-The application will automatically reload if you change any of the source 
-files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You 
-can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `npm run build` to build the project. The build artifacts will be stored 
-in the `dist/` directory.
-
-## Running unit tests
-
-Run `npm run test` to execute the unit tests via [Karma].
-
-## Running end-to-end tests
-
-Run `npm run e2e` to execute the end-to-end tests via a platform of your 
-choice. To use this command, you need to first add a package that implements 
-end-to-end testing capabilities.
-
-## Contributions
-
+TBD
 
 <!-- Table of links -->
 [Dear ImGui]: https://github.com/ocornut/imgui
-[Fellow ImGui]: https://rayshader.github.io/FellowImGui
-[Karma]: https://karma-runner.github.io
+[imgui-js]: https://github.com/flyover/imgui-js
+[Fellow ImGui]: https://fellowimgui.dev/
