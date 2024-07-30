@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.toast.open('FellowImGui is currently in pre-alpha release. ' +
+    this.toast.open('FellowImGui is currently in alpha release. ' +
       'You can report issues and enhancements on GitHub.', undefined, {duration: 5000});
   }
 
