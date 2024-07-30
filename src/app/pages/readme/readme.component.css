@@ -28,6 +28,10 @@ article {
 
     scroll-snap-align: center;
 
+    & div.description.center {
+      margin: 0 20%;
+    }
+
     & div:not(.description):not(.grid) {
       display: flex;
       justify-content: center;
