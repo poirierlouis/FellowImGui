@@ -1,9 +1,7 @@
 import {Routes} from '@angular/router';
-import {ReadmeComponent} from "./pages/readme/readme.component";
-import {EditorComponent} from "./pages/editor/editor.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'readme', pathMatch: 'full'},
-  {path: 'readme', component: ReadmeComponent},
-  {path: 'editor', component: EditorComponent},
+  {path: 'readme', loadComponent: () => import('./pages/readme/readme.component').then(c => c.ReadmeComponent)},
+  {path: 'editor', loadComponent: () => import('./pages/editor/editor.component').then(c => c.EditorComponent)},
 ];

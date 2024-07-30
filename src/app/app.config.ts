@@ -3,7 +3,7 @@ import {provideHttpClient} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from "@angular/platform-browser";
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {provideRouter} from '@angular/router';
+import {PreloadAllModules, provideRouter, withPreloading} from '@angular/router';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import {NgxColorsModule} from "ngx-colors";
 
@@ -13,7 +13,10 @@ import {provideServiceWorker} from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withPreloading(PreloadAllModules)
+    ),
     provideAnimationsAsync(),
     provideHttpClient(),
 
