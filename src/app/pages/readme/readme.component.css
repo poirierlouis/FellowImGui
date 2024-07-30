@@ -78,4 +78,16 @@ article {
   position: fixed;
   right: 48px;
   bottom: 24px;
+
+  animation: 1s ease 0s reveal;
+}
+
+@keyframes reveal {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
