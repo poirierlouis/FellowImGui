@@ -3,6 +3,15 @@
   height: 100%;
 }
 
+.logo {
+  height: 40px;
+  margin-right: 12px;
+  padding: 4px;
+
+  background-color: #c7abcc;
+  border-radius: 50%;
+}
+
 .version {
   margin-left: 24px;
 }

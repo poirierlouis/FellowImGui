@@ -1,4 +1,4 @@
-import {ApplicationConfig, importProvidersFrom} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, isDevMode} from '@angular/core';
 import {provideHttpClient} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from "@angular/platform-browser";
@@ -9,6 +9,7 @@ import {NgxColorsModule} from "ngx-colors";
 
 import {routes} from './app.routes';
 import {Database, db} from "./repositories/database";
+import {provideServiceWorker} from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,11 @@ export const appConfig: ApplicationConfig = {
       HammerModule,
       NgxColorsModule
     ]),
+
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
 
     {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
