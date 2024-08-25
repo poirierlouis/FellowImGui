@@ -35,7 +35,7 @@
     "@angular/compiler-cli": "^18.1.4",
     "@types/hammerjs": "^2.0.45",
     "@types/jasmine": "~5.1.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.5.0",
     "@types/uuid": "^10.0.0",
     "braces": ">=3.0.3",
     "jasmine-core": "^5.2.0",
