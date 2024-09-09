@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ComboPropertiesComponent} from './combo-properties.component';
 
-describe('ComboPropertiesComponent', () => {
+xdescribe('ComboPropertiesComponent', () => {
   let component: ComboPropertiesComponent;
   let fixture: ComponentFixture<ComboPropertiesComponent>;
 

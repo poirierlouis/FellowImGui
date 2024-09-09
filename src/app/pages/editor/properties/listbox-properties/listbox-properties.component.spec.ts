@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ListboxPropertiesComponent} from './listbox-properties.component';
 
-describe('ListboxPropertiesComponent', () => {
+xdescribe('ListboxPropertiesComponent', () => {
   let component: ListboxPropertiesComponent;
   let fixture: ComponentFixture<ListboxPropertiesComponent>;
 

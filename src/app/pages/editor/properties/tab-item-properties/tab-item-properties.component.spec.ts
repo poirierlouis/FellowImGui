@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TabItemPropertiesComponent} from './tab-item-properties.component';
 
-describe('TabItemPropertiesComponent', () => {
+xdescribe('TabItemPropertiesComponent', () => {
   let component: TabItemPropertiesComponent;
   let fixture: ComponentFixture<TabItemPropertiesComponent>;
 

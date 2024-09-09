@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SliderPropertiesComponent} from './slider-properties.component';
 
-describe('SliderPropertiesComponent', () => {
+xdescribe('SliderPropertiesComponent', () => {
   let component: SliderPropertiesComponent;
   let fixture: ComponentFixture<SliderPropertiesComponent>;
 

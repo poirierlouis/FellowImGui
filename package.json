@@ -14,8 +14,9 @@
   "private": true,
   "jest": {
     "preset": "jest-preset-angular",
+    "testMatch": ["**/?(*.)+(spec).[jt]s?(x)"],
     "setupFilesAfterEnv": [
-      "./src/test.ts"
+      "./src/test/test.ts"
     ]
   },
   "dependencies": {

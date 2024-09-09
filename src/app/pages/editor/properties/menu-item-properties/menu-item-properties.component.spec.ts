@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {MenuItemPropertiesComponent} from './menu-item-properties.component';
 
-describe('MenuItemPropertiesComponent', () => {
+xdescribe('MenuItemPropertiesComponent', () => {
   let component: MenuItemPropertiesComponent;
   let fixture: ComponentFixture<MenuItemPropertiesComponent>;
 

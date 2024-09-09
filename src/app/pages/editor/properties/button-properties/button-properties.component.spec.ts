@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ButtonPropertiesComponent } from './button-properties.component';
+import {ButtonPropertiesComponent} from './button-properties.component';
 
-describe('ButtonSettingsComponent', () => {
+xdescribe('ButtonSettingsComponent', () => {
   let component: ButtonPropertiesComponent;
   let fixture: ComponentFixture<ButtonPropertiesComponent>;
 

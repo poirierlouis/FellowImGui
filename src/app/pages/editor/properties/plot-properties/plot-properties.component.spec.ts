@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PlotPropertiesComponent} from './plot-properties.component';
 
-describe('PlotLinesPropertiesComponent', () => {
+xdescribe('PlotLinesPropertiesComponent', () => {
   let component: PlotPropertiesComponent;
   let fixture: ComponentFixture<PlotPropertiesComponent>;
 

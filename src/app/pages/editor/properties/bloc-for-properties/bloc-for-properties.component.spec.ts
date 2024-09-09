@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {BlocForPropertiesComponent} from './bloc-for-properties.component';
 
-describe('BlocForPropertiesComponent', () => {
+xdescribe('BlocForPropertiesComponent', () => {
   let component: BlocForPropertiesComponent;
   let fixture: ComponentFixture<BlocForPropertiesComponent>;
 

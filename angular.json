@@ -101,7 +101,21 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              {
+                "input": "src/styles.css",
+                "bundleName": "styles"
+              },
+              {
+                "input": "src/styles/light-theme.scss",
+                "bundleName": "light-theme"
+              },
+              {
+                "input": "src/styles/dark-theme.scss",
+                "bundleName": "dark-theme"
+              }
+            ],
+            "allowedCommonJsDependencies": [
+              "hammerjs"
             ],
             "scripts": []
           }

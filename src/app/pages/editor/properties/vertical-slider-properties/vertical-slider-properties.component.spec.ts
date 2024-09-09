@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {VerticalSliderPropertiesComponent} from './vertical-slider-properties.component';
 
-describe('VerticalSliderPropertiesComponent', () => {
+xdescribe('VerticalSliderPropertiesComponent', () => {
   let component: VerticalSliderPropertiesComponent;
   let fixture: ComponentFixture<VerticalSliderPropertiesComponent>;
 

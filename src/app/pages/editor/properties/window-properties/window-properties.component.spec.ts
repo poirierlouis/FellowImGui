@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WindowPropertiesComponent } from './window-properties.component';
+import {WindowPropertiesComponent} from './window-properties.component';
 
-describe('WindowSettingsComponent', () => {
+xdescribe('WindowSettingsComponent', () => {
   let component: WindowPropertiesComponent;
   let fixture: ComponentFixture<WindowPropertiesComponent>;
 

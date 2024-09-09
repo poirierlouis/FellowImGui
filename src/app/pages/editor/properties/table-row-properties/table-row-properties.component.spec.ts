@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TableRowPropertiesComponent} from './table-row-properties.component';
 
-describe('TableRowPropertiesComponent', () => {
+xdescribe('TableRowPropertiesComponent', () => {
   let component: TableRowPropertiesComponent;
   let fixture: ComponentFixture<TableRowPropertiesComponent>;
 

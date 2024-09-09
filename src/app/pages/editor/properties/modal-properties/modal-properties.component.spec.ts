@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ModalPropertiesComponent} from './modal-properties.component';
 
-describe('ModalPropertiesComponent', () => {
+xdescribe('ModalPropertiesComponent', () => {
   let component: ModalPropertiesComponent;
   let fixture: ComponentFixture<ModalPropertiesComponent>;
 

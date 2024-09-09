@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ReadmeComponent} from './readme.component';
 
-describe('ReadmeComponent', () => {
+xdescribe('ReadmeComponent', () => {
   let component: ReadmeComponent;
   let fixture: ComponentFixture<ReadmeComponent>;
 

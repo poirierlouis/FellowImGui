@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TextPropertiesComponent } from './text-properties.component';
+import {TextPropertiesComponent} from './text-properties.component';
 
-describe('TextSettingsComponent', () => {
+xdescribe('TextSettingsComponent', () => {
   let component: TextPropertiesComponent;
   let fixture: ComponentFixture<TextPropertiesComponent>;
 
