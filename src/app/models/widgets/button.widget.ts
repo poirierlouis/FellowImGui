@@ -51,7 +51,7 @@ export class FIGButtonWidget extends FIGWithTooltip {
     } else if (this.arrow !== FIGDir.none) {
       ImGui.ArrowButton(this.label, this.arrow);
     } else {
-      let size: Vector2 | undefined = (this.isFill) ? {x: -1.0, y: 0.0} : undefined;
+      const size: Vector2 | undefined = (this.isFill) ? {x: -1.0, y: 0.0} : undefined;
 
       ImGui.Button(this.label, size);
     }

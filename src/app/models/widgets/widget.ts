@@ -113,6 +113,7 @@ export abstract class FIGWidget {
   /**
    * Callback after widget is created and inserted in tree.
    */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onCreated(): void {
 
   }
@@ -120,6 +121,7 @@ export abstract class FIGWidget {
   /**
    * Callback after widget is moved within tree.
    */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onMoved(): void {
 
   }
@@ -127,6 +129,7 @@ export abstract class FIGWidget {
   /**
    * Callback after widget is removed from tree.
    */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onDeleted(): void {
 
   }

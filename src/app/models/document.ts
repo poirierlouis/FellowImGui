@@ -130,7 +130,7 @@ export class FIGDocument {
   }
 
   public moveWidget(drag: FIGWidget, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
-    let parent: FIGContainer | undefined = drop?.parent;
+    const parent: FIGContainer | undefined = drop?.parent;
 
     // Prevent moving child-like widget at the end of tree.
     if (!drop && (drag.needParent || !(drag instanceof FIGContainer))) {

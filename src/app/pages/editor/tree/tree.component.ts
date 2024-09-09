@@ -79,7 +79,7 @@ export class TreeComponent {
 
   contextMenuPosition: {x: string, y: string} = {x: '0', y: '0'};
 
-  treeControl = new FlatTreeControl<FlatNode>(
+  treeControl: FlatTreeControl<FlatNode> = new FlatTreeControl(
     node => node.level,
     node => node.expandable,
   );
@@ -98,7 +98,7 @@ export class TreeComponent {
     node => node.expandable,
     widget => (widget instanceof FIGContainer) ? widget.children : undefined,
   );
-  treeSelection = new SelectionModel<string>(true);
+  treeSelection: SelectionModel<string> = new SelectionModel(true);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   selectedWidget?: FIGWidget;

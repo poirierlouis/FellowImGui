@@ -7,9 +7,7 @@ export class FIGSeparatorWidget extends FIGWidget {
     this._focusOffset.x = -4;
   }
 
-  public get name(): string {
-    return 'Separator';
-  }
+  public readonly name = 'Separator';
 
   public override draw(): void {
     ImGui.Separator();

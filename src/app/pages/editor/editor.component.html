@@ -39,7 +39,7 @@
     @for (category of categories; track category.title) {
       <div>
         @for (builder of category.builders; track builder.type) {
-          <mat-icon [class.warning]="!(isSupported(builder.type) | async)"
+          <mat-icon [class.warning]="(isSupported(builder.type) | async) === false"
                     [class.fallback]="useLegacyFallback(builder.type) | async"
                     [svgIcon]="FIGWidgetType[builder.type]"
                     [matTooltip]="builder.title"

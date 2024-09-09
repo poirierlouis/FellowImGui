@@ -131,7 +131,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   public async open(event: Event): Promise<void> {
-    // @ts-ignore
+    // @ts-expect-error event file type not defined
     const files: FileList = event.target!.files;
 
     if (files.length !== 1) {

@@ -129,9 +129,11 @@ export class CanvasComponent implements OnDestroy {
     const style: any = ImGui.GetStyle();
 
     for (const property of FIGSizesSerializers) {
-      if (property.type === 'array' && sizes?.[property.name] !== undefined) {
-        style[property.name].x = sizes![property.name][0];
-        style[property.name].y = sizes![property.name][1];
+      if (property.type === 'array' && sizes && sizes[property.name] !== undefined) {
+        const propertyStyle: number[] = sizes[property.name] as number[];
+
+        style[property.name].x = propertyStyle[0];
+        style[property.name].y = propertyStyle[1];
       } else if (sizes?.[property.name] !== undefined) {
         style[property.name] = sizes![property.name];
       }
@@ -263,9 +265,11 @@ export class CanvasComponent implements OnDestroy {
     const gl = ImGui_Impl.gl;
     const clearColor = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
 
-    gl && gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-    gl && gl.clearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
-    gl && gl.clear(gl.COLOR_BUFFER_BIT);
+    if (gl) {
+      gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+      gl.clearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+    }
     ImGui_Impl.RenderDrawData(frame);
     if (!this.isRendering) {
       this.stopImGui();

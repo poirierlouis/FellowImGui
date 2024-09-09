@@ -7,9 +7,7 @@ export class FIGGroupWidget extends FIGContainer {
     super(FIGWidgetType.group, true);
   }
 
-  public get name(): string {
-    return 'Group';
-  }
+  public readonly name = 'Group';
 
   public override draw(): void {
     ImGui.BeginGroup();

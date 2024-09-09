@@ -34,7 +34,7 @@ export interface FIGSizes {
   SelectableTextAlign?: number[];
   DisplaySafeAreaPadding?: number[];
 
-  [key: string]: any;
+  [key: string]: number | number[] | undefined;
 }
 
 export const FIGSizesSerializers: FIGFormField[] = [

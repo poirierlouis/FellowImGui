@@ -5,7 +5,7 @@
         <mat-panel-title>Templates</mat-panel-title>
       </mat-expansion-panel-header>
 
-      <fig-template-list [config]="document.config" (load)="loadTemplate($event)"></fig-template-list>
+      <fig-template-list [config]="document.config" (figLoad)="loadTemplate($event)"></fig-template-list>
     </mat-expansion-panel>
 
     <mat-expansion-panel>

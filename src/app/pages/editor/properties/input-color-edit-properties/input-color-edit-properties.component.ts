@@ -63,9 +63,9 @@ export class InputColorEditPropertiesComponent extends AbstractPropertiesCompone
     $panel.menu = 3;
     if ($panel.color.length === 0) {
       $panel.color = stringifyRGBA(this.widget.color);
-    } else if ($panel.color.length === 0) {
+    }/* else if ($panel.color.length === 0) {
       $panel.color = 'rgb(255, 255, 255)';
-    }
+    }*/
   }
 
   protected override updateForm(): void {

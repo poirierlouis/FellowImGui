@@ -139,9 +139,13 @@ export class ConfigComponent {
     const sizes: FIGSizes | undefined = this.document.config.sizes;
 
     for (const field of this.sizesFields) {
+      const fieldSize: number | number[] | undefined = sizes?.[field.name];
+
       if (field.type === 'array') {
-        this.form.get(`${field.name}0`)!.setValue(sizes?.[field.name]?.[0] ?? field.default[0], {emitEvent: false});
-        this.form.get(`${field.name}1`)!.setValue(sizes?.[field.name]?.[1] ?? field.default[1], {emitEvent: false});
+        const fieldSizeArray: number[] | undefined = fieldSize as number[] | undefined;
+
+        this.form.get(`${field.name}0`)!.setValue(fieldSizeArray?.[0] ?? field.default[0], {emitEvent: false});
+        this.form.get(`${field.name}1`)!.setValue(fieldSizeArray?.[1] ?? field.default[1], {emitEvent: false});
       } else {
         this.form.get(field.name)!.setValue(sizes?.[field.name] ?? field.default, {emitEvent: false});
       }
@@ -192,7 +196,7 @@ export class ConfigComponent {
   }
 
   protected onFontPicked(event: Event): void {
-    // @ts-ignore
+    // @ts-expect-error event file type not defined
     const files: FileList = event.target!.files;
 
     if (files.length !== 1) {
@@ -236,9 +240,9 @@ export class ConfigComponent {
     $panel.menu = 3;
     if ($panel.color.length === 0) {
       $panel.color = stringifyRGBA(color);
-    } else if ($panel.color.length === 0) {
+    }/* else if ($panel.color.length === 0) {
       $panel.color = 'rgb(255, 255, 255)';
-    }
+    }*/
   }
 
   private onThemeChanged(value: FIGThemeColors): void {

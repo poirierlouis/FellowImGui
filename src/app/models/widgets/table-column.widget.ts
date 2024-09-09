@@ -27,20 +27,17 @@ export enum FIGTableColumnFlags {
   IsHovered = 134217728
 }
 
-export interface FIGTableColumnOptions {
-}
+export type FIGTableColumnOptions = object;
 
 export class FIGTableColumnWidget extends FIGContainer {
   public static readonly serializers: FIGSerializeProperty[] = [
   ];
 
-  constructor(options?: FIGTableColumnOptions) {
+  constructor(_options?: FIGTableColumnOptions) {
     super(FIGWidgetType.tableColumn, true);
   }
 
-  public get name(): string {
-    return 'Table Column';
-  }
+  public readonly name: string = 'Table Column';
 
   public override draw(): void {
     ImGui.TableNextColumn();

@@ -69,7 +69,7 @@ export class TemplateListComponent implements OnDestroy {
   config!: FIGConfig;
 
   @Output()
-  load: EventEmitter<FIGTemplateEntity> = new EventEmitter<FIGTemplateEntity>();
+  figLoad: EventEmitter<FIGTemplateEntity> = new EventEmitter();
 
   templates$: Observable<TemplateItem[]>;
 
@@ -93,7 +93,7 @@ export class TemplateListComponent implements OnDestroy {
   }
 
   protected onLoadTemplate(template: FIGTemplateEntity): void {
-    this.load.emit(template);
+    this.figLoad.emit(template);
   }
 
   protected onSaveTemplate(template: FIGTemplateEntity): void {
@@ -143,7 +143,7 @@ export class TemplateListComponent implements OnDestroy {
   }
 
   protected async importTemplate(event: Event): Promise<void> {
-    // @ts-ignore
+    // @ts-expect-error event type not defined
     const files: FileList = event.target!.files;
 
     if (files.length !== 1) {

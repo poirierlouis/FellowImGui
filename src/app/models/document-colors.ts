@@ -112,7 +112,7 @@ export interface FIGColors {
   NavWindowingDimBg?: Color;
   ModalWindowDimBg?: Color;
 
-  [key: string]: any;
+  [key: string]: Color | undefined;
 }
 
 export const FIGColorsSerializers: FIGSerializeProperty[] = [

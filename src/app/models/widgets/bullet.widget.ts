@@ -1,17 +1,14 @@
 import {FIGWidget, FIGWidgetType} from "./widget";
 
-export interface FIGBulletOptions {
-}
+export type FIGBulletOptions = object
 
 export class FIGBulletWidget extends FIGWidget {
 
-  constructor(options?: FIGBulletOptions) {
+  constructor(_options?: FIGBulletOptions) {
     super(FIGWidgetType.bullet, true);
   }
 
-  public get name(): string {
-    return 'Bullet';
-  }
+  public readonly name = 'Bullet';
 
   public override draw(): void {
     ImGui.Bullet();

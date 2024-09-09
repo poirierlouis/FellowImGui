@@ -24,9 +24,7 @@ export class FIGDummyWidget extends FIGWithTooltip {
     this.tooltip = options?.tooltip;
   }
 
-  public get name(): string {
-    return 'Dummy';
-  }
+  public readonly name = 'Dummy';
 
   public override draw(): void {
     ImGui.Dummy({x: this.width, y: this.height});

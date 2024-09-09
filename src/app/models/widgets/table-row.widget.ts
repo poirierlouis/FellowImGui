@@ -25,9 +25,7 @@ export class FIGTableRowWidget extends FIGContainer {
     this.header = options?.header ?? false;
   }
 
-  public get name(): string {
-    return 'Table Row';
-  }
+  public readonly name = 'Table Row';
 
   public override isChildAccepted(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.tableColumn;

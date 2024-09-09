@@ -25,7 +25,7 @@
                  (figDismissed)="removeWidget(node.widget)"
                  (contextmenu)="onContextMenu($event, node.widget)">
     <div class="content"
-         [class.warning]="!(isSupported(node.widget) | async)"
+         [class.warning]="(isSupported(node.widget) | async) === false"
          [class.fallback]="useLegacyFallback(node) | async">
       <mat-icon [svgIcon]="node.icon"></mat-icon>
 

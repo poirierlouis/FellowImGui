@@ -6,9 +6,7 @@ export class FIGSpacingWidget extends FIGWidget {
     super(FIGWidgetType.spacing, true);
   }
 
-  public get name(): string {
-    return 'Spacing';
-  }
+  public readonly name = 'Spacing';
 
   public override draw(): void {
     ImGui.Spacing();

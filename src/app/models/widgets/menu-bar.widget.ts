@@ -3,22 +3,19 @@ import {FIGContainer} from "./container";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGWindowFlags, FIGWindowWidget} from "./window.widget";
 
-export interface FIGMenuBarOptions {
-}
+export type FIGMenuBarOptions = object
 
 export class FIGMenuBarWidget extends FIGContainer {
   public static readonly serializers: FIGSerializeProperty[] = [
   ];
 
-  constructor(options?: FIGMenuBarOptions) {
+  constructor(_options?: FIGMenuBarOptions) {
     super(FIGWidgetType.menuBar, true);
     this._focusOffset.x = 0;
     this._focusOffset.y = 0;
   }
 
-  public get name(): string {
-    return 'Menu Bar';
-  }
+  public readonly name = 'Menu Bar';
 
   public override isChildAccepted(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.menu;

@@ -584,7 +584,7 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const varValue: string = this.formatVar(`${widget.label} value${size > 0 ? 's' : ''}`, widget.type);
     const varUsed: string = this.formatVar(`${widget.label} used`, widget.type);
     const args: string[] = [this.formatString(widget.label), varValue];
-    const argsData: any = {
+    const argsData: Record<string, string> = {
       varStep: widget.step.toString(),
       varStepFast: widget.stepFast.toString(),
       varFormat: this.formatString(widget.format)

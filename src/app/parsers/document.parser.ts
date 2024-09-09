@@ -64,9 +64,7 @@ export interface FIGDocumentParser {
 
 }
 
-export interface Versioning {
-  [key: string]: number;
-}
+export type Versioning = Record<string, number>;
 
 export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W extends FIGDocumentWriter> implements FIGDocumentParser {
   public static readonly binders: FIGSerializeBind[] = [

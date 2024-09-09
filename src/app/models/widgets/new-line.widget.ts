@@ -6,9 +6,7 @@ export class FIGNewLineWidget extends FIGWidget {
     super(FIGWidgetType.newLine, true);
   }
 
-  public get name(): string {
-    return 'NewLine';
-  }
+  public readonly name = 'NewLine';
 
   public override draw(): void {
     ImGui.NewLine();

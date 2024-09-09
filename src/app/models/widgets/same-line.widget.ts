@@ -21,9 +21,7 @@ export class FIGSameLineWidget extends FIGWidget {
     this.spacing = options?.spacing;
   }
 
-  public get name(): string {
-    return 'SameLine';
-  }
+  public readonly name = 'SameLine';
 
   public override draw(): void {
     ImGui.SameLine(this.offsetFromStart, this.spacing);
