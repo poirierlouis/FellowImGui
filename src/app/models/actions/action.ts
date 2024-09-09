@@ -1,35 +1,35 @@
 import {FIGWidget} from "../widgets/widget";
 
-export enum FIGWidgetActionType {
+export enum FIGActionType {
   select,
   duplicate,
   remove,
 }
 
-export interface FIGWidgetAction {
-  readonly type: FIGWidgetActionType;
+export interface FIGAction {
+  readonly type: FIGActionType;
   readonly widget?: FIGWidget;
 }
 
-export class FIGWidgetAction {
+export class FIGActionFactory {
 
-  public static select(widget?: FIGWidget): FIGWidgetAction {
+  public static select(widget?: FIGWidget): FIGAction {
     return {
-      type: FIGWidgetActionType.select,
+      type: FIGActionType.select,
       widget: widget
     }
   }
 
-  public static duplicate(widget: FIGWidget): FIGWidgetAction {
+  public static duplicate(widget: FIGWidget): FIGAction {
     return {
-      type: FIGWidgetActionType.duplicate,
+      type: FIGActionType.duplicate,
       widget: widget
     }
   }
 
-  public static remove(widget: FIGWidget): FIGWidgetAction {
+  public static remove(widget: FIGWidget): FIGAction {
     return {
-      type: FIGWidgetActionType.remove,
+      type: FIGActionType.remove,
       widget: widget
     }
   }

@@ -21,7 +21,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {ConfigComponent} from "./config/config.component";
-import {FIGWidgetAction, FIGWidgetActionType} from "../../models/actions/action";
+import {FIGAction, FIGActionType} from "../../models/actions/action";
 import {FIGShortcut} from "../../models/actions/shortcut";
 import {LanguagePickerComponent} from "./language-picker/language-picker.component";
 
@@ -212,12 +212,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.isSliding = false;
   }
 
-  protected onWidgetAction(action: FIGWidgetAction): void {
-    if (action.type === FIGWidgetActionType.select) {
+  protected onWidgetAction(action: FIGAction): void {
+    if (action.type === FIGActionType.select) {
       this.selectWidget(action.widget);
-    } else if (action.type === FIGWidgetActionType.duplicate) {
+    } else if (action.type === FIGActionType.duplicate) {
       this.duplicateWidget(action);
-    } else if (action.type === FIGWidgetActionType.remove) {
+    } else if (action.type === FIGActionType.remove) {
       this.removeWidget(action);
     }
   }
@@ -229,14 +229,14 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected duplicateWidget(action: FIGWidgetAction): void {
+  protected duplicateWidget(action: FIGAction): void {
     if (!action.widget || !this.document) {
       return;
     }
     // TODO: undo/redo?
   }
 
-  protected removeWidget(action: FIGWidgetAction): void {
+  protected removeWidget(action: FIGAction): void {
     if (!action.widget || !this.document) {
       return;
     }

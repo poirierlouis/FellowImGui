@@ -23,7 +23,7 @@ import {DragHandleDirective} from "../../../directives/drag-handle.directive";
 import {FormatterService} from "../../../services/formatter.service";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FIGWidgetAction} from "../../../models/actions/action";
+import {FIGAction, FIGActionFactory} from "../../../models/actions/action";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
@@ -72,7 +72,7 @@ export class TreeComponent {
   document!: FIGDocument;
 
   @Output()
-  action: EventEmitter<FIGWidgetAction> = new EventEmitter<FIGWidgetAction>();
+  action: EventEmitter<FIGAction> = new EventEmitter<FIGAction>();
 
   @ViewChildren(MatTreeNode, {read: ElementRef})
   nodes!: QueryList<ElementRef>;
@@ -176,7 +176,7 @@ export class TreeComponent {
       this.selectedWidget = node.widget;
       isSelected = true;
     }
-    this.action.emit(FIGWidgetAction.select(this.selectedWidget));
+    this.action.emit(FIGActionFactory.select(this.selectedWidget));
     return isSelected;
   }
 
@@ -206,10 +206,10 @@ export class TreeComponent {
   protected removeWidget(widget: FIGWidget): void {
     if (this.selectedWidget?.uuid === widget.uuid) {
       this.selectedWidget = undefined;
-      this.action.emit(FIGWidgetAction.select());
+      this.action.emit(FIGActionFactory.select());
     }
     if (this.document.removeWidget(widget)) {
-      this.action.emit(FIGWidgetAction.remove(widget));
+      this.action.emit(FIGActionFactory.remove(widget));
       this.update();
     }
   }
@@ -231,7 +231,7 @@ export class TreeComponent {
       return;
     }
     this.update();
-    this.action.emit(FIGWidgetAction.duplicate(widget));
+    this.action.emit(FIGActionFactory.duplicate(widget));
   }
 
   public async generateCode(widget: FIGWidget): Promise<void> {
