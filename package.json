@@ -49,7 +49,7 @@
     "@eslint/js": "^9.10.0",
     "@types/hammerjs": "^2.0.45",
     "@types/jest": "^29.5.12",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.5.5",
     "@types/uuid": "^10.0.0",
     "angular-eslint": "18.3.0",
     "braces": ">=3.0.3",
