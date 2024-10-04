@@ -12,6 +12,9 @@
       background-color: transparent;
 
       & .mat-tree-node {
+        // NOTE: fix for webkit browsers (Chrome 129.0.6668.90), otherwise user
+        // cannot drag widgets in the tree.
+        -webkit-user-drag: element!important;
         min-height: 38px;
 
         &:hover,
