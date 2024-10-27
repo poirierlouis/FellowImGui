@@ -58,6 +58,16 @@
       <span>Generate code</span>
       <span class="shortcut">CTRL+G</span>
     </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item
+            class="hint"
+            (click)="removeWidget(widget)">
+      <mat-icon color="warn">delete</mat-icon>
+      <span>Delete</span>
+      <span class="shortcut">DEL</span>
+    </button>
   </ng-template>
 </mat-menu>
 

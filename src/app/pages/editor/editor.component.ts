@@ -178,6 +178,10 @@ export class EditorComponent implements OnInit, OnDestroy {
       event.preventDefault();
       await this.tree.generateCode(this.selectedWidget);
     }
+    if (this.shortcut.canDelete() && this.selectedWidget) {
+      event.preventDefault();
+      this.tree.removeWidget(this.selectedWidget);
+    }
   }
 
   @HostListener('document:keyup', ['$event'])

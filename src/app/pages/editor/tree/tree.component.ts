@@ -27,6 +27,7 @@ import {FIGAction, FIGActionFactory} from "../../../models/actions/action";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
 import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
+import {MatDivider} from "@angular/material/divider";
 
 interface FlatNode {
   expandable: boolean;
@@ -44,6 +45,7 @@ interface FlatNode {
   imports: [
     AsyncPipe,
     MatIcon,
+    MatDivider,
     MatTree,
     MatTreeNode,
     MatTreeNodeDef,
@@ -203,7 +205,7 @@ export class TreeComponent {
     }
   }
 
-  protected removeWidget(widget: FIGWidget): void {
+  public removeWidget(widget: FIGWidget): void {
     if (this.selectedWidget?.uuid === widget.uuid) {
       this.selectedWidget = undefined;
       this.action.emit(FIGActionFactory.select());

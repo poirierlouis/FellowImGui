@@ -18,4 +18,8 @@ export class FIGShortcut {
   public canGenerate(): boolean {
     return this.ctrl && this.key === 'g';
   }
+
+  public canDelete(): boolean {
+    return !this.ctrl && this.key === 'Delete';
+  }
 }
