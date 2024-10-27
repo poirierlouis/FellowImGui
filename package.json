@@ -31,7 +31,7 @@
     "@angular/forms": "^18.2.7",
     "@angular/material": "^18.2.7",
     "@angular/platform-browser": "^18.2.7",
-    "@angular/platform-browser-dynamic": "^18.2.7",
+    "@angular/platform-browser-dynamic": "^18.2.9",
     "@angular/router": "^18.2.7",
     "@angular/service-worker": "^18.2.7",
     "dexie": "^4.0.8",
