@@ -235,10 +235,12 @@
   </div>
 </article>
 
-<button mat-fab
-        class="btn-editor"
-        color="primary"
-        routerLink="/editor"
-        matTooltip="Open editor">
-  <mat-icon>edit</mat-icon>
-</button>
+@if(!isMobile) {
+  <button mat-fab
+          class="btn-editor"
+          color="primary"
+          routerLink="/editor"
+          matTooltip="Open editor">
+    <mat-icon>edit</mat-icon>
+  </button>
+}

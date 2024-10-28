@@ -6,6 +6,7 @@ import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.fa
 import {FIGWidgetType} from "../../models/widgets/widget";
 import {MatTooltip} from "@angular/material/tooltip";
 import {RouterLink} from "@angular/router";
+import {isMobile} from "../../mobile";
 
 @Component({
   selector: 'fig-readme',
@@ -38,6 +39,7 @@ export class ReadmeComponent implements AfterViewInit {
   step05!: ElementRef;
 
   readonly widgets: FIGWidgetBuilder[] = FIGWidgetFactory.builders;
+  readonly isMobile: boolean = isMobile();
 
   protected readonly FIGWidgetType = FIGWidgetType;
 
