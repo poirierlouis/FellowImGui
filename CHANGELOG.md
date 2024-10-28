@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - access to editor on mobiles.
 
 ### Added
-- responsiveness in page <fig-readme>.
-- delete button in context menu of <fig-tree>.
+- responsiveness in page `fig-readme`.
+- delete button in context menu of `fig-tree`.
 - `Delete` shortcut to remove selected widget.
 
 ------------------------
