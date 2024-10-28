@@ -12,21 +12,55 @@ svg {
   position: absolute;
   width: 100vw;
   height: 100vh;
+
+  & ellipse {
+    rx: 60vw;
+    ry: 60vh;
+
+    &:nth-child(2),
+    &:nth-child(4) {
+      rx: 40vw;
+      ry: 60vh;
+
+      @media screen and (max-width: 1120px) {
+        rx: 58vw;
+      }
+
+      @media screen and (max-width: 60px) {
+        rx: 40vw;
+        ry: 30vh;
+      }
+    }
+  }
+
+  & circle {
+    r: 42%;
+
+    @media screen and (max-width: 600px) {
+      r: 50%;
+    }
+  }
 }
 
 article {
   display: flex;
   align-items: center;
   height: inherit;
+  width: auto;
   margin: 0 25%;
 
   & .banner {
     display: flex;
     align-items: center;
+    flex: 1;
     height: fit-content;
     gap: 48px;
 
     scroll-snap-align: center;
+
+    & div.description {
+      width: inherit;
+    }
 
     & div.description.center {
       margin: 0 20%;
@@ -37,6 +71,44 @@ article {
       justify-content: center;
       min-width: 522px;
       max-width: 522px;
+
+      &:not(.auto) {
+        width: 100%;
+      }
+
+      & video {
+        width: inherit;
+      }
+
+      @media screen and (min-width: 1640px) {
+        min-width: 522px;
+        max-width: 522px;
+      }
+
+      @media screen and (max-width: 1640px) {
+        min-width: 422px;
+        max-width: 422px;
+      }
+
+      @media screen and (max-width: 1280px) {
+        min-width: 322px;
+        max-width: 322px;
+      }
+
+      @media screen and (max-width: 600px) {
+        min-width: initial;
+        max-width: initial;
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+      flex-flow: column;
+      width: 100%;
+      gap: 48px;
+    }
+
+    @media screen and (max-width: 600px) {
+      gap: 24px;
     }
   }
 
@@ -53,6 +125,10 @@ article {
   & p {
     text-align: justify;
     font-size: 1.1rem;
+
+    @media screen and (max-width: 800px) {
+      font-size: 1.0rem;
+    }
   }
 
   & .feature-preview {
@@ -66,6 +142,24 @@ article {
     max-height: 280px;
     grid-template-columns: repeat(8, 24px);
     grid-gap: 24px;
+
+    @media screen and (max-width: 800px) {
+      grid-template-columns: repeat(8, 20px);
+      grid-gap: 20px;
+      padding: 20px;
+    }
+  }
+
+  @media screen and (max-width: 1640px) {
+    margin: 0 20%;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin: 0 15%;
+  }
+
+  @media screen and (max-width: 460px) {
+    margin: 0 24px;
   }
 }
 
