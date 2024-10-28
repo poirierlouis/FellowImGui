@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ------------------------
 
+## [0.1.4] - 2024-10-28
+### Removed
+- access to editor on mobiles.
+
+### Added
+- responsiveness in page <fig-readme>.
+- delete button in context menu of <fig-tree>.
+- `Delete` shortcut to remove selected widget.
+
+------------------------
+
 ## [0.1.3] - 2024-10-04
 ### Removed
 - change state variable of input-like widgets for `Lua sol2`.
@@ -35,7 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - initial version with support for `Lua sol2`.
 
 <!-- Table of releases -->
-[Unreleased]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.0...v0.1.1
