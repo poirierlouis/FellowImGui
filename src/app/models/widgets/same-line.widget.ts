@@ -17,8 +17,8 @@ export class FIGSameLineWidget extends FIGWidget {
 
   constructor(options?: FIGSameLineOptions) {
     super(FIGWidgetType.sameLine, true);
-    this.offsetFromStart = options?.offsetFromStart;
-    this.spacing = options?.spacing;
+    this.registerInteger('offsetFromStart', 'Offset from start', options?.offsetFromStart, true);
+    this.registerInteger('spacing', 'Spacing', options?.spacing, true);
   }
 
   public readonly name = 'SameLine';

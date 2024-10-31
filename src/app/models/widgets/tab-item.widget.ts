@@ -3,6 +3,7 @@ import {FIGContainer} from "./container";
 import {getEnumValues} from "../enum";
 import {FIGTabBarFlags, FIGTabBarWidget} from "./tab-bar.widget";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGTabItemFlags {
   UnsavedDocument = 1,
@@ -20,6 +21,8 @@ export interface FIGTabItemOptions {
   readonly flags?: FIGTabItemFlags;
 }
 
+export const FIGTabItemFlagsOptions: FlagOption[] = getOptions(FIGTabItemFlags);
+
 export class FIGTabItemWidget extends FIGContainer {
   public static readonly flags: FIGTabItemFlags[] = getEnumValues(FIGTabItemFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
@@ -27,15 +30,15 @@ export class FIGTabItemWidget extends FIGContainer {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  flags: number;
+  label: string = 'Tab Item';
+  flags: number = 0;
 
   isOpen: boolean;
 
   constructor(options?: FIGTabItemOptions) {
     super(FIGWidgetType.tabItem, true);
-    this.label = options?.label ?? 'Tab Item';
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'Label', options?.label ?? 'Tab Item');
+    this.registerFlags('flags', 'Flags', FIGTabItemFlagsOptions, options?.flags, true, 0);
     this.isOpen = true;
   }
 

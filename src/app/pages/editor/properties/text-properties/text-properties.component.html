@@ -1,57 +1,17 @@
-<form [formGroup]="form">
-  @if (!getProperty('isWrapped')) {
-    <mat-form-field>
-      <mat-label>Text</mat-label>
-      <input matInput
-             type="text"
-             formControlName="text" />
-    </mat-form-field>
-  } @else {
-    <mat-form-field>
-      <mat-label>Text</mat-label>
-      <textarea matInput
-                formControlName="text"
-                cdkTextareaAutosize></textarea>
-    </mat-form-field>
-  }
+<form>
+  <fig-string-field [field]="getField('text')"
+                    [textarea]="this.widget.isWrapped"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <div class="mat-form-field">
-    <mat-label>Color</mat-label>
-    <ngx-colors formControlName="color"
-                ngx-colors-trigger
-                format="rgba"
-                [palette]="[]"
-                (open)="onColorPickerOpened()"></ngx-colors>
-  </div>
+  <fig-color-field [field]="getField('color')" />
 
-  <div class="mat-form-field">
-    <mat-label>Disabled</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isDisabled"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isDisabled')" />
 
-  <div class="mat-form-field">
-    <mat-label>Wrapped</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isWrapped"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isWrapped')" />
 
-  <div class="mat-form-field">
-    <mat-label>Bullet</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="hasBullet"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('hasBullet')" />
 
-  <div class="mat-form-field">
-    <mat-label>Align to frame padding</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="align"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('align')" />
 </form>

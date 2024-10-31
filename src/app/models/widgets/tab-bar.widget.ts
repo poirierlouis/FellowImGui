@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
 import {getEnumValues} from "../enum";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGTabBarFlags {
   Reorderable = 1,
@@ -19,6 +20,8 @@ export interface FIGTabBarOptions {
   readonly flags?: FIGTabBarFlags;
 }
 
+export const FIGTabBarFlagsOptions: FlagOption[] = getOptions(FIGTabBarFlags);
+
 export class FIGTabBarWidget extends FIGContainer {
   public static readonly flags: FIGTabBarFlags[] = getEnumValues(FIGTabBarFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
@@ -27,13 +30,13 @@ export class FIGTabBarWidget extends FIGContainer {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  label: string;
-  flags: number;
+  label: string = 'Tab Bar';
+  flags: number = 0;
 
   constructor(options?: FIGTabBarOptions) {
     super(FIGWidgetType.tabBar, true);
-    this.label = options?.label ?? 'Tab Bar';
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'String ID', options?.label ?? 'Tab Bar');
+    this.registerFlags('flags', 'Flags', FIGTabBarFlagsOptions, options?.flags, true, 0);
     this._focusOffset.y = 0;
   }
 

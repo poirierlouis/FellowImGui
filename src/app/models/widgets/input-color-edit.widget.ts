@@ -3,6 +3,7 @@ import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Color} from "../math";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGInputColorEditFlags {
   NoAlpha              = 2,
@@ -36,6 +37,8 @@ export enum FIGInputColorEditMasks {
   InputMask_           = 402653184
 }
 
+export const FIGInputColorEditFlagsOptions: FlagOption[] = getOptions(FIGInputColorEditFlags);
+
 export interface FIGInputColorEditOptions extends FIGTooltipOption {
   readonly label?: string;
   readonly color?: Color;
@@ -53,18 +56,18 @@ export class FIGInputColorEditWidget extends FIGWithTooltip {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  color: Color;
-  withAlpha: boolean;
-  flags: number;
+  label: string = 'Input Color Edit';
+  color: Color = {r: 0.5, g: 0.5, b: 0.5, a: 1.0};
+  withAlpha: boolean = false;
+  flags: number = 0;
 
   constructor(options?: FIGInputColorEditOptions) {
     super(FIGWidgetType.inputColorEdit, true);
-    this.label = options?.label ?? 'Input Color Edit';
-    this.color = options?.color ?? {r: 0.5, g: 0.5, b: 0.5, a: 0.5};
-    this.withAlpha = options?.withAlpha ?? false;
-    this.tooltip = options?.tooltip;
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'Label', options?.label ?? 'Input Color Edit');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerColor('color', 'Color', options?.color, true, {r: 0.5, g: 0.5, b: 0.5, a: 1.0});
+    this.registerBool('withAlpha', 'Alpha channel', options?.withAlpha, true, false);
+    this.registerFlags('flags', 'Flags', FIGInputColorEditFlagsOptions, options?.flags, true, 0);
   }
 
   public get name(): string {
@@ -73,31 +76,15 @@ export class FIGInputColorEditWidget extends FIGWithTooltip {
 
   public override draw(): void {
     const values: number[] = [this.color.r, this.color.g, this.color.b, this.color.a];
-    const prevValues: number[] = [...values];
 
     if (!this.withAlpha) {
       ImGui.ColorEdit3(this.label, values, this.flags);
     } else {
       ImGui.ColorEdit4(this.label, values, this.flags);
     }
-    if (this.diffColor(prevValues, values)) {
-      this.color.r = values[0];
-      this.color.g = values[1];
-      this.color.b = values[2];
-      this.color.a = values[3];
-      this.triggerUpdate();
-    }
+    this.color = {r: values[0], g: values[1], b: values[2], a: values[3]};
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();
-  }
-
-  private diffColor(prevColor: number[], color: number[]): boolean {
-    for (let i = 0; i < 4; i++) {
-      if (prevColor[i] !== color[i]) {
-        return true;
-      }
-    }
-    return false;
   }
 }

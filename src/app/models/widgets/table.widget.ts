@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGTableFlags {
   Resizable = 1,
@@ -46,6 +47,8 @@ export interface FIGTableOptions {
   readonly flags?: number;
 }
 
+export const FIGTableFlagsOptions: FlagOption[] = getOptions(FIGTableFlags);
+
 export class FIGTableWidget extends FIGContainer {
   public static readonly flags: FIGTableFlags[] = getEnumValues(FIGTableFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
@@ -58,15 +61,15 @@ export class FIGTableWidget extends FIGContainer {
     },
   ];
 
-  label: string;
-  columns: number;
-  flags: number;
+  label: string = '##Table';
+  columns: number = 2;
+  flags: number = FIGTableFlags.RowBg | FIGTableFlags.Resizable;
 
   constructor(options?: FIGTableOptions) {
     super(FIGWidgetType.table, true);
-    this.label = options?.label ?? '##Table';
-    this.columns = options?.columns ?? 2;
-    this.flags = options?.flags ?? FIGTableFlags.RowBg | FIGTableFlags.Resizable;
+    this.registerString('label', 'Label', options?.label ?? '##Table');
+    this.registerInteger('columns', 'Columns', options?.columns, true, 2);
+    this.registerFlags('flags', 'Flags', FIGTableFlagsOptions, options?.flags, true, FIGTableFlags.RowBg | FIGTableFlags.Resizable);
   }
 
   public get name(): string {

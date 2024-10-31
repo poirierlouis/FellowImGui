@@ -2,6 +2,10 @@ import {FIGWidget, FIGWidgetType} from "./widget";
 import {Size, Vector2} from "../math";
 import {getPrecision} from "../string";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {EnumOption} from "../fields/enum.field";
+import {getOptions} from "../fields/flags.field";
+import {FIGWidgetHelper} from "./widget.helper";
+import {SizeField} from "../fields/size.field";
 
 export enum FIGVerticalSliderType {
   int,
@@ -20,6 +24,8 @@ export interface FIGVerticalSliderOptions {
   readonly tooltip?: boolean;
 }
 
+export const FIGVerticalSliderTypeOptions: EnumOption[] = getOptions(FIGVerticalSliderType);
+
 export class FIGVerticalSliderWidget extends FIGWidget {
   public static readonly serializers: FIGSerializeProperty[] = [
     {name: 'dataType'},
@@ -33,27 +39,45 @@ export class FIGVerticalSliderWidget extends FIGWidget {
     {name: 'tooltip', optional: true, default: true}
   ];
 
-  dataType: FIGVerticalSliderType;
-  label: string;
-  size: Size;
-  value: number;
-  valueMin: number;
-  valueMax: number;
-  format: string;
-  power: number;
-  tooltip: boolean;
+  label: string = '##VSlider';
+  tooltip: boolean = true;
+  size: Size = {width: 24, height: 128};
+  dataType: FIGVerticalSliderType = FIGVerticalSliderType.int;
+  value: number = 0;
+  valueMin: number = 0;
+  valueMax: number = 100;
+  format: string = '%d';
+  power: number = 0;
 
   constructor(options?: FIGVerticalSliderOptions) {
     super(FIGWidgetType.verticalSlider, true);
-    this.dataType = options?.dataType ?? FIGVerticalSliderType.int;
-    this.label = options?.label ?? '##VSlider';
-    this.size = options?.size ?? {width: 24, height: 128};
-    this.value = options?.value ?? 0;
-    this.valueMin = options?.valueMin ?? ((this.dataType === FIGVerticalSliderType.int) ? 0 : 0.0);
-    this.valueMax = options?.valueMax ?? ((this.dataType === FIGVerticalSliderType.int) ? 5 : 1.0);
-    this.format = options?.format ?? ((this.dataType === FIGVerticalSliderType.int) ? '%d' : '%.3f');
-    this.power = options?.power ?? 0;
-    this.tooltip = options?.tooltip ?? true;
+    this.registerString('label', 'Label', options?.label, true, '##VSlider');
+    this.registerBool('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerSize('size', 'Size', true, options?.size, true, {width: 24, height: 128});
+    this.registerEnum('dataType', 'Data Type', FIGVerticalSliderTypeOptions, options?.dataType, true, FIGVerticalSliderType.int);
+
+    const isInteger: boolean = FIGVerticalSliderWidget.isInteger(this.dataType);
+    this.registerFloat('value', 'Value', options?.value, true, 0);
+    this.registerFloat('valueMin', 'Minimum', options?.valueMin, true, (isInteger ? 0 : 0.00));
+    this.registerFloat('valueMax', 'Maximum', options?.valueMax, true, (isInteger ? 5 : 1.00));
+
+    this.registerString('format', 'Format', options?.format, true, (isInteger ? '%d' : '%.2f'));
+    this.registerInteger('power', 'Power', options?.power, true, 0);
+  }
+
+  public static isInteger(dataType: FIGVerticalSliderType): boolean {
+    return dataType === FIGVerticalSliderType.int;
+  }
+
+  public static isFloat(dataType: FIGVerticalSliderType): boolean {
+    return dataType === FIGVerticalSliderType.float;
+  }
+
+  public static getPrecision(widget: FIGVerticalSliderWidget): number | undefined {
+    if (this.isInteger(widget.dataType) || widget.format === undefined) {
+      return 0;
+    }
+    return getPrecision(widget.format);
   }
 
   public get name(): string {
@@ -61,29 +85,37 @@ export class FIGVerticalSliderWidget extends FIGWidget {
   }
 
   public override draw(): void {
-    const size: Vector2 = {x: this.size.width, y: this.size.height};
-    const prevValue: number = this.value;
-    const access = (_ = this.value) => this.value = _;
+    const size: Vector2 | undefined = FIGWidgetHelper.computeSize(this.getField('size') as SizeField);
+    const ref = {value: this.value};
+    const access = (_ = ref.value) => ref.value = _;
     const format: string = (this.tooltip) ? '' : this.format;
+    const isInteger = this.dataType === FIGVerticalSliderType.int;
 
-    if (this.dataType === FIGVerticalSliderType.int) {
+    if (isInteger) {
       ImGui.VSliderInt(this.label, size, access, this.valueMin, this.valueMax, format);
-    } else if (this.dataType === FIGVerticalSliderType.float) {
+    } else {
       ImGui.VSliderFloat(this.label, size, access, this.valueMin, this.valueMax, format, this.power);
     }
+
     if (this.tooltip && (ImGui.IsItemActive() || ImGui.IsItemHovered())) {
       const precision: number | undefined = getPrecision(this.format);
 
       if (precision === undefined) {
-        ImGui.SetTooltip(this.value.toString());
+        ImGui.SetTooltip(ref.value.toString());
       } else {
-        ImGui.SetTooltip(this.value.toFixed(precision));
+        ImGui.SetTooltip(ref.value.toFixed(precision));
       }
     }
+
+    if (isInteger) {
+      this.value = Math.trunc(ref.value);
+    } else {
+      const precision: number = getPrecision(this.format) ?? 2;
+      const round: number = Math.pow(10, precision);
+      this.value = Math.round(ref.value * round) / round;
+    }
+
     this.drawFocus();
     this.scrollTo();
-    if (prevValue !== this.value) {
-      this.triggerUpdate();
-    }
   }
 }

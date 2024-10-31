@@ -1,0 +1,59 @@
+@if (size === 1) {
+  <mat-form-field>
+    <mat-label>{{ field.label }}</mat-label>
+    <input matInput
+           type="number"
+           [formControl]="forms[0]"
+           [min]="min"
+           [max]="max"
+           [step]="step"/>
+  </mat-form-field>
+}
+@if (size >= 2) {
+  <div class="row">
+    <mat-form-field>
+      <mat-label>{{ field.label }} 0</mat-label>
+      <input matInput
+             type="number"
+             [formControl]="forms[0]"
+             [min]="min"
+             [max]="max"
+             [step]="step"/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ field.label }} 1</mat-label>
+      <input matInput
+             type="number"
+             [formControl]="forms[1]"
+             [min]="min"
+             [max]="max"
+             [step]="step"/>
+    </mat-form-field>
+  </div>
+}
+@if (size >= 3) {
+  <div class="row">
+    <mat-form-field>
+      <mat-label>{{ field.label }} 2</mat-label>
+      <input matInput
+             type="number"
+             [formControl]="forms[2]"
+             [min]="min"
+             [max]="max"
+             [step]="step"/>
+    </mat-form-field>
+
+    @if (size === 4) {
+      <mat-form-field>
+        <mat-label>{{ field.label }} 3</mat-label>
+        <input matInput
+               type="number"
+               [formControl]="forms[3]"
+               [min]="min"
+               [max]="max"
+               [step]="step"/>
+      </mat-form-field>
+    }
+  </div>
+}

@@ -1,0 +1,23 @@
+@if (type === 'field') {
+  <mat-form-field>
+    <mat-label>{{ field.label }}</mat-label>
+    <input matInput
+           type="number"
+           [min]="min"
+           [max]="max"
+           [step]="step"
+           [formControl]="form"/>
+  </mat-form-field>
+} @else if (type === 'percentage') {
+  <div class="mat-form-field thumb">
+    <mat-label>Value</mat-label>
+    <mat-slider [min]="min"
+                [max]="max"
+                [step]="step"
+                discrete
+                [displayWith]="format">
+      <input matSliderThumb
+             [formControl]="form">
+    </mat-slider>
+  </div>
+}

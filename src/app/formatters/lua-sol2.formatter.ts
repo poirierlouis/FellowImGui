@@ -45,6 +45,7 @@ import {FIGTableWidget} from "../models/widgets/table.widget";
 import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
 import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
+import {SizeField} from "../models/fields/size.field";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -53,17 +54,47 @@ interface InputNumberFormatItem {
 
 export class FIGLuaSol2Formatter extends FIGFormatter {
   private readonly inputNumberFormatter: InputNumberFormatItem[] = [
-    {fn: 'ImGui.InputInt', args: (args) => [args.varStep, args.varStepFast]},
+    {fn: 'ImGui.InputInt', args: (args) => {
+      if (args.varStep === undefined) {
+        return [];
+      }
+      if (args.varStepFast === undefined) {
+        return [args.varStep];
+      }
+      return [args.varStep, args.varStepFast];
+    }},
     {fn: 'ImGui.InputInt2', args: () => []},
     {fn: 'ImGui.InputInt3', args: () => []},
     {fn: 'ImGui.InputInt4', args: () => []},
 
-    {fn: 'ImGui.InputFloat', args: (args) => [args.varStep, args.varStepFast, args.varFormat]},
+    {fn: 'ImGui.InputFloat', args: (args) => {
+      if (args.varStep === undefined) {
+        return [];
+      }
+      if (args.varStepFast === undefined) {
+        return [args.varStep];
+      }
+      if (args.varFormat === undefined) {
+        return [args.varStep, args.varStepFast];
+      }
+      return [args.varStep, args.varStepFast, args.varFormat];
+    }},
     {fn: 'ImGui.InputFloat2', args: (args) => [args.varFormat]},
     {fn: 'ImGui.InputFloat3', args: (args) => [args.varFormat]},
     {fn: 'ImGui.InputFloat4', args: (args) => [args.varFormat]},
 
-    {fn: 'ImGui.InputDouble', args: (args) => [args.varStep, args.varStepFast, args.varFormat]}
+    {fn: 'ImGui.InputDouble', args: (args) => {
+        if (args.varStep === undefined) {
+          return [];
+        }
+        if (args.varStepFast === undefined) {
+          return [args.varStep];
+        }
+        if (args.varFormat === undefined) {
+          return [args.varStep, args.varStepFast];
+        }
+        return [args.varStep, args.varStepFast, args.varFormat];
+      }}
   ];
   private readonly sliderFormatter: string[][] = [
     // FIGSliderType.slider
@@ -93,6 +124,22 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
 
   private static formatDir(arrow: FIGDir): string {
     return `ImGuiDir.${capitalize(FIGDir[arrow])}`;
+  }
+
+  private formatSize(label: string,
+                     type: FIGWidgetType,
+                     size: SizeField): string[] {
+    const varWidth: string = this.formatVar(`${label} width`, type);
+    const varHeight: string = this.formatVar(`${label} height`, type);
+    let width: string = size.value!.width.toString();
+    let height: string = size.value!.height.toString();
+
+    if (size.isPercentage) {
+      this.append(`local ${varWidth}, ${varHeight} = ImGui.GetContentRegionAvail()`);
+      width += ` * ${varWidth}`;
+      height += ` * ${varHeight}`;
+    }
+    return [width, height];
   }
 
   protected override formatFlags<T>(flags: number, flagsList: T[], flagsType: any, flagName: string): string {
@@ -143,24 +190,11 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatChildWindow(widget: FIGChildWindowWidget): void {
-    const isPercentage = (value: number) => value > 0.0 && value <= 1.0;
-    const varWidth: string = this.formatVar(`${widget.label} width`, widget.type);
-    const varHeight: string = this.formatVar(`${widget.label} height`, widget.type);
     const varArgs: string[] = [this.formatString(widget.label)];
-    let width: string = widget.size.width.toString();
-    let height: string = widget.size.height.toString();
+    const varSize: string[] = this.formatSize(widget.label, widget.type, widget.getField('size') as SizeField);
 
-    if (isPercentage(widget.size.width) || isPercentage(widget.size.height)) {
-      this.append(`local ${varWidth}, ${varHeight} = ImGui.GetContentRegionAvail()`);
-      if (isPercentage(widget.size.width)) {
-        width += ` * ${varWidth}`;
-      }
-      if (isPercentage(widget.size.height)) {
-        height += ` * ${varHeight}`;
-      }
-    }
-    varArgs.push(width);
-    varArgs.push(height);
+    varArgs.push(varSize[0]);
+    varArgs.push(varSize[1]);
     varArgs.push(widget.frameBorder.toString());
     if (widget.flags !== 0) {
       varArgs.push(this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags'));
@@ -316,7 +350,9 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatDummy(widget: FIGDummyWidget): void {
-    this.append(`ImGui.Dummy(${widget.width}, ${widget.height})`);
+    const varSize: string[] = this.formatSize('dummy', widget.type, widget.getField('size') as SizeField);
+
+    this.append(`ImGui.Dummy(${varSize[0]}, ${varSize[1]})`);
     this.formatTooltip(widget);
   }
 
@@ -471,13 +507,14 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
 
   protected override formatPopup(widget: FIGPopupWidget): void {
     const varLabel: string = this.formatString(widget.label);
+    const debugLabel: string = `Open popup '${widget.label}'`;
     const fn: string = (widget.contextItem) ? 'BeginPopupContextItem' : 'BeginPopup';
 
     if (widget.contextItem) {
-      this.append(`-- ImGui.Button(${this.formatString(widget.debugLabel)})`);
+      this.append(`-- ImGui.Button(${this.formatString(debugLabel)})`);
     } else {
       this.append('--[[');
-      this.append(`if ImGui.Button(${this.formatString(widget.debugLabel)}) then`);
+      this.append(`if ImGui.Button(${this.formatString(debugLabel)}) then`);
       this.appendIndent(`ImGui.OpenPopup(${varLabel})`);
       this.append('end');
       this.append('--]]');
@@ -581,9 +618,9 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const size: number = FIGInputNumberWidget.getArraySize(widget.dataType);
     const varValue: string = this.formatVar(widget.label, widget.type);
     const args: string[] = [this.formatString(widget.label), varValue];
-    const argsData: Record<string, string> = {
-      varStep: widget.step.toString(),
-      varStepFast: widget.stepFast.toString(),
+    const argsData: Record<string, string | undefined> = {
+      varStep: widget.step?.toString(),
+      varStepFast: widget.stepFast?.toString(),
       varFormat: this.formatString(widget.format)
     };
     const format: InputNumberFormatItem = this.inputNumberFormatter[widget.dataType];
@@ -594,8 +631,8 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const isInteger: boolean = FIGInputNumberWidget.isInteger(widget.dataType);
     let value: string;
 
-    if (size === 0) {
-      const number: number = widget.value as number;
+    if (size === 1) {
+      const number: number = widget.value[0];
 
       value = isInteger ? number.toString() : number.toFixed(precision);
     } else {
@@ -638,25 +675,22 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const isInteger: boolean = FIGSliderWidget.isInteger(widget.dataType);
     const args: string[] = [this.formatString(widget.label), varValue];
     const fn: string = this.sliderFormatter[widget.sliderType][widget.dataType];
-    let value: string;
+    let value: string = '';
 
-    if (size === 0) {
-      const number: number = widget.value as number;
-
-      value = isInteger ? number.toString() : number.toFixed(precision);
-    } else {
-      const numbers: number[] = widget.value as number[];
-
-      value = numbers.map((item) => isInteger ? item.toString() : item.toFixed(precision)).join(', ');
-      value = `{${value}}`;
+    for (let i: number = 0; i < size; i++) {
+      value += isInteger ? widget.value[i].toString() : widget.value[i].toFixed(precision);
+      if (i + 1 < size) {
+        value += ', ';
+      }
     }
+    value = (size === 1) ? value : `{${value}}`;
     if (widget.sliderType === FIGSliderType.drag) {
       args.push(widget.valueSpeed.toString());
     }
     args.push(widget.valueMin.toString());
     args.push(widget.valueMax.toString());
     args.push(this.formatString(widget.format));
-    if (!FIGSliderWidget.isInteger(widget.dataType) && widget.power !== 0) {
+    if (FIGSliderWidget.isFloat(widget.dataType) && widget.power !== 0) {
       args.push(widget.power.toString());
     }
     this.append(`local ${varValue} = ${value}`);
@@ -666,12 +700,13 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
 
   protected override formatVerticalSlider(widget: FIGVerticalSliderWidget): void {
     const varValue: string = this.formatVar(widget.label.slice(2), widget.type);
+    const varSize: string[] = this.formatSize(widget.label, widget.type, widget.getField('size') as SizeField);
     const varArgs: string[] = [];
     let fn: string = '';
 
     varArgs.push(this.formatString(widget.label));
-    varArgs.push(widget.size.width.toString());
-    varArgs.push(widget.size.height.toString());
+    varArgs.push(varSize[0]);
+    varArgs.push(varSize[1]);
     varArgs.push(varValue);
     varArgs.push(widget.valueMin.toString());
     varArgs.push(widget.valueMax.toString());

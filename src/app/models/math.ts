@@ -12,10 +12,10 @@ export interface Vector4 {
   w: number;
 }
 
-export interface Size {
+export type Size = Record<'width' | 'height', number> & {
   width: number;
   height: number;
-}
+};
 
 export interface Color {
   r: number;
@@ -43,9 +43,10 @@ export function stringifyHEX(value: Color): string {
   return `#${r}${g}${b}${a}`;
 }
 
+const rgbaRule: RegExp = new RegExp(/rgba?\((?<r>[0-9]{1,3}), (?<g>[0-9]{1,3}), (?<b>[0-9]{1,3})(, (?<a>-?([0-9]*[.])?[0-9]+))?\)/);
+
 export function parseRGBA(value: string): Color | undefined {
-  const rule = new RegExp(/rgba?\((?<r>[0-9]{1,3}), (?<g>[0-9]{1,3}), (?<b>[0-9]{1,3})(, (?<a>-?([0-9]*[.])?[0-9]+))?\)/);
-  const match = value.match(rule);
+  const match: RegExpMatchArray | null = value.match(rgbaRule);
 
   if (!match) {
     return undefined;
@@ -58,6 +59,22 @@ export function parseRGBA(value: string): Color | undefined {
   };
 }
 
+const hexRule: RegExp = new RegExp(/#(?<r>[0-9A-Fa-f]{2})(?<g>[0-9A-Fa-f]{2})(?<b>[0-9A-Fa-f]{2})(?<a>[0-9A-Fa-f]{2})?/);
+
+export function parseHEX(value: string): Color | undefined {
+  const match: RegExpMatchArray | null = value.match(hexRule);
+
+  if (!match) {
+    return undefined;
+  }
+  return {
+    r: parseInt(match.groups!['r'], 16) / 255.0,
+    g: parseInt(match.groups!['g'], 16) / 255.0,
+    b: parseInt(match.groups!['b'], 16) / 255.0,
+    a: parseInt(match.groups!['a'], 16) / 255.0,
+  };
+}
+
 export function plotSin(size: number): number[] {
   const data: number[] = [];
 
@@ -65,4 +82,8 @@ export function plotSin(size: number): number[] {
     data.push(Math.sin(i * 0.2));
   }
   return data;
+}
+
+export function isFloat(value: number | null): boolean {
+  return (value === null) ? false : value % 1 !== 0;
 }

@@ -27,7 +27,6 @@ export class FIGMenuBarWidget extends FIGContainer {
 
     if ((window.flags & FIGWindowFlags.MenuBar) !== FIGWindowFlags.MenuBar) {
       window.flags |= FIGWindowFlags.MenuBar;
-      window.triggerUpdate();
     }
   }
 
@@ -36,8 +35,7 @@ export class FIGMenuBarWidget extends FIGContainer {
     const window: FIGWindowWidget = this.parent as FIGWindowWidget;
 
     if ((window.flags & FIGWindowFlags.MenuBar) === FIGWindowFlags.MenuBar) {
-      window.flags ^= FIGWindowFlags.MenuBar;
-      window.triggerUpdate();
+      window.flags &= ~FIGWindowFlags.MenuBar;
     }
   }
 

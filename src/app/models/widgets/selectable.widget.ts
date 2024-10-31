@@ -3,6 +3,7 @@ import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Size, Vector2} from "../math";
 import {getEnumValues} from "../enum";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGSelectableFlags {
   DontClosePopups = 1,
@@ -11,6 +12,8 @@ export enum FIGSelectableFlags {
   Disabled = 8,
   AllowOverlap = 16
 }
+
+export const FIGSelectableFlagsOptions: FlagOption[] = getOptions(FIGSelectableFlags);
 
 export interface FIGSelectableOptions extends FIGTooltipOption {
   readonly text?: string;
@@ -34,18 +37,18 @@ export class FIGSelectableWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  text: string;
-  selected: boolean;
-  flags: number;
-  size: Size;
+  text: string = 'Text';
+  flags: number = 0;
+  selected: boolean = false;
+  size: Size = {width: 0, height: 0};
 
   constructor(options?: FIGSelectableOptions) {
     super(FIGWidgetType.selectable, true);
-    this.text = options?.text ?? 'Text';
-    this.selected = options?.selected ?? false;
-    this.flags = options?.flags ?? 0;
-    this.size = options?.size ?? {width: 0, height: 0};
-    this.tooltip = options?.tooltip;
+    this.registerString('text', 'Label', options?.text ?? 'Text');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerFlags('flags', 'Flags', FIGSelectableFlagsOptions, options?.flags, true, 0);
+    this.registerBool('selected', 'Is selected', options?.selected, true, false);
+    this.registerSize('size', 'Size', false, options?.size, true, {width: 0, height: 0});
     this._focusOffset.x = 0;
   }
 
@@ -54,13 +57,10 @@ export class FIGSelectableWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
-    const size: Vector2 = {x: this.size.width, y: this.size.height};
-    const prevSelected: boolean = this.selected;
+    const access = (_ = this.selected) => this.selected = _;
+    const size: Vector2 | undefined = {x: this.size.width, y: this.size.height};
 
-    ImGui.Selectable(this.text, (_ = this.selected) => this.selected = _, this.flags, size);
-    if (prevSelected !== this.selected) {
-      this.triggerUpdate();
-    }
+    ImGui.Selectable(this.text, access, this.flags, size);
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();

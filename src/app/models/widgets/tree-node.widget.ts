@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {getEnumValues} from "../enum";
 import {FIGContainer} from "./container";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGTreeNodeFlags {
   Selected = 1,
@@ -20,6 +21,8 @@ export enum FIGTreeNodeFlags {
   NavLeftJumpsBackHere = 8192
 }
 
+export const FIGTreeNodeFlagsOptions: FlagOption[] = getOptions(FIGTreeNodeFlags);
+
 export interface FIGTreeNodeOptions {
   readonly label?: string;
   readonly flags?: number;
@@ -32,13 +35,13 @@ export class FIGTreeNodeWidget extends FIGContainer {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  flags: number;
+  label: string = 'TreeNode';
+  flags: number = 0;
 
   constructor(options?: FIGTreeNodeOptions) {
     super(FIGWidgetType.treeNode, true);
-    this.label = options?.label ?? 'TreeNode';
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'Label', options?.label ?? 'TreeNode');
+    this.registerFlags('flags', 'Flags', FIGTreeNodeFlagsOptions, options?.flags, true, 0);
   }
 
   public get name(): string {

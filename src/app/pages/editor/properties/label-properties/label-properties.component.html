@@ -1,22 +1,9 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Value</mat-label>
-    <input matInput
-           type="text"
-           formControlName="value" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput
-           type="text"
-           formControlName="label" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('value')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')" />
 </form>

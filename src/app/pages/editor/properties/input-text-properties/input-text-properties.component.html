@@ -1,37 +1,17 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()"/>
 
-  <mat-form-field>
-    <mat-label>Hint</mat-label>
-    <input matInput type="text" formControlName="hint" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')"/>
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('hint')"/>
 
-  <mat-form-field>
-    <mat-label>Value</mat-label>
-    <input matInput type="text" formControlName="value" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('value')"
+                    debounce="300"/>
 
-  <mat-form-field>
-    <mat-label>Buffer size</mat-label>
-    <input matInput type="number" formControlName="bufferSize" />
-  </mat-form-field>
+  <fig-integer-field [field]="getField('bufferSize')"
+                     debounce="300"
+                     min="1"/>
 
-  <mat-form-field>
-    <mat-label>Flags</mat-label>
-    <mat-select multiple formControlName="flags">
-      @for (flag of flags; track flag.value) {
-        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <fig-flags-field [field]="getField('flags')"/>
 </form>

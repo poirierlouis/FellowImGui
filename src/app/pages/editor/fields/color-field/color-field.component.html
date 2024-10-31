@@ -1,0 +1,8 @@
+<div class="mat-form-field">
+  <mat-label>Color</mat-label>
+  <ngx-colors [formControl]="form"
+              ngx-colors-trigger
+              format="rgba"
+              [palette]="[]"
+              (open)="onColorPickerOpened()" />
+</div>
