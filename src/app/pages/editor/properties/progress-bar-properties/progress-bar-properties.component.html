@@ -1,11 +1,4 @@
 <form [formGroup]="form">
-  <div class="mat-form-field thumb">
-    <mat-label>Value</mat-label>
-    <mat-slider min="0" max="100" step="1" discrete [displayWith]="formatPercentage">
-      <input matSliderThumb formControlName="value">
-    </mat-slider>
-  </div>
-
   <mat-form-field>
     <mat-label>Label</mat-label>
     <input matInput
@@ -19,6 +12,13 @@
            type="text"
            formControlName="tooltip" />
   </mat-form-field>
+
+  <div class="mat-form-field thumb">
+    <mat-label>Value</mat-label>
+    <mat-slider min="0" max="100" step="1" discrete [displayWith]="formatPercentage">
+      <input matSliderThumb formControlName="value">
+    </mat-slider>
+  </div>
 
   <div class="mat-form-field">
     <mat-label>Fill</mat-label>

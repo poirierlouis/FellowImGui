@@ -14,17 +14,17 @@ export class FIGComboWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  label: string;
-  readonly items: string[];
+  label: string = 'Combo';
+  items: string[] = [];
 
-  selectedItem: number;
+  selectedItem: number = 0;
 
   constructor(options?: FIGComboOptions) {
     super(FIGWidgetType.combo, true);
-    this.label = options?.label ?? 'Combo';
-    this.items = options?.items ?? [];
-    this.selectedItem = 0;
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'Combo');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerArray('items', 'List of items', options?.items, true, []);
+    this.registerInteger('selectedItem', 'Selected item', 0, true, 0);
   }
 
   public get name(): string {

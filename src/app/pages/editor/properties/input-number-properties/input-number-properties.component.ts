@@ -65,20 +65,17 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   protected override updateForm() {
     this.setProperty('dataType', this.widget.dataType);
     const size: number = FIGInputNumberWidget.getArraySize(this.widget.dataType);
+    const values: number[] = this.widget.value;
 
-    if (size > 0) {
-      const values: number[] = this.widget.value as number[];
-
-      this.setProperty('value0', this.formatNumber(values[0]));
-      this.setProperty('value1', this.formatNumber(values[1]));
-      if (size > 2) {
-        this.setProperty('value2', this.formatNumber(values[2]));
-      }
-      if (size > 3) {
-        this.setProperty('value3', this.formatNumber(values[3]));
-      }
-    } else {
-      this.setProperty('value0', this.formatNumber(this.widget.value as number));
+    this.setProperty('value0', this.formatNumber(values[0]));
+    if (size > 1) {
+      this.setProperty('value2', this.formatNumber(values[1]));
+    }
+    if (size > 2) {
+      this.setProperty('value2', this.formatNumber(values[2]));
+    }
+    if (size > 3) {
+      this.setProperty('value3', this.formatNumber(values[3]));
     }
     this.setProperty('step', this.widget.step);
     this.setProperty('stepFast', this.widget.stepFast);
@@ -96,16 +93,16 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
   }
 
   private onDataTypeChanged(dataType: FIGInputNumberType): void {
-    const prevValue: number | number[] = this.widget.value;
+    const prevValue: number[] = this.widget.value;
     const prevSize: number = this.getArraySize(this.widget.dataType);
     const size: number = this.getArraySize(dataType);
 
     this.widget.dataType = dataType;
-    if (size === 0 && prevValue instanceof Array) {
-      this.widget.value = prevValue[0];
-      this.setProperty('value0', this.formatNumber(this.widget.value));
-    } else if (size > 0 && !(prevValue instanceof Array)) {
-      const values: number[] = [prevValue];
+    if (size === 1) {
+      this.widget.value[0] = prevValue[0];
+      this.setProperty('value0', this.formatNumber(this.widget.value[0]));
+    } else if (size > 1) {
+      const values: number[] = prevValue;
 
       for (let i = 0; i < size - 1; i++) {
         values.push(0);
@@ -115,14 +112,14 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
         this.setProperty(`value${i}`, this.formatNumber(values[i]));
       }
     } else if (prevSize < size) {
-      const values: number[] = this.widget.value as number[];
+      const values: number[] = this.widget.value;
 
       for (let i = prevSize; i < size; i++) {
         values.push(0);
         this.setProperty(`value${i}`, this.formatNumber(values[i]));
       }
     } else if (prevSize > size) {
-      const values: number[] = this.widget.value as number[];
+      const values: number[] = this.widget.value;
       const delta: number = prevSize - size;
       const index: number = prevSize - delta;
 
@@ -133,7 +130,7 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
 
   private onValueChanged(value: string, index: number): void {
     const isArray: boolean = FIGInputNumberWidget.isArray(this.widget.dataType);
-    const prevValue: number = (isArray) ? (this.widget.value as number[])[index] : this.widget.value as number;
+    const prevValue: number = (isArray) ? this.widget.value[index] : this.widget.value[0];
     const number: number = +value;
 
     if (FIGInputNumberWidget.isInteger(this.widget.dataType) && !Number.isInteger(number)) {
@@ -141,9 +138,9 @@ export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<
       return;
     }
     if (isArray) {
-      (this.widget.value as number[])[index] = number;
+      this.widget.value[index] = number;
     } else {
-      this.widget.value = number;
+      this.widget.value[0] = number;
     }
     this.update.emit();
   }

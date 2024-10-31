@@ -1,27 +1,16 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput
-           type="text"
-           formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <mat-form-field>
-    <mat-label>List of items</mat-label>
-    <textarea matInput
-              formControlName="items"
-              cdkTextareaAutosize></textarea>
-  </mat-form-field>
+  <fig-array-string-field [field]="getField('items')" />
 
   <mat-form-field>
     <mat-label>Selected item</mat-label>
-    <input matInput type="text" formControlName="selectedItem" readonly />
+    <input matInput
+           type="text"
+           [formControl]="selectedItem"
+           readonly />
   </mat-form-field>
 </form>

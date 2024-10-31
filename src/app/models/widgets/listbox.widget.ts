@@ -16,19 +16,19 @@ export class FIGListBoxWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  label: string;
-  readonly items: string[];
-  itemsSize: number;
+  label: string = 'ListBox';
+  items: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  itemsSize: number = 4;
 
-  selectedItem: number;
+  selectedItem: number = 0;
 
   constructor(options?: FIGListBoxOptions) {
     super(FIGWidgetType.listbox, true);
-    this.label = options?.label ?? 'ListBox';
-    this.items = options?.items ?? ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-    this.itemsSize = options?.itemsSize ?? 4;
-    this.selectedItem = 0;
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'ListBox');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerArray('items', 'List of items', options?.items, true, ['Item 1', 'Item 2', 'Item 3', 'Item 4']);
+    this.registerInteger('itemsSize', 'Height in items', options?.itemsSize, true, 4);
+    //this.registerInteger('selectedItem', 'Selected item', 0, true, 0);
   }
 
   public get name(): string {

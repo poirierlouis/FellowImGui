@@ -1,5 +1,10 @@
 <form [formGroup]="form">
   <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input matInput type="text" formControlName="label" />
+  </mat-form-field>
+
+  <mat-form-field>
     <mat-label>Plot Type</mat-label>
     <mat-select formControlName="plotType">
       <mat-option [value]="FIGPlotType.lines">Lines</mat-option>
@@ -8,9 +13,27 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
+    <mat-label>Overlay text</mat-label>
+    <input matInput
+           type="text"
+           formControlName="overlayText" />
   </mat-form-field>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Width</mat-label>
+      <input matInput
+             type="number"
+             formControlName="width" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Height</mat-label>
+      <input matInput
+             type="number"
+             formControlName="height" />
+    </mat-form-field>
+  </div>
 
   <mat-form-field>
     <mat-label>Value offset</mat-label>
@@ -35,33 +58,10 @@
     </mat-form-field>
   </div>
 
-  <div class="row">
-    <mat-form-field>
-      <mat-label>Width</mat-label>
-      <input matInput
-             type="number"
-             formControlName="width" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Height</mat-label>
-      <input matInput
-             type="number"
-             formControlName="height" />
-    </mat-form-field>
-  </div>
-
   <mat-form-field>
     <mat-label>Stride</mat-label>
     <input matInput
            type="number"
            formControlName="stride" />
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Overlay text</mat-label>
-    <input matInput
-           type="text"
-           formControlName="overlayText" />
   </mat-form-field>
 </form>

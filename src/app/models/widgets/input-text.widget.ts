@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {getEnumValues} from "../enum";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGInputTextFlags {
   CharsDecimal = 1,
@@ -27,6 +28,8 @@ export enum FIGInputTextFlags {
   EscapeClearsAll = 1048576
 }
 
+export const FIGInputTextFlagsOptions: FlagOption[] = getOptions(FIGInputTextFlags);
+
 export interface FIGInputTextOptions extends FIGTooltipOption {
   readonly label?: string;
   readonly value?: string;
@@ -46,20 +49,20 @@ export class FIGInputTextWidget extends FIGWithTooltip {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  value: string;
+  label: string = 'Text';
+  value: string = '';
   hint?: string;
-  bufferSize: number;
-  flags: number;
+  bufferSize: number = 256;
+  flags: number = 0;
 
   constructor(options?: FIGInputTextOptions) {
     super(FIGWidgetType.inputText, true);
-    this.label = options?.label ?? 'Text';
-    this.value = options?.value ?? '';
-    this.hint = options?.hint;
-    this.tooltip = options?.tooltip;
-    this.bufferSize = options?.bufferSize ?? 256;
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'Label', options?.label ?? 'Text');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerString('hint', 'Hint', options?.hint, true);
+    this.registerString('value', 'Value', options?.value, true, '');
+    this.registerInteger('bufferSize', 'Buffer size', options?.bufferSize, true, 256);
+    this.registerFlags('flags', 'Flags', FIGInputTextFlagsOptions, options?.flags, true, 0);
   }
 
   public get name(): string {

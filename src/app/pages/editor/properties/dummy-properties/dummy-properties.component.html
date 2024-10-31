@@ -1,20 +1,5 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Width</mat-label>
-    <input matInput type="number" formControlName="width" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <mat-form-field>
-    <mat-label>Height</mat-label>
-    <input matInput
-           type="number"
-           formControlName="height" />
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-size-field [field]="getField('size')" />
 </form>

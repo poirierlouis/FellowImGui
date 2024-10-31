@@ -1,13 +1,13 @@
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
 import {getEnumValues} from "../enum";
-import {FIGWindowFlags} from "./window.widget";
+import {FIGWindowFlags, FIGWindowFlagsOptions} from "./window.widget";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGModalOptions {
   readonly label?: string;
-  readonly isOpen?: boolean;
   readonly flags?: number;
+  readonly isOpen?: boolean;
 }
 
 export class FIGModalWidget extends FIGContainer {
@@ -17,17 +17,17 @@ export class FIGModalWidget extends FIGContainer {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  isOpen: boolean;
-  flags: number;
+  label: string = 'Modal';
+  flags: number = 0;
 
+  isOpen: boolean;
   debug: boolean;
 
   constructor(options?: FIGModalOptions) {
     super(FIGWidgetType.modal, true);
-    this.label = options?.label ?? 'Modal';
+    this.registerString('label', 'Label', options?.label ?? 'Modal');
+    this.registerFlags('flags', 'flags', FIGWindowFlagsOptions, options?.flags, true, 0);
     this.isOpen = false;
-    this.flags = options?.flags ?? 0;
     this.debug = true;
   }
 

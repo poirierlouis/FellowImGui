@@ -18,19 +18,19 @@ export class FIGMenuItemWidget extends FIGWidget {
     {name: 'enabled', optional: true, default: true}
   ];
 
-  label: string;
+  label: string = 'MenuItem';
   shortcut?: string;
-  isSelectable: boolean;
-  isSelected: boolean;
-  enabled: boolean;
+  isSelectable: boolean = false;
+  isSelected: boolean = false;
+  enabled: boolean = true;
 
   constructor(options?: FIGMenuItemOptions) {
     super(FIGWidgetType.menuItem, true);
-    this.label = options?.label ?? 'MenuItem';
-    this.shortcut = options?.shortcut;
-    this.isSelectable = options?.isSelectable ?? false;
-    this.isSelected = options?.isSelected ?? false;
-    this.enabled = options?.enabled ?? true;
+    this.registerString('label', 'Label', options?.label ?? 'MenuItem');
+    this.registerString('shortcut', 'Shortcut', options?.shortcut, true);
+    this.registerBool('enabled', 'Enabled', options?.enabled, true, true);
+    this.registerBool('isSelectable', 'Is selectable', options?.isSelectable, true, false);
+    this.registerBool('isSelected', 'Is selected', options?.isSelected, true, false);
     this._focusOffset.x = 0;
     this._focusOffset.y = 0;
   }

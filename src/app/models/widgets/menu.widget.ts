@@ -13,13 +13,13 @@ export class FIGMenuWidget extends FIGContainer {
     {name: 'enabled', optional: true, default: true}
   ];
 
-  label: string;
-  enabled: boolean;
+  label: string = 'Menu';
+  enabled: boolean = true;
 
   constructor(options?: FIGMenuOptions) {
     super(FIGWidgetType.menu, true);
-    this.label = options?.label ?? 'Menu';
-    this.enabled = options?.enabled ?? true;
+    this.registerString('label', 'Label', options?.label ?? 'Menu');
+    this.registerBool('enabled', 'Enabled', options?.enabled, true, true);
     this._focusOffset.x = 0;
     this._focusOffset.y = 0;
   }

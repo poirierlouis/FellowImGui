@@ -1,5 +1,17 @@
 <form [formGroup]="form">
   <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input matInput type="text" formControlName="label" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Tooltip</mat-label>
+    <input matInput
+           type="text"
+           formControlName="tooltip" />
+  </mat-form-field>
+
+  <mat-form-field>
     <mat-label>Data Type</mat-label>
     <mat-select formControlName="dataType">
       <mat-option [value]="FIGInputNumberType.int">int</mat-option>
@@ -18,7 +30,7 @@
 
   <div class="row" [class.wrap]="getArraySize(widget.dataType) === 4">
     @switch (getArraySize(widget.dataType)) {
-      @case (0) {
+      @case (1) {
         <mat-form-field>
           <mat-label>Value</mat-label>
           <input matInput type="number" [step]="step" formControlName="value0" />
@@ -105,16 +117,4 @@
       <mat-slide-toggle color="primary" formControlName="useScientificNotation"></mat-slide-toggle>
     </div>
   }
-
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
 </form>

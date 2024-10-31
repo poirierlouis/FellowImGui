@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {getEnumValues} from "../enum";
 import {FIGContainer} from "./container";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGTreeNodeFlags {
   Selected = 1,
@@ -19,6 +20,8 @@ export enum FIGTreeNodeFlags {
   SpanFullWidth = 4096,
   NavLeftJumpsBackHere = 8192
 }
+
+export const FIGTreeNodeFlagsOptions: FlagOption[] = getOptions(FIGTreeNodeFlags);
 
 export interface FIGTreeNodeOptions {
   readonly label?: string;

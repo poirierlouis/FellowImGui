@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - improve `ProgressBar` by showing thumb hint over DOM elements.
+- properties of widgets to show `Label` and `Tooltip` first, when present.
+
+### Added
+- relative sizing in widgets: enable `%` button to define size as a percentage
+  of the parent, or use absolute size in pixels.
+- support for relative size in `Dummy` widget.
+- feature to set/unset alpha flags and alpha component of the color based on 
+  property `Alpha channel` in widget `InputColorEdit`.
 
 [#51]: https://github.com/poirierlouis/FellowImGui/issues/51
 

@@ -3,6 +3,7 @@ import {FIGWidgetType} from "./widget";
 import {Size} from "../math";
 import {getEnumValues} from "../enum";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGWindowFlags {
   NoTitleBar = 1,
@@ -46,6 +47,9 @@ export enum FIGCondFlags {
   Appearing = 8
 }
 
+export const FIGWindowFlagsOptions: FlagOption[] = getOptions(FIGWindowFlags);
+export const FIGWindowCondFlagsOptions: FlagOption[] = getOptions(FIGCondFlags);
+
 export interface FIGWindowOptions {
   readonly label?: string;
   readonly size?: Size;
@@ -62,22 +66,28 @@ export class FIGWindowWidget extends FIGContainer {
     {name: 'size', optional: true, default: undefined, type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
     {name: 'flags', optional: true, default: 0},
     {name: 'sizeFlags', optional: true, default: 0},
-    {name: 'minSize', optional: true, default: undefined, type: 'object', innerType: [{name: 'width'}, {name: 'height'}]}
+    {
+      name: 'minSize',
+      optional: true,
+      default: undefined,
+      type: 'object',
+      innerType: [{name: 'width'}, {name: 'height'}]
+    }
   ];
 
-  label: string;
+  label: string = '';
+  flags: number = 0;
   size?: Size;
-  flags: number;
-  sizeFlags: number;
   minSize?: Size;
+  sizeFlags: number = 0;
 
   constructor(options?: FIGWindowOptions) {
     super(FIGWidgetType.window, false);
-    this.label = options?.label ?? 'Window';
-    this.size = options?.size;
-    this.flags = options?.flags ?? 0;
-    this.sizeFlags = options?.sizeFlags ?? 0;
-    this.minSize = options?.minSize;
+    this.registerString( 'label', 'Title', options?.label ?? 'Window');
+    this.registerFlags('flags', 'Flags', FIGWindowFlagsOptions, options?.flags, true);
+    this.registerSize('size', 'Size', false, options?.size, true);
+    this.registerSize('minSize', 'Min size', false, options?.minSize, true);
+    this.registerFlags('sizeFlags', 'Size flags', FIGWindowCondFlagsOptions, options?.sizeFlags, true);
   }
 
   public get name(): string {
