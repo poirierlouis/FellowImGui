@@ -19,7 +19,12 @@ export class FIGShortcut {
     return this.ctrl && this.key === 'g';
   }
 
-  public canDelete(): boolean {
-    return !this.ctrl && this.key === 'Delete';
+  public canDelete(event: KeyboardEvent): boolean {
+    const target: HTMLElement | null = event.target as HTMLElement;
+    const hasFocus: boolean = target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target instanceof HTMLCanvasElement;
+
+    return !hasFocus && !this.ctrl && this.key === 'Delete';
   }
 }

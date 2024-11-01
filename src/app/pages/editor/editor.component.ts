@@ -178,12 +178,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       event.preventDefault();
       await this.tree.generateCode(this.selectedWidget);
     }
-    const target: HTMLElement | null = event.target as HTMLElement;
-    const hasFocus: boolean = target instanceof HTMLInputElement ||
-      target instanceof HTMLTextAreaElement ||
-      target instanceof HTMLCanvasElement;
-
-    if (this.shortcut.canDelete() && this.selectedWidget && !hasFocus) {
+    if (this.shortcut.canDelete(event) && this.selectedWidget) {
       event.preventDefault();
       this.tree.removeWidget(this.selectedWidget);
     }
