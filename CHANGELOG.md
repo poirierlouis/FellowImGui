@@ -41,8 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.2] - 2024-10-04
 ### Fixed
-- drag/drop not working on WebKit browsers (#33).
+- drag/drop not working on WebKit browsers ([#33]).
 - 404 redirection to webapp instead of the 404 page of GitHub.
+
+[#33]: https://github.com/poirierlouis/FellowImGui/issues/33
 
 ------------------------
 
