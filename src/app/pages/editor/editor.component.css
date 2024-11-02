@@ -6,6 +6,7 @@
 
 .widget-bar {
   display: flex;
+  height: 48px;
   padding: 0 24px;
 
   & .widgets {
@@ -82,10 +83,10 @@
 
 .panels {
   display: flex;
-  flex: 1;
-  height: calc(100% - 64px);
+  height: calc(100% - 48px);
 
   & mat-tab-group {
+    box-sizing: border-box;
     border-top: 1px solid var(--mat-divider-color);
   }
 
@@ -93,25 +94,28 @@
     overflow-y: auto;
     display: flex;
     flex-flow: column;
-    height: inherit;
   }
 
   & .slider {
     cursor: col-resize;
     padding-left: 3px;
 
+    box-sizing: border-box;
     border-top: 1px solid var(--mat-divider-color);
   }
 
   & fig-canvas {
+    box-sizing: border-box;
     background-color: #738c99;
+    border-top: 1px solid #494949;
   }
 
   & fig-properties {
     overflow-y: auto;
     width: 360px;
-    height: 100%;
 
+    box-sizing: border-box;
     border-top: 1px solid var(--mat-divider-color);
+    border-left: 1px solid var(--mat-divider-color);
   }
 }

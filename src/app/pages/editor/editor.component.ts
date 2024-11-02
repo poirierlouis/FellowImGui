@@ -70,7 +70,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   selectedWidget?: FIGWidget;
 
   tabsWidth: string = '360px';
-  canvasWidth: string = 'calc(100% - 2 * 360px)';
+  canvasWidth: string = 'calc(100% - (360px + 4px + 360px))';
   isSliding: boolean = false;
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
@@ -330,7 +330,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     width = Math.min(width, window.innerWidth / 2);
     width = Math.max(width, 170);
     this.tabsWidth = `${width}px`;
-    this.canvasWidth = `calc(100% - (${this.tabsWidth} + 360px))`;
+    this.canvasWidth = `calc(100% - (${this.tabsWidth} + 4px + 360px))`;
     setTimeout(() => {
       this.canvas.onResize();
     });
