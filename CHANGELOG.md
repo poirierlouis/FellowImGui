@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - UI glitch when resizing viewport ([#51]).
 
+### Changed
+- improve `ProgressBar` by showing thumb hint over DOM elements.
+
 [#51]: https://github.com/poirierlouis/FellowImGui/issues/51
 
 ------------------------
