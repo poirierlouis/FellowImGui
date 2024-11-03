@@ -173,12 +173,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.shortcut.canDuplicate() && this.selectedWidget) {
       event.preventDefault();
       this.tree.duplicateWidget(this.selectedWidget);
-    }
-    if (this.shortcut.canGenerate() && this.selectedWidget) {
+    } else if (this.shortcut.canGenerate() && this.selectedWidget) {
       event.preventDefault();
       await this.tree.generateCode(this.selectedWidget);
-    }
-    if (this.shortcut.canDelete(event) && this.selectedWidget) {
+    } else if (this.shortcut.canDelete(event) && this.selectedWidget) {
       event.preventDefault();
       this.tree.removeWidget(this.selectedWidget);
     }
