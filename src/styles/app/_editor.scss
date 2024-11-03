@@ -35,6 +35,7 @@
   }
 
   #fig-drag-placeholder {
+    visibility: hidden;
     position: relative;
     pointer-events: none;
     max-width: 360px;
@@ -42,15 +43,18 @@
     background-color: $primary;
 
     &[data-direction="before"] {
+      visibility: visible;
       top: 0px;
       margin-top: -2px;
     }
 
     &[data-direction="after"] {
+      visibility: visible;
       margin-top: -2px;
     }
 
     &[data-direction="insert"] {
+      visibility: visible;
       height: 38px;
       margin-top: -38px;
       box-sizing: border-box;
