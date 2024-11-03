@@ -44,7 +44,7 @@
 
     &[data-direction="before"] {
       visibility: visible;
-      top: 0px;
+      top: 0;
       margin-top: -2px;
     }
 
@@ -57,6 +57,7 @@
       visibility: visible;
       height: 38px;
       margin-top: -38px;
+
       box-sizing: border-box;
       border: 2px solid $primary;
       background-color: color.change($primary, $alpha: 0.10);

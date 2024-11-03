@@ -1,6 +1,6 @@
 <mat-tree id="fig-tree-drop"
           [dataSource]="dataSource"
-          [treeControl]="treeControl"
+          [childrenAccessor]="childrenAccessor"
           [trackBy]="trackBy">
   <ng-template #dismissible>
     <div>
@@ -8,30 +8,57 @@
     </div>
   </ng-template>
 
-  <mat-tree-node *matTreeNodeDef="let node"
-                 [class.selected]="selectedWidget === node.widget"
-                 [class.container]="node.isContainer"
-                 [attr.data-uuid]="node.widget.uuid"
+  <mat-tree-node *matTreeNodeDef="let widget"
+                 [class.selected]="selectedWidget === widget"
+                 [class.container]="isContainer(widget)"
+                 [attr.data-uuid]="widget.uuid"
+                 [isExpandable]="isExpandable(widget)"
                  matTreeNodePadding
                  matTreeNodePaddingIndent="20"
                  figDrag
-                 [figDragData]="node.widget.uuid"
+                 [figDragData]="widget.uuid"
                  figDrop
-                 [figDropData]="node.widget.uuid"
+                 [figDropData]="widget.uuid"
                  (figDropped)="dropWidget($event)"
                  figDismissible
                  [figDismissibleBackground]="dismissible"
-                 (figDismissibleClick)="selectWidget(node)"
-                 (figDismissed)="removeWidget(node.widget)"
-                 (contextmenu)="onContextMenu($event, node.widget)">
+                 (figDismissibleClick)="selectWidget(widget)"
+                 (figDismissed)="removeWidget(widget)"
+                 (contextmenu)="onContextMenu($event, widget)">
     <div class="content"
-         [class.warning]="(isSupported(node.widget) | async) === false"
-         [class.fallback]="useLegacyFallback(node) | async">
-      <mat-icon [svgIcon]="node.icon"></mat-icon>
+         [class.warning]="(isSupported(widget) | async) === false"
+         [class.fallback]="useLegacyFallback(widget) | async">
+      <mat-icon [svgIcon]="getIcon(widget.type)"></mat-icon>
 
-      <div>{{ node.name }}</div>
+      <div>{{ widget.name }}</div>
     </div>
   </mat-tree-node>
+
+  <!--<mat-tree-node *matTreeNodeDef="let widget; when: hasChild"
+                 matTreeNodeToggle
+                 [class.selected]="selectedWidget === widget"
+                 [class.container]="true"
+                 [attr.data-uuid]="widget.uuid"
+                 matTreeNodePadding
+                 matTreeNodePaddingIndent="20"
+                 figDrag
+                 [figDragData]="widget.uuid"
+                 figDrop
+                 [figDropData]="widget.uuid"
+                 (figDropped)="dropWidget($event)"
+                 figDismissible
+                 [figDismissibleBackground]="dismissible"
+                 (figDismissibleClick)="selectWidget(widget)"
+                 (figDismissed)="removeWidget(widget)"
+                 (contextmenu)="onContextMenu($event, widget)">
+    <div class="content"
+         [class.warning]="(isSupported(widget) | async) === false"
+         [class.fallback]="useLegacyFallback(widget) | async">
+      <mat-icon [svgIcon]="getIcon(widget.type)"></mat-icon>
+
+      <div>{{ widget.name }}</div>
+    </div>
+  </mat-tree-node>-->
 </mat-tree>
 
 <div class="fig-context-menu"

@@ -26,6 +26,18 @@
           background-color: $primary;
         }
 
+        /*
+        &[aria-level="2"] { padding-left: 20px; }
+        &[aria-level="3"] { padding-left: 40px; }
+        &[aria-level="4"] { padding-left: 60px; }
+        &[aria-level="5"] { padding-left: 80px; }
+        &[aria-level="6"] { padding-left: 100px; }
+        &[aria-level="7"] { padding-left: 120px; }
+        &[aria-level="8"] { padding-left: 140px; }
+        &[aria-level="9"] { padding-left: 160px; }
+        &[aria-level="10"] { padding-left: 180px; }
+        */
+
         & .content {
           &.warning {
             & mat-icon:first-of-type {

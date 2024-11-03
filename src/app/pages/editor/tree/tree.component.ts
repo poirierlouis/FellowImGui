@@ -3,15 +3,12 @@ import {MatIcon} from "@angular/material/icon";
 import {
   MatNestedTreeNode,
   MatTree,
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
   MatTreeNode,
   MatTreeNodeDef,
   MatTreeNodeOutlet,
   MatTreeNodePadding,
   MatTreeNodeToggle
 } from "@angular/material/tree";
-import {FlatTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/widgets/container";
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
 import {DismissibleDirective} from "../../../directives/dismissible.directive";
@@ -25,19 +22,8 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/mat
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FIGAction, FIGActionFactory} from "../../../models/actions/action";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
-import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {MatDivider} from "@angular/material/divider";
-
-interface FlatNode {
-  expandable: boolean;
-  level: number;
-
-  name: string;
-  icon: string;
-  isContainer: boolean;
-  widget: FIGWidget;
-}
 
 @Component({
   selector: 'fig-tree',
@@ -67,6 +53,12 @@ interface FlatNode {
 })
 export class TreeComponent {
 
+  @ViewChild(MatTree)
+  tree!: MatTree<FIGWidget>;
+
+  @ViewChildren(MatTreeNode, {read: ElementRef})
+  nodes!: QueryList<ElementRef>;
+
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
 
@@ -76,33 +68,10 @@ export class TreeComponent {
   @Output()
   action: EventEmitter<FIGAction> = new EventEmitter<FIGAction>();
 
-  @ViewChildren(MatTreeNode, {read: ElementRef})
-  nodes!: QueryList<ElementRef>;
+  contextMenuPosition: { x: string, y: string } = {x: '0', y: '0'};
 
-  contextMenuPosition: {x: string, y: string} = {x: '0', y: '0'};
-
-  treeControl: FlatTreeControl<FlatNode> = new FlatTreeControl(
-    node => node.level,
-    node => node.expandable,
-  );
-  treeFlattener = new MatTreeFlattener(
-    (widget: FIGWidget, level: number) => {
-      return {
-        expandable: (widget instanceof FIGContainer) ? widget.children.length > 0 : false,
-        level: level,
-        name: widget.name,
-        icon: FIGWidgetType[widget.type],
-        isContainer: FIGWidget.isContainer(widget.type),
-        widget: widget
-      };
-    },
-    node => node.level,
-    node => node.expandable,
-    widget => (widget instanceof FIGContainer) ? widget.children : undefined,
-  );
   treeSelection: SelectionModel<string> = new SelectionModel(true);
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
+  dataSource: FIGWidget[] = [];
   selectedWidget?: FIGWidget;
 
   constructor(private readonly formatterService: FormatterService,
@@ -112,29 +81,37 @@ export class TreeComponent {
   @Input('document')
   set _document(value: FIGDocument) {
     this.document = value;
-    this.dataSource.data = this.document.root;
+    this.dataSource = this.document.root;
   }
 
+  childrenAccessor = (widget: FIGWidget): FIGWidget[] => {
+    return widget instanceof FIGContainer ? widget.children : [];
+  };
+  isExpandable = (widget: FIGWidget) => this.isContainer(widget) && widget.children.length > 0;
+  isContainer = (widget: FIGWidget) => widget instanceof FIGContainer;
+  trackBy = (_: number, widget: FIGWidget) => widget.uuid; //.trackBy();
+
+  isSupported = (widget: FIGWidget) => this.formatterService.isSupported(widget.type);
+  useLegacyFallback = (widget: FIGWidget) => this.formatterService.useLegacyFallback(widget.type);
+  getIcon = (type: FIGWidgetType) => FIGWidgetType[type];
+
   public update(): void {
-    this.dataSource.data = [...this.document.root];
-    this.updateTree();
+    this.dataSource = [...this.document.root];
+    //this.updateTree();
   }
 
   public openWidget(widget: FIGWidget): void {
-    const node: FlatNode | undefined = this.findNodeByUuid(widget.uuid);
+    const widgets: FIGWidget[] = this.traverseWidgets(widget);
 
-    if (!node) {
-      return;
-    }
-    const nodes: FlatNode[] = this.collectNodes(widget);
-
-    for (const node of nodes) {
-      if (!this.treeControl.isExpanded(node)) {
-        this.treeSelection.select(node.widget.uuid);
-        this.treeControl.expand(node);
+    for (const widget of widgets) {
+      if (!this.tree.isExpanded(widget)) {
+        this.tree.expand(widget);
       }
     }
-    if (!this.selectWidget(node)) {
+    if (widgets.length > 0) {
+      this.treeSelection.select(widgets[widgets.length - 1].uuid);
+    }
+    if (!this.selectWidget(widget)) {
       return;
     }
     setTimeout(() => {
@@ -149,62 +126,6 @@ export class TreeComponent {
     });
   }
 
-  protected trackBy(_: number, node: FlatNode): any {
-    return node.widget.trackBy();
-  }
-
-  protected isSupported(widget: FIGWidget): Observable<boolean> {
-    return this.formatterService.isSupported(widget.type);
-  }
-
-  protected useLegacyFallback(node: FlatNode): Observable<boolean> {
-    return this.formatterService.useLegacyFallback(node.widget.type);
-  }
-
-  protected selectWidget(node: FlatNode): boolean {
-    if (node.expandable) {
-      this.treeSelection.toggle(node.widget.uuid);
-      if (this.treeControl.isExpanded(node)) {
-        this.treeControl.collapse(node);
-      } else {
-        this.treeControl.expand(node);
-      }
-    }
-    let isSelected: boolean = false;
-
-    if (this.selectedWidget?.uuid === node.widget.uuid && !(this.selectedWidget instanceof FIGContainer)) {
-      this.selectedWidget = undefined;
-    } else {
-      this.selectedWidget = node.widget;
-      isSelected = true;
-    }
-    this.action.emit(FIGActionFactory.select(this.selectedWidget));
-    return isSelected;
-  }
-
-  protected dropWidget(event: FIGDropEvent): void {
-    const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
-    const drag: FIGWidget | undefined = (!event.drag) ? undefined : this.document.findByUuid(event.drag);
-    const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
-    let needUpdate: boolean = false;
-
-    if (type !== undefined || event.duplicate) {
-      let widget: FIGWidget | undefined;
-
-      if (event.duplicate && drag) {
-        widget = FIGWidgetFactory.clone(drag);
-      } else if (type !== undefined) {
-        widget = FIGWidgetFactory.create(type);
-      }
-      needUpdate = this.document.insertWidget(widget, drop, event.direction);
-    } else if (drag) {
-      needUpdate = this.document.moveWidget(drag, drop, event.direction);
-    }
-    if (needUpdate) {
-      this.update();
-    }
-  }
-
   public removeWidget(widget: FIGWidget): void {
     if (this.selectedWidget?.uuid === widget.uuid) {
       this.selectedWidget = undefined;
@@ -214,14 +135,6 @@ export class TreeComponent {
       this.action.emit(FIGActionFactory.remove(widget));
       this.update();
     }
-  }
-
-  protected onContextMenu(event: MouseEvent, widget: FIGWidget): void {
-    event.preventDefault();
-    this.contextMenuPosition.x = `${event.clientX}px`;
-    this.contextMenuPosition.y = `${event.clientY}px`;
-    this.trigger.menuData = {'widget': widget};
-    this.trigger.openMenu();
   }
 
   public duplicateWidget(widget: FIGWidget): void {
@@ -252,37 +165,76 @@ export class TreeComponent {
     this.toast.open(`'${this.formatterService.currentLanguage}' code generated in clipboard.`);
   }
 
-  private collectNodes(widget: FIGWidget): FlatNode[] {
-    let node: FlatNode | undefined = this.findNodeByUuid(widget.uuid);
-
-    if (!node) {
-      return [];
+  protected selectWidget(widget: FIGWidget): boolean {
+    if (widget instanceof FIGContainer) {
+      this.treeSelection.toggle(widget.uuid);
+      if (this.tree.isExpanded(widget)) {
+        this.tree.collapse(widget);
+      } else {
+        this.tree.expand(widget);
+      }
     }
-    const nodes: FlatNode[] = [];
+    let isSelected: boolean = false;
+
+    if (this.selectedWidget?.uuid === widget.uuid && !(this.selectedWidget instanceof FIGContainer)) {
+      this.selectedWidget = undefined;
+    } else {
+      this.selectedWidget = widget;
+      isSelected = true;
+    }
+    this.action.emit(FIGActionFactory.select(this.selectedWidget));
+    return isSelected;
+  }
+
+  protected dropWidget(event: FIGDropEvent): void {
+    const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
+    const drag: FIGWidget | undefined = (!event.drag) ? undefined : this.document.findByUuid(event.drag);
+    const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
+    let needUpdate: boolean = false;
+
+    if (type !== undefined || event.duplicate) {
+      let widget: FIGWidget | undefined;
+
+      if (event.duplicate && drag) {
+        widget = FIGWidgetFactory.clone(drag);
+      } else if (type !== undefined) {
+        widget = FIGWidgetFactory.create(type);
+      }
+      needUpdate = this.document.insertWidget(widget, drop, event.direction);
+    } else if (drag) {
+      needUpdate = this.document.moveWidget(drag, drop, event.direction);
+    }
+    if (needUpdate) {
+      this.update();
+    }
+  }
+
+  protected onContextMenu(event: MouseEvent, widget: FIGWidget): void {
+    event.preventDefault();
+    this.contextMenuPosition.x = `${event.clientX}px`;
+    this.contextMenuPosition.y = `${event.clientY}px`;
+    this.trigger.menuData = {'widget': widget};
+    this.trigger.openMenu();
+  }
+
+  private traverseWidgets(widget: FIGWidget): FIGWidget[] {
+    const widgets: FIGWidget[] = [];
     let parent: FIGContainer | undefined = widget.parent;
 
     while (parent !== undefined) {
-      node = this.findNodeByUuid(parent.uuid);
-      if (node) {
-        nodes.push(node);
-      }
+      widgets.push(parent);
       parent = parent.parent;
     }
-    return nodes.reverse();
+    return widgets.reverse();
   }
 
   private updateTree(): void {
-    this.treeSelection.selected.forEach((uuid: string) => {
-      const node: FlatNode | undefined = this.findNodeByUuid(uuid);
+    for (const uuid of this.treeSelection.selected) {
+      const widget = this.document.findByUuid(uuid);
 
-      if (node) {
-        this.treeControl.expand(node);
+      if (widget) {
+        this.tree.expand(widget);
       }
-    });
+    }
   }
-
-  private findNodeByUuid(uuid: string): FlatNode | undefined {
-    return this.treeControl.dataNodes.find((node) => node.widget.uuid === uuid);
-  }
-
 }
