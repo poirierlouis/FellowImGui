@@ -29,22 +29,22 @@ export class FIGTextWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  text: string;
+  text: string = 'Text';
   color?: Color;
-  isDisabled: boolean;
-  isWrapped: boolean;
-  hasBullet: boolean;
-  align: boolean;
+  isDisabled: boolean = false;
+  isWrapped: boolean = false;
+  hasBullet: boolean = false;
+  align: boolean = false;
 
   constructor(options?: FIGTextOptions) {
     super(FIGWidgetType.text, true);
-    this.text = options?.text ?? 'Text';
-    this.color = options?.color;
-    this.isDisabled = options?.isDisabled ?? false;
-    this.isWrapped = options?.isWrapped ?? false;
-    this.hasBullet = options?.hasBullet ?? false;
-    this.align = options?.align ?? false;
-    this.tooltip = options?.tooltip;
+    this.registerString('text', 'Text', options?.text ?? 'Text');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip);
+    this.registerColor('color', 'Color', options?.color);
+    this.registerBool('isDisabled', 'Disabled', options?.isDisabled ?? false);
+    this.registerBool('isWrapped', 'Wrapped', options?.isWrapped ?? false);
+    this.registerBool('hasBullet', 'Bullet', options?.hasBullet ?? false);
+    this.registerBool('align', 'Align to frame padding', options?.align ?? false);
   }
 
   public get name(): string {

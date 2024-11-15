@@ -14,14 +14,14 @@ export class FIGLabelWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  label: string;
-  value: string;
+  label: string = 'Label';
+  value: string = 'Value';
 
   constructor(options?: FIGLabelOptions) {
     super(FIGWidgetType.label, true);
-    this.label = options?.label ?? 'Label';
-    this.value = options?.value ?? 'Value';
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'Label');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerString('value', 'Value', options?.value ?? 'Value');
   }
 
   public get name(): string {

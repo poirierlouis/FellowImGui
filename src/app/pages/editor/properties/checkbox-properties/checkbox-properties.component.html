@@ -1,20 +1,8 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput
-           type="text"
-           formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <div class="mat-form-field">
-    <mat-label>Checked</mat-label>
-    <mat-slide-toggle color="primary" formControlName="isChecked"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isChecked')" />
 </form>

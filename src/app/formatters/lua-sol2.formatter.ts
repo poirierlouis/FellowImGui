@@ -45,6 +45,7 @@ import {FIGTableWidget} from "../models/widgets/table.widget";
 import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
 import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
+import {SizeField} from "../models/fields/size.field";
 
 interface InputNumberFormatItem {
   readonly fn: string;
@@ -95,6 +96,22 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     return `ImGuiDir.${capitalize(FIGDir[arrow])}`;
   }
 
+  private formatSize(label: string,
+                     type: FIGWidgetType,
+                     size: SizeField): string[] {
+    const varWidth: string = this.formatVar(`${label} width`, type);
+    const varHeight: string = this.formatVar(`${label} height`, type);
+    let width: string = size.value!.width.toString();
+    let height: string = size.value!.height.toString();
+
+    if (size.isPercentage) {
+      this.append(`local ${varWidth}, ${varHeight} = ImGui.GetContentRegionAvail()`);
+      width += ` * ${varWidth}`;
+      height += ` * ${varHeight}`;
+    }
+    return [width, height];
+  }
+
   protected override formatFlags<T>(flags: number, flagsList: T[], flagsType: any, flagName: string): string {
     let varFlags: string = '';
 
@@ -143,24 +160,11 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatChildWindow(widget: FIGChildWindowWidget): void {
-    const isPercentage = (value: number) => value > 0.0 && value <= 1.0;
-    const varWidth: string = this.formatVar(`${widget.label} width`, widget.type);
-    const varHeight: string = this.formatVar(`${widget.label} height`, widget.type);
     const varArgs: string[] = [this.formatString(widget.label)];
-    let width: string = widget.size.width.toString();
-    let height: string = widget.size.height.toString();
+    const varSize: string[] = this.formatSize(widget.label, widget.type, widget.getField('size') as SizeField);
 
-    if (isPercentage(widget.size.width) || isPercentage(widget.size.height)) {
-      this.append(`local ${varWidth}, ${varHeight} = ImGui.GetContentRegionAvail()`);
-      if (isPercentage(widget.size.width)) {
-        width += ` * ${varWidth}`;
-      }
-      if (isPercentage(widget.size.height)) {
-        height += ` * ${varHeight}`;
-      }
-    }
-    varArgs.push(width);
-    varArgs.push(height);
+    varArgs.push(varSize[0]);
+    varArgs.push(varSize[1]);
     varArgs.push(widget.frameBorder.toString());
     if (widget.flags !== 0) {
       varArgs.push(this.formatFlags(widget.flags, FIGWindowWidget.flags, FIGWindowFlags, 'ImGuiWindowFlags'));
@@ -316,7 +320,9 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
   }
 
   protected override formatDummy(widget: FIGDummyWidget): void {
-    this.append(`ImGui.Dummy(${widget.width}, ${widget.height})`);
+    const varSize: string[] = this.formatSize('dummy', widget.type, widget.getField('size') as SizeField);
+
+    this.append(`ImGui.Dummy(${varSize[0]}, ${varSize[1]})`);
     this.formatTooltip(widget);
   }
 
@@ -594,8 +600,8 @@ export class FIGLuaSol2Formatter extends FIGFormatter {
     const isInteger: boolean = FIGInputNumberWidget.isInteger(widget.dataType);
     let value: string;
 
-    if (size === 0) {
-      const number: number = widget.value as number;
+    if (size === 1) {
+      const number: number = widget.value[0];
 
       value = isInteger ? number.toString() : number.toFixed(precision);
     } else {

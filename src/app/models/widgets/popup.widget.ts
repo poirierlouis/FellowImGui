@@ -13,19 +13,21 @@ export class FIGPopupWidget extends FIGContainer {
     {name: 'contextItem', optional: true, default: false}
   ];
 
-  label: string;
-  contextItem: boolean;
+  label: string = '##Popup';
+  contextItem: boolean = false;
+
   isOpen: boolean;
-  debugLabel: string;
   debug: boolean;
+  debugLabel: string;
 
   constructor(options?: FIGPopupOptions) {
     super(FIGWidgetType.popup, true);
-    this.label = options?.label ?? '##Popup';
-    this.contextItem = options?.contextItem ?? false;
+    this.registerString('label', 'Label', options?.label ?? '##Popup');
+    this.registerBool('contextItem', 'Context item (right click)', options?.contextItem, true, false);
+
     this.isOpen = false;
-    this.debugLabel = `Open '${this.label.slice(2)}'`;
     this.debug = true;
+    this.debugLabel = `Open '${this.label.slice(2)}'`;
   }
 
   public get name(): string {

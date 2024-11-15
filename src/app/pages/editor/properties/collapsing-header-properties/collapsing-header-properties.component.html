@@ -1,15 +1,6 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Flags</mat-label>
-    <mat-select multiple formControlName="flags">
-      @for (flag of flags; track flag.value) {
-        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <fig-flags-field [field]="getField('flags')" />
 </form>

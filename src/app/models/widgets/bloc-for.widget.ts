@@ -11,11 +11,11 @@ export class FIGBlocForWidget extends FIGContainer {
     {name: 'size', optional: true, default: 10}
   ];
 
-  size: number;
+  size: number = 10;
 
   constructor(options?: FIGBlocForOptions) {
     super(FIGWidgetType.blocFor, true);
-    this.size = options?.size ?? 10;
+    this.registerInteger('size', 'Size', options?.size, true, 10);
     this._focusOffset.y = 0;
   }
 

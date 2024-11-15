@@ -1,0 +1,40 @@
+<div class="row">
+  <mat-form-field>
+    <mat-label>Width</mat-label>
+    <input matInput
+           type="number"
+           [formControl]="width"
+           [min]="min"
+           [max]="max"
+           [step]="step" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Height</mat-label>
+    <input matInput
+           type="number"
+           [formControl]="height"
+           [min]="min"
+           [max]="max"
+           [step]="step" />
+  </mat-form-field>
+
+  @if (acceptRelative) {
+    <button mat-icon-button
+            type="button"
+            [color]="isRelative ? 'primary' : null"
+            matTooltip="Define size as a percentage of the parent."
+            (click)="toggleRelative()">
+      <mat-icon>percent</mat-icon>
+    </button>
+  }
+</div>
+
+@if (acceptRelative && isRelative && showHelp) {
+  <p class="message info"
+     matTooltip="Click to hide this hint"
+     (click)="hideHelp()">
+    Define size as a percentage of the <abbr title="Using GetContentRegionAvail()">parent region</abbr>.<br>
+    You can fill the parent with a value of 0 (or less).
+  </p>
+}

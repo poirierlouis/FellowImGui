@@ -17,16 +17,16 @@ export class FIGProgressBarWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  value: number;
   label?: string;
-  isFill: boolean;
+  isFill: boolean = false;
+  value: number = 0;
 
   constructor(options?: FIGProgressBarOptions) {
     super(FIGWidgetType.progressBar, true);
-    this.value = options?.value ?? 0.0;
-    this.label = options?.label;
-    this.isFill = options?.isFill ?? false;
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label, true);
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerBool('isFill', 'Fill', options?.isFill, true, false);
+    this.registerInteger('value', 'Value', options?.value, true, 0);
   }
 
   public get name(): string {

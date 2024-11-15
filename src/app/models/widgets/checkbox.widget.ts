@@ -14,14 +14,14 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined},
   ];
 
-  label: string;
-  isChecked: boolean;
+  label: string = 'Checkbox';
+  isChecked: boolean = false;
 
   constructor(options?: FIGCheckboxOptions) {
     super(FIGWidgetType.checkbox, true);
-    this.label = options?.label ?? 'Checkbox';
-    this.isChecked = options?.isChecked ?? false;
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'Checkbox');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerBool('isChecked', 'Checked', options?.isChecked, true, false);
   }
 
   public get name(): string {
