@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - UI glitch when resizing viewport ([#51]).
+- access to widgets when window's width is smaller than 1920px ([#54]). User 
+  can now scroll horizontally (SHIFT + mouse wheel).
 
 ### Changed
 - improve `ProgressBar` by showing thumb hint over DOM elements.
 
 [#51]: https://github.com/poirierlouis/FellowImGui/issues/51
+[#54]: https://github.com/poirierlouis/FellowImGui/issues/54
 
 ------------------------
 
