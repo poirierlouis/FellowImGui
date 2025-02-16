@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+------------------------
+
+## [0.1.6] - 2025-02-16
 ### Fixed
 - UI glitch when resizing viewport ([#51]).
-- access to widgets when window's width is smaller than 1920px ([#54]). User 
+- access to widgets when window's width is smaller than 1920px ([#54]). User
   can now scroll horizontally (SHIFT + mouse wheel).
 
 ### Changed
@@ -65,7 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - initial version with support for `Lua sol2`.
 
 <!-- Table of releases -->
-[Unreleased]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/poirierlouis/FellowImGui/compare/v0.1.2...v0.1.3
