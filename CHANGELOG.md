@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2025-10-19
 ### Changed
+- license to [GNU GPL v3] (was MIT)
 - dark theme based on Material Design 3
 - how widgets and properties are handled internally ([#47])
 
+[GNU GPL v3]: https://www.gnu.org/licenses/gpl-3.0.txt
 [#47]: https://github.com/poirierlouis/FellowImGui/issues/47
 
 ------------------------
