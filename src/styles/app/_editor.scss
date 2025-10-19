@@ -2,88 +2,60 @@
 @use 'sass:color';
 @use '@angular/material' as mat;
 
-@mixin editor-theme($theme) {
-  $primary: mat.get-theme-color($theme, primary, 500);
-  $warning: mat.get-theme-color($theme, warn, 500);
-  $fallback: mat.m2-get-color-from-palette(mat.$m2-amber-palette, 700);
-  $bg: mat.get-theme-color($theme, background, background);
+$palette: mat.$magenta-palette;
+$primary-color: map.get($palette, 50);
 
-  fig-editor {
-    & .widgets {
-      & mat-icon {
-        &.warning {
-          color: $warning;
-        }
-
-        &.fallback {
-          color: $fallback;
-        }
+fig-editor {
+  & .widgets {
+    & mat-icon {
+      &.warning {
+        color: var(--fig-error);
       }
-    }
 
-    & .panels {
-      & .slider {
-        &:hover {
-          border-right-color: $primary;
-        }
+      &.fallback {
+        color: var(--fig-warning);
       }
-    }
-
-    & .mat-mdc-tab-body-wrapper {
-      height: 100%;
     }
   }
 
-  #fig-drag-placeholder {
-    visibility: hidden;
-    position: relative;
-    pointer-events: none;
-    max-width: 360px;
-    height: 2px;
-    background-color: $primary;
-
-    &[data-direction="before"] {
-      visibility: visible;
-      top: 0px;
-      margin-top: -2px;
+  & .panels {
+    & .slider {
+      &:hover {
+        border-right-color: var(--mat-sys-primary-container);
+      }
     }
+  }
 
-    &[data-direction="after"] {
-      visibility: visible;
-      margin-top: -2px;
-    }
-
-    &[data-direction="insert"] {
-      visibility: visible;
-      height: 38px;
-      margin-top: -38px;
-      box-sizing: border-box;
-      border: 2px solid $primary;
-      background-color: color.change($primary, $alpha: 0.10);
-    }
+  & .mat-mdc-tab-body-wrapper {
+    height: 100%;
   }
 }
 
-@mixin editor-color($theme) {
-  $primary: mat.get-theme-color($theme, primary, 500);
-  $bg: mat.get-theme-color($theme, background, background);
+#fig-drag-placeholder {
+  visibility: hidden;
+  position: relative;
+  pointer-events: none;
+  max-width: 360px;
+  height: 2px;
+  background-color: var(--mat-sys-primary-container);
 
-  fig-editor {
-    & .panels {
-      & .slider {
-        &:hover {
-          border-right-color: $primary;
-        }
-      }
-    }
+  &[data-direction="before"] {
+    visibility: visible;
+    top: 0;
+    margin-top: -2px;
   }
 
-  #fig-drag-placeholder {
-    background-color: $primary;
+  &[data-direction="after"] {
+    visibility: visible;
+    margin-top: -2px;
+  }
 
-    &[data-direction="insert"] {
-      border-color: $primary;
-      background-color: color.change($primary, $alpha: 0.10);
-    }
+  &[data-direction="insert"] {
+    visibility: visible;
+    height: 38px;
+    margin-top: -38px;
+    box-sizing: border-box;
+    border: 2px solid var(--mat-sys-primary-container);
+    background-color: color.change($primary-color, $alpha: 0.1);
   }
 }

@@ -6,15 +6,14 @@ import {StringFieldComponent} from "../../fields/string-field/string-field.compo
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-tab-bar-properties',
-  standalone: true,
-  imports: [
-    FlagsFieldComponent,
-    ReactiveFormsModule,
-    StringFieldComponent
-  ],
-  templateUrl: './tab-bar-properties.component.html',
-  styleUrl: './tab-bar-properties.component.css'
+    selector: 'fig-tab-bar-properties',
+    imports: [
+        FlagsFieldComponent,
+        ReactiveFormsModule,
+        StringFieldComponent
+    ],
+    templateUrl: './tab-bar-properties.component.html',
+    styleUrl: './tab-bar-properties.component.css'
 })
 export class TabBarPropertiesComponent extends AbstractPropertiesComponent<FIGTabBarWidget> {
 

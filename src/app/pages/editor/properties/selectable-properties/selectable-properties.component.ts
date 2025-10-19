@@ -7,16 +7,15 @@ import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 
 @Component({
-  selector: 'fig-selectable-properties',
-  standalone: true,
-  imports: [
-    SizeFieldComponent,
-    FlagsFieldComponent,
-    StringFieldComponent,
-    BoolFieldComponent
-  ],
-  templateUrl: './selectable-properties.component.html',
-  styleUrl: './selectable-properties.component.css'
+    selector: 'fig-selectable-properties',
+    imports: [
+        SizeFieldComponent,
+        FlagsFieldComponent,
+        StringFieldComponent,
+        BoolFieldComponent
+    ],
+    templateUrl: './selectable-properties.component.html',
+    styleUrl: './selectable-properties.component.css'
 })
 export class SelectablePropertiesComponent extends AbstractPropertiesComponent<FIGSelectableWidget> {
 

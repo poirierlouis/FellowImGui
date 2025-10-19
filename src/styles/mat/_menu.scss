@@ -1,44 +1,34 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin menu-theme($theme) {
-  $hint: mat.get-theme-color($theme, foreground, hint-text);
+.mat-mdc-menu-content {
+  @include mat.menu-overrides((
+    item-leading-spacing: 0,
+    item-trailing-spacing: 0,
+    divider-top-spacing: 0,
+    divider-bottom-spacing: 0
+  ));
 
-  .mat-mdc-menu-content {
-    & .mat-mdc-menu-item {
-      & .mat-mdc-menu-item-text {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+  padding: 0!important;
 
-      &.action {
-        & button:last-child {
-          margin-left: 32px;
-        }
-      }
+  & .mat-mdc-menu-item {
+    & .mat-mdc-menu-item-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-      &.hint {
-        & span:last-child {
-          margin-left: 32px;
-
-          font-size: .9rem;
-          color: $hint;
-        }
+    &.action {
+      & button:last-child {
+        margin-left: 32px;
       }
     }
-  }
-}
 
-@mixin menu-color($theme) {
-  $hint: mat.get-theme-color($theme, foreground, hint-text);
+    &.hint {
+      & span:last-child {
+        margin-left: 32px;
 
-  .mat-mdc-menu-content {
-    & .mat-mdc-menu-item {
-      &.hint {
-        & span:last-child {
-          color: $hint;
-        }
+        color: var(--mat-sys-outline);
       }
     }
   }

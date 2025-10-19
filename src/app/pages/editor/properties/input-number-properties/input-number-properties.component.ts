@@ -11,20 +11,19 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'fig-input-number-properties',
-  standalone: true,
-  imports: [
-    EnumFieldComponent,
-    StringFieldComponent,
-    IntegerFieldComponent,
-    Number4FieldComponent,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule
-  ],
-  templateUrl: './input-number-properties.component.html',
-  styleUrl: './input-number-properties.component.css'
+    selector: 'fig-input-number-properties',
+    imports: [
+        EnumFieldComponent,
+        StringFieldComponent,
+        IntegerFieldComponent,
+        Number4FieldComponent,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule
+    ],
+    templateUrl: './input-number-properties.component.html',
+    styleUrl: './input-number-properties.component.css'
 })
 export class InputNumberPropertiesComponent extends AbstractPropertiesComponent<FIGInputNumberWidget> {
 

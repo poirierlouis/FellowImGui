@@ -12,21 +12,20 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
 
 @Component({
-  selector: 'fig-vertical-slider-properties',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatFormField,
-    ReactiveFormsModule,
-    EnumFieldComponent,
-    NumberFieldComponent,
-    StringFieldComponent,
-    BoolFieldComponent,
-    SizeFieldComponent
-  ],
-  templateUrl: './vertical-slider-properties.component.html',
-  styleUrl: './vertical-slider-properties.component.css'
+    selector: 'fig-vertical-slider-properties',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatFormField,
+        ReactiveFormsModule,
+        EnumFieldComponent,
+        NumberFieldComponent,
+        StringFieldComponent,
+        BoolFieldComponent,
+        SizeFieldComponent
+    ],
+    templateUrl: './vertical-slider-properties.component.html',
+    styleUrl: './vertical-slider-properties.component.css'
 })
 export class VerticalSliderPropertiesComponent extends AbstractPropertiesComponent<FIGVerticalSliderWidget> {
 

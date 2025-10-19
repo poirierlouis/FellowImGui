@@ -1,53 +1,38 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin tree-theme($theme) {
-  $primary: mat.get-theme-color($theme, primary, 700);
-  $warning: mat.get-theme-color($theme, warn, 500);
-  $fallback: mat.m2-get-color-from-palette(mat.$m2-amber-palette, 700);
-  $hover: grey;
+fig-tree {
+  mat-tree {
+    background-color: transparent;
 
-  fig-tree {
-    mat-tree {
-      background-color: transparent;
+    & .mat-tree-node {
+      // NOTE: fix for webkit browsers (Chrome 129.0.6668.90), otherwise user
+      // cannot drag widgets in the tree.
+      -webkit-user-drag: element!important;
+      min-height: 38px;
 
-      & .mat-tree-node {
-        // NOTE: fix for webkit browsers (Chrome 129.0.6668.90), otherwise user
-        // cannot drag widgets in the tree.
-        -webkit-user-drag: element!important;
-        min-height: 38px;
+      &:hover,
+      &.dragged {
+        background-color: var(--mat-sys-secondary-container);
+      }
 
-        &:hover,
-        &.dragged {
-          background-color: $hover;
-        }
+      &.selected {
+        background-color: var(--mat-sys-primary-container);
+      }
 
-        &.selected {
-          background-color: $primary;
-        }
-
-        & .content {
-          &.warning {
-            & mat-icon:first-of-type {
-              color: $warning;
-            }
+      & .content {
+        &.warning {
+          & mat-icon:first-of-type {
+            color: var(--fig-error);
           }
+        }
 
-          &.fallback {
-            & mat-icon:first-of-type {
-              color: $fallback;
-            }
+        &.fallback {
+          & mat-icon:first-of-type {
+            color: var(--fig-warning);
           }
         }
       }
-    }
-  }
-}
-
-@mixin tree-color($theme) {
-  fig-tree {
-    mat-tree {
-      background-color: transparent;
     }
   }
 }

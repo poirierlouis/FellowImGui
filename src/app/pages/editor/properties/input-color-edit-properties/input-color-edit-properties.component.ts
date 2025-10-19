@@ -9,16 +9,15 @@ import {Color} from "../../../../models/math";
 import {FlagsField} from "../../../../models/fields/flags.field";
 
 @Component({
-  selector: 'fig-input-color-edit-properties',
-  standalone: true,
-  imports: [
-    BoolFieldComponent,
-    ColorFieldComponent,
-    FlagsFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './input-color-edit-properties.component.html',
-  styleUrl: './input-color-edit-properties.component.css'
+    selector: 'fig-input-color-edit-properties',
+    imports: [
+        BoolFieldComponent,
+        ColorFieldComponent,
+        FlagsFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './input-color-edit-properties.component.html',
+    styleUrl: './input-color-edit-properties.component.css'
 })
 export class InputColorEditPropertiesComponent extends AbstractPropertiesComponent<FIGInputColorEditWidget> {
 

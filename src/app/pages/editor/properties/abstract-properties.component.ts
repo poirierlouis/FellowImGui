@@ -6,7 +6,8 @@ import {hasFunction} from "../../../models/object";
 import {capitalize} from "../../../models/string";
 
 @Component({
-  template: ''
+    template: '',
+    standalone: false
 })
 export abstract class AbstractPropertiesComponent<T extends FIGWidget> implements OnDestroy {
 

@@ -7,16 +7,15 @@ import {ColorFieldComponent} from "../../fields/color-field/color-field.componen
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 
 @Component({
-  selector: 'fig-text-properties',
-  standalone: true,
-  imports: [
-    BoolFieldComponent,
-    ColorFieldComponent,
-    ReactiveFormsModule,
-    StringFieldComponent
-  ],
-  templateUrl: './text-properties.component.html',
-  styleUrl: './text-properties.component.css'
+    selector: 'fig-text-properties',
+    imports: [
+        BoolFieldComponent,
+        ColorFieldComponent,
+        ReactiveFormsModule,
+        StringFieldComponent
+    ],
+    templateUrl: './text-properties.component.html',
+    styleUrl: './text-properties.component.css'
 })
 export class TextPropertiesComponent extends AbstractPropertiesComponent<FIGTextWidget> {
 

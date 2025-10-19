@@ -9,17 +9,16 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 
 @Component({
-  selector: 'fig-popup-properties',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatSlideToggle,
-    BoolFieldComponent,
-    ReactiveFormsModule,
-    StringFieldComponent
-  ],
-  templateUrl: './popup-properties.component.html',
-  styleUrl: './popup-properties.component.css'
+    selector: 'fig-popup-properties',
+    imports: [
+        MatLabel,
+        MatSlideToggle,
+        BoolFieldComponent,
+        ReactiveFormsModule,
+        StringFieldComponent
+    ],
+    templateUrl: './popup-properties.component.html',
+    styleUrl: './popup-properties.component.css'
 })
 export class PopupPropertiesComponent extends AbstractPropertiesComponent<FIGPopupWidget> {
 

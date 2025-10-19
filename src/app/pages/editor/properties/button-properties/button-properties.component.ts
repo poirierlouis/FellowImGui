@@ -6,15 +6,14 @@ import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 import {EnumFieldComponent} from "../../fields/enum-field/enum-field.component";
 
 @Component({
-  selector: 'fig-button-properties',
-  standalone: true,
-  imports: [
-    BoolFieldComponent,
-    EnumFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './button-properties.component.html',
-  styleUrl: './button-properties.component.css'
+    selector: 'fig-button-properties',
+    imports: [
+        BoolFieldComponent,
+        EnumFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './button-properties.component.html',
+    styleUrl: './button-properties.component.css'
 })
 export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGButtonWidget> {
 

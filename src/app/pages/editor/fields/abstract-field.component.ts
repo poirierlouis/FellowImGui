@@ -6,8 +6,9 @@ import {None} from "../../../models/object";
 import {debounceTime, map} from "rxjs";
 
 @Component({
-  selector: 'fig-abstract-field',
-  template: ''
+    selector: 'fig-abstract-field',
+    template: '',
+    standalone: false
 })
 export abstract class AbstractFieldComponent<F extends Field, FormType, FieldType = FormType | undefined> implements OnInit {
 

@@ -10,18 +10,17 @@ import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.componen
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'fig-window-properties',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatSlideToggle,
-    SizeFieldComponent,
-    FlagsFieldComponent,
-    ReactiveFormsModule,
-    StringFieldComponent
-  ],
-  templateUrl: './window-properties.component.html',
-  styleUrl: './window-properties.component.css'
+    selector: 'fig-window-properties',
+    imports: [
+        MatLabel,
+        MatSlideToggle,
+        SizeFieldComponent,
+        FlagsFieldComponent,
+        ReactiveFormsModule,
+        StringFieldComponent
+    ],
+    templateUrl: './window-properties.component.html',
+    styleUrl: './window-properties.component.css'
 })
 export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWindowWidget> {
 

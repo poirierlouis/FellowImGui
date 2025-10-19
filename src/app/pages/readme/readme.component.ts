@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatFabButton} from "@angular/material/button";
+import {MatFabButton} from "@angular/material/button";
 import {DOMUtils} from "../../components/dom.utils";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {FIGWidgetType} from "../../models/widgets/widget";
@@ -9,17 +9,15 @@ import {RouterLink} from "@angular/router";
 import {isMobile} from "../../mobile";
 
 @Component({
-  selector: 'fig-readme',
-  standalone: true,
-  imports: [
-    RouterLink,
-    MatIcon,
-    MatTooltip,
-    MatButton,
-    MatFabButton
-  ],
-  templateUrl: './readme.component.html',
-  styleUrl: './readme.component.css'
+    selector: 'fig-readme',
+    imports: [
+        RouterLink,
+        MatIcon,
+        MatTooltip,
+        MatFabButton
+    ],
+    templateUrl: './readme.component.html',
+    styleUrl: './readme.component.css'
 })
 export class ReadmeComponent implements AfterViewInit {
 

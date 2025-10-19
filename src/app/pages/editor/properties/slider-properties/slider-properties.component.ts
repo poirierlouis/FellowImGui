@@ -11,20 +11,19 @@ import {MatInput} from "@angular/material/input";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'fig-slider-properties',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatFormField,
-    EnumFieldComponent,
-    ReactiveFormsModule,
-    NumberFieldComponent,
-    StringFieldComponent,
-    Number4FieldComponent
-  ],
-  templateUrl: './slider-properties.component.html',
-  styleUrl: './slider-properties.component.css'
+    selector: 'fig-slider-properties',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatFormField,
+        EnumFieldComponent,
+        ReactiveFormsModule,
+        NumberFieldComponent,
+        StringFieldComponent,
+        Number4FieldComponent
+    ],
+    templateUrl: './slider-properties.component.html',
+    styleUrl: './slider-properties.component.css'
 })
 export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSliderWidget> {
 

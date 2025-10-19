@@ -5,7 +5,7 @@ import {FIGDocument} from "../../models/document";
 import {PropertiesComponent} from "./properties/properties.component";
 import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
 import {MatIcon} from "@angular/material/icon";
-import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
 import {MatDivider} from "@angular/material/divider";
@@ -31,26 +31,24 @@ interface FIGWidgetBuilderCategory {
 }
 
 @Component({
-  selector: 'fig-editor',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatIcon,
-    MatTooltip,
-    MatDivider,
-    MatIconButton,
-    MatTab,
-    MatTabGroup,
-    NgTemplateOutlet,
-    DragDirective,
-    TreeComponent,
-    ConfigComponent,
-    CanvasComponent,
-    PropertiesComponent,
-    LanguagePickerComponent,
-  ],
-  templateUrl: './editor.component.html',
-  styleUrl: './editor.component.css'
+    selector: 'fig-editor',
+    imports: [
+        AsyncPipe,
+        MatIcon,
+        MatTooltip,
+        MatDivider,
+        MatIconButton,
+        MatTab,
+        MatTabGroup,
+        DragDirective,
+        TreeComponent,
+        ConfigComponent,
+        CanvasComponent,
+        PropertiesComponent,
+        LanguagePickerComponent,
+    ],
+    templateUrl: './editor.component.html',
+    styleUrl: './editor.component.css'
 })
 export class EditorComponent implements OnInit, OnDestroy {
 

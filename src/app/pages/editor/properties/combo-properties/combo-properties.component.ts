@@ -8,18 +8,17 @@ import {MatInput} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'fig-combo-properties',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatInput,
-    MatFormField,
-    ReactiveFormsModule,
-    StringFieldComponent,
-    ArrayStringFieldComponent
-  ],
-  templateUrl: './combo-properties.component.html',
-  styleUrl: './combo-properties.component.css'
+    selector: 'fig-combo-properties',
+    imports: [
+        MatLabel,
+        MatInput,
+        MatFormField,
+        ReactiveFormsModule,
+        StringFieldComponent,
+        ArrayStringFieldComponent
+    ],
+    templateUrl: './combo-properties.component.html',
+    styleUrl: './combo-properties.component.css'
 })
 export class ComboPropertiesComponent extends AbstractPropertiesComponent<FIGComboWidget> {
 

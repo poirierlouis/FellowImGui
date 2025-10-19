@@ -1,20 +1,9 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin list-theme($theme) {
-  mat-list-item {
-    &:hover {
-      cursor: pointer;
-
-      background-color: mat.get-theme-color($theme, background, card);
-    }
-  }
-}
-
-@mixin list-color($theme) {
-  mat-list-item {
-    &:hover {
-      background-color: mat.get-theme-color($theme, background, card);
-    }
+mat-expansion-panel {
+  mat-list {
+    @include mat.list-overrides((
+      list-item-container-color: var(--mat-sys-surface-container-high)
+    ));
   }
 }

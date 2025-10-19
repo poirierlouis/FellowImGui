@@ -132,7 +132,7 @@ article {
   }
 
   & .feature-preview {
-    border: 2px solid #734c76;
+    border: 2px solid var(--mat-sys-primary);
     border-radius: 8px;
   }
 

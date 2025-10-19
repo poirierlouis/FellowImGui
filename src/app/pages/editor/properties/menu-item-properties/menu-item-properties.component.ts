@@ -5,14 +5,13 @@ import {StringFieldComponent} from "../../fields/string-field/string-field.compo
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 
 @Component({
-  selector: 'fig-menu-item-properties',
-  standalone: true,
-  imports: [
-    BoolFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './menu-item-properties.component.html',
-  styleUrl: './menu-item-properties.component.css'
+    selector: 'fig-menu-item-properties',
+    imports: [
+        BoolFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './menu-item-properties.component.html',
+    styleUrl: './menu-item-properties.component.css'
 })
 export class MenuItemPropertiesComponent extends AbstractPropertiesComponent<FIGMenuItemWidget> {
 

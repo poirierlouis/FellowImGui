@@ -7,16 +7,15 @@ import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.co
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-table-properties',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FlagsFieldComponent,
-    StringFieldComponent,
-    IntegerFieldComponent
-  ],
-  templateUrl: './table-properties.component.html',
-  styleUrl: './table-properties.component.css'
+    selector: 'fig-table-properties',
+    imports: [
+        ReactiveFormsModule,
+        FlagsFieldComponent,
+        StringFieldComponent,
+        IntegerFieldComponent
+    ],
+    templateUrl: './table-properties.component.html',
+    styleUrl: './table-properties.component.css'
 })
 export class TablePropertiesComponent extends AbstractPropertiesComponent<FIGTableWidget> {
 

@@ -1,32 +1,26 @@
-@mixin form-field-theme($theme) {
-  mat-form-field {
-    width: 100%;
-    margin: 12px 0;
-  }
-
-  .mat-form-field {
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 48px;
-
-    & + mat-form-field {
-      margin-top: 16px;
-    }
-
-    &.thumb {
-      overflow: initial;
-    }
-
-    & mat-slider {
-      flex: 1;
-      margin-left: 24px;
-      margin-right: 28px;
-    }
-  }
+mat-form-field {
+  width: 100%;
+  margin: 12px 0;
 }
 
-@mixin form-field-color($theme) {
+.mat-form-field {
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
 
+  & + mat-form-field {
+    margin-top: 16px;
+  }
+
+  &.thumb {
+    overflow: initial;
+  }
+
+  & mat-slider {
+    flex: 1;
+    margin-left: 24px;
+    margin-right: 28px;
+  }
 }

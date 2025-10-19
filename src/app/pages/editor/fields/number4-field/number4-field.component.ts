@@ -17,16 +17,15 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Field} from "../../../../models/fields/field";
 
 @Component({
-  selector: 'fig-number4-field',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatFormField,
-    ReactiveFormsModule
-  ],
-  templateUrl: './number4-field.component.html',
-  styleUrl: './number4-field.component.css'
+    selector: 'fig-number4-field',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatFormField,
+        ReactiveFormsModule
+    ],
+    templateUrl: './number4-field.component.html',
+    styleUrl: './number4-field.component.css'
 })
 export class Number4FieldComponent implements OnInit, OnChanges {
 

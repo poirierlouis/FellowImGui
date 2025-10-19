@@ -1,7 +1,9 @@
 <mat-toolbar>
   <img class="logo"
-       src="./assets/logo/logo.svg"
-       alt="Logo of FellowImGui, a fig" />
+       ngSrc="./assets/logo/logo.svg"
+       alt="Logo of FellowImGui, a fig"
+       width="40"
+       height="40"/>
   <span>Fellow ImGui</span>
 
   <mat-chip class="version"
@@ -11,8 +13,8 @@
 
   <button data-testid="btn-github"
           mat-icon-button
-          (click)="openGitHub()"
-          matTooltip="Repository">
+          matTooltip="Repository"
+          (click)="openGitHub()">
     <mat-icon svgIcon="logo-github"></mat-icon>
   </button>
 </mat-toolbar>

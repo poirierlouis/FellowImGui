@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+
+mat-chip {
+  background-color: var(--mat-sys-on-secondary)!important;
+}

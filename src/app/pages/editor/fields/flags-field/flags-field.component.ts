@@ -6,17 +6,16 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'fig-flags-field',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatFormField,
-    ReactiveFormsModule
-  ],
-  templateUrl: './flags-field.component.html',
-  styleUrl: './flags-field.component.css'
+    selector: 'fig-flags-field',
+    imports: [
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatFormField,
+        ReactiveFormsModule
+    ],
+    templateUrl: './flags-field.component.html',
+    styleUrl: './flags-field.component.css'
 })
 export class FlagsFieldComponent extends AbstractFieldComponent<FlagsField, number[], number> {
 

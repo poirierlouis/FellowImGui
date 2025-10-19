@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material/icon";
 import {FIGWidgetFactory} from "../models/widgets/widget.factory";
@@ -7,6 +7,8 @@ import {FIGWidgetFactory} from "../models/widgets/widget.factory";
   providedIn: 'root'
 })
 export class IconService {
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly iconRegistry = inject(MatIconRegistry);
 
   private readonly widgetIcons: string[] = FIGWidgetFactory.icons;
   private readonly uiIcons: string[] = [
@@ -14,11 +16,6 @@ export class IconService {
 
     'code', 'license', 'logo-lua'
   ];
-
-  constructor(private readonly sanitizer: DomSanitizer,
-              private readonly iconRegistry: MatIconRegistry) {
-
-  }
 
   public load(): void {
     for (const icon of this.widgetIcons) {

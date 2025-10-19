@@ -8,11 +8,10 @@ import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-
 import {Color, Vector4} from "../../../models/math";
 
 @Component({
-  selector: 'fig-canvas',
-  standalone: true,
-  imports: [],
-  templateUrl: './canvas.component.html',
-  styleUrl: './canvas.component.css'
+    selector: 'fig-canvas',
+    imports: [],
+    templateUrl: './canvas.component.html',
+    styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements OnDestroy {
 

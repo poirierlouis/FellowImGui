@@ -5,14 +5,13 @@ import {StringFieldComponent} from "../../fields/string-field/string-field.compo
 import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
 
 @Component({
-  selector: 'fig-dummy-properties',
-  standalone: true,
-  imports: [
-    SizeFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './dummy-properties.component.html',
-  styleUrl: './dummy-properties.component.css'
+    selector: 'fig-dummy-properties',
+    imports: [
+        SizeFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './dummy-properties.component.html',
+    styleUrl: './dummy-properties.component.css'
 })
 export class DummyPropertiesComponent extends AbstractPropertiesComponent<FIGDummyWidget> {
 

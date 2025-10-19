@@ -10,7 +10,7 @@
   margin-right: 12px;
   padding: 4px;
 
-  background-color: #c7abcc;
+  background-color: var(--mat-sys-on-secondary-container);
   border-radius: 50%;
 }
 

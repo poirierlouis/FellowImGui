@@ -5,7 +5,7 @@ import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FIGThemeColors} from "../../../models/document-config";
 import {MatInput} from "@angular/material/input";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -20,6 +20,7 @@ import {FIGSerializeProperty} from "../../../parsers/document.parser";
 import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
 import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
+// @ts-expect-error workaround for ngx-colors
 import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
 import {Color, parseRGBA, stringifyHEX, stringifyRGBA, Vector4} from "../../../models/math";
 import {TemplateListComponent} from "../template/template-list/template-list.component";
@@ -34,29 +35,27 @@ export interface FIGFormField extends FIGSerializeProperty {
 }
 
 @Component({
-  selector: 'fig-config',
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatInput,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatButton,
-    MatTooltip,
-    MatOptgroup,
-    MatFormField,
-    MatIconButton,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelTitle,
-    MatExpansionPanelHeader,
-    ReactiveFormsModule,
-    NgxColorsModule,
-    TemplateListComponent
-  ],
-  templateUrl: './config.component.html',
-  styleUrl: './config.component.css'
+    selector: 'fig-config',
+    imports: [
+        MatIcon,
+        MatInput,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatTooltip,
+        MatOptgroup,
+        MatFormField,
+        MatIconButton,
+        MatAccordion,
+        MatExpansionPanel,
+        MatExpansionPanelTitle,
+        MatExpansionPanelHeader,
+        ReactiveFormsModule,
+        NgxColorsModule,
+        TemplateListComponent
+    ],
+    templateUrl: './config.component.html',
+    styleUrl: './config.component.css'
 })
 export class ConfigComponent {
 

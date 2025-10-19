@@ -7,18 +7,17 @@ import {IntegerField} from "../../../../models/fields/integer.field";
 import {MatSlider, MatSliderThumb} from "@angular/material/slider";
 
 @Component({
-  selector: 'fig-integer-field',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatSlider,
-    MatFormField,
-    MatSliderThumb,
-    ReactiveFormsModule
-  ],
-  templateUrl: './integer-field.component.html',
-  styleUrl: './integer-field.component.css'
+    selector: 'fig-integer-field',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatSlider,
+        MatFormField,
+        MatSliderThumb,
+        ReactiveFormsModule
+    ],
+    templateUrl: './integer-field.component.html',
+    styleUrl: './integer-field.component.css'
 })
 export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, number | undefined> implements OnChanges {
 

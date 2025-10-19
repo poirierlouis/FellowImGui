@@ -6,15 +6,14 @@ import {MatLabel} from "@angular/material/form-field";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({
-  selector: 'fig-bool-field',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatSlideToggle,
-    ReactiveFormsModule
-  ],
-  templateUrl: './bool-field.component.html',
-  styleUrl: './bool-field.component.css'
+    selector: 'fig-bool-field',
+    imports: [
+        MatLabel,
+        MatSlideToggle,
+        ReactiveFormsModule
+    ],
+    templateUrl: './bool-field.component.html',
+    styleUrl: './bool-field.component.css'
 })
 export class BoolFieldComponent extends AbstractFieldComponent<BoolField, boolean> {
 

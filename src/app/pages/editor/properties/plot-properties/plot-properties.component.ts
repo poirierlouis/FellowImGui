@@ -9,18 +9,17 @@ import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.co
 import {NumberFieldComponent} from "../../fields/number-field/number-field.component";
 
 @Component({
-  selector: 'fig-plot-properties',
-  standalone: true,
-  imports: [
-    EnumFieldComponent,
-    SizeFieldComponent,
-    ReactiveFormsModule,
-    StringFieldComponent,
-    NumberFieldComponent,
-    IntegerFieldComponent
-  ],
-  templateUrl: './plot-properties.component.html',
-  styleUrl: './plot-properties.component.css'
+    selector: 'fig-plot-properties',
+    imports: [
+        EnumFieldComponent,
+        SizeFieldComponent,
+        ReactiveFormsModule,
+        StringFieldComponent,
+        NumberFieldComponent,
+        IntegerFieldComponent
+    ],
+    templateUrl: './plot-properties.component.html',
+    styleUrl: './plot-properties.component.css'
 })
 export class PlotPropertiesComponent extends AbstractPropertiesComponent<FIGPlotWidget> {
 

@@ -5,14 +5,13 @@ import {StringFieldComponent} from "../../fields/string-field/string-field.compo
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-collapsing-header-properties',
-  standalone: true,
-  imports: [
-    FlagsFieldComponent,
-    StringFieldComponent,
-  ],
-  templateUrl: './collapsing-header-properties.component.html',
-  styleUrl: './collapsing-header-properties.component.css'
+    selector: 'fig-collapsing-header-properties',
+    imports: [
+        FlagsFieldComponent,
+        StringFieldComponent,
+    ],
+    templateUrl: './collapsing-header-properties.component.html',
+    styleUrl: './collapsing-header-properties.component.css'
 })
 export class CollapsingHeaderPropertiesComponent extends AbstractPropertiesComponent<FIGCollapsingHeaderWidget> {
 

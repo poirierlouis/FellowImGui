@@ -6,16 +6,15 @@ import {AbstractFieldComponent} from "../abstract-field.component";
 import {NumberField} from "../../../../models/fields/number.field";
 
 @Component({
-  selector: 'fig-number-field',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatFormField,
-    ReactiveFormsModule
-  ],
-  templateUrl: './number-field.component.html',
-  styleUrl: './number-field.component.css'
+    selector: 'fig-number-field',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatFormField,
+        ReactiveFormsModule
+    ],
+    templateUrl: './number-field.component.html',
+    styleUrl: './number-field.component.css'
 })
 export class NumberFieldComponent extends AbstractFieldComponent<NumberField, number> implements OnChanges {
 

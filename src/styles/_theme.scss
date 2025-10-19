@@ -1,0 +1,19 @@
+// Angular Material custom styles and overrides
+@use './mat/chip';
+@use './mat/expansion';
+@use './mat/form-field';
+@use './mat/list';
+@use './mat/menu';
+@use './mat/toolbar';
+
+// Application custom styles
+@use './app/dismissible';
+@use './app/editor';
+@use './app/properties';
+@use './app/readme';
+@use './app/tree';
+
+:root {
+  --fig-error: #ff4e4e;
+  --fig-warning: #ff9800;
+}

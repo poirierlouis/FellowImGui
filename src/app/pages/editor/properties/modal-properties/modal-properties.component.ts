@@ -9,17 +9,16 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'fig-modal-properties',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatSlideToggle,
-    ReactiveFormsModule,
-    FlagsFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './modal-properties.component.html',
-  styleUrl: './modal-properties.component.css'
+    selector: 'fig-modal-properties',
+    imports: [
+        MatLabel,
+        MatSlideToggle,
+        ReactiveFormsModule,
+        FlagsFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './modal-properties.component.html',
+    styleUrl: './modal-properties.component.css'
 })
 export class ModalPropertiesComponent extends AbstractPropertiesComponent<FIGModalWidget> {
 

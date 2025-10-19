@@ -7,17 +7,16 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 
 @Component({
-  selector: 'fig-array-string-field',
-  standalone: true,
-  imports: [
-    MatLabel,
-    MatInput,
-    MatFormField,
-    ReactiveFormsModule,
-    CdkTextareaAutosize
-  ],
-  templateUrl: './array-string-field.component.html',
-  styleUrl: './array-string-field.component.css'
+    selector: 'fig-array-string-field',
+    imports: [
+        MatLabel,
+        MatInput,
+        MatFormField,
+        ReactiveFormsModule,
+        CdkTextareaAutosize
+    ],
+    templateUrl: './array-string-field.component.html',
+    styleUrl: './array-string-field.component.css'
 })
 export class ArrayStringFieldComponent extends AbstractFieldComponent<ArrayField, string, string[]> {
 

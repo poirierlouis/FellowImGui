@@ -7,16 +7,15 @@ import {ArrayStringFieldComponent} from "../../fields/array-string-field/array-s
 import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.component";
 
 @Component({
-  selector: 'fig-listbox-properties',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    StringFieldComponent,
-    IntegerFieldComponent,
-    ArrayStringFieldComponent
-  ],
-  templateUrl: './listbox-properties.component.html',
-  styleUrl: './listbox-properties.component.css'
+    selector: 'fig-listbox-properties',
+    imports: [
+        ReactiveFormsModule,
+        StringFieldComponent,
+        IntegerFieldComponent,
+        ArrayStringFieldComponent
+    ],
+    templateUrl: './listbox-properties.component.html',
+    styleUrl: './listbox-properties.component.css'
 })
 export class ListboxPropertiesComponent extends AbstractPropertiesComponent<FIGListBoxWidget> {
 

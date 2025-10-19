@@ -1,15 +1,12 @@
 import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {
-  MatNestedTreeNode,
   MatTree,
   MatTreeFlatDataSource,
   MatTreeFlattener,
   MatTreeNode,
   MatTreeNodeDef,
-  MatTreeNodeOutlet,
   MatTreeNodePadding,
-  MatTreeNodeToggle
 } from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {FIGContainer} from "../../../models/widgets/container";
@@ -19,7 +16,6 @@ import {FIGDocument} from "../../../models/document";
 import {SelectionModel} from "@angular/cdk/collections";
 import {DragDirective} from "../../../directives/drag.directive";
 import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
-import {DragHandleDirective} from "../../../directives/drag-handle.directive";
 import {FormatterService} from "../../../services/formatter.service";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -40,30 +36,25 @@ interface FlatNode {
 }
 
 @Component({
-  selector: 'fig-tree',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatIcon,
-    MatDivider,
-    MatTree,
-    MatTreeNode,
-    MatTreeNodeDef,
-    MatTreeNodeOutlet,
-    MatTreeNodeToggle,
-    MatNestedTreeNode,
-    MatTreeNodePadding,
-    MatMenu,
-    MatMenuItem,
-    MatMenuTrigger,
-    MatMenuContent,
-    DragDirective,
-    DropDirective,
-    DragHandleDirective,
-    DismissibleDirective,
-  ],
-  templateUrl: './tree.component.html',
-  styleUrl: './tree.component.css'
+    selector: 'fig-tree',
+    imports: [
+        AsyncPipe,
+        MatIcon,
+        MatDivider,
+        MatTree,
+        MatTreeNode,
+        MatTreeNodeDef,
+        MatTreeNodePadding,
+        MatMenu,
+        MatMenuItem,
+        MatMenuTrigger,
+        MatMenuContent,
+        DragDirective,
+        DropDirective,
+        DismissibleDirective,
+    ],
+    templateUrl: './tree.component.html',
+    styleUrl: './tree.component.css'
 })
 export class TreeComponent {
 

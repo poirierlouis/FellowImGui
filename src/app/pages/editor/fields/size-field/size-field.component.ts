@@ -12,19 +12,18 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {debounceTime} from "rxjs";
 
 @Component({
-  selector: 'fig-size-field',
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatLabel,
-    MatInput,
-    MatTooltip,
-    MatFormField,
-    MatIconButton,
-    ReactiveFormsModule
-  ],
-  templateUrl: './size-field.component.html',
-  styleUrl: './size-field.component.css'
+    selector: 'fig-size-field',
+    imports: [
+        MatIcon,
+        MatLabel,
+        MatInput,
+        MatTooltip,
+        MatFormField,
+        MatIconButton,
+        ReactiveFormsModule
+    ],
+    templateUrl: './size-field.component.html',
+    styleUrl: './size-field.component.css'
 })
 export class SizeFieldComponent implements OnInit {
 

@@ -7,18 +7,17 @@ import {StringField} from "../../../../models/fields/string.field";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 
 @Component({
-  selector: 'fig-string-field',
-  standalone: true,
-  imports: [
-    MatInput,
-    MatLabel,
-    MatPrefix,
-    MatFormField,
-    ReactiveFormsModule,
-    CdkTextareaAutosize
-  ],
-  templateUrl: './string-field.component.html',
-  styleUrl: './string-field.component.css'
+    selector: 'fig-string-field',
+    imports: [
+        MatInput,
+        MatLabel,
+        MatPrefix,
+        MatFormField,
+        ReactiveFormsModule,
+        CdkTextareaAutosize
+    ],
+    templateUrl: './string-field.component.html',
+    styleUrl: './string-field.component.css'
 })
 export class StringFieldComponent extends AbstractFieldComponent<StringField, string> {
 

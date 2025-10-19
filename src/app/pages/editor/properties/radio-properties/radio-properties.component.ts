@@ -5,14 +5,13 @@ import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.co
 import {StringFieldComponent} from "../../fields/string-field/string-field.component";
 
 @Component({
-  selector: 'fig-radio-properties',
-  standalone: true,
-  imports: [
-    StringFieldComponent,
-    IntegerFieldComponent
-  ],
-  templateUrl: './radio-properties.component.html',
-  styleUrl: './radio-properties.component.css'
+    selector: 'fig-radio-properties',
+    imports: [
+        StringFieldComponent,
+        IntegerFieldComponent
+    ],
+    templateUrl: './radio-properties.component.html',
+    styleUrl: './radio-properties.component.css'
 })
 export class RadioPropertiesComponent extends AbstractPropertiesComponent<FIGRadioWidget> {
 

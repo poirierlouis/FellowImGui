@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-10-19
+### Changed
+- dark theme based on Material Design 3
+- how widgets and properties are handled internally
+
 ------------------------
 
 ## [0.1.6] - 2025-02-16

@@ -5,14 +5,13 @@ import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 import {StringFieldComponent} from "../../fields/string-field/string-field.component";
 
 @Component({
-  selector: 'fig-checkbox-properties',
-  standalone: true,
-  imports: [
-    BoolFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './checkbox-properties.component.html',
-  styleUrl: './checkbox-properties.component.css'
+    selector: 'fig-checkbox-properties',
+    imports: [
+        BoolFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './checkbox-properties.component.html',
+    styleUrl: './checkbox-properties.component.css'
 })
 export class CheckboxPropertiesComponent extends AbstractPropertiesComponent<FIGCheckboxWidget> {
 

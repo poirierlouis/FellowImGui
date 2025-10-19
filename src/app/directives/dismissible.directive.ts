@@ -4,7 +4,7 @@ import {
   ElementRef,
   EmbeddedViewRef,
   EventEmitter,
-  HostListener,
+  HostListener, inject,
   Input,
   OnDestroy,
   Output,
@@ -64,6 +64,11 @@ export class DismissibleRef {
   standalone: true
 })
 export class DismissibleDirective implements AfterViewInit, OnDestroy {
+  private readonly el = inject(ElementRef);
+  private readonly containerRef = inject(ViewContainerRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly builder = inject(AnimationBuilder);
+
   @Input('figDismissibleBackground')
   background?: TemplateRef<any>;
 
@@ -92,10 +97,7 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
 
   private readonly confirmedS: Subscription;
 
-  constructor(private el: ElementRef,
-              private containerRef: ViewContainerRef,
-              private renderer: Renderer2,
-              private builder: AnimationBuilder) {
+  constructor() {
     this.confirmedS = this.hasConfirmed$.subscribe(this.onDismissResponse.bind(this));
   }
 
@@ -105,7 +107,11 @@ export class DismissibleDirective implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.$el = this.el.nativeElement;
-    this.$parent = this.el.nativeElement.parentElement!;
+    this.$parent = this.el.nativeElement.parentElement;
+    if (this.$parent === null) {
+      return;
+    }
+
     this.renderer.setStyle(this.$parent, 'overflow-x', 'hidden');
   }
 

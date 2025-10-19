@@ -41,6 +41,7 @@
 
   & .actions {
     display: flex;
+    align-items: center;
   }
 }
 
@@ -73,7 +74,7 @@
 
   & mat-tab-group {
     box-sizing: border-box;
-    border-top: 1px solid var(--mat-divider-color);
+    border-top: 1px solid var(--mat-divider-color, var(--mat-sys-outline-variant));
   }
 
   & fig-tree {
@@ -86,13 +87,13 @@
     padding-left: 3px;
 
     box-sizing: border-box;
-    border-top: 1px solid var(--mat-divider-color);
+    border-top: 1px solid var(--mat-divider-color, var(--mat-sys-outline-variant));
   }
 
   & fig-canvas {
     box-sizing: border-box;
     background-color: #738c99;
-    border-top: 1px solid #494949;
+    border-top: 1px solid var(--mat-divider-color, var(--mat-sys-outline-variant));
   }
 
   & fig-properties {
@@ -100,7 +101,7 @@
     width: 360px;
 
     box-sizing: border-box;
-    border-top: 1px solid var(--mat-divider-color);
-    border-left: 1px solid var(--mat-divider-color);
+    border-top: 1px solid var(--mat-divider-color, var(--mat-sys-outline-variant));
+    border-left: 1px solid var(--mat-divider-color, var(--mat-sys-outline-variant));
   }
 }

@@ -7,16 +7,15 @@ import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.co
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-input-text-properties',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FlagsFieldComponent,
-    StringFieldComponent,
-    IntegerFieldComponent
-  ],
-  templateUrl: './input-text-properties.component.html',
-  styleUrl: './input-text-properties.component.css'
+    selector: 'fig-input-text-properties',
+    imports: [
+        ReactiveFormsModule,
+        FlagsFieldComponent,
+        StringFieldComponent,
+        IntegerFieldComponent
+    ],
+    templateUrl: './input-text-properties.component.html',
+    styleUrl: './input-text-properties.component.css'
 })
 export class InputTextPropertiesComponent extends AbstractPropertiesComponent<FIGInputTextWidget> {
 

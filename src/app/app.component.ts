@@ -1,24 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {Component, inject, OnInit} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {MatToolbar} from "@angular/material/toolbar";
 import {IconService} from "./services/icon.service";
 import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatIconButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatChip} from "@angular/material/chips";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
-  selector: 'fig-app',
-  standalone: true,
-  imports: [RouterOutlet, MatToolbar, MatIcon, MatIconButton, RouterLink, MatTooltip, MatChip, MatButton],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'fig-app',
+  imports: [RouterOutlet, MatToolbar, MatIcon, MatIconButton, MatTooltip, MatChip, NgOptimizedImage],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 
-  constructor(private readonly iconService: IconService,
-              private readonly toast: MatSnackBar) {
+  private readonly iconService = inject(IconService);
+  private readonly toast = inject(MatSnackBar);
+
+  constructor() {
     this.iconService.load();
   }
 

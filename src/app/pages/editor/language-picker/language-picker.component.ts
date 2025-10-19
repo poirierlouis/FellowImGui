@@ -13,18 +13,17 @@ interface LanguageItem {
 }
 
 @Component({
-  selector: 'fig-language-picker',
-  standalone: true,
-  imports: [
-    MatIcon,
-    MatIconButton,
-    MatMenu,
-    MatMenuItem,
-    MatMenuTrigger,
-    MatTooltip
-  ],
-  templateUrl: './language-picker.component.html',
-  styleUrl: './language-picker.component.css'
+    selector: 'fig-language-picker',
+    imports: [
+        MatIcon,
+        MatIconButton,
+        MatMenu,
+        MatMenuItem,
+        MatMenuTrigger,
+        MatTooltip
+    ],
+    templateUrl: './language-picker.component.html',
+    styleUrl: './language-picker.component.css'
 })
 export class LanguagePickerComponent {
 

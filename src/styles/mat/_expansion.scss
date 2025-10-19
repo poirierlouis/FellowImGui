@@ -1,14 +1,9 @@
-@mixin expansion-theme($theme) {
-  .mat-expansion-panel {
-    box-shadow: none!important;
+@use '@angular/material' as mat;
 
-    & .mat-expansion-panel-body {
-      padding-left: 12px;
-      padding-right: 12px;
-    }
-  }
-}
+mat-expansion-panel {
+  @include mat.expansion-overrides((
+    container-background-color: var(--mat-sys-surface-container-high)
+  ));
 
-@mixin expansion-color($theme) {
-
+  box-shadow: none!important;
 }

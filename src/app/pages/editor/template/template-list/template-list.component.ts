@@ -13,7 +13,6 @@ import {AsyncPipe} from "@angular/common";
 import {DismissibleDirective} from "../../../../directives/dismissible.directive";
 import {MatIcon} from "@angular/material/icon";
 import {
-  MatActionList,
   MatList,
   MatListItem,
   MatListItemLine,
@@ -41,24 +40,22 @@ interface TemplateItem {
 }
 
 @Component({
-  selector: 'fig-template-list',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatIcon,
-    MatIconButton,
-    MatButton,
-    MatList,
-    MatListItem,
-    MatListItemLine,
-    MatListItemTitle,
-    MatListItemMeta,
-    DismissibleDirective,
-    MatActionList,
-    MatTooltip
-  ],
-  templateUrl: './template-list.component.html',
-  styleUrl: './template-list.component.css'
+    selector: 'fig-template-list',
+    imports: [
+        AsyncPipe,
+        MatIcon,
+        MatIconButton,
+        MatButton,
+        MatList,
+        MatListItem,
+        MatListItemLine,
+        MatListItemTitle,
+        MatListItemMeta,
+        DismissibleDirective,
+        MatTooltip
+    ],
+    templateUrl: './template-list.component.html',
+    styleUrl: './template-list.component.css'
 })
 export class TemplateListComponent implements OnDestroy {
 

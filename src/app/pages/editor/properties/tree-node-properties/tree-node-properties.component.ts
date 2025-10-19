@@ -5,14 +5,13 @@ import {StringFieldComponent} from "../../fields/string-field/string-field.compo
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-tree-node-properties',
-  standalone: true,
-  imports: [
-    FlagsFieldComponent,
-    StringFieldComponent
-  ],
-  templateUrl: './tree-node-properties.component.html',
-  styleUrl: './tree-node-properties.component.css'
+    selector: 'fig-tree-node-properties',
+    imports: [
+        FlagsFieldComponent,
+        StringFieldComponent
+    ],
+    templateUrl: './tree-node-properties.component.html',
+    styleUrl: './tree-node-properties.component.css'
 })
 export class TreeNodePropertiesComponent extends AbstractPropertiesComponent<FIGTreeNodeWidget> {
 

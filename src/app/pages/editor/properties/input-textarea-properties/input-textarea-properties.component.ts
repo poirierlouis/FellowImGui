@@ -7,16 +7,15 @@ import {IntegerFieldComponent} from "../../fields/integer-field/integer-field.co
 import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
 
 @Component({
-  selector: 'fig-input-textarea-properties',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FlagsFieldComponent,
-    StringFieldComponent,
-    IntegerFieldComponent
-  ],
-  templateUrl: './input-textarea-properties.component.html',
-  styleUrl: './input-textarea-properties.component.css'
+    selector: 'fig-input-textarea-properties',
+    imports: [
+        ReactiveFormsModule,
+        FlagsFieldComponent,
+        StringFieldComponent,
+        IntegerFieldComponent
+    ],
+    templateUrl: './input-textarea-properties.component.html',
+    styleUrl: './input-textarea-properties.component.css'
 })
 export class InputTextareaPropertiesComponent extends AbstractPropertiesComponent<FIGInputTextareaWidget> {
 
