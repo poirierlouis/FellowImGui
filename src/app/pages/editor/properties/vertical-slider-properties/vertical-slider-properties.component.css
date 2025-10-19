@@ -1,0 +1,4 @@
+.row fig-number-field,
+.row fig-string-field {
+  width: calc(50% - 6px);
+}

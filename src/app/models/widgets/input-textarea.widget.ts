@@ -1,6 +1,6 @@
 import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGInputTextFlags} from "./input-text.widget";
+import {FIGInputTextFlags, FIGInputTextFlagsOptions} from "./input-text.widget";
 import {Vector2} from "../math";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
 
@@ -22,21 +22,21 @@ export class FIGInputTextareaWidget extends FIGWithTooltip {
     {name: 'flags', optional: true, default: 0}
   ];
 
-  label: string;
-  value: string;
-  linesSize: number;
-  bufferSize: number;
-  flags: number;
+  label: string = '##InputTextMultiline';
+  value: string = '';
+  linesSize: number = 6;
+  bufferSize: number = 256;
+  flags: number = 0;
 
   constructor(options?: FIGInputTextareaOptions) {
     super(FIGWidgetType.inputTextarea, true);
-    this.label = options?.label ?? '##InputTextMultiline';
-    this.value = options?.value ?? '';
-    this.tooltip = options?.tooltip;
-    this.linesSize = options?.linesSize ?? 6;
-    this.bufferSize = options?.bufferSize ?? 256;
+    this.registerString('label', 'Label', options?.label ?? '##InputTextMultiline');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerString('value', 'Value', options?.value, true, '');
+    this.registerInteger('linesSize', 'Height in lines', options?.linesSize, true, 6);
+    this.registerInteger('bufferSize', 'Buffer size', options?.bufferSize, true, 256);
+    this.registerFlags('flags', 'Flags', FIGInputTextFlagsOptions, options?.flags, true, 0);
     this.bufferSize = Math.max(this.value.length, this.bufferSize);
-    this.flags = options?.flags ?? 0;
   }
 
   public get name(): string {
@@ -45,16 +45,13 @@ export class FIGInputTextareaWidget extends FIGWithTooltip {
 
   public override draw(): void {
     const access = (_ = this.value) => this.value = _;
-    const prevValue = this.value;
     const size: Vector2 = {x: -1, y: ImGui.GetTextLineHeight() * this.linesSize};
 
     ImGui.InputTextMultiline(this.label, access, this.bufferSize, size, this.flags);
+    this.bufferSize = Math.max(this.value.length, this.bufferSize);
+
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();
-    if (prevValue !== this.value) {
-      this.bufferSize = Math.max(this.value.length, this.bufferSize);
-      this.triggerUpdate();
-    }
   }
 }

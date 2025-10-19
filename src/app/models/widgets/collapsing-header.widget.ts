@@ -1,6 +1,7 @@
 import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FIGTreeNodeFlagsOptions} from "./tree-node.widget";
 
 export interface FIGCollapsingHeaderOptions {
   readonly label?: string;
@@ -13,13 +14,13 @@ export class FIGCollapsingHeaderWidget extends FIGContainer {
     {name: 'flags', optional: true, default: 0},
   ];
 
-  label: string;
-  flags: number;
+  label: string = 'Header';
+  flags: number = 0;
 
   constructor(options?: FIGCollapsingHeaderOptions) {
     super(FIGWidgetType.collapsingHeader, true);
-    this.label = options?.label ?? 'Header';
-    this.flags = options?.flags ?? 0;
+    this.registerString('label', 'Label', options?.label ?? 'Header');
+    this.registerFlags('flags', 'Flags', FIGTreeNodeFlagsOptions, options?.flags, true, 0);
     this._focusOffset.x = 0;
   }
 

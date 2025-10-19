@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {Vector2} from "../math";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {EnumOption} from "../fields/enum.field";
 
 export enum FIGDir {
   left,
@@ -10,6 +11,14 @@ export enum FIGDir {
   down,
   none = -1
 }
+
+export const FIGDirOptions: EnumOption[] = [
+  {value: FIGDir.none, label: 'None'},
+  {value: FIGDir.left, label: 'Left'},
+  {value: FIGDir.right, label: 'Right'},
+  {value: FIGDir.up, label: 'Up'},
+  {value: FIGDir.down, label: 'Down'},
+];
 
 export interface FIGButtonOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -27,18 +36,18 @@ export class FIGButtonWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined},
   ];
 
-  label: string;
-  isFill: boolean;
-  isSmall: boolean;
-  arrow: FIGDir;
+  label: string = 'Button';
+  isFill: boolean = false;
+  isSmall: boolean = false;
+  arrow: FIGDir = FIGDir.none;
 
   constructor(options?: FIGButtonOptions) {
     super(FIGWidgetType.button, true);
-    this.label = options?.label ?? 'Button';
-    this.isFill = options?.isFill ?? false;
-    this.isSmall = options?.isSmall ?? false;
-    this.arrow = options?.arrow ?? FIGDir.none;
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'Button');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerBool('isFill', 'Fill', options?.isFill, true, false);
+    this.registerBool('isSmall', 'Small', options?.isSmall, true, false);
+    this.registerEnum('arrow', 'Arrow', FIGDirOptions, options?.arrow, true, FIGDir.none);
   }
 
   public get name(): string {

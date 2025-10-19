@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>{{ field.label }}</mat-label>
+  <mat-select multiple [formControl]="form">
+    @for (flag of flags; track flag.value) {
+      <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

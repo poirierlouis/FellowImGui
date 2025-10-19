@@ -1,31 +1,12 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()"></fig-string-field>
 
-  <mat-form-field>
-    <mat-label>Shortcut</mat-label>
-    <input matInput
-           type="text"
-           formControlName="shortcut" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('shortcut')"></fig-string-field>
 
-  <div class="mat-form-field">
-    <mat-label>Is selectable</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isSelectable"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('enabled')"></fig-bool-field>
 
-  <div class="mat-form-field">
-    <mat-label>Is selected</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isSelected"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isSelectable')"></fig-bool-field>
 
-  <div class="mat-form-field">
-    <mat-label>Enabled</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="enabled"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isSelected')"></fig-bool-field>
 </form>

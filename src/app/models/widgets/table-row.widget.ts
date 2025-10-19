@@ -18,14 +18,16 @@ export class FIGTableRowWidget extends FIGContainer {
     {name: 'header', optional: true, default: false}
   ];
 
-  header: boolean;
+  header: boolean = false;
 
   constructor(options?: FIGTableRowOptions) {
     super(FIGWidgetType.tableRow, true);
-    this.header = options?.header ?? false;
+    this.registerBool('header', 'Header', options?.header, true, false);
   }
 
-  public readonly name = 'Table Row';
+  public get name(): string {
+    return `Table ${this.header ? 'Header' : 'Row'}`;
+  }
 
   public override isChildAccepted(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.tableColumn;

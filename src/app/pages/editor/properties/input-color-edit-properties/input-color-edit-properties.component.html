@@ -1,39 +1,13 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput
-           type="text"
-           formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <div class="mat-form-field">
-    <mat-label>Color</mat-label>
-    <ngx-colors formControlName="color"
-                ngx-colors-trigger
-                format="rgba"
-                [palette]="[]"
-                (open)="onColorPickerOpened()"></ngx-colors>
-  </div>
+  <!-- TODO: should be removed to keep default color tooltip -->
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <div class="mat-form-field">
-    <mat-label>Alpha channel</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="withAlpha"></mat-slide-toggle>
-  </div>
+  <fig-color-field [field]="getField('color')" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-bool-field [field]="getField('withAlpha')" />
 
-  <mat-form-field>
-    <mat-label>Flags</mat-label>
-    <mat-select multiple formControlName="flags">
-      @for (flag of flags; track flag.value) {
-        <mat-option [value]="flag.value">{{ flag.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+  <fig-flags-field [field]="getField('flags')" />
 </form>

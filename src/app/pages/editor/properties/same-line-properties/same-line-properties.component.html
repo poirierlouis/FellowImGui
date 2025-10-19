@@ -1,13 +1,7 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Offset from start</mat-label>
-    <input matInput type="number" formControlName="offsetFromStart" />
-  </mat-form-field>
+<form>
+  <fig-integer-field [field]="getField('offsetFromStart')"
+                     step="1"></fig-integer-field>
 
-  <mat-form-field>
-    <mat-label>Spacing</mat-label>
-    <input matInput
-           type="number"
-           formControlName="spacing" />
-  </mat-form-field>
+  <fig-integer-field [field]="getField('spacing')"
+                     step="1"></fig-integer-field>
 </form>

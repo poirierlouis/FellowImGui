@@ -1,0 +1,17 @@
+<mat-form-field>
+  <mat-label>{{field.label}}</mat-label>
+  @if (prefix) {
+    <span class="prefix"
+          matPrefix>{{prefix}}</span>
+  }
+  @if (!textarea) {
+    <input matInput
+           type="text"
+           [formControl]="form"
+           [readonly]="readonly"/>
+  } @else {
+    <textarea matInput
+              [formControl]="form"
+              cdkTextareaAutosize></textarea>
+  }
+</mat-form-field>

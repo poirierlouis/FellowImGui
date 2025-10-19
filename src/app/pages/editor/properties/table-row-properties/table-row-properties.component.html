@@ -1,10 +1,8 @@
-<form [formGroup]="form">
-  <div class="mat-form-field">
-    <mat-label>Header</mat-label>
-    <mat-slide-toggle color="primary" formControlName="header"></mat-slide-toggle>
-  </div>
+<form>
+  <fig-bool-field [field]="getField('header')"
+                  (update)="updateWidget()"></fig-bool-field>
 
-  @if (this.getProperty('header')) {
+  @if (this.widget.header) {
     <p class="message info">
       Define a Text widget per Table Column to use it as a header title.
       The first Text widget found in Table Column will be used.

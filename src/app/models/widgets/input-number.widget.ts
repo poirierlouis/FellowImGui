@@ -2,6 +2,7 @@ import {FIGWidgetType} from "./widget";
 import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 import {getPrecision} from "../string";
 import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {EnumOption, EnumOptionDivider} from "../fields/enum.field";
 
 export enum FIGInputNumberType {
   int,
@@ -17,18 +18,28 @@ export enum FIGInputNumberType {
   double
 }
 
+export const FIGInputNumberTypeOptions: EnumOption[] = [
+  {value: FIGInputNumberType.int, label: 'Int'},
+  {value: FIGInputNumberType.int2, label: 'Int2'},
+  {value: FIGInputNumberType.int3, label: 'Int3'},
+  {value: FIGInputNumberType.int4, label: 'Int4'},
+  EnumOptionDivider(-1),
+  {value: FIGInputNumberType.float, label: 'Float'},
+  {value: FIGInputNumberType.float2, label: 'Float2'},
+  {value: FIGInputNumberType.float3, label: 'Float3'},
+  {value: FIGInputNumberType.float4, label: 'Float4'},
+  EnumOptionDivider(-2),
+  {value: FIGInputNumberType.double, label: 'Double'},
+];
+
+
 export interface FIGInputNumberOptions extends FIGTooltipOption {
   readonly label?: string;
-  readonly value?: number | number[];
+  readonly value?: number[];
   readonly step?: number;
   readonly stepFast?: number;
   readonly format?: string;
   readonly dataType?: FIGInputNumberType;
-}
-
-interface DrawItem {
-  readonly fn: (...args: any[]) => any;
-  readonly args: (self: FIGInputNumberWidget) => any[];
 }
 
 export class FIGInputNumberWidget extends FIGWithTooltip {
@@ -42,45 +53,49 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     {name: 'tooltip', optional: true, default: undefined}
   ];
 
-  private static readonly drawers: DrawItem[] = [
-    {
-      fn: ImGui.InputInt,
-      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast]
-    },
-    {fn: ImGui.InputInt2, args: (self: FIGInputNumberWidget) => [self.value]},
-    {fn: ImGui.InputInt3, args: (self: FIGInputNumberWidget) => [self.value]},
-    {fn: ImGui.InputInt4, args: (self: FIGInputNumberWidget) => [self.value]},
+  private static readonly drawers = {
+    [FIGInputNumberType.int]: ImGui.InputInt,
+    [FIGInputNumberType.int2]: ImGui.InputInt2,
+    [FIGInputNumberType.int3]: ImGui.InputInt3,
+    [FIGInputNumberType.int4]: ImGui.InputInt4,
 
-    {
-      fn: ImGui.InputFloat,
-      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast, self.format]
-    },
-    {fn: ImGui.InputFloat2, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
-    {fn: ImGui.InputFloat3, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
-    {fn: ImGui.InputFloat4, args: (self: FIGInputNumberWidget) => [self.value, self.format]},
+    [FIGInputNumberType.float]: ImGui.InputFloat,
+    [FIGInputNumberType.float2]: ImGui.InputFloat2,
+    [FIGInputNumberType.float3]: ImGui.InputFloat3,
+    [FIGInputNumberType.float4]: ImGui.InputFloat4,
 
-    {
-      fn: ImGui.InputDouble,
-      args: (self: FIGInputNumberWidget) => [(_ = self.value) => self.value = _, self.step, self.stepFast, self.format]
-    }
-  ];
+    [FIGInputNumberType.double]: ImGui.InputDouble,
+  };
 
-  label: string;
-  dataType: FIGInputNumberType;
-  value: number | number[];
-  step: number;
-  stepFast: number;
-  format: string;
+  label: string = 'Input Number';
+  dataType: FIGInputNumberType = FIGInputNumberType.int;
+  value: number[] = [0, 0, 0, 0];
+  step: number = 1;
+  stepFast: number = 10;
+  format: string = '%.3f';
 
   constructor(options?: FIGInputNumberOptions) {
     super(FIGWidgetType.inputNumber, true);
-    this.label = options?.label ?? 'Input Number';
-    this.dataType = options?.dataType ?? FIGInputNumberType.int;
-    this.value = options?.value ?? 0;
-    this.step = options?.step ?? (FIGInputNumberWidget.isInteger(this.dataType) ? 1 : 0.01);
-    this.stepFast = options?.stepFast ?? (FIGInputNumberWidget.isInteger(this.dataType) ? 10 : 1);
-    this.format = options?.format ?? (this.dataType === FIGInputNumberType.double ? '%.8f' : '%.3f');
-    this.tooltip = options?.tooltip;
+    this.registerString('label', 'Label', options?.label ?? 'Input Number');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerEnum('dataType', 'Data type', FIGInputNumberTypeOptions, options?.dataType, true, FIGInputNumberType.int);
+    this.registerNumber4('value', 'Value', options?.value, true, [0, 0, 0, 0]);
+
+    let defaultFormat: string = '%d';
+    let defaultStep: number = 1;
+    let defaultStepFast: number = 10;
+    if (this.dataType === FIGInputNumberType.int) {
+      defaultFormat = '%.3f';
+      defaultStep = 0.001;
+      defaultStepFast = 0.010;
+    } else if (this.dataType === FIGInputNumberType.double) {
+      defaultFormat = '%.8f';
+      defaultStep = 0.00000001;
+      defaultStepFast = 0.00000010;
+    }
+    this.registerNumber('step', 'Step', options?.step, true, defaultStep);
+    this.registerNumber('stepFast', 'Step fast', options?.stepFast, true, defaultStepFast);
+    this.registerString('format', 'Format', options?.format, true, defaultFormat);
   }
 
   public get name(): string {
@@ -104,7 +119,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     } else if (dataType === FIGInputNumberType.int4 || dataType === FIGInputNumberType.float4) {
       return 4;
     }
-    return 0;
+    return 1;
   }
 
   public static getPrecision(widget: FIGInputNumberWidget): number | undefined {
@@ -114,31 +129,55 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     return getPrecision(widget.format);
   }
 
-  public override draw(): void {
-    const prevValue: number | number[] = (this.value instanceof Array) ? [...this.value] : this.value;
-    const drawer: DrawItem = FIGInputNumberWidget.drawers[this.dataType];
-    const args: any[] = [this.label];
+  public static resize(self: FIGInputNumberWidget): number[] {
+    const size: number = FIGInputNumberWidget.getArraySize(self.dataType);
 
-    args.push(...drawer.args(this));
-    drawer.fn(...args);
-    if (this.diffValues(this.value, prevValue)) {
-      this.triggerUpdate();
+    if (size === 1) {
+      return [self.value[0]];
+    } else if (size === 2) {
+      return [self.value[0], self.value[1]];
+    } else if (size === 3) {
+      return [self.value[0], self.value[1], self.value[2]];
     }
+    return [self.value[0], self.value[1], self.value[2], self.value[3]];
+  }
+
+  public static roundValues(values: number[], precision: number): void {
+    for (let i: number = 0; i < values.length; i++) {
+      const round: number = Math.pow(10, precision);
+      values[i] = Math.round(values[i] * round) / round;
+    }
+  }
+
+  public override draw(): void {
+    const values: number[] = FIGInputNumberWidget.resize(this);
+    const fn: (...args: unknown[]) => void = FIGInputNumberWidget.drawers[this.dataType];
+    const args: unknown[] = [this.label];
+    const isFloat = !FIGInputNumberWidget.isInteger(this.dataType);
+
+    if (FIGInputNumberWidget.getArraySize(this.dataType) === 1) {
+      args.push((_ = values[0]) => values[0] = _);
+      args.push(this.step, this.stepFast);
+    } else {
+      args.push(values);
+    }
+    if (isFloat) {
+      args.push(this.format);
+    }
+
+    fn(...args);
+
+    while (values.length < 4) {
+      values.push(0);
+    }
+    if (isFloat) {
+      FIGInputNumberWidget.roundValues(values, getPrecision(this.format) ?? 1);
+    }
+    this.value = values;
+
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();
-  }
-
-  private diffValues(values: number | number[], prevValues: number | number[]): boolean {
-    if (values instanceof Array && prevValues instanceof Array) {
-      for (let i: number = 0; i < values.length; i++) {
-        if (values[i] !== prevValues[i]) {
-          return true;
-        }
-      }
-      return false;
-    }
-    return values !== prevValues;
   }
 
 }

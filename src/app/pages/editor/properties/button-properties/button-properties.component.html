@@ -1,36 +1,12 @@
-<form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Label</mat-label>
-    <input matInput type="text" formControlName="label" />
-  </mat-form-field>
+<form>
+  <fig-string-field [field]="getField('label')"
+                    (update)="updateWidget()" />
 
-  <mat-form-field>
-    <mat-label>Tooltip</mat-label>
-    <input matInput
-           type="text"
-           formControlName="tooltip" />
-  </mat-form-field>
+  <fig-string-field [field]="getField('tooltip')" />
 
-  <div class="mat-form-field">
-    <mat-label>Fill</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isFill"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isFill')" />
 
-  <div class="mat-form-field">
-    <mat-label>Small</mat-label>
-    <mat-slide-toggle color="primary"
-                      formControlName="isSmall"></mat-slide-toggle>
-  </div>
+  <fig-bool-field [field]="getField('isSmall')" />
 
-  <mat-form-field>
-    <mat-label>Arrow</mat-label>
-    <mat-select formControlName="arrow">
-      <mat-option [value]="FIGArrowDirection.none">None</mat-option>
-      <mat-option [value]="FIGArrowDirection.left">Left</mat-option>
-      <mat-option [value]="FIGArrowDirection.right">Right</mat-option>
-      <mat-option [value]="FIGArrowDirection.up">Up</mat-option>
-      <mat-option [value]="FIGArrowDirection.down">Down</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <fig-enum-field [field]="getField('arrow')" />
 </form>

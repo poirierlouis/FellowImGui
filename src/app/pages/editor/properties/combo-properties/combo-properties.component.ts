@@ -1,71 +1,44 @@
 import {Component, DestroyRef} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AbstractPropertiesComponent} from "../abstract-properties.component";
 import {FIGComboWidget} from "../../../../models/widgets/combo.widget";
-import {CdkTextareaAutosize} from "@angular/cdk/text-field";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {ArrayStringFieldComponent} from "../../fields/array-string-field/array-string-field.component";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'fig-combo-properties',
   standalone: true,
   imports: [
-    MatInput,
     MatLabel,
+    MatInput,
     MatFormField,
-    MatSlideToggle,
     ReactiveFormsModule,
-    CdkTextareaAutosize
+    StringFieldComponent,
+    ArrayStringFieldComponent
   ],
   templateUrl: './combo-properties.component.html',
   styleUrl: './combo-properties.component.css'
 })
 export class ComboPropertiesComponent extends AbstractPropertiesComponent<FIGComboWidget> {
 
-  override form: FormGroup = new FormGroup<any>({
-    label: new FormControl<string>(''),
-    tooltip: new FormControl<string | null>(null),
-    items: new FormControl<string | null>(null),
-    selectedItem: new FormControl<string>({value: '', disabled: true}),
-  });
+  selectedItem: FormControl<string | null> = new FormControl({value: '', disabled: true});
 
   constructor(dr: DestroyRef) {
     super(dr);
-    this.listenProperty('label').subscribe(this.onLabelChanged.bind(this));
-    this.listenProperty('tooltip').subscribe(this.onTooltipChanged.bind(this));
-    this.listenProperty('items', 300).subscribe(this.onItemsChanged.bind(this));
   }
 
-  protected override updateForm(): void {
-    this.setProperty('label', this.widget.label);
-    this.setProperty('tooltip', this.widget.tooltip ?? null);
-    this.setProperty('items', this.widget.items.join('\n'));
-    this.setProperty('selectedItem', this.widget.items[this.widget.selectedItem]);
+  protected override load() {
+    super.load();
+    this.onSelectedItemChanged(this.getField<number>('selectedItem').value ?? 0);
   }
 
-  private onLabelChanged(value: string): void {
-    this.widget.label = value;
-    this.update.emit();
-  }
+  private onSelectedItemChanged(item: number): void {
+    const items: string[] = this.getField<string[]>('items').value ?? [];
+    const selected: string = items[item];
 
-  private onTooltipChanged(value: string | null): void {
-    if (value && value.trim().length === 0) {
-      value = null;
-    }
-    this.widget.tooltip = value ?? undefined;
-    this.update.emit();
-  }
-
-  private onItemsChanged(value: string | null): void {
-    value ??= '';
-    const items: string[] = value!.split('\n');
-
-    this.widget.items.length = 0;
-    this.widget.items.push(...items);
-    this.widget.selectedItem = 0;
-    this.setProperty('selectedItem', this.widget.items[0]);
-    this.update.emit();
+    this.selectedItem.setValue(selected);
   }
 
 }

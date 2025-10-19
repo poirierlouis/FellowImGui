@@ -4,6 +4,11 @@
   gap: 12px;
 }
 
+.row fig-number-field,
+.row fig-string-field {
+  width: calc(50% - 6px);
+}
+
 .wrap {
   flex-flow: column;
 }

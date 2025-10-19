@@ -56,18 +56,19 @@ export class FIGRadioWidget extends FIGWithTooltip {
 
   private static readonly _accessors: FIGRadioAccessor[] = [];
 
-  groupId: string;
-  label: string;
+  groupId: string = 'RadioGroup';
+  label: string = 'Radio';
   index: number = 0;
 
   private _access?: FIGRadioAccessor;
 
   constructor(options?: FIGRadioOptions) {
     super(FIGWidgetType.radio, true);
-    this.groupId = options?.groupId ?? 'RadioGroup';
-    this.label = options?.label ?? 'Radio';
-    this.tooltip = options?.tooltip;
-    this.index = options?.index ?? 0;
+    this.registerString('groupId', 'Group ID', options?.groupId, true, 'RadioGroup');
+    this.registerString('label', 'Label', options?.label, true, 'Radio');
+    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerInteger('index', 'index', options?.index, true, 0);
+
   }
 
   public get name(): string {
