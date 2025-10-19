@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2025-10-19
 ### Changed
 - dark theme based on Material Design 3
-- how widgets and properties are handled internally
+- how widgets and properties are handled internally ([#47])
+
+[#47]: https://github.com/poirierlouis/FellowImGui/issues/47
 
 ------------------------
 
