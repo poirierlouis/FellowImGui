@@ -3,6 +3,10 @@
 
 fig-tree {
   mat-tree {
+    @include mat.tree-overrides((
+      container-background-color: var(--mat-sys-surface-container)
+    ));
+
     background-color: transparent;
 
     & .mat-tree-node {

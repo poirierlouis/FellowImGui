@@ -1,10 +1,8 @@
 // Angular Material custom styles and overrides
-@use './mat/chip';
 @use './mat/expansion';
 @use './mat/form-field';
 @use './mat/list';
 @use './mat/menu';
-@use './mat/toolbar';
 
 // Application custom styles
 @use './app/dismissible';
