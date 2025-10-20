@@ -1,21 +1,25 @@
-import {Component, ElementRef, HostListener, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
-import {FIGDocument} from "../../../models/document";
-import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
-import {FIGThemeColors} from "../../../models/document-config";
+/** biome-ignore-all lint/suspicious/noExplicitAny: need a better ImGui library with typing */
+import {Component, ElementRef, HostListener, Input, inject, type OnDestroy, Renderer2, ViewChild} from "@angular/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
-import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
-import {Color, Vector4} from "../../../models/math";
+import type {FIGDocument} from "../../../models/document";
+import {FIGCol, type FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
+import type {FIGThemeColors} from "../../../models/document-config";
+import {type FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
+import {type FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
+import type {Color, Vector4} from "../../../models/math";
 
 @Component({
-    selector: 'fig-canvas',
-    imports: [],
-    templateUrl: './canvas.component.html',
-    styleUrl: './canvas.component.css'
+  selector: "fig-canvas",
+  imports: [],
+  templateUrl: "./canvas.component.html",
+  styleUrl: "./canvas.component.css",
 })
 export class CanvasComponent implements OnDestroy {
+  private readonly el = inject(ElementRef);
+  private readonly toast = inject(MatSnackBar);
+  private readonly renderer = inject(Renderer2);
 
-  @ViewChild('imgui')
+  @ViewChild("imgui")
   canvas!: ElementRef;
 
   private isFirstLoad: boolean = true;
@@ -24,7 +28,7 @@ export class CanvasComponent implements OnDestroy {
 
   private isResizing: boolean = false;
   private hasFocus: boolean = false;
-  private lastFrame: any;
+  private lastFrame: unknown;
 
   private document!: FIGDocument;
   private fonts: FIGFont[] = FIGFontDefaults;
@@ -32,18 +36,13 @@ export class CanvasComponent implements OnDestroy {
   private currentTheme?: FIGThemeColors;
   private currentFont?: string;
 
-  constructor(private readonly el: ElementRef,
-              private readonly toast: MatSnackBar,
-              private readonly renderer: Renderer2) {
-  }
-
-  @Input('document')
+  @Input("document")
   set _document(value: FIGDocument) {
     this.document = value;
     this.requestRestart();
   }
 
-  @Input('isResizing')
+  @Input("isResizing")
   set _isResizing(value: boolean) {
     this.isResizing = value;
   }
@@ -56,29 +55,29 @@ export class CanvasComponent implements OnDestroy {
     return this.canvas.nativeElement;
   }
 
-  private get imguiFonts(): any[] {
+  private get imguiFonts(): unknown[] {
     const io = ImGui.GetIO();
-    const fonts: any[] = [];
+    const fonts: unknown[] = [];
 
     for (let i: number = 0; i < io.Fonts.Fonts.Size; i++) {
-      const font: any = io.Fonts.Fonts[i];
-
+      const font: unknown = io.Fonts.Fonts[i];
       fonts.push(font);
     }
+
     return fonts;
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(): void {
     this.resize();
   }
 
-  @HostListener('mouseenter')
+  @HostListener("mouseenter")
   onFocusEnter(): void {
     this.hasFocus = true;
   }
 
-  @HostListener('mouseleave')
+  @HostListener("mouseleave")
   onFocusLeave(): void {
     this.hasFocus = false;
   }
@@ -98,11 +97,11 @@ export class CanvasComponent implements OnDestroy {
     if (this.currentTheme === this.document.config.theme) {
       return;
     }
-    if (this.document.config.theme === 'dark') {
+    if (this.document.config.theme === "dark") {
       ImGui.StyleColorsDark();
-    } else if (this.document.config.theme === 'light') {
+    } else if (this.document.config.theme === "light") {
       ImGui.StyleColorsLight();
-    } else if (this.document.config.theme === 'classic') {
+    } else if (this.document.config.theme === "classic") {
       ImGui.StyleColorsClassic();
     }
     this.currentTheme = this.document.config.theme;
@@ -128,13 +127,13 @@ export class CanvasComponent implements OnDestroy {
     const style: any = ImGui.GetStyle();
 
     for (const property of FIGSizesSerializers) {
-      if (property.type === 'array' && sizes && sizes[property.name] !== undefined) {
+      if (property.type === "array" && sizes && sizes[property.name] !== undefined) {
         const propertyStyle: number[] = sizes[property.name] as number[];
 
         style[property.name].x = propertyStyle[0];
         style[property.name].y = propertyStyle[1];
       } else if (sizes?.[property.name] !== undefined) {
-        style[property.name] = sizes![property.name];
+        style[property.name] = sizes[property.name];
       }
     }
   }
@@ -144,7 +143,7 @@ export class CanvasComponent implements OnDestroy {
       return;
     }
     const imguiFontName: string = this.document.config.font ?? formatImGuiFontName(FIGFontDefaults[0]);
-    const imguiFont: any | undefined = this.imguiFonts.find((font: any) => font.GetDebugName() === imguiFontName);
+    const imguiFont: unknown | undefined = this.imguiFonts.find((font: any) => font.GetDebugName() === imguiFontName);
 
     if (imguiFont) {
       const io = ImGui.GetIO();
@@ -159,7 +158,7 @@ export class CanvasComponent implements OnDestroy {
       this.toast.open(`Could not find the font "${imguiFontName}".`);
       return;
     }
-    this.toast.open('ImGui restarts to load a new font...');
+    this.toast.open("ImGui restarts to load a new font...");
     this.requestRestart();
   }
 
@@ -238,7 +237,7 @@ export class CanvasComponent implements OnDestroy {
   }
 
   private render(timestamp: number): void {
-    let frame: any;
+    let frame: unknown;
 
     if (!this.isResizing) {
       ImGui_Impl.NewFrame(timestamp);
@@ -262,7 +261,7 @@ export class CanvasComponent implements OnDestroy {
       frame = this.lastFrame;
     }
     const gl = ImGui_Impl.gl;
-    const clearColor = new ImGui.ImVec4(0.45, 0.55, 0.60, 1.00);
+    const clearColor = new ImGui.ImVec4(0.45, 0.55, 0.6, 1.0);
 
     if (gl) {
       gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
@@ -277,10 +276,9 @@ export class CanvasComponent implements OnDestroy {
       }
       return;
     }
-    if (!this.hasFocus && document.body.style.cursor !== 'default') {
-      this.renderer.setStyle(document.body, 'cursor', 'default');
+    if (!this.hasFocus && document.body.style.cursor !== "default") {
+      this.renderer.setStyle(document.body, "cursor", "default");
     }
     requestAnimationFrame(this.render.bind(this));
   }
-
 }

@@ -5,7 +5,6 @@ export interface FIGTooltipOption {
 }
 
 export abstract class FIGWithTooltip extends FIGWidget {
-
   public tooltip?: string;
 
   protected drawTooltip(): void {
@@ -13,5 +12,4 @@ export abstract class FIGWithTooltip extends FIGWidget {
       ImGui.SetTooltip(this.tooltip);
     }
   }
-
 }

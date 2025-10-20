@@ -1,24 +1,14 @@
-import {Component, DestroyRef} from '@angular/core';
-import {AbstractFieldComponent} from "../abstract-field.component";
-import {BoolField} from "../../../../models/fields/bool.field";
+import {Component} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatLabel} from "@angular/material/form-field";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
+import type {BoolField} from "../../../../models/fields/bool.field";
+import {AbstractFieldComponent} from "../abstract-field.component";
 
 @Component({
-    selector: 'fig-bool-field',
-    imports: [
-        MatLabel,
-        MatSlideToggle,
-        ReactiveFormsModule
-    ],
-    templateUrl: './bool-field.component.html',
-    styleUrl: './bool-field.component.css'
+  selector: "fig-bool-field",
+  imports: [MatLabel, MatSlideToggle, ReactiveFormsModule],
+  templateUrl: "./bool-field.component.html",
+  styleUrl: "./bool-field.component.css",
 })
-export class BoolFieldComponent extends AbstractFieldComponent<BoolField, boolean> {
-
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
-
-}
+export class BoolFieldComponent extends AbstractFieldComponent<BoolField, boolean> {}

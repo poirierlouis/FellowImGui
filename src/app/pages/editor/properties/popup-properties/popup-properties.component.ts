@@ -1,32 +1,25 @@
-import {Component, DestroyRef} from '@angular/core';
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGPopupWidget} from "../../../../models/widgets/popup.widget";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {Component} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatLabel} from "@angular/material/form-field";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import type {FIGPopupWidget} from "../../../../models/widgets/popup.widget";
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-popup-properties',
-    imports: [
-        MatLabel,
-        MatSlideToggle,
-        BoolFieldComponent,
-        ReactiveFormsModule,
-        StringFieldComponent
-    ],
-    templateUrl: './popup-properties.component.html',
-    styleUrl: './popup-properties.component.css'
+  selector: "fig-popup-properties",
+  imports: [MatLabel, MatSlideToggle, BoolFieldComponent, ReactiveFormsModule, StringFieldComponent],
+  templateUrl: "./popup-properties.component.html",
+  styleUrl: "./popup-properties.component.css",
 })
 export class PopupPropertiesComponent extends AbstractPropertiesComponent<FIGPopupWidget> {
-
   readonly debug: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
 
-  constructor(dr: DestroyRef) {
-    super(dr);
-    this.debug.valueChanges.pipe(takeUntilDestroyed(dr)).subscribe(this.onDebug.bind(this));
+  constructor() {
+    super();
+    this.debug.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onDebug.bind(this));
   }
 
   protected override load(): void {
@@ -37,5 +30,4 @@ export class PopupPropertiesComponent extends AbstractPropertiesComponent<FIGPop
   private onDebug(value: boolean): void {
     this.widget.debug = value;
   }
-
 }

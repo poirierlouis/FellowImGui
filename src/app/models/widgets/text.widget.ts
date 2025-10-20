@@ -1,7 +1,7 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {Color} from "../math";
 import {FIGWidgetType} from "./widget";
-import {Color} from "../math";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGTextOptions extends FIGTooltipOption {
   readonly text?: string;
@@ -14,22 +14,22 @@ export interface FIGTextOptions extends FIGTooltipOption {
 
 export class FIGTextWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'text'},
+    {name: "text"},
     {
-      name: 'color',
+      name: "color",
       optional: true,
       default: undefined,
-      type: 'object',
-      innerType: [{name: 'r'}, {name: 'g'}, {name: 'b'}, {name: 'a'}]
+      type: "object",
+      innerType: [{name: "r"}, {name: "g"}, {name: "b"}, {name: "a"}],
     },
-    {name: 'isDisabled', optional: true, default: false},
-    {name: 'isWrapped', optional: true, default: false},
-    {name: 'hasBullet', optional: true, default: false},
-    {name: 'align', optional: true, default: false},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "isDisabled", optional: true, default: false},
+    {name: "isWrapped", optional: true, default: false},
+    {name: "hasBullet", optional: true, default: false},
+    {name: "align", optional: true, default: false},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
-  text: string = 'Text';
+  text: string = "Text";
   color?: Color;
   isDisabled: boolean = false;
   isWrapped: boolean = false;
@@ -38,13 +38,13 @@ export class FIGTextWidget extends FIGWithTooltip {
 
   constructor(options?: FIGTextOptions) {
     super(FIGWidgetType.text, true);
-    this.registerString('text', 'Text', options?.text ?? 'Text');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerColor('color', 'Color', options?.color, true);
-    this.registerBool('isDisabled', 'Disabled', options?.isDisabled, true, false);
-    this.registerBool('isWrapped', 'Wrapped', options?.isWrapped, true, false);
-    this.registerBool('hasBullet', 'Bullet', options?.hasBullet, true, false);
-    this.registerBool('align', 'Align to frame padding', options?.align, true, false);
+    this.registerString("text", "Text", options?.text ?? "Text");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerColor("color", "Color", options?.color, true);
+    this.registerBool("isDisabled", "Disabled", options?.isDisabled, true, false);
+    this.registerBool("isWrapped", "Wrapped", options?.isWrapped, true, false);
+    this.registerBool("hasBullet", "Bullet", options?.hasBullet, true, false);
+    this.registerBool("align", "Align to frame padding", options?.align, true, false);
   }
 
   public get name(): string {

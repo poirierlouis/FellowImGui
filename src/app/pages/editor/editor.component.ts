@@ -1,29 +1,38 @@
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {CanvasComponent} from "./canvas/canvas.component";
-import {TreeComponent} from "./tree/tree.component";
-import {FIGDocument} from "../../models/document";
-import {PropertiesComponent} from "./properties/properties.component";
-import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
-import {MatIcon} from "@angular/material/icon";
 import {AsyncPipe} from "@angular/common";
-import {MatTooltip} from "@angular/material/tooltip";
-import {FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
-import {MatDivider} from "@angular/material/divider";
-import {MatIconButton} from "@angular/material/button";
-import {FormatterService} from "../../services/formatter.service";
-import {DragDirective} from "../../directives/drag.directive";
-import {FIGEvent} from "../../models/events/event";
-import {DocumentService} from "../../services/document.service";
-import {FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../../parsers/document.reader";
-import {Observable, Subscription} from "rxjs";
-import {FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
+import {
+  Component,
+  type ElementRef,
+  HostListener,
+  inject,
+  type OnDestroy,
+  type OnInit,
+  Renderer2,
+  ViewChild,
+} from "@angular/core";
+import {MatIconButton} from "@angular/material/button";
+import {MatDivider} from "@angular/material/divider";
+import {MatIcon} from "@angular/material/icon";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {ConfigComponent} from "./config/config.component";
-import {FIGAction, FIGActionType} from "../../models/actions/action";
+import {MatTooltip} from "@angular/material/tooltip";
+import type {Observable, Subscription} from "rxjs";
+import {DragDirective} from "../../directives/drag.directive";
+import {type FIGAction, FIGActionType} from "../../models/actions/action";
 import {FIGShortcut} from "../../models/actions/shortcut";
+import {FIGDocument} from "../../models/document";
+import type {FIGEvent} from "../../models/events/event";
+import {type FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
+import {type FIGWidgetBuilder, FIGWidgetFactory} from "../../models/widgets/widget.factory";
+import {type FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../../parsers/document.reader";
+import {type FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../../parsers/document.writer";
+import {DocumentService} from "../../services/document.service";
+import {FormatterService} from "../../services/formatter.service";
+import {CanvasComponent} from "./canvas/canvas.component";
+import {ConfigComponent} from "./config/config.component";
 import {LanguagePickerComponent} from "./language-picker/language-picker.component";
+import {PropertiesComponent} from "./properties/properties.component";
+import {TreeComponent} from "./tree/tree.component";
 
 interface FIGWidgetBuilderCategory {
   readonly title: string;
@@ -31,28 +40,33 @@ interface FIGWidgetBuilderCategory {
 }
 
 @Component({
-    selector: 'fig-editor',
-    imports: [
-        AsyncPipe,
-        MatIcon,
-        MatTooltip,
-        MatDivider,
-        MatIconButton,
-        MatTab,
-        MatTabGroup,
-        DragDirective,
-        TreeComponent,
-        ConfigComponent,
-        CanvasComponent,
-        PropertiesComponent,
-        LanguagePickerComponent,
-    ],
-    templateUrl: './editor.component.html',
-    styleUrl: './editor.component.css'
+  selector: "fig-editor",
+  imports: [
+    AsyncPipe,
+    MatIcon,
+    MatTooltip,
+    MatDivider,
+    MatIconButton,
+    MatTab,
+    MatTabGroup,
+    DragDirective,
+    TreeComponent,
+    ConfigComponent,
+    CanvasComponent,
+    PropertiesComponent,
+    LanguagePickerComponent,
+  ],
+  templateUrl: "./editor.component.html",
+  styleUrl: "./editor.component.css",
 })
 export class EditorComponent implements OnInit, OnDestroy {
+  private readonly formatterService = inject(FormatterService);
+  private readonly documentService = inject(DocumentService);
+  private readonly toast = inject(MatSnackBar);
+  private readonly http = inject(HttpClient);
+  private readonly renderer = inject(Renderer2);
 
-  @ViewChild('openPicker')
+  @ViewChild("openPicker")
   openPicker!: ElementRef;
 
   @ViewChild(MatTabGroup)
@@ -67,15 +81,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   document?: FIGDocument;
   selectedWidget?: FIGWidget;
 
-  tabsWidth: string = '360px';
-  canvasWidth: string = 'calc(100% - (360px + 4px + 360px))';
+  tabsWidth: string = "360px";
+  canvasWidth: string = "calc(100% - (360px + 4px + 360px))";
   isSliding: boolean = false;
 
   protected readonly categories: FIGWidgetBuilderCategory[] = [
-    {title: 'Layouts', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.dummy)},
-    {title: 'Basics', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.separator, FIGWidgetType.menuItem)},
-    {title: 'Forms / Inputs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label, FIGWidgetType.combo)},
-    {title: 'Blocs', builders: FIGWidgetFactory.filterBetween(FIGWidgetType.blocFor)},
+    {title: "Layouts", builders: FIGWidgetFactory.filterBetween(FIGWidgetType.window, FIGWidgetType.dummy)},
+    {title: "Basics", builders: FIGWidgetFactory.filterBetween(FIGWidgetType.separator, FIGWidgetType.menuItem)},
+    {title: "Forms / Inputs", builders: FIGWidgetFactory.filterBetween(FIGWidgetType.label, FIGWidgetType.combo)},
+    {title: "Blocs", builders: FIGWidgetFactory.filterBetween(FIGWidgetType.blocFor)},
   ];
   protected readonly FIGWidgetType = FIGWidgetType;
 
@@ -85,13 +99,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   private requestS?: Subscription;
 
   private shortcut: FIGShortcut = new FIGShortcut();
-
-  constructor(private readonly formatterService: FormatterService,
-              private readonly documentService: DocumentService,
-              private readonly toast: MatSnackBar,
-              private readonly http: HttpClient,
-              private readonly renderer: Renderer2) {
-  }
 
   ngOnInit(): void {
     this.loadDemo();
@@ -130,14 +137,13 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   public async open(event: Event): Promise<void> {
     // @ts-expect-error event file type not defined
-    const files: FileList = event.target!.files;
-
-    if (files.length !== 1) {
+    const files: FileList | undefined = event.target?.files;
+    if (!files || files.length !== 1) {
       // TODO: show toast.
       return;
     }
-    const file: File = files[0];
 
+    const file: File = files[0];
     this.readFile(file);
   }
 
@@ -148,7 +154,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.writeS?.unsubscribe();
     this.writeS = this.documentService.write(this.document).subscribe({
       next: this.saveDocument.bind(this),
-      error: this.saveDocumentFailed.bind(this)
+      error: this.saveDocumentFailed.bind(this),
     });
   }
 
@@ -164,7 +170,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     await this.canvas.updateConfig();
   }
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   protected async onKeyPressed(event: KeyboardEvent): Promise<void> {
     this.shortcut.ctrl = event.ctrlKey || event.metaKey;
     this.shortcut.key = event.key;
@@ -180,7 +186,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('document:keyup', ['$event'])
+  @HostListener("document:keyup", ["$event"])
   protected onKeyReleased(event: KeyboardEvent): void {
     this.shortcut.ctrl = event.ctrlKey || event.metaKey;
     this.shortcut.key = undefined;
@@ -195,7 +201,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.slideTo(event.clientX);
   }
 
-  @HostListener('mousemove', ['$event'])
+  @HostListener("mousemove", ["$event"])
   protected onSliding(event: MouseEvent): void {
     if (!this.isSliding) {
       return;
@@ -203,7 +209,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.slideTo(event.clientX);
   }
 
-  @HostListener('mouseup', ['$event'])
+  @HostListener("mouseup", ["$event"])
   protected onStopSliding(event: MouseEvent): void {
     if (!this.isSliding) {
       return;
@@ -251,7 +257,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.readS?.unsubscribe();
     this.readS = this.documentService.read(file).subscribe({
       next: this.openDocument.bind(this),
-      error: this.openDocumentFailed.bind(this)
+      error: this.openDocumentFailed.bind(this),
     });
   }
 
@@ -264,21 +270,21 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   private openDocumentFailed(error: FIGDocumentReaderError): void {
-    let message: string = 'Failed to read document. Please report this issue.';
+    let message: string = "Failed to read document. Please report this issue.";
 
     switch (error.code) {
       case FIGDocumentReaderErrorCode.ExpectContainer:
-        message = `Failed to read the root of document. Widget '${FIGWidgetType[error.type!]}' is unexpected here.`;
+        message = `Failed to read the root of document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' is unexpected here.`;
         break;
       case FIGDocumentReaderErrorCode.TypeNotImplemented:
-        message = `Failed to read a widget in document. Widget '${FIGWidgetType[error.type!]}' is not implemented.`;
+        message = `Failed to read a widget in document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' is not implemented.`;
         break;
     }
     this.toast.open(message);
   }
 
   private saveDocument(file: File): void {
-    const $savePicker: HTMLAnchorElement = this.renderer.createElement('a');
+    const $savePicker: HTMLAnchorElement = this.renderer.createElement("a");
     const url: string = URL.createObjectURL(file);
 
     $savePicker.href = url;
@@ -290,11 +296,11 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   private saveDocumentFailed(error: FIGDocumentWriterError): void {
-    let message: string = 'Failed to save document. Please report this issue.';
+    let message: string = "Failed to save document. Please report this issue.";
 
     switch (error.code) {
       case FIGDocumentWriterErrorCode.TypeNotImplemented:
-        message = `Failed to save a widget in document. Widget '${FIGWidgetType[error.type!]}' is not implemented.`;
+        message = `Failed to save a widget in document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' is not implemented.`;
         break;
     }
     this.toast.open(message);
@@ -302,12 +308,11 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   private loadDemo(): void {
     this.requestS?.unsubscribe();
-    this.requestS = this.http.get('./assets/demo.fig', {responseType: 'text'})
-      .subscribe((response: string) => {
-        const file: File = new File([response], 'demo.fig');
+    this.requestS = this.http.get("./assets/demo.fig", {responseType: "text"}).subscribe((response: string) => {
+      const file: File = new File([response], "demo.fig");
 
-        this.readFile(file);
-      });
+      this.readFile(file);
+    });
   }
 
   private onWidgetEvent(events: FIGEvent[]): void {
@@ -331,5 +336,4 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.canvas.onResize();
     });
   }
-
 }

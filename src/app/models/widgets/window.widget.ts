@@ -1,9 +1,9 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import {getEnumValues} from "../enum";
+import {type FlagOption, getOptions} from "../fields/flags.field";
+import type {Size} from "../math";
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
-import {Size} from "../math";
-import {getEnumValues} from "../enum";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FlagOption, getOptions} from "../fields/flags.field";
 
 export enum FIGWindowFlags {
   NoTitleBar = 1,
@@ -29,7 +29,7 @@ export enum FIGWindowFlags {
   NoNav = 786432,
   NoInputs = 786944,
   UnsavedDocument = 1048576,
-  NavFlattened = 8388608
+  NavFlattened = 8388608,
 }
 
 export enum FIGWindowStyleVar {
@@ -37,14 +37,14 @@ export enum FIGWindowStyleVar {
   WindowRounding = 3,
   WindowBorderSize = 4,
   WindowMinSize = 5,
-  WindowTitleAlign = 6
+  WindowTitleAlign = 6,
 }
 
 export enum FIGCondFlags {
   Always = 1,
   Once = 2,
   FirstUseEver = 4,
-  Appearing = 8
+  Appearing = 8,
 }
 
 export const FIGWindowFlagsOptions: FlagOption[] = getOptions(FIGWindowFlags);
@@ -62,20 +62,20 @@ export class FIGWindowWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
   public static readonly condFlags: FIGCondFlags[] = getEnumValues(FIGCondFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'size', optional: true, default: undefined, type: 'object', innerType: [{name: 'width'}, {name: 'height'}]},
-    {name: 'flags', optional: true, default: 0},
-    {name: 'sizeFlags', optional: true, default: 0},
+    {name: "label"},
+    {name: "size", optional: true, default: undefined, type: "object", innerType: [{name: "width"}, {name: "height"}]},
+    {name: "flags", optional: true, default: 0},
+    {name: "sizeFlags", optional: true, default: 0},
     {
-      name: 'minSize',
+      name: "minSize",
       optional: true,
       default: undefined,
-      type: 'object',
-      innerType: [{name: 'width'}, {name: 'height'}]
-    }
+      type: "object",
+      innerType: [{name: "width"}, {name: "height"}],
+    },
   ];
 
-  label: string = '';
+  label: string = "";
   flags: number = 0;
   size?: Size;
   minSize?: Size;
@@ -83,11 +83,11 @@ export class FIGWindowWidget extends FIGContainer {
 
   constructor(options?: FIGWindowOptions) {
     super(FIGWidgetType.window, false);
-    this.registerString( 'label', 'Title', options?.label ?? 'Window');
-    this.registerFlags('flags', 'Flags', FIGWindowFlagsOptions, options?.flags, true);
-    this.registerSize('size', 'Size', false, options?.size, true);
-    this.registerSize('minSize', 'Min size', false, options?.minSize, true);
-    this.registerFlags('sizeFlags', 'Size flags', FIGWindowCondFlagsOptions, options?.sizeFlags, true);
+    this.registerString("label", "Title", options?.label ?? "Window");
+    this.registerFlags("flags", "Flags", FIGWindowFlagsOptions, options?.flags, true);
+    this.registerSize("size", "Size", false, options?.size, true);
+    this.registerSize("minSize", "Min size", false, options?.minSize, true);
+    this.registerFlags("sizeFlags", "Size flags", FIGWindowCondFlagsOptions, options?.sizeFlags, true);
   }
 
   public get name(): string {
@@ -110,7 +110,7 @@ export class FIGWindowWidget extends FIGContainer {
     }
     let open: boolean = true;
 
-    ImGui.Begin(this.label, (_ = open) => open = _, this.flags);
+    ImGui.Begin(this.label, (_ = open) => (open = _), this.flags);
     for (const child of this.children) {
       child.draw();
       child.listen();

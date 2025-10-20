@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand",
-    "lint": "ng lint --quiet"
+    "lint": "pnpm exec biome check --write"
   },
   "private": true,
   "jest": {
@@ -46,6 +46,7 @@
     "@angular/build": "^20.3.6",
     "@angular/cli": "^20.3.6",
     "@angular/compiler-cli": "^20.3.6",
+    "@biomejs/biome": "2.2.6",
     "@types/hammerjs": "^2.0.46",
     "@types/jest": "^29.5.14",
     "@types/node": "^24.8.1",

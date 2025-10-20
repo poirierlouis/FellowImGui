@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {DummyPropertiesComponent} from './dummy-properties.component';
+import {DummyPropertiesComponent} from "./dummy-properties.component";
 
-xdescribe('DummyPropertiesComponent', () => {
+xdescribe("DummyPropertiesComponent", () => {
   let component: DummyPropertiesComponent;
   let fixture: ComponentFixture<DummyPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DummyPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [DummyPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DummyPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

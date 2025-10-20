@@ -1,4 +1,4 @@
-import {FIGSerializeProperty} from "../parsers/document.parser";
+import type {FIGSerializeProperty} from "../parsers/document.parser";
 import {base64_to_buffer, buffer_to_base64} from "./string";
 
 export interface FIGFont {
@@ -12,16 +12,16 @@ export function formatImGuiFontName(font: FIGFont): string {
 }
 
 export const FIGFontDefaults: FIGFont[] = [
-  {name: 'ProggyClean.ttf', size: 13},
-  {name: 'Sweet16.ttf', size: 16},
-  {name: 'Sweet16mono.ttf', size: 16},
+  {name: "ProggyClean.ttf", size: 13},
+  {name: "Sweet16.ttf", size: 16},
+  {name: "Sweet16mono.ttf", size: 16},
 ];
 
 export const FIGFontsSerializers: FIGSerializeProperty[] = [
-  {name: 'name'},
-  {name: 'size'},
+  {name: "name"},
+  {name: "size"},
   {
-    name: 'buffer',
+    name: "buffer",
     optional: true,
     default: undefined,
     read: (data: string) => base64_to_buffer(data),

@@ -1,9 +1,14 @@
 import {FIGDocument} from "../../models/document";
-import {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
-import {FIGDocumentReader, FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../document.reader";
+import {type FIGConfig, FIGConfigSerializers} from "../../models/document-config";
 import {FIGContainer} from "../../models/widgets/container";
-import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty, Versioning} from "../document.parser";
-import {FIGConfig, FIGConfigSerializers} from "../../models/document-config";
+import type {FIGWidget, FIGWidgetType} from "../../models/widgets/widget";
+import {
+  FIGBaseDocumentParser,
+  type FIGSerializeBind,
+  type FIGSerializeProperty,
+  type Versioning,
+} from "../document.parser";
+import {FIGDocumentReader, FIGDocumentReaderError, FIGDocumentReaderErrorCode} from "../document.reader";
 import {FIGJsonKeygen} from "./keygen.json";
 import {FIGJsonReader} from "./reader.json";
 
@@ -40,7 +45,11 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       }
       document.root.push(container);
     }
-    const jsonStyles: FIGConfig | undefined = FIGJsonReader.readObject(data[keygen.next()], FIGConfigSerializers, version);
+    const jsonStyles: FIGConfig | undefined = FIGJsonReader.readObject(
+      data[keygen.next()],
+      FIGConfigSerializers,
+      version,
+    );
 
     if (jsonStyles) {
       document.config = jsonStyles;
@@ -57,7 +66,7 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
       throw {code: FIGDocumentReaderErrorCode.TypeNotImplemented, type: type};
     }
     //keygen.next(); // skip uuid
-    let serializers: FIGSerializeProperty[] = reader.constructor['serializers'] ?? [];
+    let serializers: FIGSerializeProperty[] = reader.constructor["serializers"] ?? [];
 
     serializers = serializers.filter((serializer) => (serializer.version ?? 0) <= version);
     const options: any = {};
@@ -79,5 +88,4 @@ export class FIGDocumentJsonReader extends FIGDocumentReader {
     }
     return widget;
   }
-
 }

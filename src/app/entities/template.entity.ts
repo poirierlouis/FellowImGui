@@ -1,19 +1,19 @@
-import {FIGConfig} from "../models/document-config";
-import {FIGEntity} from "./entity";
-import {FIGSerializeProperty} from "../parsers/document.parser";
+import {FIGColorsSerializers} from "../models/document-colors";
+import type {FIGConfig} from "../models/document-config";
 import {FIGFontsSerializers} from "../models/document-fonts";
 import {FIGSizesSerializers} from "../models/document-sizes";
-import {FIGColorsSerializers} from "../models/document-colors";
+import type {FIGSerializeProperty} from "../parsers/document.parser";
+import type {FIGEntity} from "./entity";
 
 export interface FIGTemplateEntity extends FIGConfig, FIGEntity {
   title: string;
 }
 
 export const FIGTemplateSerializers: FIGSerializeProperty[] = [
-  {name: 'title'},
-  {name: 'font', optional: true, default: undefined},
-  {name: 'embeddedFonts', type: 'array', innerType: FIGFontsSerializers},
-  {name: 'sizes', optional: true, default: undefined, type: 'object', innerType: FIGSizesSerializers},
-  {name: 'theme'},
-  {name: 'colors', optional: true, default: undefined, type: 'object', innerType: FIGColorsSerializers},
+  {name: "title"},
+  {name: "font", optional: true, default: undefined},
+  {name: "embeddedFonts", type: "array", innerType: FIGFontsSerializers},
+  {name: "sizes", optional: true, default: undefined, type: "object", innerType: FIGSizesSerializers},
+  {name: "theme"},
+  {name: "colors", optional: true, default: undefined, type: "object", innerType: FIGColorsSerializers},
 ];

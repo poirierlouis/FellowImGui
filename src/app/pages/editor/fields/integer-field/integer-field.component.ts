@@ -1,27 +1,22 @@
-import {Component, DestroyRef, Input, numberAttribute, OnChanges, SimpleChanges} from '@angular/core';
-import {ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
+import {Component, Input, numberAttribute, type OnChanges, type SimpleChanges} from "@angular/core";
+import {ReactiveFormsModule, type ValidatorFn, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {AbstractFieldComponent} from "../abstract-field.component";
-import {IntegerField} from "../../../../models/fields/integer.field";
 import {MatSlider, MatSliderThumb} from "@angular/material/slider";
+import type {IntegerField} from "../../../../models/fields/integer.field";
+import {AbstractFieldComponent} from "../abstract-field.component";
 
 @Component({
-    selector: 'fig-integer-field',
-    imports: [
-        MatInput,
-        MatLabel,
-        MatSlider,
-        MatFormField,
-        MatSliderThumb,
-        ReactiveFormsModule
-    ],
-    templateUrl: './integer-field.component.html',
-    styleUrl: './integer-field.component.css'
+  selector: "fig-integer-field",
+  imports: [MatInput, MatLabel, MatSlider, MatFormField, MatSliderThumb, ReactiveFormsModule],
+  templateUrl: "./integer-field.component.html",
+  styleUrl: "./integer-field.component.css",
 })
-export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, number | undefined> implements OnChanges {
-
-  type: 'field' | 'percentage' = 'field';
+export class IntegerFieldComponent
+  extends AbstractFieldComponent<IntegerField, number | undefined>
+  implements OnChanges
+{
+  type: "field" | "percentage" = "field";
 
   @Input({transform: numberAttribute})
   min: number | null = null;
@@ -32,14 +27,10 @@ export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, 
   @Input({transform: numberAttribute})
   step: number | null = null;
 
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
-
-  @Input('type')
-  set _type(value: 'field' | 'percentage') {
+  @Input("type")
+  set _type(value: "field" | "percentage") {
     this.type = value;
-    if (value === 'percentage') {
+    if (value === "percentage") {
       this.format = (value: number) => `${value.toFixed(0)}%`;
     }
   }
@@ -48,7 +39,7 @@ export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, 
   format: (value: number) => string = (value) => value.toString();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['min'] || changes['max']) {
+    if (changes["min"] || changes["max"]) {
       this.form.setValidators(this.getValidators());
       this.form.updateValueAndValidity();
     }
@@ -70,7 +61,7 @@ export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, 
     if (value === undefined) {
       return undefined;
     }
-    if (this.type === 'percentage') {
+    if (this.type === "percentage") {
       value /= 100;
     }
     return value;
@@ -80,10 +71,9 @@ export class IntegerFieldComponent extends AbstractFieldComponent<IntegerField, 
     if (value === undefined) {
       return undefined;
     }
-    if (this.type === 'percentage') {
+    if (this.type === "percentage") {
       value *= 100;
     }
     return value;
   }
-
 }

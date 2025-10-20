@@ -1,42 +1,41 @@
-import {Component, DestroyRef} from '@angular/core';
+import {Component} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGVerticalSliderType, FIGVerticalSliderWidget} from "../../../../models/widgets/vertical-slider.widget";
+import {type FIGVerticalSliderType, FIGVerticalSliderWidget} from "../../../../models/widgets/vertical-slider.widget";
+import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 import {EnumFieldComponent} from "../../fields/enum-field/enum-field.component";
 import {NumberFieldComponent} from "../../fields/number-field/number-field.component";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
-import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-vertical-slider-properties',
-    imports: [
-        MatInput,
-        MatLabel,
-        MatFormField,
-        ReactiveFormsModule,
-        EnumFieldComponent,
-        NumberFieldComponent,
-        StringFieldComponent,
-        BoolFieldComponent,
-        SizeFieldComponent
-    ],
-    templateUrl: './vertical-slider-properties.component.html',
-    styleUrl: './vertical-slider-properties.component.css'
+  selector: "fig-vertical-slider-properties",
+  imports: [
+    MatInput,
+    MatLabel,
+    MatFormField,
+    ReactiveFormsModule,
+    EnumFieldComponent,
+    NumberFieldComponent,
+    StringFieldComponent,
+    BoolFieldComponent,
+    SizeFieldComponent,
+  ],
+  templateUrl: "./vertical-slider-properties.component.html",
+  styleUrl: "./vertical-slider-properties.component.css",
 })
 export class VerticalSliderPropertiesComponent extends AbstractPropertiesComponent<FIGVerticalSliderWidget> {
-
   step: number = 1;
   readonly precision: FormControl<number> = new FormControl<number>(2, {nonNullable: true});
 
   protected readonly isInteger = FIGVerticalSliderWidget.isInteger;
 
-  constructor(dr: DestroyRef) {
-    super(dr);
-    this.precision.valueChanges.pipe(takeUntilDestroyed(dr)).subscribe(this.onPrecisionChanged.bind(this));
+  constructor() {
+    super();
+    this.precision.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onPrecisionChanged.bind(this));
   }
 
   protected override load(): void {
@@ -61,7 +60,7 @@ export class VerticalSliderPropertiesComponent extends AbstractPropertiesCompone
     this.updateStep(dataType);
     this.updateValues(dataType);
     if (this.isInteger(dataType)) {
-      this.widget.format = '%d';
+      this.widget.format = "%d";
     } else {
       if (this.precision.value === 0) {
         this.precision.setValue(2, {emitEvent: false});
@@ -86,14 +85,14 @@ export class VerticalSliderPropertiesComponent extends AbstractPropertiesCompone
     if (this.isInteger(dataType)) {
       this.step = 1;
     } else {
-      const round: number = Math.pow(10, this.precision.value);
+      const round: number = 10 ** this.precision.value;
 
       this.step = 1 / round;
     }
   }
 
   private updateValues(dataType: FIGVerticalSliderType): void {
-    const round: number = Math.pow(10, this.precision.value);
+    const round: number = 10 ** this.precision.value;
 
     if (this.isInteger(dataType)) {
       this.widget.value = Math.trunc(this.widget.value);

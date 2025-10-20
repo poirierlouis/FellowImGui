@@ -1,18 +1,18 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {EnumOption} from "../fields/enum.field";
+import type {SizeField} from "../fields/size.field";
+import {plotSin, type Size, type Vector2} from "../math";
 import {FIGWidget, FIGWidgetType} from "./widget";
-import {plotSin, Size, Vector2} from "../math";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {EnumOption} from "../fields/enum.field";
 import {FIGWidgetHelper} from "./widget.helper";
-import {SizeField} from "../fields/size.field";
 
 export enum FIGPlotType {
   lines,
-  histogram
+  histogram,
 }
 
 export const FIGPlotTypeOptions: EnumOption[] = [
-  {value: FIGPlotType.lines, label: 'Lines'},
-  {value: FIGPlotType.histogram, label: 'Histogram'},
+  {value: FIGPlotType.lines, label: "Lines"},
+  {value: FIGPlotType.histogram, label: "Histogram"},
 ];
 
 export interface FIGPlotOptions {
@@ -29,23 +29,23 @@ export interface FIGPlotOptions {
 
 export class FIGPlotWidget extends FIGWidget {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'plotType', optional: true, default: FIGPlotType.lines},
-    {name: 'label'},
-    {name: 'valueOffset', optional: true, default: undefined},
-    {name: 'overlayText', optional: true, default: undefined},
-    {name: 'scaleMin', optional: true, default: undefined},
-    {name: 'scaleMax', optional: true, default: undefined},
+    {name: "plotType", optional: true, default: FIGPlotType.lines},
+    {name: "label"},
+    {name: "valueOffset", optional: true, default: undefined},
+    {name: "overlayText", optional: true, default: undefined},
+    {name: "scaleMin", optional: true, default: undefined},
+    {name: "scaleMax", optional: true, default: undefined},
     {
-      name: 'size',
+      name: "size",
       optional: true,
       default: undefined,
-      type: 'object',
-      innerType: [{name: 'width'}, {name: 'height'}]
+      type: "object",
+      innerType: [{name: "width"}, {name: "height"}],
     },
-    {name: 'stride', optional: true, default: undefined}
+    {name: "stride", optional: true, default: undefined},
   ];
 
-  label: string = '';
+  label: string = "";
   plotType: FIGPlotType = FIGPlotType.lines;
   valueOffset?: number;
   overlayText?: string;
@@ -58,14 +58,14 @@ export class FIGPlotWidget extends FIGWidget {
 
   constructor(options?: FIGPlotOptions) {
     super(FIGWidgetType.plot, true);
-    this.registerString('label', 'Label', options?.label ?? 'Lines');
-    this.registerEnum('plotType', 'Plot Type', FIGPlotTypeOptions, options?.plotType, true, FIGPlotType.lines);
-    this.registerString('overlayText', 'Overlay text', options?.overlayText, true);
-    this.registerSize('size', 'Size', true, options?.size, true, {width: 0, height: 100});
-    this.registerInteger('valueOffset', 'Value offset', options?.valueOffset, true);
-    this.registerFloat('scaleMin', 'Scale min', options?.scaleMin, true);
-    this.registerFloat('scaleMax', 'Scale max', options?.scaleMax, true);
-    this.registerInteger('stride', 'Stride', options?.stride, true);
+    this.registerString("label", "Label", options?.label ?? "Lines");
+    this.registerEnum("plotType", "Plot Type", FIGPlotTypeOptions, options?.plotType, true, FIGPlotType.lines);
+    this.registerString("overlayText", "Overlay text", options?.overlayText, true);
+    this.registerSize("size", "Size", true, options?.size, true, {width: 0, height: 100});
+    this.registerInteger("valueOffset", "Value offset", options?.valueOffset, true);
+    this.registerFloat("scaleMin", "Scale min", options?.scaleMin, true);
+    this.registerFloat("scaleMax", "Scale max", options?.scaleMax, true);
+    this.registerInteger("stride", "Stride", options?.stride, true);
   }
 
   public get name(): string {
@@ -73,7 +73,7 @@ export class FIGPlotWidget extends FIGWidget {
   }
 
   public override draw(): void {
-    const size: Vector2 | undefined = FIGWidgetHelper.computeSize(this.getField('size') as SizeField);
+    const size: Vector2 | undefined = FIGWidgetHelper.computeSize(this.getField("size") as SizeField);
     let plotFn: (...args: unknown[]) => void = ImGui.PlotLines;
 
     if (this.plotType === FIGPlotType.lines) {
@@ -82,10 +82,15 @@ export class FIGPlotWidget extends FIGWidget {
       plotFn = ImGui.PlotHistogram;
     }
     plotFn(
-      this.label, this.values, this.values.length,
-      this.valueOffset, this.overlayText,
-      this.scaleMin, this.scaleMax,
-      size, this.stride
+      this.label,
+      this.values,
+      this.values.length,
+      this.valueOffset,
+      this.overlayText,
+      this.scaleMin,
+      this.scaleMax,
+      size,
+      this.stride,
     );
     this.drawFocus();
     this.scrollTo();

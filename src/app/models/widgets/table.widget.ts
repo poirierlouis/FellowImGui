@@ -1,8 +1,8 @@
-import {FIGWidgetType} from "./widget";
-import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
-import {FlagOption, getOptions} from "../fields/flags.field";
+import {type FlagOption, getOptions} from "../fields/flags.field";
+import {FIGContainer} from "./container";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTableFlags {
   Resizable = 1,
@@ -38,7 +38,7 @@ export enum FIGTableFlags {
   ScrollX = 16777216,
   ScrollY = 33554432,
   SortMulti = 67108864,
-  SortTristate = 134217728
+  SortTristate = 134217728,
 }
 
 export interface FIGTableOptions {
@@ -52,24 +52,31 @@ export const FIGTableFlagsOptions: FlagOption[] = getOptions(FIGTableFlags);
 export class FIGTableWidget extends FIGContainer {
   public static readonly flags: FIGTableFlags[] = getEnumValues(FIGTableFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'columns', optional: true, default: 2},
+    {name: "label"},
+    {name: "columns", optional: true, default: 2},
     {
-      name: 'flags',
+      name: "flags",
       optional: true,
-      default: FIGTableFlags.RowBg | FIGTableFlags.Resizable
+      default: FIGTableFlags.RowBg | FIGTableFlags.Resizable,
     },
   ];
 
-  label: string = '##Table';
+  label: string = "##Table";
   columns: number = 2;
   flags: number = FIGTableFlags.RowBg | FIGTableFlags.Resizable;
 
   constructor(options?: FIGTableOptions) {
     super(FIGWidgetType.table, true);
-    this.registerString('label', 'Label', options?.label ?? '##Table');
-    this.registerInteger('columns', 'Columns', options?.columns, true, 2);
-    this.registerFlags('flags', 'Flags', FIGTableFlagsOptions, options?.flags, true, FIGTableFlags.RowBg | FIGTableFlags.Resizable);
+    this.registerString("label", "Label", options?.label ?? "##Table");
+    this.registerInteger("columns", "Columns", options?.columns, true, 2);
+    this.registerFlags(
+      "flags",
+      "Flags",
+      FIGTableFlagsOptions,
+      options?.flags,
+      true,
+      FIGTableFlags.RowBg | FIGTableFlags.Resizable,
+    );
   }
 
   public get name(): string {

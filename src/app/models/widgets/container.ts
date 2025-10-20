@@ -1,6 +1,6 @@
+import type {BehaviorSubject} from "rxjs";
+import type {FIGEvent} from "../events/event";
 import {FIGWidget, FIGWidgetType} from "./widget";
-import {BehaviorSubject} from "rxjs";
-import {FIGEvent} from "../events/event";
 
 export abstract class FIGContainer extends FIGWidget {
   readonly children: FIGWidget[] = [];
@@ -13,13 +13,16 @@ export abstract class FIGContainer extends FIGWidget {
     return type !== FIGWidgetType.window && type !== FIGWidgetType.tabItem && type !== FIGWidgetType.menuBar;
   }
 
-  public override trackBy(): any {
-    return this.children.map((child) => child.trackBy());
+  public override trackBy(): string | string[] {
+    return this.children.map((child) => child.trackBy() as string);
   }
 
   public override link(eventSubject: BehaviorSubject<FIGEvent | undefined>, parent?: FIGContainer) {
     super.link(eventSubject, parent);
-    this.children.forEach((child) => child.link(eventSubject, this));
+
+    for (const child of this.children) {
+      child.link(eventSubject, this);
+    }
   }
 
   public override flatMap(): FIGWidget[] {
@@ -55,7 +58,10 @@ export abstract class FIGContainer extends FIGWidget {
     return this.children.filter(predicate) as T[];
   }
 
-  public findPreviousSibling<T extends FIGWidget>(from: FIGWidget, predicate: (widget: FIGWidget) => boolean): T | undefined {
+  public findPreviousSibling<T extends FIGWidget>(
+    from: FIGWidget,
+    predicate: (widget: FIGWidget) => boolean,
+  ): T | undefined {
     let index: number = this.findIndex(from) - 1;
 
     if (index < 0) {

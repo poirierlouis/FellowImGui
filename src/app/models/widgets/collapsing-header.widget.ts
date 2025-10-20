@@ -1,7 +1,7 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGTreeNodeFlagsOptions} from "./tree-node.widget";
+import {FIGWidgetType} from "./widget";
 
 export interface FIGCollapsingHeaderOptions {
   readonly label?: string;
@@ -10,17 +10,17 @@ export interface FIGCollapsingHeaderOptions {
 
 export class FIGCollapsingHeaderWidget extends FIGContainer {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'flags', optional: true, default: 0},
+    {name: "label"},
+    {name: "flags", optional: true, default: 0},
   ];
 
-  label: string = 'Header';
+  label: string = "Header";
   flags: number = 0;
 
   constructor(options?: FIGCollapsingHeaderOptions) {
     super(FIGWidgetType.collapsingHeader, true);
-    this.registerString('label', 'Label', options?.label ?? 'Header');
-    this.registerFlags('flags', 'Flags', FIGTreeNodeFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "Label", options?.label ?? "Header");
+    this.registerFlags("flags", "Flags", FIGTreeNodeFlagsOptions, options?.flags, true, 0);
     this._focusOffset.x = 0;
   }
 

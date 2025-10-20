@@ -10,12 +10,14 @@ export interface EnumOption {
 export class EnumField<T extends EnumFieldType> extends Field<T> {
   public readonly options: EnumOption[];
 
-  constructor(name: string,
-              label: string,
-              options: EnumOption[],
-              value?: T,
-              isOptional: boolean = false,
-              defaultValue?: T) {
+  constructor(
+    name: string,
+    label: string,
+    options: EnumOption[],
+    value?: T,
+    isOptional: boolean = false,
+    defaultValue?: T,
+  ) {
     super(FieldType.enum, name, label, value, isOptional, defaultValue);
     this.options = options;
   }
@@ -26,5 +28,5 @@ export class EnumField<T extends EnumFieldType> extends Field<T> {
  * @param id used in track expression.
  */
 export function EnumOptionDivider(id: number): EnumOption {
-  return {value: id, label: ''};
+  return {value: id, label: ""};
 }

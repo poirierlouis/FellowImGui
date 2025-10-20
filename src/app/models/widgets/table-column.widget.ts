@@ -1,6 +1,6 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTableColumnFlags {
   Disabled = 1,
@@ -24,20 +24,19 @@ export enum FIGTableColumnFlags {
   IsEnabled = 16777216,
   IsVisible = 33554432,
   IsSorted = 67108864,
-  IsHovered = 134217728
+  IsHovered = 134217728,
 }
 
 export type FIGTableColumnOptions = object;
 
 export class FIGTableColumnWidget extends FIGContainer {
-  public static readonly serializers: FIGSerializeProperty[] = [
-  ];
+  public static readonly serializers: FIGSerializeProperty[] = [];
 
   constructor(_options?: FIGTableColumnOptions) {
     super(FIGWidgetType.tableColumn, true);
   }
 
-  public readonly name: string = 'Table Column';
+  public readonly name: string = "Table Column";
 
   public override draw(): void {
     ImGui.TableNextColumn();

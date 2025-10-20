@@ -2,10 +2,8 @@
 
 // @ts-expect-error ImGui type not defined
 window.ImGui = {
-  InputInt: () => {
-  },
-  InputInt2: () => {
-  }
-}
+  InputInt: () => {},
+  InputInt2: () => {},
+};
 
 window.open = jest.fn();

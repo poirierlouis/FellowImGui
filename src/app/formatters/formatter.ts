@@ -1,69 +1,70 @@
 import {FIGDocument} from "../models/document";
-import {FIGWindowWidget} from "../models/widgets/window.widget";
-import {FIGSeparatorWidget} from "../models/widgets/separator.widget";
-import {FIGTextWidget} from "../models/widgets/text.widget";
-import {FIGButtonWidget} from "../models/widgets/button.widget";
-import {FIGLabelWidget} from "../models/widgets/label.widget";
-import {FIGInputTextWidget} from "../models/widgets/input-text.widget";
-import {FIGCheckboxWidget} from "../models/widgets/checkbox.widget";
-import {FIGRadioWidget} from "../models/widgets/radio.widget";
-import {FIGComboWidget} from "../models/widgets/combo.widget";
-import {FIGWidget, FIGWidgetType} from "../models/widgets/widget";
-import {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 import {sanitizeVar, toCamelCase, toSnakeCase} from "../models/string";
-import {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
-import {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
-import {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
-import {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
-import {FIGBulletWidget} from "../models/widgets/bullet.widget";
-import {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
-import {FIGListBoxWidget} from "../models/widgets/listbox.widget";
-import {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
-import {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
-import {FIGPlotWidget} from "../models/widgets/plot.widget";
-import {FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
-import {FIGSameLineWidget} from "../models/widgets/same-line.widget";
-import {FIGNewLineWidget} from "../models/widgets/new-line.widget";
-import {FIGSpacingWidget} from "../models/widgets/spacing.widget";
-import {FIGDummyWidget} from "../models/widgets/dummy.widget";
-import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
-import {FIGSliderWidget} from "../models/widgets/slider.widget";
-import {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
-import {FIGSelectableWidget} from "../models/widgets/selectable.widget";
-import {FIGGroupWidget} from "../models/widgets/group.widget";
-import {FIGModalWidget} from "../models/widgets/modal.widget";
-import {FIGPopupWidget} from "../models/widgets/popup.widget";
-import {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
-import {FIGMenuWidget} from "../models/widgets/menu.widget";
-import {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
-import {FIGTableWidget} from "../models/widgets/table.widget";
-import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
-import {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
-import {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
+import type {FIGBlocForWidget} from "../models/widgets/bloc-for.widget";
+import type {FIGBulletWidget} from "../models/widgets/bullet.widget";
+import type {FIGButtonWidget} from "../models/widgets/button.widget";
+import type {FIGCheckboxWidget} from "../models/widgets/checkbox.widget";
+import type {FIGChildWindowWidget} from "../models/widgets/child-window.widget";
+import type {FIGCollapsingHeaderWidget} from "../models/widgets/collapsing-header.widget";
+import type {FIGComboWidget} from "../models/widgets/combo.widget";
+import type {FIGDummyWidget} from "../models/widgets/dummy.widget";
+import type {FIGGroupWidget} from "../models/widgets/group.widget";
+import type {FIGInputColorEditWidget} from "../models/widgets/input-color-edit.widget";
+import type {FIGInputNumberWidget} from "../models/widgets/input-number.widget";
+import type {FIGInputTextWidget} from "../models/widgets/input-text.widget";
+import type {FIGInputTextareaWidget} from "../models/widgets/input-textarea.widget";
+import type {FIGLabelWidget} from "../models/widgets/label.widget";
+import type {FIGListBoxWidget} from "../models/widgets/listbox.widget";
+import type {FIGMenuWidget} from "../models/widgets/menu.widget";
+import type {FIGMenuBarWidget} from "../models/widgets/menu-bar.widget";
+import type {FIGMenuItemWidget} from "../models/widgets/menu-item.widget";
+import type {FIGModalWidget} from "../models/widgets/modal.widget";
+import type {FIGNewLineWidget} from "../models/widgets/new-line.widget";
+import type {FIGPlotWidget} from "../models/widgets/plot.widget";
+import type {FIGPopupWidget} from "../models/widgets/popup.widget";
+import type {FIGProgressBarWidget} from "../models/widgets/progress-bar.widget";
+import type {FIGRadioWidget} from "../models/widgets/radio.widget";
+import type {FIGSameLineWidget} from "../models/widgets/same-line.widget";
+import type {FIGSelectableWidget} from "../models/widgets/selectable.widget";
+import type {FIGSeparatorWidget} from "../models/widgets/separator.widget";
+import type {FIGSliderWidget} from "../models/widgets/slider.widget";
+import type {FIGSpacingWidget} from "../models/widgets/spacing.widget";
+import type {FIGTabBarWidget} from "../models/widgets/tab-bar.widget";
+import type {FIGTabItemWidget} from "../models/widgets/tab-item.widget";
+import type {FIGTableWidget} from "../models/widgets/table.widget";
+import type {FIGTableColumnWidget} from "../models/widgets/table-column.widget";
+import type {FIGTableRowWidget} from "../models/widgets/table-row.widget";
+import type {FIGTextWidget} from "../models/widgets/text.widget";
+import type {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
+import type {FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
+import {type FIGWidget, FIGWidgetType, type FIGWidgetTypeMap} from "../models/widgets/widget";
+import type {FIGWindowWidget} from "../models/widgets/window.widget";
+import type {FIGWithTooltip} from "../models/widgets/with-tooltip.widget";
 
-interface FIGFormatterItem {
-  readonly type: FIGWidgetType;
-  readonly fmt: (widget: any) => void;
-}
+type FIGFormatterItem = {
+  [K in FIGWidgetType]: {
+    type: K;
+    fmt: (widget: FIGWidgetTypeMap[K]) => void;
+  };
+}[FIGWidgetType];
 
 interface FIGFormatterOptions {
   indent: string;
 }
 
-export type FIGFormatterLanguage = 'Lua - sol2';
+export type FIGFormatterLanguage = "Lua - sol2" | "C++";
 
 export enum CaseStyle {
   snake_case,
-  camelCase
+  camelCase,
 }
 
 export abstract class FIGFormatter {
-
   protected readonly notSupported: FIGWidgetType[] = [];
   protected readonly legacyFallback: FIGWidgetType[] = [];
 
   protected readonly options: FIGFormatterOptions = {
-    indent: ''
+    indent: "",
   };
 
   private readonly formatters: FIGFormatterItem[] = [
@@ -111,18 +112,19 @@ export abstract class FIGFormatter {
     {type: FIGWidgetType.combo, fmt: this.formatCombo.bind(this)},
 
     // Blocs
-    {type: FIGWidgetType.blocFor, fmt: this.formatBlocFor.bind(this)}
+    {type: FIGWidgetType.blocFor, fmt: this.formatBlocFor.bind(this)},
   ];
 
-  private indent: string = '';
-  private lines: string = '';
+  private indent: string = "";
+  private lines: string = "";
 
-  protected constructor(public readonly language: FIGFormatterLanguage,
-                        protected readonly caseStyle: CaseStyle) {
-  }
+  protected constructor(
+    public readonly language: FIGFormatterLanguage,
+    protected readonly caseStyle: CaseStyle,
+  ) {}
 
   public format(element: FIGDocument | FIGWidget): string {
-    this.lines = '';
+    this.lines = "";
     if (element instanceof FIGDocument) {
       for (const container of element.root) {
         this.formatWidget(container);
@@ -132,7 +134,7 @@ export abstract class FIGFormatter {
     }
     const lines: string = this.lines;
 
-    this.lines = '';
+    this.lines = "";
     return lines;
   }
 
@@ -149,27 +151,27 @@ export abstract class FIGFormatter {
 
     if (!formatter) {
       this.append(`-- ${FIGWidgetType[widget.type]} formatter for '${this.language}' is not implemented!`);
-      this.append('');
+      this.append("");
       return;
     }
     if (!this.isSupported(widget.type)) {
       this.append(`-- ${FIGWidgetType[widget.type]} is not supported by '${this.language}'!`);
-      this.append('');
+      this.append("");
       return;
     }
-    formatter.fmt(widget);
-    this.append('');
+    formatter.fmt(widget as never);
+    this.append("");
   }
 
   protected formatString(text: string): string {
     let format: string = text;
 
-    format = format.replaceAll(/\\/g, '\\\\');
+    format = format.replaceAll(/\\/g, "\\\\");
     format = format.replaceAll(/"/g, '\\"');
-    format = format.replaceAll(/\f/g, '\\f');
-    format = format.replaceAll(/\n/g, '\\n');
-    format = format.replaceAll(/\r/g, '\\r');
-    format = format.replaceAll(/\t/g, '\\t');
+    format = format.replaceAll(/\f/g, "\\f");
+    format = format.replaceAll(/\n/g, "\\n");
+    format = format.replaceAll(/\r/g, "\\r");
+    format = format.replaceAll(/\t/g, "\\t");
     return `"${format}"`;
   }
 
@@ -202,7 +204,7 @@ export abstract class FIGFormatter {
     this.indent = this.indent.substring(0, this.indent.length - this.options.indent.length);
   }
 
-  protected abstract formatFlags<T>(flags: number, flagsList: T[], flagsType: any, flagName: string): string;
+  protected abstract formatFlags<T>(flags: number, flagsList: T[], flagsType: unknown, flagName: string): string;
 
   // Layouts
   protected abstract formatWindow(widget: FIGWindowWidget): void;

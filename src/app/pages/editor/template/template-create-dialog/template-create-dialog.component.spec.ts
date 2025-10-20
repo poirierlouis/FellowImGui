@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {TemplateCreateDialogComponent} from './template-create-dialog.component';
+import {TemplateCreateDialogComponent} from "./template-create-dialog.component";
 
-xdescribe('TemplateCreateDialogComponent', () => {
+xdescribe("TemplateCreateDialogComponent", () => {
   let component: TemplateCreateDialogComponent;
   let fixture: ComponentFixture<TemplateCreateDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TemplateCreateDialogComponent]
-    })
-      .compileComponents();
+      imports: [TemplateCreateDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TemplateCreateDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

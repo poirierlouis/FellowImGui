@@ -1,8 +1,8 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {Vector2} from "../math";
+import {type FIGInputTextFlags, FIGInputTextFlagsOptions} from "./input-text.widget";
 import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGInputTextFlags, FIGInputTextFlagsOptions} from "./input-text.widget";
-import {Vector2} from "../math";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGInputTextareaOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -14,28 +14,28 @@ export interface FIGInputTextareaOptions extends FIGTooltipOption {
 
 export class FIGInputTextareaWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'value', optional: true, default: ''},
-    {name: 'tooltip', optional: true, default: undefined},
-    {name: 'linesSize', optional: true, default: 6},
-    {name: 'bufferSize', optional: true, default: 256},
-    {name: 'flags', optional: true, default: 0}
+    {name: "label"},
+    {name: "value", optional: true, default: ""},
+    {name: "tooltip", optional: true, default: undefined},
+    {name: "linesSize", optional: true, default: 6},
+    {name: "bufferSize", optional: true, default: 256},
+    {name: "flags", optional: true, default: 0},
   ];
 
-  label: string = '##InputTextMultiline';
-  value: string = '';
+  label: string = "##InputTextMultiline";
+  value: string = "";
   linesSize: number = 6;
   bufferSize: number = 256;
   flags: number = 0;
 
   constructor(options?: FIGInputTextareaOptions) {
     super(FIGWidgetType.inputTextarea, true);
-    this.registerString('label', 'Label', options?.label ?? '##InputTextMultiline');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerString('value', 'Value', options?.value, true, '');
-    this.registerInteger('linesSize', 'Height in lines', options?.linesSize, true, 6);
-    this.registerInteger('bufferSize', 'Buffer size', options?.bufferSize, true, 256);
-    this.registerFlags('flags', 'Flags', FIGInputTextFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "Label", options?.label ?? "##InputTextMultiline");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerString("value", "Value", options?.value, true, "");
+    this.registerInteger("linesSize", "Height in lines", options?.linesSize, true, 6);
+    this.registerInteger("bufferSize", "Buffer size", options?.bufferSize, true, 256);
+    this.registerFlags("flags", "Flags", FIGInputTextFlagsOptions, options?.flags, true, 0);
     this.bufferSize = Math.max(this.value.length, this.bufferSize);
   }
 
@@ -44,7 +44,7 @@ export class FIGInputTextareaWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
-    const access = (_ = this.value) => this.value = _;
+    const access = (_ = this.value) => (this.value = _);
     const size: Vector2 = {x: -1, y: ImGui.GetTextLineHeight() * this.linesSize};
 
     ImGui.InputTextMultiline(this.label, access, this.bufferSize, size, this.flags);

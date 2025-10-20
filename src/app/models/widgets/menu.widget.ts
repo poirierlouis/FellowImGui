@@ -1,6 +1,6 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FIGWidgetType} from "./widget";
 
 export interface FIGMenuOptions {
   readonly label?: string;
@@ -9,17 +9,17 @@ export interface FIGMenuOptions {
 
 export class FIGMenuWidget extends FIGContainer {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'enabled', optional: true, default: true}
+    {name: "label"},
+    {name: "enabled", optional: true, default: true},
   ];
 
-  label: string = 'Menu';
+  label: string = "Menu";
   enabled: boolean = true;
 
   constructor(options?: FIGMenuOptions) {
     super(FIGWidgetType.menu, true);
-    this.registerString('label', 'Label', options?.label ?? 'Menu');
-    this.registerBool('enabled', 'Enabled', options?.enabled, true, true);
+    this.registerString("label", "Label", options?.label ?? "Menu");
+    this.registerBool("enabled", "Enabled", options?.enabled, true, true);
     this._focusOffset.x = 0;
     this._focusOffset.y = 0;
   }

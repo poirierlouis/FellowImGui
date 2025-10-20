@@ -1,39 +1,32 @@
-import {Component, DestroyRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, Input, inject, type OnInit, Output} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule, type ValidatorFn, Validators} from "@angular/forms";
+import {MatIconButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
-import {MatIconButton} from "@angular/material/button";
-import {FormControl, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
-import {SizeField} from "../../../../models/fields/size.field";
 import {MatTooltip} from "@angular/material/tooltip";
-import {isFloat, Size} from "../../../../models/math";
-import {Field} from "../../../../models/fields/field";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {debounceTime} from "rxjs";
+import type {Field} from "../../../../models/fields/field";
+import type {SizeField} from "../../../../models/fields/size.field";
+import {isFloat, type Size} from "../../../../models/math";
 
 @Component({
-    selector: 'fig-size-field',
-    imports: [
-        MatIcon,
-        MatLabel,
-        MatInput,
-        MatTooltip,
-        MatFormField,
-        MatIconButton,
-        ReactiveFormsModule
-    ],
-    templateUrl: './size-field.component.html',
-    styleUrl: './size-field.component.css'
+  selector: "fig-size-field",
+  imports: [MatIcon, MatLabel, MatInput, MatTooltip, MatFormField, MatIconButton, ReactiveFormsModule],
+  templateUrl: "./size-field.component.html",
+  styleUrl: "./size-field.component.css",
 })
 export class SizeFieldComponent implements OnInit {
+  private readonly dr = inject(DestroyRef);
 
   static showHelp: boolean = true;
 
   @Input()
-  widthLabel: string = 'Width';
+  widthLabel: string = "Width";
 
   @Input()
-  heightLabel: string = 'Height';
+  heightLabel: string = "Height";
 
   @Output()
   update: EventEmitter<SizeField> = new EventEmitter();
@@ -49,14 +42,10 @@ export class SizeFieldComponent implements OnInit {
   acceptRelative: boolean = false;
   isRelative: boolean = false;
 
-  constructor(protected readonly dr: DestroyRef) {
-
-  }
-
   @Input({
-    alias: 'field',
+    alias: "field",
     transform: (value: Field) => value as SizeField,
-    required: true
+    required: true,
   })
   set _field(field: SizeField) {
     this.field?.removeListener(this.onFieldValueChanged.bind(this), this.onFieldStateChanged.bind(this));
@@ -89,17 +78,11 @@ export class SizeFieldComponent implements OnInit {
 
   public ngOnInit(): void {
     this.width.valueChanges
-      .pipe(
-        debounceTime(300),
-        takeUntilDestroyed(this.dr)
-      )
-      .subscribe((value) => this.onFormChanged('width', value));
+      .pipe(debounceTime(300), takeUntilDestroyed(this.dr))
+      .subscribe((value) => this.onFormChanged("width", value));
     this.height.valueChanges
-      .pipe(
-        debounceTime(300),
-        takeUntilDestroyed(this.dr)
-      )
-      .subscribe((value) => this.onFormChanged('height', value));
+      .pipe(debounceTime(300), takeUntilDestroyed(this.dr))
+      .subscribe((value) => this.onFormChanged("height", value));
   }
 
   public toggleRelative(): void {
@@ -160,10 +143,7 @@ export class SizeFieldComponent implements OnInit {
     } else {
       validators.push(Validators.min(-1));
     }
-    return [
-      ...validators,
-      Validators.pattern('\\d*'),
-    ];
+    return [...validators, Validators.pattern("\\d*")];
   }
 
   protected transform(value: number | null): number | null {
@@ -199,7 +179,7 @@ export class SizeFieldComponent implements OnInit {
     }
   }
 
-  protected onFormChanged(property: 'width' | 'height', value: number | null): void {
+  protected onFormChanged(property: "width" | "height", value: number | null): void {
     if (value !== null && isFloat(value)) {
       return;
     }
@@ -217,9 +197,8 @@ export class SizeFieldComponent implements OnInit {
       return;
     }
     if (!this.field.value) {
-      this.field.value = (this.isRelative) ? {width: 0.5, height: 0.5} : {width: 0, height: 0};
+      this.field.value = this.isRelative ? {width: 0.5, height: 0.5} : {width: 0, height: 0};
     }
     this.field.value[property] = value;
   }
-
 }

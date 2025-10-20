@@ -1,26 +1,17 @@
-import {Component, DestroyRef} from '@angular/core';
-import {FIGButtonWidget, FIGDir} from "../../../../models/widgets/button.widget";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {Component} from "@angular/core";
+import {type FIGButtonWidget, FIGDir} from "../../../../models/widgets/button.widget";
 import {BoolFieldComponent} from "../../fields/bool-field/bool-field.component";
 import {EnumFieldComponent} from "../../fields/enum-field/enum-field.component";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-button-properties',
-    imports: [
-        BoolFieldComponent,
-        EnumFieldComponent,
-        StringFieldComponent
-    ],
-    templateUrl: './button-properties.component.html',
-    styleUrl: './button-properties.component.css'
+  selector: "fig-button-properties",
+  imports: [BoolFieldComponent, EnumFieldComponent, StringFieldComponent],
+  templateUrl: "./button-properties.component.html",
+  styleUrl: "./button-properties.component.css",
 })
 export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGButtonWidget> {
-
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
-
   private onIsFillChanged(value: boolean): void {
     if (value) {
       this.resetIsSmall();
@@ -62,5 +53,4 @@ export class ButtonPropertiesComponent extends AbstractPropertiesComponent<FIGBu
     }
     this.widget.arrow = FIGDir.none;
   }
-
 }

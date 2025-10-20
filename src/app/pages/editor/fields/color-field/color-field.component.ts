@@ -1,31 +1,22 @@
-import {Component, DestroyRef, ViewChild} from '@angular/core';
+import {Component, ViewChild} from "@angular/core";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatLabel} from "@angular/material/form-field";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
-import {AbstractFieldComponent} from "../abstract-field.component";
-import {ColorField} from "../../../../models/fields/color.field";
 // @ts-expect-error workaround for ngx-colors
-import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
-import {Color, parseHEX, parseRGBA, stringifyHEX, stringifyRGBA} from "../../../../models/math";
-import {ReactiveFormsModule} from "@angular/forms";
+import type {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
+import type {ColorField} from "../../../../models/fields/color.field";
+import {type Color, parseHEX, parseRGBA, stringifyHEX, stringifyRGBA} from "../../../../models/math";
+import {AbstractFieldComponent} from "../abstract-field.component";
 
 @Component({
-    selector: 'fig-color-field',
-    imports: [
-        MatLabel,
-        NgxColorsModule,
-        ReactiveFormsModule
-    ],
-    templateUrl: './color-field.component.html',
-    styleUrl: './color-field.component.css'
+  selector: "fig-color-field",
+  imports: [MatLabel, NgxColorsModule, ReactiveFormsModule],
+  templateUrl: "./color-field.component.html",
+  styleUrl: "./color-field.component.css",
 })
 export class ColorFieldComponent extends AbstractFieldComponent<ColorField, string | undefined, Color | undefined> {
-
   @ViewChild(NgxColorsTriggerDirective)
   ngxColor!: NgxColorsTriggerDirective;
-
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
 
   private get $panel(): PanelComponent | undefined {
     return this.ngxColor.panelRef?.instance;
@@ -42,7 +33,7 @@ export class ColorFieldComponent extends AbstractFieldComponent<ColorField, stri
     if (!value) {
       return undefined;
     }
-    const isRGBA: boolean = value.startsWith('rgba(') || value.startsWith('rgb(');
+    const isRGBA: boolean = value.startsWith("rgba(") || value.startsWith("rgb(");
 
     if (isRGBA) {
       return parseRGBA(value);
@@ -56,7 +47,7 @@ export class ColorFieldComponent extends AbstractFieldComponent<ColorField, stri
       return;
     }
     if (!value) {
-      this.$panel.color = '';
+      this.$panel.color = "";
       return;
     }
     this.$panel.color = stringifyRGBA(value);
@@ -71,5 +62,4 @@ export class ColorFieldComponent extends AbstractFieldComponent<ColorField, stri
       this.$panel.color = stringifyRGBA(this.field.value);
     }
   }
-
 }

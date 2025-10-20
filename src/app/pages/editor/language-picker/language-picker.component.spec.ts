@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {LanguagePickerComponent} from './language-picker.component';
+import {LanguagePickerComponent} from "./language-picker.component";
 
-xdescribe('LanguagePickerComponent', () => {
+xdescribe("LanguagePickerComponent", () => {
   let component: LanguagePickerComponent;
   let fixture: ComponentFixture<LanguagePickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LanguagePickerComponent]
-    })
-      .compileComponents();
+      imports: [LanguagePickerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LanguagePickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

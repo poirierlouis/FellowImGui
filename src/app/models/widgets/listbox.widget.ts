@@ -1,6 +1,6 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGListBoxOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -10,25 +10,25 @@ export interface FIGListBoxOptions extends FIGTooltipOption {
 
 export class FIGListBoxWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'items'},
-    {name: 'itemsSize', optional: true, default: 4},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "label"},
+    {name: "items"},
+    {name: "itemsSize", optional: true, default: 4},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
-  label: string = 'ListBox';
-  items: string[] = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  label: string = "ListBox";
+  items: string[] = ["Item 1", "Item 2", "Item 3", "Item 4"];
   itemsSize: number = 4;
 
   selectedItem: number = 0;
 
   constructor(options?: FIGListBoxOptions) {
     super(FIGWidgetType.listbox, true);
-    this.registerString('label', 'Label', options?.label ?? 'ListBox');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerArray('items', 'List of items', options?.items, true, ['Item 1', 'Item 2', 'Item 3', 'Item 4']);
-    this.registerInteger('itemsSize', 'Height in items', options?.itemsSize, true, 4);
-    this.registerInteger('selectedItem', 'Selected item', 0, true, 0);
+    this.registerString("label", "Label", options?.label ?? "ListBox");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerArray("items", "List of items", options?.items, true, ["Item 1", "Item 2", "Item 3", "Item 4"]);
+    this.registerInteger("itemsSize", "Height in items", options?.itemsSize, true, 4);
+    this.registerInteger("selectedItem", "Selected item", 0, true, 0);
   }
 
   public get name(): string {
@@ -38,10 +38,10 @@ export class FIGListBoxWidget extends FIGWithTooltip {
   public override draw(): void {
     ImGui.ListBox(
       this.label,
-      (_ = this.selectedItem) => this.selectedItem = _,
+      (_ = this.selectedItem) => (this.selectedItem = _),
       this.items,
       this.items.length,
-      this.itemsSize
+      this.itemsSize,
     );
     this.drawTooltip();
     this.drawFocus();

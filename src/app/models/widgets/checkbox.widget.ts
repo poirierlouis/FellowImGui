@@ -1,6 +1,6 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGCheckboxOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -9,19 +9,19 @@ export interface FIGCheckboxOptions extends FIGTooltipOption {
 
 export class FIGCheckboxWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'isChecked', optional: true, default: false},
-    {name: 'tooltip', optional: true, default: undefined},
+    {name: "label"},
+    {name: "isChecked", optional: true, default: false},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
-  label: string = 'Checkbox';
+  label: string = "Checkbox";
   isChecked: boolean = false;
 
   constructor(options?: FIGCheckboxOptions) {
     super(FIGWidgetType.checkbox, true);
-    this.registerString('label', 'Label', options?.label ?? 'Checkbox');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerBool('isChecked', 'Checked', options?.isChecked, true, false);
+    this.registerString("label", "Label", options?.label ?? "Checkbox");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerBool("isChecked", "Checked", options?.isChecked, true, false);
   }
 
   public get name(): string {
@@ -29,10 +29,9 @@ export class FIGCheckboxWidget extends FIGWithTooltip {
   }
 
   public override draw(): void {
-    ImGui.Checkbox(this.label, (_ = this.isChecked) => this.isChecked = _);
+    ImGui.Checkbox(this.label, (_ = this.isChecked) => (this.isChecked = _));
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();
   }
-
 }

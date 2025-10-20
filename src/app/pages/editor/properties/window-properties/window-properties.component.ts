@@ -1,34 +1,29 @@
-import {Component, DestroyRef} from '@angular/core';
-import {FIGWindowFlags, FIGWindowWidget} from "../../../../models/widgets/window.widget";
-import {MatLabel} from "@angular/material/form-field";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
-import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
-import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
+import {Component} from "@angular/core";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {MatLabel} from "@angular/material/form-field";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {FIGWindowFlags, type FIGWindowWidget} from "../../../../models/widgets/window.widget";
+import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
+import {SizeFieldComponent} from "../../fields/size-field/size-field.component";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-window-properties',
-    imports: [
-        MatLabel,
-        MatSlideToggle,
-        SizeFieldComponent,
-        FlagsFieldComponent,
-        ReactiveFormsModule,
-        StringFieldComponent
-    ],
-    templateUrl: './window-properties.component.html',
-    styleUrl: './window-properties.component.css'
+  selector: "fig-window-properties",
+  imports: [
+    MatLabel,
+    MatSlideToggle,
+    SizeFieldComponent,
+    FlagsFieldComponent,
+    ReactiveFormsModule,
+    StringFieldComponent,
+  ],
+  templateUrl: "./window-properties.component.html",
+  styleUrl: "./window-properties.component.css",
 })
 export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWindowWidget> {
-
   readonly forceSize: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
-
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
 
   protected override load(): void {
     super.load();
@@ -37,18 +32,18 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     this.forceSize.setValue(hasSize, {emitEvent: false});
     this.forceSize.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onForceSizeChanged.bind(this));
     if (hasSize) {
-      this.getField('size').enable();
+      this.getField("size").enable();
     } else {
-      this.getField('size').disable();
+      this.getField("size").disable();
     }
   }
 
   private onForceSizeChanged(value: boolean): void {
     if (value) {
-      this.getField('size').enable();
+      this.getField("size").enable();
     } else {
       this.widget.size = undefined;
-      this.getField('size').disable();
+      this.getField("size").disable();
     }
   }
 
@@ -92,10 +87,9 @@ export class WindowPropertiesComponent extends AbstractPropertiesComponent<FIGWi
     if ((flags & FIGWindowFlags.AlwaysAutoResize) === FIGWindowFlags.AlwaysAutoResize) {
       this.widget.size = undefined;
       this.forceSize.setValue(false, {emitEvent: false});
-      this.getField('size').disable();
+      this.getField("size").disable();
     } else {
-      this.getField('size').enable();
+      this.getField("size").enable();
     }
   }
-
 }

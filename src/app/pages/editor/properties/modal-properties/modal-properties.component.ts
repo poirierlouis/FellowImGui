@@ -1,32 +1,25 @@
-import {Component, DestroyRef} from '@angular/core';
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGModalWidget} from "../../../../models/widgets/modal.widget";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
-import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
+import {Component} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatLabel} from "@angular/material/form-field";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import type {FIGModalWidget} from "../../../../models/widgets/modal.widget";
+import {FlagsFieldComponent} from "../../fields/flags-field/flags-field.component";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-modal-properties',
-    imports: [
-        MatLabel,
-        MatSlideToggle,
-        ReactiveFormsModule,
-        FlagsFieldComponent,
-        StringFieldComponent
-    ],
-    templateUrl: './modal-properties.component.html',
-    styleUrl: './modal-properties.component.css'
+  selector: "fig-modal-properties",
+  imports: [MatLabel, MatSlideToggle, ReactiveFormsModule, FlagsFieldComponent, StringFieldComponent],
+  templateUrl: "./modal-properties.component.html",
+  styleUrl: "./modal-properties.component.css",
 })
 export class ModalPropertiesComponent extends AbstractPropertiesComponent<FIGModalWidget> {
-
   readonly debug: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
 
-  constructor(dr: DestroyRef) {
-    super(dr);
-    this.debug.valueChanges.pipe(takeUntilDestroyed(dr)).subscribe(this.onDebug.bind(this))
+  constructor() {
+    super();
+    this.debug.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onDebug.bind(this));
   }
 
   protected override load(): void {
@@ -37,5 +30,4 @@ export class ModalPropertiesComponent extends AbstractPropertiesComponent<FIGMod
   private onDebug(value: boolean): void {
     this.widget.debug = value;
   }
-
 }

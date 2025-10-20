@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {ListboxPropertiesComponent} from './listbox-properties.component';
+import {ListboxPropertiesComponent} from "./listbox-properties.component";
 
-xdescribe('ListboxPropertiesComponent', () => {
+xdescribe("ListboxPropertiesComponent", () => {
   let component: ListboxPropertiesComponent;
   let fixture: ComponentFixture<ListboxPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListboxPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [ListboxPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ListboxPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

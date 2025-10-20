@@ -1,15 +1,16 @@
-import {Component, DestroyRef, EventEmitter, Input, OnDestroy, Output} from "@angular/core";
-import {FIGWidget} from "../../../models/widgets/widget";
-import {FormGroup} from "@angular/forms";
-import {Field} from "../../../models/fields/field";
+import {Component, DestroyRef, EventEmitter, Input, inject, type OnDestroy, Output} from "@angular/core";
+import type {FormGroup} from "@angular/forms";
+import type {Field} from "../../../models/fields/field";
 import {hasFunction} from "../../../models/object";
 import {capitalize} from "../../../models/string";
+import type {FIGWidget} from "../../../models/widgets/widget";
 
 @Component({
-    template: '',
-    standalone: false
+  template: "",
+  standalone: false,
 })
 export abstract class AbstractPropertiesComponent<T extends FIGWidget> implements OnDestroy {
+  protected readonly dr = inject(DestroyRef);
 
   @Output()
   update: EventEmitter<FIGWidget> = new EventEmitter<FIGWidget>();
@@ -17,10 +18,7 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
   widget!: T;
   form!: FormGroup;
 
-  protected constructor(protected readonly dr: DestroyRef) {
-  }
-
-  @Input('widget')
+  @Input("widget")
   set _widget(value: FIGWidget) {
     this.dispose();
     this.widget = value as T;
@@ -78,5 +76,4 @@ export abstract class AbstractPropertiesComponent<T extends FIGWidget> implement
   private getListener(name: string): () => void {
     return ((this as never)[name] as () => void).bind(this);
   }
-
 }

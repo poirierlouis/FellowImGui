@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {RadioPropertiesComponent} from './radio-properties.component';
+import {RadioPropertiesComponent} from "./radio-properties.component";
 
-xdescribe('RadioPropertiesComponent', () => {
+xdescribe("RadioPropertiesComponent", () => {
   let component: RadioPropertiesComponent;
   let fixture: ComponentFixture<RadioPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RadioPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [RadioPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RadioPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

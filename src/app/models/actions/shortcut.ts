@@ -12,19 +12,20 @@ export class FIGShortcut {
   }
 
   public canDuplicate(): boolean {
-    return this.ctrl && this.key === 'd';
+    return this.ctrl && this.key === "d";
   }
 
   public canGenerate(): boolean {
-    return this.ctrl && this.key === 'g';
+    return this.ctrl && this.key === "g";
   }
 
   public canDelete(event: KeyboardEvent): boolean {
     const target: HTMLElement | null = event.target as HTMLElement;
-    const hasFocus: boolean = target instanceof HTMLInputElement ||
+    const hasFocus: boolean =
+      target instanceof HTMLInputElement ||
       target instanceof HTMLTextAreaElement ||
       target instanceof HTMLCanvasElement;
 
-    return !hasFocus && !this.ctrl && this.key === 'Delete';
+    return !hasFocus && !this.ctrl && this.key === "Delete";
   }
 }

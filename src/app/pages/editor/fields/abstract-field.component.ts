@@ -1,16 +1,19 @@
-import {Component, DestroyRef, EventEmitter, Input, numberAttribute, OnInit, Output} from "@angular/core";
-import {FormControl, ValidatorFn, Validators} from "@angular/forms";
-import {Field} from "../../../models/fields/field";
+import {Component, DestroyRef, EventEmitter, Input, inject, numberAttribute, type OnInit, Output} from "@angular/core";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {None} from "../../../models/object";
+import {FormControl, type ValidatorFn, Validators} from "@angular/forms";
 import {debounceTime, map} from "rxjs";
+import type {Field} from "../../../models/fields/field";
+import type {None} from "../../../models/object";
 
 @Component({
-    selector: 'fig-abstract-field',
-    template: '',
-    standalone: false
+  selector: "fig-abstract-field",
+  template: "",
+  standalone: false,
 })
-export abstract class AbstractFieldComponent<F extends Field, FormType, FieldType = FormType | undefined> implements OnInit {
+export abstract class AbstractFieldComponent<F extends Field, FormType, FieldType = FormType | undefined>
+  implements OnInit
+{
+  protected readonly dr = inject(DestroyRef);
 
   @Input({transform: numberAttribute})
   debounce: number = 0;
@@ -21,13 +24,10 @@ export abstract class AbstractFieldComponent<F extends Field, FormType, FieldTyp
   field!: F;
   form: FormControl<FormType> = new FormControl();
 
-  protected constructor(protected readonly dr: DestroyRef) {
-  }
-
   @Input({
-    alias: 'field',
+    alias: "field",
     transform: (value: Field) => value as F,
-    required: true
+    required: true,
   })
   set _field(field: F) {
     this.field?.removeListener(this.onFieldValueChanged.bind(this), this.onFieldStateChanged.bind(this));
@@ -45,10 +45,9 @@ export abstract class AbstractFieldComponent<F extends Field, FormType, FieldTyp
   }
 
   public ngOnInit(): void {
-    this.form.valueChanges.pipe(
-      takeUntilDestroyed(this.dr),
-      this.debounce > 0 ? debounceTime(this.debounce) : map((x) => x),
-    ).subscribe(this.onFormChanged.bind(this));
+    this.form.valueChanges
+      .pipe(takeUntilDestroyed(this.dr), this.debounce > 0 ? debounceTime(this.debounce) : map((x) => x))
+      .subscribe(this.onFormChanged.bind(this));
   }
 
   protected transformFromForm(value?: FormType): FieldType {
@@ -102,5 +101,4 @@ export abstract class AbstractFieldComponent<F extends Field, FormType, FieldTyp
     this.field.value = value;
     this.update.emit(this.field);
   }
-
 }

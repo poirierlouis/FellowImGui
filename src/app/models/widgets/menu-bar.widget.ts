@@ -1,13 +1,12 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FIGWindowFlags, FIGWindowWidget} from "./window.widget";
+import {FIGWidgetType} from "./widget";
+import {FIGWindowFlags, type FIGWindowWidget} from "./window.widget";
 
-export type FIGMenuBarOptions = object
+export type FIGMenuBarOptions = object;
 
 export class FIGMenuBarWidget extends FIGContainer {
-  public static readonly serializers: FIGSerializeProperty[] = [
-  ];
+  public static readonly serializers: FIGSerializeProperty[] = [];
 
   constructor(_options?: FIGMenuBarOptions) {
     super(FIGWidgetType.menuBar, true);
@@ -15,7 +14,7 @@ export class FIGMenuBarWidget extends FIGContainer {
     this._focusOffset.y = 0;
   }
 
-  public readonly name = 'Menu Bar';
+  public readonly name = "Menu Bar";
 
   public override isChildAccepted(type: FIGWidgetType): boolean {
     return type === FIGWidgetType.menu;

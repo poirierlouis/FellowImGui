@@ -3,31 +3,28 @@ import {
   DestroyRef,
   EventEmitter,
   Input,
+  inject,
   numberAttribute,
-  OnChanges,
-  OnInit,
+  type OnChanges,
+  type OnInit,
   Output,
-  SimpleChanges
-} from '@angular/core';
+  type SimpleChanges,
+} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormControl, ReactiveFormsModule, type ValidatorFn, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {FormControl, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
-import {Number4Field} from "../../../../models/fields/number4.field";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {Field} from "../../../../models/fields/field";
+import type {Field} from "../../../../models/fields/field";
+import type {Number4Field} from "../../../../models/fields/number4.field";
 
 @Component({
-    selector: 'fig-number4-field',
-    imports: [
-        MatInput,
-        MatLabel,
-        MatFormField,
-        ReactiveFormsModule
-    ],
-    templateUrl: './number4-field.component.html',
-    styleUrl: './number4-field.component.css'
+  selector: "fig-number4-field",
+  imports: [MatInput, MatLabel, MatFormField, ReactiveFormsModule],
+  templateUrl: "./number4-field.component.html",
+  styleUrl: "./number4-field.component.css",
 })
 export class Number4FieldComponent implements OnInit, OnChanges {
+  private readonly dr = inject(DestroyRef);
 
   @Input({transform: numberAttribute})
   min: number | null = null;
@@ -53,13 +50,10 @@ export class Number4FieldComponent implements OnInit, OnChanges {
     new FormControl<number>(0, {nonNullable: true}),
   ];
 
-  constructor(protected readonly dr: DestroyRef) {
-  }
-
   @Input({
-    alias: 'field',
+    alias: "field",
     transform: (value: Field<number | number[]>) => value as Number4Field,
-    required: true
+    required: true,
   })
   set _field(field: Number4Field) {
     this.field?.removeListener(this.onFieldValueChanged.bind(this), this.onFieldStateChanged.bind(this));
@@ -68,7 +62,9 @@ export class Number4FieldComponent implements OnInit, OnChanges {
     for (let i: number = 0; i < 4; i++) {
       const form: FormControl<number> = this.forms[i];
 
-      form.setValue(this.field.value![i], {emitEvent: false});
+      if (this.field.value) {
+        form.setValue(this.field.value[i], {emitEvent: false});
+      }
       form.setValidators(this.getValidators());
       if (field.isDisabled) {
         form.disable({emitEvent: false});
@@ -87,7 +83,7 @@ export class Number4FieldComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['min'] || changes['max']) {
+    if (changes["min"] || changes["max"]) {
       for (const form of this.forms) {
         form.setValidators(this.getValidators());
         form.updateValueAndValidity();
@@ -131,14 +127,15 @@ export class Number4FieldComponent implements OnInit, OnChanges {
   }
 
   protected onFormChanged(value: number, index: number): void {
-    if (this.field.value![index] === value) {
+    if (this.field.value && this.field.value[index] === value) {
       return;
     }
     if (this.field.isRequired && value === undefined) {
       return;
     }
-    this.field.value![index] = value;
-    this.update.emit(this.field);
+    if (this.field.value) {
+      this.field.value[index] = value;
+      this.update.emit(this.field);
+    }
   }
-
 }

@@ -1,9 +1,9 @@
-import {FIGWidgetType} from "./widget";
-import {FIGContainer} from "./container";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
+import {type FlagOption, getOptions} from "../fields/flags.field";
+import {FIGContainer} from "./container";
 import {FIGTabBarFlags, FIGTabBarWidget} from "./tab-bar.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FlagOption, getOptions} from "../fields/flags.field";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTabItemFlags {
   UnsavedDocument = 1,
@@ -13,7 +13,7 @@ export enum FIGTabItemFlags {
   NoTooltip = 16,
   NoReorder = 32,
   Leading = 64,
-  Trailing = 128
+  Trailing = 128,
 }
 
 export interface FIGTabItemOptions {
@@ -26,19 +26,19 @@ export const FIGTabItemFlagsOptions: FlagOption[] = getOptions(FIGTabItemFlags);
 export class FIGTabItemWidget extends FIGContainer {
   public static readonly flags: FIGTabItemFlags[] = getEnumValues(FIGTabItemFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'flags', optional: true, default: 0}
+    {name: "label"},
+    {name: "flags", optional: true, default: 0},
   ];
 
-  label: string = 'Tab Item';
+  label: string = "Tab Item";
   flags: number = 0;
 
   isOpen: boolean;
 
   constructor(options?: FIGTabItemOptions) {
     super(FIGWidgetType.tabItem, true);
-    this.registerString('label', 'Label', options?.label ?? 'Tab Item');
-    this.registerFlags('flags', 'Flags', FIGTabItemFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "Label", options?.label ?? "Tab Item");
+    this.registerFlags("flags", "Flags", FIGTabItemFlagsOptions, options?.flags, true, 0);
     this.isOpen = true;
   }
 
@@ -64,7 +64,7 @@ export class FIGTabItemWidget extends FIGContainer {
     if (this.flags === 0) {
       isOpen = ImGui.BeginTabItem(this.label);
     } else {
-      isOpen = ImGui.BeginTabItem(this.label, (_ = this.isOpen) => this.isOpen = _, this.flags);
+      isOpen = ImGui.BeginTabItem(this.label, (_ = this.isOpen) => (this.isOpen = _), this.flags);
     }
     if (isOpen) {
       for (const child of this.children) {
@@ -76,5 +76,4 @@ export class FIGTabItemWidget extends FIGContainer {
     }
     this.drawFocus();
   }
-
 }

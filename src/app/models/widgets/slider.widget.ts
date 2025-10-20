@@ -1,13 +1,13 @@
-import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {getPrecision} from "../string";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {EnumOption} from "../fields/enum.field";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {EnumOption} from "../fields/enum.field";
 import {getOptions} from "../fields/flags.field";
+import {getPrecision} from "../string";
+import {FIGWidgetType} from "./widget";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export enum FIGSliderType {
   slider,
-  drag
+  drag,
 }
 
 export enum FIGSliderDataType {
@@ -19,12 +19,12 @@ export enum FIGSliderDataType {
   float,
   float2,
   float3,
-  float4
+  float4,
 }
 
 export const FIGSliderTypeOptions: EnumOption[] = [
-  {value: FIGSliderType.slider, label: 'Slider'},
-  {value: FIGSliderType.drag, label: 'Drag'}
+  {value: FIGSliderType.slider, label: "Slider"},
+  {value: FIGSliderType.drag, label: "Drag"},
 ];
 export const FIGSliderDataTypeOptions: EnumOption[] = getOptions(FIGSliderDataType);
 
@@ -42,48 +42,55 @@ export interface FIGSliderOptions extends FIGTooltipOption {
 
 export class FIGSliderWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'sliderType', optional: true, default: FIGSliderType.slider},
-    {name: 'dataType'},
-    {name: 'value'},
-    {name: 'valueSpeed', optional: true, default: 0.01},
-    {name: 'valueMin'},
-    {name: 'valueMax'},
-    {name: 'format'},
-    {name: 'power', optional: true, default: 0},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "label"},
+    {name: "sliderType", optional: true, default: FIGSliderType.slider},
+    {name: "dataType"},
+    {name: "value"},
+    {name: "valueSpeed", optional: true, default: 0.01},
+    {name: "valueMin"},
+    {name: "valueMax"},
+    {name: "format"},
+    {name: "power", optional: true, default: 0},
+    {name: "tooltip", optional: true, default: undefined},
   ];
-  label: string = 'Slider';
+  label: string = "Slider";
   sliderType: FIGSliderType = FIGSliderType.slider;
   dataType: FIGSliderDataType = FIGSliderDataType.int;
   value: number[] = [0, 0, 0, 0];
   valueSpeed: number = 0.01;
   valueMin: number = 0;
   valueMax: number = 100;
-  format: string = '%d';
+  format: string = "%d";
   power: number = 0;
 
   constructor(options?: FIGSliderOptions) {
     super(FIGWidgetType.slider, true);
-    this.registerString('label', 'Label', options?.label ?? 'Slider / Drag');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerEnum('sliderType', 'Type', FIGSliderTypeOptions, options?.sliderType, true, FIGSliderType.slider);
-    this.registerEnum('dataType', 'Data Type', FIGSliderDataTypeOptions, options?.dataType, true, FIGSliderDataType.int);
+    this.registerString("label", "Label", options?.label ?? "Slider / Drag");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerEnum("sliderType", "Type", FIGSliderTypeOptions, options?.sliderType, true, FIGSliderType.slider);
+    this.registerEnum(
+      "dataType",
+      "Data Type",
+      FIGSliderDataTypeOptions,
+      options?.dataType,
+      true,
+      FIGSliderDataType.int,
+    );
     // TODO: temporary fix
     let value: number | number[] | undefined = options?.value;
 
     if (!Array.isArray(value)) {
       value = [value ?? 0, 0, 0, 0];
     }
-    this.registerNumber4('value', 'Value', value, true, [0, 0, 0, 0]);
-    this.registerFloat('valueSpeed', 'Value speed', options?.valueSpeed, true, 0.01);
+    this.registerNumber4("value", "Value", value, true, [0, 0, 0, 0]);
+    this.registerFloat("valueSpeed", "Value speed", options?.valueSpeed, true, 0.01);
 
     const isInteger: boolean = FIGSliderWidget.isInteger(this.dataType);
-    this.registerFloat('valueMin', 'Minimum', options?.valueMin, true, (isInteger ? 0 : 0.01));
-    this.registerFloat('valueMax', 'Maximum', options?.valueMax, true, (isInteger ? 100 : 1.00));
+    this.registerFloat("valueMin", "Minimum", options?.valueMin, true, isInteger ? 0 : 0.01);
+    this.registerFloat("valueMax", "Maximum", options?.valueMax, true, isInteger ? 100 : 1.0);
 
-    this.registerString('format', 'Format', options?.format, true, (isInteger ? '%d' : '%.2f'));
-    this.registerInteger('power', 'Power', options?.power, true, 0);
+    this.registerString("format", "Format", options?.format, true, isInteger ? "%d" : "%.2f");
+    this.registerInteger("power", "Power", options?.power, true, 0);
   }
 
   public get name(): string {
@@ -110,7 +117,7 @@ export class FIGSliderWidget extends FIGWithTooltip {
   }
 
   public static getPrecision(widget: FIGSliderWidget): number | undefined {
-    if (this.isInteger(widget.dataType) || widget.format === undefined) {
+    if (FIGSliderWidget.isInteger(widget.dataType) || widget.format === undefined) {
       return 0;
     }
     return getPrecision(widget.format);
@@ -118,7 +125,7 @@ export class FIGSliderWidget extends FIGWithTooltip {
 
   public static roundValues(values: number[], precision: number): void {
     for (let i: number = 0; i < values.length; i++) {
-      const round: number = Math.pow(10, precision);
+      const round: number = 10 ** precision;
 
       values[i] = Math.round(values[i] * round) / round;
     }
@@ -146,7 +153,7 @@ export class FIGSliderWidget extends FIGWithTooltip {
       [FIGSliderDataType.float]: ImGui.SliderFloat,
       [FIGSliderDataType.float2]: ImGui.SliderFloat2,
       [FIGSliderDataType.float3]: ImGui.SliderFloat3,
-      [FIGSliderDataType.float4]: ImGui.SliderFloat4
+      [FIGSliderDataType.float4]: ImGui.SliderFloat4,
     },
     [FIGSliderType.drag]: {
       [FIGSliderDataType.int]: ImGui.DragInt,
@@ -156,19 +163,19 @@ export class FIGSliderWidget extends FIGWithTooltip {
       [FIGSliderDataType.float]: ImGui.DragFloat,
       [FIGSliderDataType.float2]: ImGui.DragFloat2,
       [FIGSliderDataType.float3]: ImGui.DragFloat3,
-      [FIGSliderDataType.float4]: ImGui.DragFloat4
-    }
+      [FIGSliderDataType.float4]: ImGui.DragFloat4,
+    },
   };
 
   public override draw(): void {
     const values: number[] = FIGSliderWidget.resize(this);
 
-    const fn: (...args: any[]) => void = FIGSliderWidget.drawers[this.sliderType][this.dataType];
-    const args: any[] = [];
+    const fn: (...args: unknown[]) => void = FIGSliderWidget.drawers[this.sliderType][this.dataType];
+    const args: unknown[] = [];
 
     args.push(this.label);
     if (FIGSliderWidget.getArraySize(this.dataType) === 1) {
-      args.push((_ = values[0]) => values[0] = _);
+      args.push((_ = values[0]) => (values[0] = _));
     } else {
       args.push(values);
     }
@@ -192,5 +199,4 @@ export class FIGSliderWidget extends FIGWithTooltip {
     this.drawFocus();
     this.scrollTo();
   }
-
 }

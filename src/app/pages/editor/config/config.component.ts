@@ -1,65 +1,76 @@
-import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {FIGDocument} from "../../../models/document";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
+import {
+  Component,
+  type ElementRef,
+  EventEmitter,
+  Input,
+  inject,
+  Output,
+  type QueryList,
+  ViewChild,
+  ViewChildren,
+} from "@angular/core";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FIGThemeColors} from "../../../models/document-config";
-import {MatInput} from "@angular/material/input";
 import {MatIconButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {MatTooltip} from "@angular/material/tooltip";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
 import {
   MatAccordion,
   MatExpansionPanel,
   MatExpansionPanelHeader,
-  MatExpansionPanelTitle
+  MatExpansionPanelTitle,
 } from "@angular/material/expansion";
-import {FIGSerializeProperty} from "../../../parsers/document.parser";
-import {FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
-import {FIGCol, FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatIcon} from "@angular/material/icon";
+import {MatInput} from "@angular/material/input";
+import {MatOptgroup, MatOption, MatSelect} from "@angular/material/select";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatTooltip} from "@angular/material/tooltip";
 import {NgxColorsModule, NgxColorsTriggerDirective} from "ngx-colors";
 // @ts-expect-error workaround for ngx-colors
-import {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
-import {Color, parseRGBA, stringifyHEX, stringifyRGBA, Vector4} from "../../../models/math";
+import type {PanelComponent} from "ngx-colors/lib/components/panel/panel.component";
+import type {FIGTemplateEntity} from "../../../entities/template.entity";
+import type {FIGDocument} from "../../../models/document";
+import {FIGCol, type FIGColors, FIGColorsSerializers} from "../../../models/document-colors";
+import type {FIGThemeColors} from "../../../models/document-config";
+import {type FIGFont, FIGFontDefaults, formatImGuiFontName} from "../../../models/document-fonts";
+import {type FIGSizes, FIGSizesSerializers} from "../../../models/document-sizes";
+import {type Color, parseRGBA, stringifyHEX, stringifyRGBA, type Vector4} from "../../../models/math";
+import type {FIGSerializeProperty} from "../../../parsers/document.parser";
 import {TemplateListComponent} from "../template/template-list/template-list.component";
-import {FIGTemplateEntity} from "../../../entities/template.entity";
 
 export interface FIGFormField extends FIGSerializeProperty {
-  fieldType?: 'select';
+  fieldType?: "select";
   min?: number;
   max?: number;
   step?: number;
-  options?: {label: string, value: any}[];
+  options?: {label: string; value: any}[];
 }
 
 @Component({
-    selector: 'fig-config',
-    imports: [
-        MatIcon,
-        MatInput,
-        MatLabel,
-        MatSelect,
-        MatOption,
-        MatTooltip,
-        MatOptgroup,
-        MatFormField,
-        MatIconButton,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelTitle,
-        MatExpansionPanelHeader,
-        ReactiveFormsModule,
-        NgxColorsModule,
-        TemplateListComponent
-    ],
-    templateUrl: './config.component.html',
-    styleUrl: './config.component.css'
+  selector: "fig-config",
+  imports: [
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatTooltip,
+    MatOptgroup,
+    MatFormField,
+    MatIconButton,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
+    ReactiveFormsModule,
+    NgxColorsModule,
+    TemplateListComponent,
+  ],
+  templateUrl: "./config.component.html",
+  styleUrl: "./config.component.css",
 })
 export class ConfigComponent {
+  private readonly toast = inject(MatSnackBar);
 
-  @ViewChild('fontPicker')
+  @ViewChild("fontPicker")
   fontPicker!: ElementRef;
 
   @ViewChildren(NgxColorsTriggerDirective)
@@ -68,10 +79,10 @@ export class ConfigComponent {
   @Output()
   readonly update: EventEmitter<void> = new EventEmitter<void>();
 
-  readonly form: FormGroup = new FormGroup<any>({
-    theme: new FormControl<FIGThemeColors>('dark'),
+  readonly form: FormGroup = new FormGroup<object>({
+    theme: new FormControl<FIGThemeColors>("dark"),
     font: new FormControl<FIGFont>(FIGFontDefaults[0]),
-    fontPath: new FormControl<string>(''),
+    fontPath: new FormControl<string>(""),
     fontSize: new FormControl<number>({value: 13, disabled: true}, {validators: Validators.min(8)}),
   });
 
@@ -85,12 +96,12 @@ export class ConfigComponent {
   protected document!: FIGDocument;
   private fontFile?: File;
 
-  constructor(private readonly toast: MatSnackBar) {
-    this.form.get('theme')!.valueChanges.subscribe(this.onThemeChanged.bind(this));
-    this.form.get('font')!.valueChanges.subscribe(this.onFontChanged.bind(this));
+  constructor() {
+    this.form.get("theme")!.valueChanges.subscribe(this.onThemeChanged.bind(this));
+    this.form.get("font")!.valueChanges.subscribe(this.onFontChanged.bind(this));
 
     for (const field of this.sizesFields) {
-      if (field.type === 'array') {
+      if (field.type === "array") {
         this.form.addControl(`${field.name}0`, new FormControl(null));
         this.form.addControl(`${field.name}1`, new FormControl(null));
         this.form.get(`${field.name}0`)!.valueChanges.subscribe((value) => this.onSizeFieldChanged(field, value, 0));
@@ -106,7 +117,7 @@ export class ConfigComponent {
     }
   }
 
-  @Input('document')
+  @Input("document")
   public set _document(value: FIGDocument) {
     this.document = value;
     this.embeddedFonts = this.document.config.embeddedFonts;
@@ -125,22 +136,22 @@ export class ConfigComponent {
   }
 
   protected get canImportFont(): boolean {
-    return !!this.fontFile && this.form.get('fontSize')!.valid;
+    return !!this.fontFile && this.form.get("fontSize")!.valid;
   }
 
   public updateForm(): void {
-    this.form.get('theme')!.setValue(this.document.config.theme, {emitEvent: false});
+    this.form.get("theme")!.setValue(this.document.config.theme, {emitEvent: false});
     setTimeout(() => {
-      this.form.get('font')!.setValue(this.currentFont, {emitEvent: false});
+      this.form.get("font")!.setValue(this.currentFont, {emitEvent: false});
     });
-    this.form.get('fontPath')!.setValue('', {emitEvent: false});
-    this.form.get('fontSize')!.setValue({value: 13, disabled: true}, {emitEvent: false});
+    this.form.get("fontPath")!.setValue("", {emitEvent: false});
+    this.form.get("fontSize")!.setValue({value: 13, disabled: true}, {emitEvent: false});
     const sizes: FIGSizes | undefined = this.document.config.sizes;
 
     for (const field of this.sizesFields) {
       const fieldSize: number | number[] | undefined = sizes?.[field.name];
 
-      if (field.type === 'array') {
+      if (field.type === "array") {
         const fieldSizeArray: number[] | undefined = fieldSize as number[] | undefined;
 
         this.form.get(`${field.name}0`)!.setValue(fieldSizeArray?.[0] ?? field.default[0], {emitEvent: false});
@@ -191,7 +202,7 @@ export class ConfigComponent {
 
     this.document.removeFont(font);
     this.onFontChanged(this.fonts[0]);
-    this.form.get('font')!.setValue(this.fonts[0], {emitEvent: false});
+    this.form.get("font")!.setValue(this.fonts[0], {emitEvent: false});
   }
 
   protected onFontPicked(event: Event): void {
@@ -203,15 +214,15 @@ export class ConfigComponent {
     }
     const file: File = files[0];
 
-    if (!file.name.endsWith('.ttf') && !file.name.endsWith('.otf')) {
-      this.toast.open('Only TrueType and OpenType formats are supported (.ttf|.otf).');
-      this.form.get('fontPath')!.setValue('', {emitEvent: false});
-      this.form.get('fontSize')!.disable({emitEvent: false});
+    if (!file.name.endsWith(".ttf") && !file.name.endsWith(".otf")) {
+      this.toast.open("Only TrueType and OpenType formats are supported (.ttf|.otf).");
+      this.form.get("fontPath")!.setValue("", {emitEvent: false});
+      this.form.get("fontSize")!.disable({emitEvent: false});
       return;
     }
     this.fontFile = file;
-    this.form.get('fontPath')!.setValue(file.name);
-    this.form.get('fontSize')!.enable({emitEvent: false});
+    this.form.get("fontPath")!.setValue(file.name);
+    this.form.get("fontSize")!.enable({emitEvent: false});
   }
 
   protected async onImportFont(): Promise<void> {
@@ -221,8 +232,8 @@ export class ConfigComponent {
     const buffer: Uint8Array = new Uint8Array(await this.fontFile.arrayBuffer());
     const font: FIGFont = {
       name: this.fontFile.name,
-      size: +this.form.get('fontSize')!.value,
-      buffer: buffer
+      size: +this.form.get("fontSize")!.value,
+      buffer: buffer,
     };
 
     this.embeddedFonts.push(font);
@@ -239,7 +250,7 @@ export class ConfigComponent {
     $panel.menu = 3;
     if ($panel.color.length === 0) {
       $panel.color = stringifyRGBA(color);
-    }/* else if ($panel.color.length === 0) {
+    } /* else if ($panel.color.length === 0) {
       $panel.color = 'rgb(255, 255, 255)';
     }*/
   }
@@ -269,8 +280,8 @@ export class ConfigComponent {
 
   private resetImportFont(): void {
     this.fontFile = undefined;
-    this.form.get('fontPath')!.setValue('', {emitEvent: false});
-    this.form.get('fontSize')!.disable({emitEvent: false});
+    this.form.get("fontPath")!.setValue("", {emitEvent: false});
+    this.form.get("fontSize")!.disable({emitEvent: false});
   }
 
   private isFontEmbedded(): boolean {
@@ -279,10 +290,11 @@ export class ConfigComponent {
     if (!imguiFontName) {
       return false;
     }
-    const font: FIGFont | undefined = this.document.config.embeddedFonts.find((font) => formatImGuiFontName(font) === imguiFontName);
+    const font: FIGFont | undefined = this.document.config.embeddedFonts.find(
+      (font) => formatImGuiFontName(font) === imguiFontName,
+    );
 
     return !!font;
-
   }
 
   private onSizeFieldChanged(field: FIGFormField, value: any, index?: number): void {
@@ -299,7 +311,7 @@ export class ConfigComponent {
     const sizes: FIGSizes | undefined = this.document.config.sizes;
     let currentValue: any | undefined = sizes[field.name] ?? field.default;
 
-    if (field.type === 'array' && index !== undefined) {
+    if (field.type === "array" && index !== undefined) {
       currentValue[index] = value;
     } else {
       currentValue = value;
@@ -321,5 +333,4 @@ export class ConfigComponent {
     this.document.config.colors[field.name] = color;
     this.update.emit();
   }
-
 }

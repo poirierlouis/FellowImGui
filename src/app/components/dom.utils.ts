@@ -1,7 +1,6 @@
 export class DOMUtils {
-
   /**
-   * Whether $element is entirely visible within $root on vertical axis?
+   * Whether $element is entirely visible within $root on the vertical axis?
    * @param $root area of scrolling.
    * @param $element to scroll in/out of area.
    */
@@ -13,5 +12,4 @@ export class DOMUtils {
 
     return elementTop >= viewportTop && elementBottom <= viewportBottom;
   }
-
 }

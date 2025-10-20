@@ -1,15 +1,14 @@
 import {Injectable} from "@angular/core";
-import {FIGDocumentParser} from "../parsers/document.parser";
-import {FIGDocumentJsonParser} from "../parsers/json/document-json.parser";
-import {FIGDocument} from "../models/document";
-import {Observable} from "rxjs";
+import type {Observable} from "rxjs";
 import {fromPromise} from "rxjs/internal/observable/innerFrom";
+import type {FIGDocument} from "../models/document";
+import type {FIGDocumentParser} from "../parsers/document.parser";
+import {FIGDocumentJsonParser} from "../parsers/json/document-json.parser";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DocumentService {
-
   private parser: FIGDocumentParser;
 
   constructor() {
@@ -24,5 +23,4 @@ export class DocumentService {
   public write(document: FIGDocument): Observable<File> {
     return fromPromise(this.parser.write(document));
   }
-
 }

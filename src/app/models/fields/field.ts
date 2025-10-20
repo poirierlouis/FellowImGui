@@ -32,12 +32,14 @@ export class Field<T = unknown> {
   private readonly listeners: FieldListener[];
   private isEnabled: boolean;
 
-  protected constructor(type: FieldType,
-                        name: string,
-                        label: string,
-                        value?: T,
-                        isOptional: boolean = false,
-                        defaultValue?: T) {
+  protected constructor(
+    type: FieldType,
+    name: string,
+    label: string,
+    value?: T,
+    isOptional: boolean = false,
+    defaultValue?: T,
+  ) {
     this.type = type;
     this.name = name;
     this.label = label;
@@ -64,7 +66,7 @@ export class Field<T = unknown> {
   public addListener(fn: FieldValueCallback, state?: FieldStateCallback): void {
     this.listeners.push({
       callback: fn,
-      state: state
+      state: state,
     });
   }
 
@@ -95,5 +97,4 @@ export class Field<T = unknown> {
       listener.callback(this.value);
     }
   }
-
 }

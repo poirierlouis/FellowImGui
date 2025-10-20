@@ -1,5 +1,5 @@
-export function getEnumValues<T>(data: any): T[] {
+export function getEnumValues<T>(data: object): T[] {
   return Object.keys(data)
-    .filter((value: string) => !isNaN(Number(value)))
+    .filter((value: string) => !Number.isNaN(Number(value)))
     .map((value: string) => +value as T);
 }

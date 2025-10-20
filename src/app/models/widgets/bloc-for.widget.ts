@@ -1,21 +1,19 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {FIGWidgetType} from "./widget";
 
 export interface FIGBlocForOptions {
   readonly size?: number;
 }
 
 export class FIGBlocForWidget extends FIGContainer {
-  public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'size', optional: true, default: 10}
-  ];
+  public static readonly serializers: FIGSerializeProperty[] = [{name: "size", optional: true, default: 10}];
 
   size: number = 10;
 
   constructor(options?: FIGBlocForOptions) {
     super(FIGWidgetType.blocFor, true);
-    this.registerInteger('size', 'Size', options?.size, true, 10);
+    this.registerInteger("size", "Size", options?.size, true, 10);
     this._focusOffset.y = 0;
   }
 

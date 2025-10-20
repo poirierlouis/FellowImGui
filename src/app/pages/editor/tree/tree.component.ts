@@ -1,5 +1,21 @@
-import {Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {SelectionModel} from "@angular/cdk/collections";
+import {FlatTreeControl} from "@angular/cdk/tree";
+import {AsyncPipe} from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  inject,
+  Output,
+  type QueryList,
+  ViewChild,
+  ViewChildren,
+} from "@angular/core";
+import {MatDivider} from "@angular/material/divider";
 import {MatIcon} from "@angular/material/icon";
+import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {
   MatTree,
   MatTreeFlatDataSource,
@@ -8,22 +24,16 @@ import {
   MatTreeNodeDef,
   MatTreeNodePadding,
 } from "@angular/material/tree";
-import {FlatTreeControl} from "@angular/cdk/tree";
+import type {Observable} from "rxjs";
+import {DismissibleDirective} from "../../../directives/dismissible.directive";
+import {DragDirective} from "../../../directives/drag.directive";
+import {DropDirective, type FIGDropEvent} from "../../../directives/drop.directive";
+import {type FIGAction, FIGActionFactory} from "../../../models/actions/action";
+import type {FIGDocument} from "../../../models/document";
 import {FIGContainer} from "../../../models/widgets/container";
 import {FIGWidget, FIGWidgetType} from "../../../models/widgets/widget";
-import {DismissibleDirective} from "../../../directives/dismissible.directive";
-import {FIGDocument} from "../../../models/document";
-import {SelectionModel} from "@angular/cdk/collections";
-import {DragDirective} from "../../../directives/drag.directive";
-import {DropDirective, FIGDropEvent} from "../../../directives/drop.directive";
-import {FormatterService} from "../../../services/formatter.service";
-import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {FIGAction, FIGActionFactory} from "../../../models/actions/action";
 import {FIGWidgetFactory} from "../../../models/widgets/widget.factory";
-import {Observable} from "rxjs";
-import {AsyncPipe} from "@angular/common";
-import {MatDivider} from "@angular/material/divider";
+import {FormatterService} from "../../../services/formatter.service";
 
 interface FlatNode {
   expandable: boolean;
@@ -36,27 +46,29 @@ interface FlatNode {
 }
 
 @Component({
-    selector: 'fig-tree',
-    imports: [
-        AsyncPipe,
-        MatIcon,
-        MatDivider,
-        MatTree,
-        MatTreeNode,
-        MatTreeNodeDef,
-        MatTreeNodePadding,
-        MatMenu,
-        MatMenuItem,
-        MatMenuTrigger,
-        MatMenuContent,
-        DragDirective,
-        DropDirective,
-        DismissibleDirective,
-    ],
-    templateUrl: './tree.component.html',
-    styleUrl: './tree.component.css'
+  selector: "fig-tree",
+  imports: [
+    AsyncPipe,
+    MatIcon,
+    MatDivider,
+    MatTree,
+    MatTreeNode,
+    MatTreeNodeDef,
+    MatTreeNodePadding,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatMenuContent,
+    DragDirective,
+    DropDirective,
+    DismissibleDirective,
+  ],
+  templateUrl: "./tree.component.html",
+  styleUrl: "./tree.component.css",
 })
 export class TreeComponent {
+  private readonly formatterService = inject(FormatterService);
+  private readonly toast = inject(MatSnackBar);
 
   @ViewChild(MatMenuTrigger)
   trigger!: MatMenuTrigger;
@@ -70,37 +82,33 @@ export class TreeComponent {
   @ViewChildren(MatTreeNode, {read: ElementRef})
   nodes!: QueryList<ElementRef>;
 
-  contextMenuPosition: {x: string, y: string} = {x: '0', y: '0'};
+  contextMenuPosition: {x: string; y: string} = {x: "0", y: "0"};
 
   treeControl: FlatTreeControl<FlatNode> = new FlatTreeControl(
-    node => node.level,
-    node => node.expandable,
+    (node) => node.level,
+    (node) => node.expandable,
   );
   treeFlattener = new MatTreeFlattener(
     (widget: FIGWidget, level: number) => {
       return {
-        expandable: (widget instanceof FIGContainer) ? widget.children.length > 0 : false,
+        expandable: widget instanceof FIGContainer ? widget.children.length > 0 : false,
         level: level,
         name: widget.name,
         icon: FIGWidgetType[widget.type],
         isContainer: FIGWidget.isContainer(widget.type),
-        widget: widget
+        widget: widget,
       };
     },
-    node => node.level,
-    node => node.expandable,
-    widget => (widget instanceof FIGContainer) ? widget.children : undefined,
+    (node) => node.level,
+    (node) => node.expandable,
+    (widget) => (widget instanceof FIGContainer ? widget.children : undefined),
   );
   treeSelection: SelectionModel<string> = new SelectionModel(true);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   selectedWidget?: FIGWidget;
 
-  constructor(private readonly formatterService: FormatterService,
-              private readonly toast: MatSnackBar) {
-  }
-
-  @Input('document')
+  @Input("document")
   set _document(value: FIGDocument) {
     this.document = value;
     this.dataSource.data = this.document.root;
@@ -129,18 +137,20 @@ export class TreeComponent {
       return;
     }
     setTimeout(() => {
-      const node: ElementRef | undefined = this.nodes.find((node) => node.nativeElement.dataset['uuid'] === widget.uuid);
+      const node: ElementRef | undefined = this.nodes.find(
+        (node) => node.nativeElement.dataset["uuid"] === widget.uuid,
+      );
 
       if (!node) {
         return;
       }
       const $node: HTMLElement = node.nativeElement;
 
-      $node.scrollIntoView({block: 'center'});
+      $node.scrollIntoView({block: "center"});
     });
   }
 
-  protected trackBy(_: number, node: FlatNode): any {
+  protected trackBy(_: number, node: FlatNode): string | string[] {
     return node.widget.trackBy();
   }
 
@@ -175,8 +185,8 @@ export class TreeComponent {
 
   protected dropWidget(event: FIGDropEvent): void {
     const type: FIGWidgetType | undefined = FIGWidgetType[event.drag as keyof typeof FIGWidgetType];
-    const drag: FIGWidget | undefined = (!event.drag) ? undefined : this.document.findByUuid(event.drag);
-    const drop: FIGWidget | undefined = (!event.drop) ? undefined : this.document.findByUuid(event.drop);
+    const drag: FIGWidget | undefined = !event.drag ? undefined : this.document.findByUuid(event.drag);
+    const drop: FIGWidget | undefined = !event.drop ? undefined : this.document.findByUuid(event.drop);
     let needUpdate: boolean = false;
 
     if (type !== undefined || event.duplicate) {
@@ -211,16 +221,16 @@ export class TreeComponent {
     event.preventDefault();
     this.contextMenuPosition.x = `${event.clientX}px`;
     this.contextMenuPosition.y = `${event.clientY}px`;
-    this.trigger.menuData = {'widget': widget};
+    this.trigger.menuData = {widget: widget};
     this.trigger.openMenu();
   }
 
   public duplicateWidget(widget: FIGWidget): void {
     const clone: FIGWidget | undefined = FIGWidgetFactory.clone(widget);
-    const needUpdate: boolean = this.document.insertWidget(clone, widget, 'after');
+    const needUpdate: boolean = this.document.insertWidget(clone, widget, "after");
 
     if (!needUpdate) {
-      console.error('Failed to duplicate this widget.');
+      console.error("Failed to duplicate this widget.");
       return;
     }
     this.update();
@@ -275,5 +285,4 @@ export class TreeComponent {
   private findNodeByUuid(uuid: string): FlatNode | undefined {
     return this.treeControl.dataNodes.find((node) => node.widget.uuid === uuid);
   }
-
 }

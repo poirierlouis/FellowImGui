@@ -1,29 +1,18 @@
-import {Component, DestroyRef} from '@angular/core';
-import {AbstractFieldComponent} from "../abstract-field.component";
-import {FlagOption, FlagsField} from "../../../../models/fields/flags.field";
+import {Component} from "@angular/core";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {ReactiveFormsModule} from "@angular/forms";
+import type {FlagOption, FlagsField} from "../../../../models/fields/flags.field";
+import {AbstractFieldComponent} from "../abstract-field.component";
 
 @Component({
-    selector: 'fig-flags-field',
-    imports: [
-        MatLabel,
-        MatSelect,
-        MatOption,
-        MatFormField,
-        ReactiveFormsModule
-    ],
-    templateUrl: './flags-field.component.html',
-    styleUrl: './flags-field.component.css'
+  selector: "fig-flags-field",
+  imports: [MatLabel, MatSelect, MatOption, MatFormField, ReactiveFormsModule],
+  templateUrl: "./flags-field.component.html",
+  styleUrl: "./flags-field.component.css",
 })
 export class FlagsFieldComponent extends AbstractFieldComponent<FlagsField, number[], number> {
-
   readonly flags: FlagOption[] = [];
-
-  constructor(dr: DestroyRef) {
-    super(dr);
-  }
 
   protected override transformFromForm(value?: number[]): number {
     let flags: number = 0;
@@ -59,5 +48,4 @@ export class FlagsFieldComponent extends AbstractFieldComponent<FlagsField, numb
     this.flags.length = 0;
     this.flags.push(...this.field.options);
   }
-
 }

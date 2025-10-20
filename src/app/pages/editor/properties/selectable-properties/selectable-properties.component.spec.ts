@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {SelectablePropertiesComponent} from './selectable-properties.component';
+import {SelectablePropertiesComponent} from "./selectable-properties.component";
 
-xdescribe('SelectablePropertiesComponent', () => {
+xdescribe("SelectablePropertiesComponent", () => {
   let component: SelectablePropertiesComponent;
   let fixture: ComponentFixture<SelectablePropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectablePropertiesComponent]
-    })
-      .compileComponents();
+      imports: [SelectablePropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SelectablePropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

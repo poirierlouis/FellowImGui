@@ -1,7 +1,7 @@
-import {FIGWidget, FIGWidgetType} from "./widget";
-import {BehaviorSubject} from "rxjs";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {BehaviorSubject} from "rxjs";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGWidget, FIGWidgetType} from "./widget";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export class FIGRadioAccessor {
   readonly groupId: string;
@@ -14,27 +14,29 @@ export class FIGRadioAccessor {
     this.subjects = [];
   }
 
-  access = (_ = this.value) => this.value = _;
+  access = (_ = this.value) => (this.value = _);
 
   update(): void {
-    this.subjects.forEach((subject) => subject.next());
+    for (const subject of this.subjects) {
+      subject.next();
+    }
   }
 
   registerSubject(subject: BehaviorSubject<void>): void {
-    const index: number = this.subjects.findIndex((item) => item === subject);
-
+    const index: number = this.subjects.indexOf(subject);
     if (index !== -1) {
       return;
     }
+
     this.subjects.push(subject);
   }
 
   forgetSubject(subject: BehaviorSubject<void>): boolean {
-    const index: number = this.subjects.findIndex((item) => item === subject);
-
+    const index: number = this.subjects.indexOf(subject);
     if (index === -1) {
       return false;
     }
+
     this.subjects.splice(index, 1);
     return this.subjects.length === 0;
   }
@@ -48,27 +50,26 @@ export interface FIGRadioOptions extends FIGTooltipOption {
 
 export class FIGRadioWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'groupId'},
-    {name: 'label'},
-    {name: 'tooltip', optional: true, default: undefined},
-    {name: 'index', optional: true, default: 0}
+    {name: "groupId"},
+    {name: "label"},
+    {name: "tooltip", optional: true, default: undefined},
+    {name: "index", optional: true, default: 0},
   ];
 
   private static readonly _accessors: FIGRadioAccessor[] = [];
 
-  groupId: string = 'RadioGroup';
-  label: string = 'Radio';
+  groupId: string = "RadioGroup";
+  label: string = "Radio";
   index: number = 0;
 
   private _access?: FIGRadioAccessor;
 
   constructor(options?: FIGRadioOptions) {
     super(FIGWidgetType.radio, true);
-    this.registerString('groupId', 'Group ID', options?.groupId, true, 'RadioGroup');
-    this.registerString('label', 'Label', options?.label, true, 'Radio');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerInteger('index', 'index', options?.index, true, 0);
-
+    this.registerString("groupId", "Group ID", options?.groupId, true, "RadioGroup");
+    this.registerString("label", "Label", options?.label, true, "Radio");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerInteger("index", "index", options?.index, true, 0);
   }
 
   public get name(): string {
@@ -76,7 +77,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
   }
 
   public get value(): number {
-    return this._access ? this._access!.access() : -1;
+    return this._access ? this._access.access() : -1;
   }
 
   public static filterByGroupId(widget: FIGWidget, groupId: string): boolean {
@@ -89,10 +90,10 @@ export class FIGRadioWidget extends FIGWithTooltip {
 
   private static forgetAccessor(access: FIGRadioAccessor): void {
     const index: number = FIGRadioWidget._accessors.findIndex((item) => item.groupId === access.groupId);
-
     if (index === -1) {
       return;
     }
+
     FIGRadioWidget._accessors.splice(index, 1);
   }
 
@@ -100,7 +101,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
     const accessor: FIGRadioAccessor = this._requestAccessor();
     const prevValue: number = this.value;
 
-    ImGui.RadioButton(this.label, this._access!.access, this.index);
+    ImGui.RadioButton(this.label, this._access?.access, this.index);
     this.drawTooltip();
     this.drawFocus();
     this.scrollTo();
@@ -114,13 +115,14 @@ export class FIGRadioWidget extends FIGWithTooltip {
     if (!this.parent) {
       return;
     }
+
     const sibling: FIGRadioWidget | undefined = this.parent.findPreviousSibling(this, (widget) => {
       return widget.type === FIGWidgetType.radio;
     });
-
     if (!sibling) {
       return;
     }
+
     this.groupId = sibling.groupId;
     this.index = sibling.index + 1;
   }
@@ -134,7 +136,7 @@ export class FIGRadioWidget extends FIGWithTooltip {
   }
 
   private _requestAccessor(): FIGRadioAccessor {
-    if (this._access && this._access!.groupId === this.groupId) {
+    if (this._access && this._access.groupId === this.groupId) {
       return this._access;
     } else if (this._access) {
       if (this._access.forgetSubject(this.updateSubject)) {

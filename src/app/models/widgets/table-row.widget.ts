@@ -1,12 +1,12 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FIGTableWidget} from "./table.widget";
+import type {FIGTableWidget} from "./table.widget";
 import {FIGTableColumnWidget} from "./table-column.widget";
-import {FIGTextWidget} from "./text.widget";
+import type {FIGTextWidget} from "./text.widget";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTableRowFlags {
-  Headers = 1
+  Headers = 1,
 }
 
 export interface FIGTableRowOptions {
@@ -14,19 +14,17 @@ export interface FIGTableRowOptions {
 }
 
 export class FIGTableRowWidget extends FIGContainer {
-  public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'header', optional: true, default: false}
-  ];
+  public static readonly serializers: FIGSerializeProperty[] = [{name: "header", optional: true, default: false}];
 
   header: boolean = false;
 
   constructor(options?: FIGTableRowOptions) {
     super(FIGWidgetType.tableRow, true);
-    this.registerBool('header', 'Header', options?.header, true, false);
+    this.registerBool("header", "Header", options?.header, true, false);
   }
 
   public get name(): string {
-    return `Table ${this.header ? 'Header' : 'Row'}`;
+    return `Table ${this.header ? "Header" : "Row"}`;
   }
 
   public override isChildAccepted(type: FIGWidgetType): boolean {

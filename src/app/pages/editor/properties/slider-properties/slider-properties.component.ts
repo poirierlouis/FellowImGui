@@ -1,32 +1,31 @@
-import {Component, DestroyRef} from '@angular/core';
+import {Component} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {AbstractPropertiesComponent} from "../abstract-properties.component";
-import {FIGSliderDataType, FIGSliderType, FIGSliderWidget} from "../../../../models/widgets/slider.widget";
-import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {type FIGSliderDataType, FIGSliderType, FIGSliderWidget} from "../../../../models/widgets/slider.widget";
 import {EnumFieldComponent} from "../../fields/enum-field/enum-field.component";
 import {NumberFieldComponent} from "../../fields/number-field/number-field.component";
 import {Number4FieldComponent} from "../../fields/number4-field/number4-field.component";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {StringFieldComponent} from "../../fields/string-field/string-field.component";
+import {AbstractPropertiesComponent} from "../abstract-properties.component";
 
 @Component({
-    selector: 'fig-slider-properties',
-    imports: [
-        MatInput,
-        MatLabel,
-        MatFormField,
-        EnumFieldComponent,
-        ReactiveFormsModule,
-        NumberFieldComponent,
-        StringFieldComponent,
-        Number4FieldComponent
-    ],
-    templateUrl: './slider-properties.component.html',
-    styleUrl: './slider-properties.component.css'
+  selector: "fig-slider-properties",
+  imports: [
+    MatInput,
+    MatLabel,
+    MatFormField,
+    EnumFieldComponent,
+    ReactiveFormsModule,
+    NumberFieldComponent,
+    StringFieldComponent,
+    Number4FieldComponent,
+  ],
+  templateUrl: "./slider-properties.component.html",
+  styleUrl: "./slider-properties.component.css",
 })
 export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSliderWidget> {
-
   step: number = 1;
   readonly precision: FormControl<number> = new FormControl<number>(2, {nonNullable: true});
 
@@ -34,9 +33,9 @@ export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSl
   protected readonly isInteger = FIGSliderWidget.isInteger;
   protected readonly getArraySize = FIGSliderWidget.getArraySize;
 
-  constructor(dr: DestroyRef) {
-    super(dr);
-    this.precision.valueChanges.pipe(takeUntilDestroyed(dr)).subscribe(this.onPrecisionChanged.bind(this));
+  constructor() {
+    super();
+    this.precision.valueChanges.pipe(takeUntilDestroyed(this.dr)).subscribe(this.onPrecisionChanged.bind(this));
   }
 
   protected override load(): void {
@@ -61,7 +60,7 @@ export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSl
     this.updateStep(dataType);
     this.updateValues(dataType);
     if (this.isInteger(dataType)) {
-      this.widget.format = '%d';
+      this.widget.format = "%d";
       this.widget.valueSpeed = 0.5;
     } else {
       if (this.precision.value === 0) {
@@ -73,7 +72,7 @@ export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSl
   }
 
   private onValueChanged(value: number[]): void {
-    const round: number = Math.pow(10, this.precision.value);
+    const round: number = 10 ** this.precision.value;
 
     for (let i: number = 0; i < 4; i++) {
       if (this.isInteger(this.widget.dataType)) {
@@ -88,14 +87,14 @@ export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSl
     if (this.isInteger(dataType)) {
       this.step = 1;
     } else {
-      const round: number = Math.pow(10, this.precision.value);
+      const round: number = 10 ** this.precision.value;
 
       this.step = 1 / round;
     }
   }
 
   private updateValues(dataType: FIGSliderDataType): void {
-    const round: number = Math.pow(10, this.precision.value);
+    const round: number = 10 ** this.precision.value;
 
     for (let i: number = 0; i < 4; i++) {
       if (this.isInteger(dataType)) {
@@ -105,5 +104,4 @@ export class SliderPropertiesComponent extends AbstractPropertiesComponent<FIGSl
       }
     }
   }
-
 }

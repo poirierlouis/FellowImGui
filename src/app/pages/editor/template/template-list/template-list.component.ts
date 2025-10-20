@@ -1,36 +1,31 @@
+import {AsyncPipe} from "@angular/common";
 import {
   Component,
   DestroyRef,
-  ElementRef,
+  type ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
+  inject,
+  type OnDestroy,
   Output,
   Renderer2,
-  ViewChild
-} from '@angular/core';
-import {AsyncPipe} from "@angular/common";
-import {DismissibleDirective} from "../../../../directives/dismissible.directive";
-import {MatIcon} from "@angular/material/icon";
-import {
-  MatList,
-  MatListItem,
-  MatListItemLine,
-  MatListItemMeta,
-  MatListItemTitle
-} from "@angular/material/list";
-import {FIGTemplateEntity} from "../../../../entities/template.entity";
+  ViewChild,
+} from "@angular/core";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {map, Observable, OperatorFunction, pipe, Subscription} from "rxjs";
-import {TemplateRepository} from "../../../../repositories/template.repository";
-import {capitalize} from "../../../../models/string";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
-import {TemplateCreateDialogComponent} from "../template-create-dialog/template-create-dialog.component";
-import {FIGConfig} from "../../../../models/document-config";
+import {MatIcon} from "@angular/material/icon";
+import {MatList, MatListItem, MatListItemLine, MatListItemMeta, MatListItemTitle} from "@angular/material/list";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatTooltip} from "@angular/material/tooltip";
+import {map, type Observable, type OperatorFunction, pipe, type Subscription} from "rxjs";
+import {DismissibleDirective} from "../../../../directives/dismissible.directive";
+import type {FIGTemplateEntity} from "../../../../entities/template.entity";
+import type {FIGConfig} from "../../../../models/document-config";
+import {capitalize} from "../../../../models/string";
+import {TemplateRepository} from "../../../../repositories/template.repository";
 import {TemplateService} from "../../../../services/template.service";
+import {TemplateCreateDialogComponent} from "../template-create-dialog/template-create-dialog.component";
 
 interface TemplateItem {
   readonly title: string;
@@ -40,26 +35,32 @@ interface TemplateItem {
 }
 
 @Component({
-    selector: 'fig-template-list',
-    imports: [
-        AsyncPipe,
-        MatIcon,
-        MatIconButton,
-        MatButton,
-        MatList,
-        MatListItem,
-        MatListItemLine,
-        MatListItemTitle,
-        MatListItemMeta,
-        DismissibleDirective,
-        MatTooltip
-    ],
-    templateUrl: './template-list.component.html',
-    styleUrl: './template-list.component.css'
+  selector: "fig-template-list",
+  imports: [
+    AsyncPipe,
+    MatIcon,
+    MatIconButton,
+    MatButton,
+    MatList,
+    MatListItem,
+    MatListItemLine,
+    MatListItemTitle,
+    MatListItemMeta,
+    DismissibleDirective,
+    MatTooltip,
+  ],
+  templateUrl: "./template-list.component.html",
+  styleUrl: "./template-list.component.css",
 })
 export class TemplateListComponent implements OnDestroy {
+  private readonly templateRepository = inject(TemplateRepository);
+  private readonly templateService = inject(TemplateService);
+  private readonly dialog = inject(MatDialog);
+  private readonly toast = inject(MatSnackBar);
+  private readonly renderer = inject(Renderer2);
+  private readonly dr = inject(DestroyRef);
 
-  @ViewChild('openPicker')
+  @ViewChild("openPicker")
   openPicker!: ElementRef;
 
   @Input()
@@ -74,12 +75,7 @@ export class TemplateListComponent implements OnDestroy {
   private createS?: Subscription;
   private saveS?: Subscription;
 
-  constructor(private readonly templateRepository: TemplateRepository,
-              private readonly templateService: TemplateService,
-              private readonly dialog: MatDialog,
-              private readonly toast: MatSnackBar,
-              private readonly renderer: Renderer2,
-              private readonly dr: DestroyRef) {
+  constructor() {
     this.templates$ = this.getTemplates();
   }
 
@@ -96,7 +92,7 @@ export class TemplateListComponent implements OnDestroy {
   protected onSaveTemplate(template: FIGTemplateEntity): void {
     this.saveS?.unsubscribe();
     this.saveS = this.templateService.write(template).subscribe((file: File) => {
-      const $export: HTMLAnchorElement = this.renderer.createElement('a');
+      const $export: HTMLAnchorElement = this.renderer.createElement("a");
       const url: string = URL.createObjectURL(file);
 
       $export.href = url;
@@ -112,10 +108,13 @@ export class TemplateListComponent implements OnDestroy {
     if (template.id === undefined) {
       return;
     }
-    this.templateRepository.delete(template.id).pipe(takeUntilDestroyed(this.dr)).subscribe(() => {
-      this.templates$ = this.getTemplates();
-      this.toast.open(`Template ${template.title} is removed.`);
-    });
+    this.templateRepository
+      .delete(template.id)
+      .pipe(takeUntilDestroyed(this.dr))
+      .subscribe(() => {
+        this.templates$ = this.getTemplates();
+        this.toast.open(`Template ${template.title} is removed.`);
+      });
   }
 
   protected onImportTemplate(): void {
@@ -123,7 +122,8 @@ export class TemplateListComponent implements OnDestroy {
   }
 
   protected onCreateTemplate(): void {
-    this.dialog.open(TemplateCreateDialogComponent)
+    this.dialog
+      .open(TemplateCreateDialogComponent)
       .afterClosed()
       .pipe(takeUntilDestroyed(this.dr))
       .subscribe((title?: string) => {
@@ -132,27 +132,29 @@ export class TemplateListComponent implements OnDestroy {
         }
         const template: FIGTemplateEntity = {
           title: title,
-          ...this.config
+          ...this.config,
         };
 
-        this.templateRepository.create(template).pipe(takeUntilDestroyed(this.dr)).subscribe(this.onTemplateCreated.bind(this));
+        this.templateRepository
+          .create(template)
+          .pipe(takeUntilDestroyed(this.dr))
+          .subscribe(this.onTemplateCreated.bind(this));
       });
   }
 
   protected async importTemplate(event: Event): Promise<void> {
     // @ts-expect-error event type not defined
-    const files: FileList = event.target!.files;
-
-    if (files.length !== 1) {
+    const files: FileList | undefined = event.target?.files;
+    if (!files || files.length !== 1) {
       // TODO: show toast.
       return;
     }
-    const file: File = files[0];
 
+    const file: File = files[0];
     this.importS?.unsubscribe();
     this.importS = this.templateService.read(file).subscribe({
       next: this.onTemplateImported.bind(this),
-      error: this.onTemplateFailed.bind(this)
+      error: this.onTemplateFailed.bind(this),
     });
   }
 
@@ -170,7 +172,7 @@ export class TemplateListComponent implements OnDestroy {
 
   private onTemplateFailed(error: Error): void {
     console.error(error);
-    this.toast.open('Failed to read template. Please report this issue.');
+    this.toast.open("Failed to read template. Please report this issue.");
   }
 
   private getTemplates(): Observable<TemplateItem[]> {
@@ -185,11 +187,10 @@ export class TemplateListComponent implements OnDestroy {
             title: template.title,
             theme: capitalize(template.theme),
             fonts: template.embeddedFonts.length,
-            entity: template
+            entity: template,
           };
         });
-      })
+      }),
     );
   }
-
 }

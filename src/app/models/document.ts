@@ -1,26 +1,27 @@
+import {BehaviorSubject, bufferTime, filter, map, type Observable} from "rxjs";
+import type {FIGDropDirection} from "../directives/drop.directive";
+import type {FIGConfig} from "./document-config";
+import {type FIGFont, formatImGuiFontName} from "./document-fonts";
+import type {FIGEvent} from "./events/event";
 import {FIGContainer} from "./widgets/container";
-import {FIGWidget} from "./widgets/widget";
-import {FIGDropDirection} from "../directives/drop.directive";
-import {BehaviorSubject, bufferTime, filter, map, Observable} from "rxjs";
-import {FIGEvent} from "./events/event";
-import {FIGConfig} from "./document-config";
-import {FIGFont, formatImGuiFontName} from "./document-fonts";
+import type {FIGWidget} from "./widgets/widget";
 
 export class FIGDocument {
-
   // NOTE: sync version number with FIGBaseDocumentParser.
-  readonly version: string = '0.0.0';
+  readonly version: string = "0.0.0";
   readonly root: FIGContainer[] = [];
 
   config: FIGConfig = {
     font: undefined,
     embeddedFonts: [],
     sizes: undefined,
-    theme: 'dark',
-    colors: undefined
+    theme: "dark",
+    colors: undefined,
   };
 
-  private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(undefined);
+  private readonly eventSubject: BehaviorSubject<FIGEvent | undefined> = new BehaviorSubject<FIGEvent | undefined>(
+    undefined,
+  );
   private readonly event$: Observable<FIGEvent | undefined> = this.eventSubject.asObservable();
 
   public addFont(font: FIGFont): void {
@@ -33,7 +34,9 @@ export class FIGDocument {
   }
 
   public removeFont(font: FIGFont): void {
-    const index: number = this.config.embeddedFonts.findIndex((item) => formatImGuiFontName(item) === formatImGuiFontName(font));
+    const index: number = this.config.embeddedFonts.findIndex(
+      (item) => formatImGuiFontName(item) === formatImGuiFontName(font),
+    );
 
     if (index === -1) {
       return;
@@ -46,7 +49,9 @@ export class FIGDocument {
   }
 
   public link(): void {
-    this.root.forEach((container) => container.link(this.eventSubject));
+    for (const container of this.root) {
+      container.link(this.eventSubject);
+    }
   }
 
   public listen(): Observable<FIGEvent[]> {
@@ -55,7 +60,7 @@ export class FIGDocument {
       map((events: (FIGEvent | undefined)[]) => {
         return events.filter((event) => !!event) as FIGEvent[];
       }),
-      filter((events: FIGEvent[]) => events.length > 0)
+      filter((events: FIGEvent[]) => events.length > 0),
     );
   }
 
@@ -92,14 +97,14 @@ export class FIGDocument {
       return true;
     }
     // Prevent window-like widgets within containers.
-    if (!drag.needParent && (parent || direction === 'insert')) {
+    if (!drag.needParent && (parent || direction === "insert")) {
       return false;
     }
     // Insert window-like widgets before/after a container.
     if (!drag.needParent && drag instanceof FIGContainer && drop instanceof FIGContainer) {
       let index: number = this.findIndex(drop);
 
-      if (direction === 'after') {
+      if (direction === "after") {
         index++;
       }
       this.insert(drag, index);
@@ -108,7 +113,7 @@ export class FIGDocument {
       return true;
     }
     // Append widget at the end of drop container.
-    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert' && drop.isChildAccepted(drag.type)) {
+    if (drag.needParent && drop instanceof FIGContainer && direction === "insert" && drop.isChildAccepted(drag.type)) {
       drop.children.push(drag);
       drag.link(this.eventSubject, drop);
       drag.onCreated();
@@ -118,7 +123,7 @@ export class FIGDocument {
     if (drag.needParent && parent && parent.isChildAccepted(drag.type)) {
       let index: number = parent.findIndex(drop);
 
-      if (direction === 'after') {
+      if (direction === "after") {
         index++;
       }
       parent.insert(drag, index);
@@ -149,14 +154,14 @@ export class FIGDocument {
       return false;
     }
     // Prevent window-like widgets within containers.
-    if (!drag.needParent && (parent || direction === 'insert')) {
+    if (!drag.needParent && (parent || direction === "insert")) {
       return false;
     }
     // Move window-like widgets before/after a container.
     if (!drag.needParent && drag instanceof FIGContainer && drop instanceof FIGContainer) {
       let index: number = this.findIndex(drop);
 
-      if (direction === 'after') {
+      if (direction === "after") {
         index++;
       }
       this.remove(drag);
@@ -170,7 +175,7 @@ export class FIGDocument {
       return false;
     }
     // Move widget at the end of drop container.
-    if (drag.needParent && drop instanceof FIGContainer && direction === 'insert' && drop.isChildAccepted(drag.type)) {
+    if (drag.needParent && drop instanceof FIGContainer && direction === "insert" && drop.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       drop.children.push(drag);
       drag.parent = drop;
@@ -178,11 +183,11 @@ export class FIGDocument {
       return true;
     }
     // Move widget elsewhere within a container.
-    if (drag.needParent && direction !== 'insert' && parent && parent.isChildAccepted(drag.type)) {
+    if (drag.needParent && direction !== "insert" && parent && parent.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       let index: number = parent.findIndex(drop);
 
-      if (direction === 'after') {
+      if (direction === "after") {
         index++;
       }
       parent.insert(drag, index);
@@ -231,5 +236,4 @@ export class FIGDocument {
       return item.name === font.name && item.size === font.size;
     });
   }
-
 }

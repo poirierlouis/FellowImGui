@@ -1,7 +1,7 @@
-import {FIGWidget} from "../widgets/widget";
+import type {FIGWidget} from "../widgets/widget";
 
 export enum FIGEventType {
-  click
+  click,
 }
 
 export interface FIGEvent {

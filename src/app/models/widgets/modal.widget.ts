@@ -1,8 +1,8 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import {getEnumValues} from "../enum";
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
-import {getEnumValues} from "../enum";
 import {FIGWindowFlags, FIGWindowFlagsOptions} from "./window.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGModalOptions {
   readonly label?: string;
@@ -13,11 +13,11 @@ export interface FIGModalOptions {
 export class FIGModalWidget extends FIGContainer {
   public static readonly flags: FIGWindowFlags[] = getEnumValues(FIGWindowFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'flags', optional: true, default: 0}
+    {name: "label"},
+    {name: "flags", optional: true, default: 0},
   ];
 
-  label: string = 'Modal';
+  label: string = "Modal";
   flags: number = 0;
 
   isOpen: boolean;
@@ -25,8 +25,8 @@ export class FIGModalWidget extends FIGContainer {
 
   constructor(options?: FIGModalOptions) {
     super(FIGWidgetType.modal, true);
-    this.registerString('label', 'Label', options?.label ?? 'Modal');
-    this.registerFlags('flags', 'Flags', FIGWindowFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "Label", options?.label ?? "Modal");
+    this.registerFlags("flags", "Flags", FIGWindowFlagsOptions, options?.flags, true, 0);
     this.isOpen = false;
     this.debug = true;
   }
@@ -42,7 +42,7 @@ export class FIGModalWidget extends FIGContainer {
     if (this.isOpen) {
       ImGui.OpenPopup(this.label);
     }
-    if (ImGui.BeginPopupModal(this.label, (_ = this.isOpen) => this.isOpen = _, this.flags)) {
+    if (ImGui.BeginPopupModal(this.label, (_ = this.isOpen) => (this.isOpen = _), this.flags)) {
       for (const child of this.children) {
         child.draw();
         child.listen();

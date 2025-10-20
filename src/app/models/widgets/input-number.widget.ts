@@ -1,8 +1,8 @@
-import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type EnumOption, EnumOptionDivider} from "../fields/enum.field";
 import {getPrecision} from "../string";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {EnumOption, EnumOptionDivider} from "../fields/enum.field";
+import {FIGWidgetType} from "./widget";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export enum FIGInputNumberType {
   int,
@@ -15,23 +15,22 @@ export enum FIGInputNumberType {
   float3,
   float4,
 
-  double
+  double,
 }
 
 export const FIGInputNumberTypeOptions: EnumOption[] = [
-  {value: FIGInputNumberType.int, label: 'Int'},
-  {value: FIGInputNumberType.int2, label: 'Int2'},
-  {value: FIGInputNumberType.int3, label: 'Int3'},
-  {value: FIGInputNumberType.int4, label: 'Int4'},
+  {value: FIGInputNumberType.int, label: "Int"},
+  {value: FIGInputNumberType.int2, label: "Int2"},
+  {value: FIGInputNumberType.int3, label: "Int3"},
+  {value: FIGInputNumberType.int4, label: "Int4"},
   EnumOptionDivider(-1),
-  {value: FIGInputNumberType.float, label: 'Float'},
-  {value: FIGInputNumberType.float2, label: 'Float2'},
-  {value: FIGInputNumberType.float3, label: 'Float3'},
-  {value: FIGInputNumberType.float4, label: 'Float4'},
+  {value: FIGInputNumberType.float, label: "Float"},
+  {value: FIGInputNumberType.float2, label: "Float2"},
+  {value: FIGInputNumberType.float3, label: "Float3"},
+  {value: FIGInputNumberType.float4, label: "Float4"},
   EnumOptionDivider(-2),
-  {value: FIGInputNumberType.double, label: 'Double'},
+  {value: FIGInputNumberType.double, label: "Double"},
 ];
-
 
 export interface FIGInputNumberOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -44,13 +43,13 @@ export interface FIGInputNumberOptions extends FIGTooltipOption {
 
 export class FIGInputNumberWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'dataType'},
-    {name: 'value', optional: true, default: 0},
-    {name: 'step'},
-    {name: 'stepFast'},
-    {name: 'format'},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "label"},
+    {name: "dataType"},
+    {name: "value", optional: true, default: 0},
+    {name: "step"},
+    {name: "stepFast"},
+    {name: "format"},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
   private static readonly drawers = {
@@ -67,35 +66,42 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     [FIGInputNumberType.double]: ImGui.InputDouble,
   };
 
-  label: string = 'Input Number';
+  label: string = "Input Number";
   dataType: FIGInputNumberType = FIGInputNumberType.int;
   value: number[] = [0, 0, 0, 0];
   step: number = 1;
   stepFast: number = 10;
-  format: string = '%.3f';
+  format: string = "%.3f";
 
   constructor(options?: FIGInputNumberOptions) {
     super(FIGWidgetType.inputNumber, true);
-    this.registerString('label', 'Label', options?.label ?? 'Input Number');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerEnum('dataType', 'Data type', FIGInputNumberTypeOptions, options?.dataType, true, FIGInputNumberType.int);
-    this.registerNumber4('value', 'Value', options?.value, true, [0, 0, 0, 0]);
+    this.registerString("label", "Label", options?.label ?? "Input Number");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerEnum(
+      "dataType",
+      "Data type",
+      FIGInputNumberTypeOptions,
+      options?.dataType,
+      true,
+      FIGInputNumberType.int,
+    );
+    this.registerNumber4("value", "Value", options?.value, true, [0, 0, 0, 0]);
 
-    let defaultFormat: string = '%d';
+    let defaultFormat: string = "%d";
     let defaultStep: number = 1;
     let defaultStepFast: number = 10;
     if (this.dataType === FIGInputNumberType.int) {
-      defaultFormat = '%.3f';
+      defaultFormat = "%.3f";
       defaultStep = 0.001;
-      defaultStepFast = 0.010;
+      defaultStepFast = 0.01;
     } else if (this.dataType === FIGInputNumberType.double) {
-      defaultFormat = '%.8f';
+      defaultFormat = "%.8f";
       defaultStep = 0.00000001;
-      defaultStepFast = 0.00000010;
+      defaultStepFast = 0.0000001;
     }
-    this.registerNumber('step', 'Step', options?.step, true, defaultStep);
-    this.registerNumber('stepFast', 'Step fast', options?.stepFast, true, defaultStepFast);
-    this.registerString('format', 'Format', options?.format, true, defaultFormat);
+    this.registerNumber("step", "Step", options?.step, true, defaultStep);
+    this.registerNumber("stepFast", "Step fast", options?.stepFast, true, defaultStepFast);
+    this.registerString("format", "Format", options?.format, true, defaultFormat);
   }
 
   public get name(): string {
@@ -107,8 +113,10 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
   }
 
   public static isArray(dataType: FIGInputNumberType): boolean {
-    return (dataType >= FIGInputNumberType.int2 && dataType <= FIGInputNumberType.int4) ||
-      (dataType >= FIGInputNumberType.float2 && dataType <= FIGInputNumberType.float4);
+    return (
+      (dataType >= FIGInputNumberType.int2 && dataType <= FIGInputNumberType.int4) ||
+      (dataType >= FIGInputNumberType.float2 && dataType <= FIGInputNumberType.float4)
+    );
   }
 
   public static getArraySize(dataType: FIGInputNumberType): number {
@@ -123,7 +131,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
   }
 
   public static getPrecision(widget: FIGInputNumberWidget): number | undefined {
-    if (this.isInteger(widget.dataType)) {
+    if (FIGInputNumberWidget.isInteger(widget.dataType)) {
       return 0;
     }
     return getPrecision(widget.format);
@@ -144,7 +152,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
 
   public static roundValues(values: number[], precision: number): void {
     for (let i: number = 0; i < values.length; i++) {
-      const round: number = Math.pow(10, precision);
+      const round: number = 10 ** precision;
       values[i] = Math.round(values[i] * round) / round;
     }
   }
@@ -156,7 +164,7 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     const isFloat = !FIGInputNumberWidget.isInteger(this.dataType);
 
     if (FIGInputNumberWidget.getArraySize(this.dataType) === 1) {
-      args.push((_ = values[0]) => values[0] = _);
+      args.push((_ = values[0]) => (values[0] = _));
       args.push(this.step, this.stepFast);
     } else {
       args.push(values);
@@ -179,5 +187,4 @@ export class FIGInputNumberWidget extends FIGWithTooltip {
     this.drawFocus();
     this.scrollTo();
   }
-
 }

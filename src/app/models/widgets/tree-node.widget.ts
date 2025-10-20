@@ -1,8 +1,8 @@
-import {FIGWidgetType} from "./widget";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
+import {type FlagOption, getOptions} from "../fields/flags.field";
 import {FIGContainer} from "./container";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FlagOption, getOptions} from "../fields/flags.field";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTreeNodeFlags {
   Selected = 1,
@@ -18,7 +18,7 @@ export enum FIGTreeNodeFlags {
   FramePadding = 1024,
   SpanAvailWidth = 2048,
   SpanFullWidth = 4096,
-  NavLeftJumpsBackHere = 8192
+  NavLeftJumpsBackHere = 8192,
 }
 
 export const FIGTreeNodeFlagsOptions: FlagOption[] = getOptions(FIGTreeNodeFlags);
@@ -31,17 +31,17 @@ export interface FIGTreeNodeOptions {
 export class FIGTreeNodeWidget extends FIGContainer {
   public static readonly flags: FIGTreeNodeFlags[] = getEnumValues(FIGTreeNodeFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'flags', optional: true, default: 0}
+    {name: "label"},
+    {name: "flags", optional: true, default: 0},
   ];
 
-  label: string = 'TreeNode';
+  label: string = "TreeNode";
   flags: number = 0;
 
   constructor(options?: FIGTreeNodeOptions) {
     super(FIGWidgetType.treeNode, true);
-    this.registerString('label', 'Label', options?.label ?? 'TreeNode');
-    this.registerFlags('flags', 'Flags', FIGTreeNodeFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "Label", options?.label ?? "TreeNode");
+    this.registerFlags("flags", "Flags", FIGTreeNodeFlagsOptions, options?.flags, true, 0);
   }
 
   public get name(): string {

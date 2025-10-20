@@ -1,25 +1,24 @@
 import {Injectable} from "@angular/core";
-import {FIGFormatter, FIGFormatterLanguage} from "../formatters/formatter";
+import {BehaviorSubject, map, type Observable} from "rxjs";
+import type {FIGFormatter, FIGFormatterLanguage} from "../formatters/formatter";
 import {FIGLuaSol2Formatter} from "../formatters/lua-sol2.formatter";
-import {FIGDocument} from "../models/document";
-import {FIGWidget, FIGWidgetType} from "../models/widgets/widget";
-import {BehaviorSubject, map, Observable} from "rxjs";
+import type {FIGDocument} from "../models/document";
+import type {FIGWidget, FIGWidgetType} from "../models/widgets/widget";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class FormatterService {
-
   private readonly formatters: FIGFormatter[];
 
-  private readonly formatterSubject: BehaviorSubject<FIGFormatter | undefined> = new BehaviorSubject<FIGFormatter | undefined>(undefined);
+  private readonly formatterSubject: BehaviorSubject<FIGFormatter | undefined> = new BehaviorSubject<
+    FIGFormatter | undefined
+  >(undefined);
   private readonly formatter$: Observable<FIGFormatter | undefined> = this.formatterSubject.asObservable();
 
   constructor() {
-    this.formatters = [
-      new FIGLuaSol2Formatter()
-    ];
-    this.changeLanguage('Lua - sol2');
+    this.formatters = [new FIGLuaSol2Formatter()];
+    this.changeLanguage("Lua - sol2");
   }
 
   public get currentLanguage(): FIGFormatterLanguage | undefined {
@@ -50,15 +49,10 @@ export class FormatterService {
   }
 
   public isSupported(type: FIGWidgetType): Observable<boolean> {
-    return this.formatter$.pipe(
-      map((formatter) => formatter?.isSupported(type) ?? false)
-    );
+    return this.formatter$.pipe(map((formatter) => formatter?.isSupported(type) ?? false));
   }
 
   public useLegacyFallback(type: FIGWidgetType): Observable<boolean> {
-    return this.formatter$.pipe(
-      map((formatter) => formatter?.useLegacyFallback(type) ?? false)
-    );
+    return this.formatter$.pipe(map((formatter) => formatter?.useLegacyFallback(type) ?? false));
   }
-
 }

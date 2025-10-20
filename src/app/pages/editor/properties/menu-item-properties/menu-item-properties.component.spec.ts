@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {MenuItemPropertiesComponent} from './menu-item-properties.component';
+import {MenuItemPropertiesComponent} from "./menu-item-properties.component";
 
-xdescribe('MenuItemPropertiesComponent', () => {
+xdescribe("MenuItemPropertiesComponent", () => {
   let component: MenuItemPropertiesComponent;
   let fixture: ComponentFixture<MenuItemPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MenuItemPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [MenuItemPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MenuItemPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

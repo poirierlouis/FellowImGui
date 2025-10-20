@@ -1,7 +1,7 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
+import type {Vector2} from "../math";
 import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {Vector2} from "../math";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGProgressBarOptions extends FIGTooltipOption {
   readonly value?: number;
@@ -11,10 +11,10 @@ export interface FIGProgressBarOptions extends FIGTooltipOption {
 
 export class FIGProgressBarWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'value', optional: true, default: 0.0},
-    {name: 'label', optional: true, default: undefined},
-    {name: 'isFill', optional: true, default: false},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "value", optional: true, default: 0.0},
+    {name: "label", optional: true, default: undefined},
+    {name: "isFill", optional: true, default: false},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
   label?: string;
@@ -23,10 +23,10 @@ export class FIGProgressBarWidget extends FIGWithTooltip {
 
   constructor(options?: FIGProgressBarOptions) {
     super(FIGWidgetType.progressBar, true);
-    this.registerString('label', 'Label', options?.label, true);
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
-    this.registerInteger('value', 'Value', options?.value, true, 0);
-    this.registerBool('isFill', 'Fill', options?.isFill, true, false);
+    this.registerString("label", "Label", options?.label, true);
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
+    this.registerInteger("value", "Value", options?.value, true, 0);
+    this.registerBool("isFill", "Fill", options?.isFill, true, false);
   }
 
   public get name(): string {

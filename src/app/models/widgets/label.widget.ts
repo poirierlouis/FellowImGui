@@ -1,6 +1,6 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGWidgetType} from "./widget";
-import {FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
+import {type FIGTooltipOption, FIGWithTooltip} from "./with-tooltip.widget";
 
 export interface FIGLabelOptions extends FIGTooltipOption {
   readonly label?: string;
@@ -9,19 +9,19 @@ export interface FIGLabelOptions extends FIGTooltipOption {
 
 export class FIGLabelWidget extends FIGWithTooltip {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'value'},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "label"},
+    {name: "value"},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
-  label: string = 'Label';
-  value: string = 'Value';
+  label: string = "Label";
+  value: string = "Value";
 
   constructor(options?: FIGLabelOptions) {
     super(FIGWidgetType.label, true);
-    this.registerString('label', 'Label', options?.label ?? 'Label');
-    this.registerString('value', 'Value', options?.value ?? 'Value');
-    this.registerString('tooltip', 'Tooltip', options?.tooltip, true);
+    this.registerString("label", "Label", options?.label ?? "Label");
+    this.registerString("value", "Value", options?.value ?? "Value");
+    this.registerString("tooltip", "Tooltip", options?.tooltip, true);
   }
 
   public get name(): string {

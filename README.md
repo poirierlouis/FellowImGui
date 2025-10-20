@@ -52,10 +52,17 @@ pnpm start
 
 ## Code style
 
-Biome is installed to lint / format the entire codebase. Trust it to do its 
-job.
+[Biome] is installed to lint / format the entire codebase. Trust it to do its 
+job. See [first-party extensions] to install Biome for your IDE.
+
+Manually run linting/formatting with:
 ```shell
 pnpm lint
 ```
+
+Always use line width of 80 characters for Markdown files.
+
+[Biome]: https://biomejs.dev
+[first-party extensions]: https://biomejs.dev/guides/editors/first-party-extensions
 
 <!-- TODO: add a pre-commit hook to run Biome. -->

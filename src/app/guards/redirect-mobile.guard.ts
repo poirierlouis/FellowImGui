@@ -1,6 +1,6 @@
-import {isMobile} from "../mobile";
 import {inject} from "@angular/core";
-import {Router, UrlTree} from "@angular/router";
+import {Router, type UrlTree} from "@angular/router";
+import {isMobile} from "../mobile";
 
 export function redirectMobileGuard(): UrlTree | boolean {
   if (!isMobile()) {

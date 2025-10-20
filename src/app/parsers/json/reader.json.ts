@@ -1,8 +1,7 @@
-import {FIGSerializeProperty} from "../document.parser";
+import type {FIGSerializeProperty} from "../document.parser";
 import {FIGJsonKeygen} from "./keygen.json";
 
 export class FIGJsonReader {
-
   public static readObject(json: any, serializers: FIGSerializeProperty[], version: number): any | undefined {
     if (json === undefined) {
       return undefined;
@@ -13,7 +12,7 @@ export class FIGJsonReader {
     serializers = serializers.filter((serializer) => (serializer.version ?? 0) <= version);
     for (const serializer of serializers) {
       const key: string = keygen.next();
-      const value: any | undefined = this.readProperty(key, json, serializer);
+      const value: any | undefined = FIGJsonReader.readProperty(key, json, serializer);
 
       if (value !== undefined) {
         object[serializer.name] = serializer.read?.(value) ?? value;
@@ -26,14 +25,14 @@ export class FIGJsonReader {
     if (!(key in json)) {
       return undefined;
     }
-    if (serializer.type === 'object' && serializer.innerType) {
+    if (serializer.type === "object" && serializer.innerType) {
       const keygen: FIGJsonKeygen = new FIGJsonKeygen();
       const innerJson: any = json[key];
       const innerValue: any = {};
 
       for (const innerSerializer of serializer.innerType) {
         const innerKey: string = keygen.next();
-        const innerProperty: any | undefined = this.readProperty(innerKey, innerJson, innerSerializer);
+        const innerProperty: any | undefined = FIGJsonReader.readProperty(innerKey, innerJson, innerSerializer);
 
         if (innerProperty !== undefined) {
           innerValue[innerSerializer.name] = innerSerializer.read?.(innerProperty) ?? innerProperty;
@@ -41,7 +40,7 @@ export class FIGJsonReader {
       }
       return serializer.read?.(innerValue) ?? innerValue;
     }
-    if (serializer.type === 'array' && serializer.innerType) {
+    if (serializer.type === "array" && serializer.innerType) {
       const innerJson: any = json[key];
       const innerValue: any = [];
 
@@ -51,7 +50,7 @@ export class FIGJsonReader {
 
         for (const innerSerializer of serializer.innerType) {
           const innerKey: string = keygen.next();
-          const innerProperty: any | undefined = this.readProperty(innerKey, itemJson, innerSerializer);
+          const innerProperty: any | undefined = FIGJsonReader.readProperty(innerKey, itemJson, innerSerializer);
 
           if (innerProperty !== undefined) {
             innerItem[innerSerializer.name] = innerProperty;
@@ -65,5 +64,4 @@ export class FIGJsonReader {
 
     return serializer.read?.(value) ?? value;
   }
-
 }

@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {PropertiesComponent} from './properties.component';
+import {PropertiesComponent} from "./properties.component";
 
-xdescribe('PropertiesComponent', () => {
+xdescribe("PropertiesComponent", () => {
   let component: PropertiesComponent;
   let fixture: ComponentFixture<PropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PropertiesComponent]
-    })
-    .compileComponents();
+      imports: [PropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

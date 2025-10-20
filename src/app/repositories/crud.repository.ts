@@ -1,12 +1,11 @@
-import {Table, UpdateSpec} from "dexie";
-import {EMPTY, Observable} from "rxjs";
-import {Database} from "./database";
+import type {Table, UpdateSpec} from "dexie";
+import {EMPTY, type Observable} from "rxjs";
 import {fromPromise} from "rxjs/internal/observable/innerFrom";
-import {FIGEntity} from "../entities/entity";
+import type {FIGEntity} from "../entities/entity";
+import type {Database} from "./database";
 
 export abstract class CrudRepository<T extends FIGEntity> {
-  protected constructor(protected readonly db: Database) {
-  }
+  protected constructor(protected readonly db: Database) {}
 
   protected abstract get table(): Table<T, number>;
 
@@ -36,5 +35,4 @@ export abstract class CrudRepository<T extends FIGEntity> {
   public delete(id: number): Observable<void> {
     return fromPromise(this.table.delete(id));
   }
-
 }

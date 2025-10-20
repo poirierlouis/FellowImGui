@@ -1,8 +1,8 @@
-import {FIGWidgetType} from "./widget";
-import {FIGContainer} from "./container";
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {getEnumValues} from "../enum";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
-import {FlagOption, getOptions} from "../fields/flags.field";
+import {type FlagOption, getOptions} from "../fields/flags.field";
+import {FIGContainer} from "./container";
+import {FIGWidgetType} from "./widget";
 
 export enum FIGTabBarFlags {
   Reorderable = 1,
@@ -12,7 +12,7 @@ export enum FIGTabBarFlags {
   NoTabListScrollingButtons = 16,
   NoTooltip = 32,
   FittingPolicyResizeDown = 64,
-  FittingPolicyScroll = 128
+  FittingPolicyScroll = 128,
 }
 
 export interface FIGTabBarOptions {
@@ -25,18 +25,18 @@ export const FIGTabBarFlagsOptions: FlagOption[] = getOptions(FIGTabBarFlags);
 export class FIGTabBarWidget extends FIGContainer {
   public static readonly flags: FIGTabBarFlags[] = getEnumValues(FIGTabBarFlags);
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'flags', optional: true, default: 0},
-    {name: 'tooltip', optional: true, default: undefined}
+    {name: "label"},
+    {name: "flags", optional: true, default: 0},
+    {name: "tooltip", optional: true, default: undefined},
   ];
 
-  label: string = 'Tab Bar';
+  label: string = "Tab Bar";
   flags: number = 0;
 
   constructor(options?: FIGTabBarOptions) {
     super(FIGWidgetType.tabBar, true);
-    this.registerString('label', 'String ID', options?.label ?? 'Tab Bar');
-    this.registerFlags('flags', 'Flags', FIGTabBarFlagsOptions, options?.flags, true, 0);
+    this.registerString("label", "String ID", options?.label ?? "Tab Bar");
+    this.registerFlags("flags", "Flags", FIGTabBarFlagsOptions, options?.flags, true, 0);
     this._focusOffset.y = 0;
   }
 

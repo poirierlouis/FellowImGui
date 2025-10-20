@@ -1,22 +1,21 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 import {CheckboxPropertiesComponent} from "./checkbox-properties.component";
 
-xdescribe('CheckboxPropertiesComponent', () => {
+xdescribe("CheckboxPropertiesComponent", () => {
   let component: CheckboxPropertiesComponent;
   let fixture: ComponentFixture<CheckboxPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CheckboxPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [CheckboxPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CheckboxPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

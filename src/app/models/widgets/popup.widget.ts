@@ -1,6 +1,6 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGContainer} from "./container";
 import {FIGWidgetType} from "./widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGPopupOptions {
   readonly label?: string;
@@ -9,11 +9,11 @@ export interface FIGPopupOptions {
 
 export class FIGPopupWidget extends FIGContainer {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'contextItem', optional: true, default: false}
+    {name: "label"},
+    {name: "contextItem", optional: true, default: false},
   ];
 
-  label: string = '##Popup';
+  label: string = "##Popup";
   contextItem: boolean = false;
 
   isOpen: boolean;
@@ -21,8 +21,8 @@ export class FIGPopupWidget extends FIGContainer {
 
   constructor(options?: FIGPopupOptions) {
     super(FIGWidgetType.popup, true);
-    this.registerString('label', 'Label', options?.label ?? '##Popup');
-    this.registerBool('contextItem', 'Context item (right click)', options?.contextItem, true, false);
+    this.registerString("label", "Label", options?.label ?? "##Popup");
+    this.registerBool("contextItem", "Context item (right click)", options?.contextItem, true, false);
 
     this.isOpen = false;
     this.debug = true;
@@ -33,7 +33,7 @@ export class FIGPopupWidget extends FIGContainer {
   }
 
   public override draw(): void {
-    const fn: (label: string) => boolean = (this.contextItem) ? ImGui.BeginPopupContextItem : ImGui.BeginPopup;
+    const fn: (label: string) => boolean = this.contextItem ? ImGui.BeginPopupContextItem : ImGui.BeginPopup;
 
     if (this.debug && ImGui.Button(`Open popup '${this.label.slice(2)}'`)) {
       if (!this.contextItem) {

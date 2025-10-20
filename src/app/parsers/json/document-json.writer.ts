@@ -1,11 +1,11 @@
-import {FIGDocumentWriter, FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../document.writer";
-import {FIGWidget} from "../../models/widgets/widget";
-import {FIGContainer} from "../../models/widgets/container";
-import {FIGDocument} from "../../models/document";
-import {FIGBaseDocumentParser, FIGSerializeBind, FIGSerializeProperty} from "../document.parser";
+import type {FIGDocument} from "../../models/document";
 import {FIGConfigSerializers} from "../../models/document-config";
-import {FIGJsonWriter} from "./writer.json";
+import {FIGContainer} from "../../models/widgets/container";
+import type {FIGWidget} from "../../models/widgets/widget";
+import {FIGBaseDocumentParser, type FIGSerializeBind, type FIGSerializeProperty} from "../document.parser";
+import {FIGDocumentWriter, FIGDocumentWriterError, FIGDocumentWriterErrorCode} from "../document.writer";
 import {FIGJsonKeygen} from "./keygen.json";
+import {FIGJsonWriter} from "./writer.json";
 
 export class FIGDocumentJsonWriter extends FIGDocumentWriter {
   private readonly writers: FIGSerializeBind[] = FIGBaseDocumentParser.binders;
@@ -15,7 +15,7 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
       const data: any = this.writeDocument(document);
       const json: string = JSON.stringify(data);
 
-      return new File([json], 'document.fig', {type: 'application/json'});
+      return new File([json], "document.fig", {type: "application/json"});
     } catch (e) {
       const error: any = e;
 
@@ -40,7 +40,7 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
       throw {code: FIGDocumentWriterErrorCode.TypeNotImplemented, type: widget.type};
     }
     const keygen: FIGJsonKeygen = new FIGJsonKeygen();
-    const serializers: FIGSerializeProperty[] = writer.constructor['serializers'] ?? [];
+    const serializers: FIGSerializeProperty[] = writer.constructor["serializers"] ?? [];
     const data: any = {};
 
     data[keygen.next()] = widget.type;
@@ -58,5 +58,4 @@ export class FIGDocumentJsonWriter extends FIGDocumentWriter {
     }
     return data;
   }
-
 }

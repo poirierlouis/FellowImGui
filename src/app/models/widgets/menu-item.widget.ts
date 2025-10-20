@@ -1,5 +1,5 @@
+import type {FIGSerializeProperty} from "../../parsers/document.parser";
 import {FIGWidget, FIGWidgetType} from "./widget";
-import {FIGSerializeProperty} from "../../parsers/document.parser";
 
 export interface FIGMenuItemOptions {
   readonly label?: string;
@@ -11,14 +11,14 @@ export interface FIGMenuItemOptions {
 
 export class FIGMenuItemWidget extends FIGWidget {
   public static readonly serializers: FIGSerializeProperty[] = [
-    {name: 'label'},
-    {name: 'shortcut', optional: true, default: undefined},
-    {name: 'isSelectable', optional: true, default: false},
-    {name: 'isSelected', optional: true, default: false},
-    {name: 'enabled', optional: true, default: true}
+    {name: "label"},
+    {name: "shortcut", optional: true, default: undefined},
+    {name: "isSelectable", optional: true, default: false},
+    {name: "isSelected", optional: true, default: false},
+    {name: "enabled", optional: true, default: true},
   ];
 
-  label: string = 'MenuItem';
+  label: string = "MenuItem";
   shortcut?: string;
   isSelectable: boolean = false;
   isSelected: boolean = false;
@@ -26,11 +26,11 @@ export class FIGMenuItemWidget extends FIGWidget {
 
   constructor(options?: FIGMenuItemOptions) {
     super(FIGWidgetType.menuItem, true);
-    this.registerString('label', 'Label', options?.label ?? 'MenuItem');
-    this.registerString('shortcut', 'Shortcut', options?.shortcut, true);
-    this.registerBool('enabled', 'Enabled', options?.enabled, true, true);
-    this.registerBool('isSelectable', 'Is selectable', options?.isSelectable, true, false);
-    this.registerBool('isSelected', 'Is selected', options?.isSelected, true, false);
+    this.registerString("label", "Label", options?.label ?? "MenuItem");
+    this.registerString("shortcut", "Shortcut", options?.shortcut, true);
+    this.registerBool("enabled", "Enabled", options?.enabled, true, true);
+    this.registerBool("isSelectable", "Is selectable", options?.isSelectable, true, false);
+    this.registerBool("isSelected", "Is selected", options?.isSelected, true, false);
     this._focusOffset.x = 0;
     this._focusOffset.y = 0;
   }
@@ -40,13 +40,13 @@ export class FIGMenuItemWidget extends FIGWidget {
   }
 
   public override draw(): void {
-    const args: any[] = [this.label];
+    const args: unknown[] = [this.label];
 
     if (this.shortcut || this.isSelectable || !this.enabled) {
-      args.push(this.shortcut ?? '');
+      args.push(this.shortcut ?? "");
     }
     if (this.isSelectable || !this.enabled) {
-      args.push(this.isSelectable ? (_ = this.isSelected) => this.isSelected = _ : () => false);
+      args.push(this.isSelectable ? (_ = this.isSelected) => (this.isSelected = _) : () => false);
     }
     if (!this.enabled) {
       args.push(false);

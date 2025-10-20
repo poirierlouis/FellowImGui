@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {type ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {ProgressBarPropertiesComponent} from './progress-bar-properties.component';
+import {ProgressBarPropertiesComponent} from "./progress-bar-properties.component";
 
-xdescribe('ProgressBarPropertiesComponent', () => {
+xdescribe("ProgressBarPropertiesComponent", () => {
   let component: ProgressBarPropertiesComponent;
   let fixture: ComponentFixture<ProgressBarPropertiesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProgressBarPropertiesComponent]
-    })
-      .compileComponents();
+      imports: [ProgressBarPropertiesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProgressBarPropertiesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,13 +1,12 @@
-import {FIGWidgetType} from "./widget";
 import {FIGContainer} from "./container";
+import {FIGWidgetType} from "./widget";
 
 export class FIGGroupWidget extends FIGContainer {
-
   constructor() {
     super(FIGWidgetType.group, true);
   }
 
-  public readonly name = 'Group';
+  public readonly name = "Group";
 
   public override draw(): void {
     ImGui.BeginGroup();
