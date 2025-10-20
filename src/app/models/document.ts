@@ -137,11 +137,11 @@ export class FIGDocument {
   public moveWidget(drag: FIGWidget, drop: FIGWidget | undefined, direction: FIGDropDirection): boolean {
     const parent: FIGContainer | undefined = drop?.parent;
 
-    // Prevent moving child-like widget at the end of tree.
+    // Prevent moving a child-like widget at the end of the tree.
     if (!drop && (drag.needParent || !(drag instanceof FIGContainer))) {
       return false;
     }
-    // Move window-like widgets at the end of tree.
+    // Move window-like widgets at the end of the tree.
     if (!drop) {
       this.remove(drag as FIGContainer);
       this.root.push(drag as FIGContainer);
@@ -149,7 +149,7 @@ export class FIGDocument {
       drag.onMoved();
       return true;
     }
-    // Prevent moving widget on itself.
+    // Prevent moving the widget on itself.
     if (drag.uuid === drop.uuid) {
       return false;
     }
@@ -170,11 +170,11 @@ export class FIGDocument {
       drag.onMoved();
       return true;
     }
-    // Prevent moving widget in itself.
+    // Prevent moving the widget in itself.
     if (drag.needParent && drag.uuid === parent?.uuid) {
       return false;
     }
-    // Move widget at the end of drop container.
+    // Move the widget at the end of the drop container.
     if (drag.needParent && drop instanceof FIGContainer && direction === "insert" && drop.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       drop.children.push(drag);
@@ -182,7 +182,7 @@ export class FIGDocument {
       drag.onMoved();
       return true;
     }
-    // Move widget elsewhere within a container.
+    // Move the widget elsewhere within a container.
     if (drag.needParent && direction !== "insert" && parent && parent.isChildAccepted(drag.type)) {
       drag.parent?.remove(drag);
       let index: number = parent.findIndex(drop);
