@@ -8,7 +8,7 @@ import type {FIGWidget} from "./widgets/widget";
 
 export class FIGDocument {
   // NOTE: sync version number with FIGBaseDocumentParser.
-  readonly version: string = "0.0.0";
+  readonly version: string = "0.2.0";
   readonly root: FIGContainer[] = [];
 
   config: FIGConfig = {

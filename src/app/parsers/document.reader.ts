@@ -8,12 +8,16 @@ export abstract class FIGDocumentReader {
 export enum FIGDocumentReaderErrorCode {
   ExpectContainer,
   TypeNotImplemented,
+  VersionNotFound,
+  VersionUnknown,
+  FieldRequired,
 }
 
 export class FIGDocumentReaderError extends Error {
   constructor(
     public readonly code: FIGDocumentReaderErrorCode,
     public readonly type?: FIGWidgetType,
+    public readonly error?: string,
   ) {
     super();
   }

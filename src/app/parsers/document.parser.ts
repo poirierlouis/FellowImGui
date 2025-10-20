@@ -36,7 +36,7 @@ import {FIGTableRowWidget} from "../models/widgets/table-row.widget";
 import {FIGTextWidget} from "../models/widgets/text.widget";
 import {FIGTreeNodeWidget} from "../models/widgets/tree-node.widget";
 import {FIGVerticalSliderWidget} from "../models/widgets/vertical-slider.widget";
-import {FIGWidgetType} from "../models/widgets/widget";
+import {type FIGWidget, FIGWidgetType} from "../models/widgets/widget";
 import {FIGWindowWidget} from "../models/widgets/window.widget";
 import type {FIGDocumentReader} from "./document.reader";
 import type {FIGDocumentWriter} from "./document.writer";
@@ -52,10 +52,14 @@ export interface FIGSerializeProperty {
   readonly innerType?: FIGSerializeProperty[];
 }
 
-export interface FIGSerializeBind {
-  readonly type: FIGWidgetType;
-  readonly constructor: any;
-}
+export type FIGWidgetConstructors = Record<
+  FIGWidgetType,
+  {
+    serializers?: FIGSerializeProperty[];
+    new (options?: any): FIGWidget;
+  }
+>;
+export type FIGWidgetPlaceholders = Record<FIGWidgetType, FIGWidget>;
 
 export interface FIGDocumentParser {
   read(file: File): Promise<FIGDocument>;
@@ -67,58 +71,65 @@ export type Versioning = Record<string, number>;
 export abstract class FIGBaseDocumentParser<R extends FIGDocumentReader, W extends FIGDocumentWriter>
   implements FIGDocumentParser
 {
-  public static readonly binders: FIGSerializeBind[] = [
+  public static readonly constructors: FIGWidgetConstructors = {
     // Layouts
-    {type: FIGWidgetType.window, constructor: FIGWindowWidget},
-    {type: FIGWidgetType.childWindow, constructor: FIGChildWindowWidget},
-    {type: FIGWidgetType.modal, constructor: FIGModalWidget},
-    {type: FIGWidgetType.collapsingHeader, constructor: FIGCollapsingHeaderWidget},
-    {type: FIGWidgetType.tabBar, constructor: FIGTabBarWidget},
-    {type: FIGWidgetType.tabItem, constructor: FIGTabItemWidget},
-    {type: FIGWidgetType.table, constructor: FIGTableWidget},
-    {type: FIGWidgetType.tableRow, constructor: FIGTableRowWidget},
-    {type: FIGWidgetType.tableColumn, constructor: FIGTableColumnWidget},
-    {type: FIGWidgetType.group, constructor: FIGGroupWidget},
-    {type: FIGWidgetType.sameLine, constructor: FIGSameLineWidget},
-    {type: FIGWidgetType.newLine, constructor: FIGNewLineWidget},
-    {type: FIGWidgetType.spacing, constructor: FIGSpacingWidget},
-    {type: FIGWidgetType.dummy, constructor: FIGDummyWidget},
+    [FIGWidgetType.window]: FIGWindowWidget,
+    [FIGWidgetType.childWindow]: FIGChildWindowWidget,
+    [FIGWidgetType.modal]: FIGModalWidget,
+    [FIGWidgetType.collapsingHeader]: FIGCollapsingHeaderWidget,
+    [FIGWidgetType.tabBar]: FIGTabBarWidget,
+    [FIGWidgetType.tabItem]: FIGTabItemWidget,
+    [FIGWidgetType.table]: FIGTableWidget,
+    [FIGWidgetType.tableRow]: FIGTableRowWidget,
+    [FIGWidgetType.tableColumn]: FIGTableColumnWidget,
+    [FIGWidgetType.group]: FIGGroupWidget,
+    [FIGWidgetType.sameLine]: FIGSameLineWidget,
+    [FIGWidgetType.newLine]: FIGNewLineWidget,
+    [FIGWidgetType.spacing]: FIGSpacingWidget,
+    [FIGWidgetType.dummy]: FIGDummyWidget,
 
     // Basics
-    {type: FIGWidgetType.separator, constructor: FIGSeparatorWidget},
-    {type: FIGWidgetType.bullet, constructor: FIGBulletWidget},
-    {type: FIGWidgetType.text, constructor: FIGTextWidget},
-    {type: FIGWidgetType.button, constructor: FIGButtonWidget},
-    {type: FIGWidgetType.progressBar, constructor: FIGProgressBarWidget},
-    {type: FIGWidgetType.plot, constructor: FIGPlotWidget},
-    {type: FIGWidgetType.treeNode, constructor: FIGTreeNodeWidget},
-    {type: FIGWidgetType.selectable, constructor: FIGSelectableWidget},
-    {type: FIGWidgetType.popup, constructor: FIGPopupWidget},
-    {type: FIGWidgetType.menuBar, constructor: FIGMenuBarWidget},
-    {type: FIGWidgetType.menu, constructor: FIGMenuWidget},
-    {type: FIGWidgetType.menuItem, constructor: FIGMenuItemWidget},
+    [FIGWidgetType.separator]: FIGSeparatorWidget,
+    [FIGWidgetType.bullet]: FIGBulletWidget,
+    [FIGWidgetType.text]: FIGTextWidget,
+    [FIGWidgetType.button]: FIGButtonWidget,
+    [FIGWidgetType.progressBar]: FIGProgressBarWidget,
+    [FIGWidgetType.plot]: FIGPlotWidget,
+    [FIGWidgetType.treeNode]: FIGTreeNodeWidget,
+    [FIGWidgetType.selectable]: FIGSelectableWidget,
+    [FIGWidgetType.popup]: FIGPopupWidget,
+    [FIGWidgetType.menuBar]: FIGMenuBarWidget,
+    [FIGWidgetType.menu]: FIGMenuWidget,
+    [FIGWidgetType.menuItem]: FIGMenuItemWidget,
 
     // Forms / Inputs
-    {type: FIGWidgetType.label, constructor: FIGLabelWidget},
-    {type: FIGWidgetType.inputText, constructor: FIGInputTextWidget},
-    {type: FIGWidgetType.inputTextarea, constructor: FIGInputTextareaWidget},
-    {type: FIGWidgetType.inputNumber, constructor: FIGInputNumberWidget},
-    {type: FIGWidgetType.inputColorEdit, constructor: FIGInputColorEditWidget},
-    {type: FIGWidgetType.slider, constructor: FIGSliderWidget},
-    {type: FIGWidgetType.verticalSlider, constructor: FIGVerticalSliderWidget},
-    {type: FIGWidgetType.listbox, constructor: FIGListBoxWidget},
-    {type: FIGWidgetType.checkbox, constructor: FIGCheckboxWidget},
-    {type: FIGWidgetType.radio, constructor: FIGRadioWidget},
-    {type: FIGWidgetType.combo, constructor: FIGComboWidget},
+    [FIGWidgetType.label]: FIGLabelWidget,
+    [FIGWidgetType.inputText]: FIGInputTextWidget,
+    [FIGWidgetType.inputTextarea]: FIGInputTextareaWidget,
+    [FIGWidgetType.inputNumber]: FIGInputNumberWidget,
+    [FIGWidgetType.inputColorEdit]: FIGInputColorEditWidget,
+    [FIGWidgetType.slider]: FIGSliderWidget,
+    [FIGWidgetType.verticalSlider]: FIGVerticalSliderWidget,
+    [FIGWidgetType.listbox]: FIGListBoxWidget,
+    [FIGWidgetType.checkbox]: FIGCheckboxWidget,
+    [FIGWidgetType.radio]: FIGRadioWidget,
+    [FIGWidgetType.combo]: FIGComboWidget,
 
     // Blocs
-    {type: FIGWidgetType.blocFor, constructor: FIGBlocForWidget},
-  ];
+    [FIGWidgetType.blocFor]: FIGBlocForWidget,
+  };
+  public static readonly placeholders: FIGWidgetPlaceholders = Object.fromEntries(
+    Object.keys(this.constructors).map((type) => [
+      +type as FIGWidgetType,
+      new this.constructors[+type as FIGWidgetType](),
+    ]),
+  ) as Record<FIGWidgetType, FIGWidget>;
 
   // NOTE: sync version number with FIGDocument.
   public static readonly versioning: Versioning = {
     "0.0.0": 0,
     "0.1.0": 1,
+    "0.2.0": 2,
   };
 
   protected readonly reader: R;

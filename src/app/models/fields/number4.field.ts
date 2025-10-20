@@ -5,7 +5,7 @@ export class Number4Field extends Field<number[]> {
     super(FieldType.number4, name, label, value, isOptional, defaultValue);
   }
 
-  public override isEqual(other: number[]): boolean {
-    return !!this.value?.every((v, i) => v === other[i]);
+  public override isEqual(other?: number[]): boolean {
+    return other?.length === this.value?.length && !!other?.every((v, i) => v === this.value?.[i]);
   }
 }

@@ -20,7 +20,7 @@ export interface FieldListener {
   readonly state?: FieldStateCallback;
 }
 
-export class Field<T = unknown> {
+export abstract class Field<T = unknown> {
   readonly type: FieldType;
   readonly name: string;
   readonly label: string;
@@ -59,7 +59,7 @@ export class Field<T = unknown> {
     return !this.isEnabled;
   }
 
-  public isEqual(other: T): boolean {
+  public isEqual(other?: T): boolean {
     return this.value === other;
   }
 

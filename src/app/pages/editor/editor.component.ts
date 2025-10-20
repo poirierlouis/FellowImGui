@@ -279,6 +279,18 @@ export class EditorComponent implements OnInit, OnDestroy {
       case FIGDocumentReaderErrorCode.TypeNotImplemented:
         message = `Failed to read a widget in document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' is not implemented.`;
         break;
+      case FIGDocumentReaderErrorCode.VersionNotFound:
+        message = `Failed to find the version number in the document.`;
+        break;
+      case FIGDocumentReaderErrorCode.VersionUnknown:
+        message = `Found an unknown version number in the document.`;
+        break;
+      case FIGDocumentReaderErrorCode.FieldRequired:
+        message = `Missing required field in the document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' needs the field '${error.error}'.`;
+        break;
+      default:
+        console.warn(error);
+        break;
     }
     this.toast.open(message);
   }
@@ -302,6 +314,12 @@ export class EditorComponent implements OnInit, OnDestroy {
       case FIGDocumentWriterErrorCode.TypeNotImplemented:
         message = `Failed to save a widget in document. Widget '${FIGWidgetType[error.type as FIGWidgetType]}' is not implemented.`;
         break;
+      case FIGDocumentWriterErrorCode.VersionNotFound:
+        message = `Version number of the document is unsupported.`;
+        break;
+      default:
+        console.warn(error);
+        break;
     }
     this.toast.open(message);
   }
@@ -310,7 +328,6 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.requestS?.unsubscribe();
     this.requestS = this.http.get("./assets/demo.fig", {responseType: "text"}).subscribe((response: string) => {
       const file: File = new File([response], "demo.fig");
-
       this.readFile(file);
     });
   }

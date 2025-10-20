@@ -7,6 +7,7 @@ export abstract class FIGDocumentWriter {
 
 export enum FIGDocumentWriterErrorCode {
   TypeNotImplemented,
+  VersionNotFound,
 }
 
 export class FIGDocumentWriterError extends Error {
